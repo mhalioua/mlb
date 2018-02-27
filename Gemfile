@@ -51,4 +51,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'bcrypt'
 
+gem 'bootstrap-sass', '~> 3.3.7'
+
+gem 'jquery-rails'
+
 ruby "2.4.1"
