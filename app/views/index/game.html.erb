@@ -1,0 +1,11 @@
+<div class="panel panel-primary text-center">
+	<div class="panel-heading">
+		<h1><%= @head + " Matchups"%></h1>
+	</div>
+	<div class="panel-body">
+		<ul class="list-group">
+			<li class="list-group-item"><%= link_to 'Home', { action: 'home' }%></li>
+		</ul>
+	</div>
+	<%= render "game_table" %>
+</div>

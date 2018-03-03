@@ -1,0 +1,47 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col"><%= @head %></th>
+			<th scope="col" colspan="9">Pitchers</th>
+			<th scope="col" class="border"></th>
+			<th scope="col" colspan="7">Weather</th>
+		</tr>
+		<tr>
+			<th>Away @ Home</th>
+			<th>Game States</th>
+			<th>Weather</th>
+			<th>Previous Games</th>
+			<%= render "starter_header" %>
+			<th class="border"></th>
+			<%= render "weather_header" %>
+		</tr>
+	</thead>
+	<tbody>
+		<% @games.each do |game| %>
+		<tr>
+			<td rowspan="2"><%= link_to game_link(game), { controller: "game", action: "new", id: game.id } %></td>
+			<% pitcher = game.away_pitcher %>
+			<% if pitcher %>
+			<%= render partial: "starter", locals: { pitcher: pitcher } %>
+			<% else %>
+			<%= render partial: "not_found", locals: {count: 9 } %>
+			<% end %>
+			<td rowspan="2" class="border"></td>
+			<% weather = game.weathers.find_by(hour: 1) %>
+			<% if weather %>
+			<%= render partial: "weather", locals: { weather: weather } %>
+			<% else %>
+			<%= render partial: "not_found", locals: {count: 7 } %>
+			<% end %>
+		</tr>
+		<tr>
+			<% pitcher = game.home_pitcher %>
+			<% if pitcher %>
+			<%= render partial: "starter", locals: { pitcher: pitcher } %>
+			<% else %>
+			<%= render partial: "not_found" %>
+			<% end %>
+		</tr>
+		<% end %>
+	</tbody>
+</table>

@@ -54,5 +54,3 @@ gem 'bcrypt'
 gem 'bootstrap-sass', '~> 3.3.7'
 
 gem 'jquery-rails'
-
-ruby "2.4.1"
