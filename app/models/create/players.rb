@@ -63,7 +63,7 @@ module Create
     end
 
     def update
-      @additional_fangraph_id.each do |key, index|
+      @@additional_fangraph_id.each do |key, index|
         player = Player.find_by(name: key, fangraph_id: nil)
         player.update(fangraph_id: index) if player
       end
@@ -85,7 +85,7 @@ module Create
       end
     end
 
-    @additional_fangraph_id = {
+    @@additional_fangraph_id = {
       "Eric Stout" => "sa829070",
       "Phillippe Aumont" => "5362",
       "Hector Mendoza" => "sa863882",
