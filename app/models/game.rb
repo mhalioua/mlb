@@ -1,4 +1,5 @@
 class Game < ApplicationRecord
+
   belongs_to :away_team, :class_name => 'Team'
   belongs_to :home_team, :class_name => 'Team'
   belongs_to :game_day
@@ -8,5 +9,12 @@ class Game < ApplicationRecord
   has_many :innings, dependent: :destroy
   has_many :pitcher_box_scores, dependent: :destroy
   has_many :hitter_box_scores, dependent: :destroy
-  
+
+  def away_pitcher
+    lancers.find_by(starter: true, team: away_team)
+  end
+
+  def home_pitcher
+    lancers.find_by(starter: true, team: home_team)
+  end
 end
