@@ -13,6 +13,7 @@ module Create
       is_pitcher = true
       rows.each_with_index do |element, index|
         next if element.children.size == 1
+        puts element.inspect
         name = element.children[1].child.text
         identity = parse_identity(element.children[1])
         bathand = element.children[3].text
