@@ -14,20 +14,13 @@ module Create
       rows.each_with_index do |element, index|
         next if element.children.size == 1
         next unless element.children[1].child.child
-        puts element.inspect
         name = element.children[1].child.text
         identity = parse_identity(element.children[1])
         bathand = element.children[3].text
         throwhand = element.children[4].text
         age = element.children[5].text
-        puts name
-        puts identity
-        puts bathand
-        puts throwhand
-        if false
-          player = Player.find_or_create_by(name: name, identity: identity)
-          player.update(team: team, bathand: bathand, throwhand: throwhand, age: age)
-        end
+        player = Player.find_or_create_by(name: name, identity: identity)
+        player.update(team: team, bathand: bathand, throwhand: throwhand, age: age)
       end
     end
 
@@ -73,7 +66,7 @@ module Create
 
     def parse_identity(element)
       href = element.child['href']
-      href[37..href.rindex("/")-1]
+      href[36..href.rindex("/")-1]
     end
 
     def parse_fangraph_id(element)
