@@ -26,7 +26,7 @@ module Create
 
     def fangraphs(team)
       url = "http://www.fangraphs.com/depthcharts.aspx?position=ALL&teamid=#{team.fangraph_id}"
-      doc = Nokogiri::HTML(open(url))
+      doc = download_document(url)
       doc.css(".depth_chart:nth-child(58) td").each_with_index do |stat, index|
         case index%10
         when 0
