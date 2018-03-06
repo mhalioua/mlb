@@ -10,4 +10,8 @@ namespace :mlb do
   task create_player: :environment do
     Player.create_players
   end
+
+  task update_player: :environment do
+    Player.update_players
+  end
 end
