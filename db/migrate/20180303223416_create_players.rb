@@ -7,7 +7,7 @@ class CreatePlayers < ActiveRecord::Migration[5.1]
       t.integer  :fangraph_id
       t.string   :bathand
       t.string   :throwhand
-      t.interger :age
+      t.integer  :age
       t.timestamps
     end
   end
