@@ -74,7 +74,7 @@ module Create
       if href
         first = href.index('=')+1
         last = href.index('&')
-        return href[first...last].to_i
+        return href[first...last]
       end
     end
   end
