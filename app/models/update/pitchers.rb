@@ -50,7 +50,6 @@ module Update
               puts "Player " + name + " not found"
               next
             end
-            puts name
             ld = slice[index[:ld]].text[0...-2].to_f
             whip = slice[index[:whip]].text.to_f
             ip = slice[index[:ip]].text.to_f
@@ -110,6 +109,7 @@ module Update
         rows = doc.css("tr.oddrow, tr.evenrow")
         count = 0
         rows.each_with_index do |element, index|
+          puts element.inspect
           if element.children[0].text == "vs. Left"
             player.create_lancer(season).stats.find_by(handedness: "L").update_attributes(ops: element.children[16].text)
             count = count + 1
