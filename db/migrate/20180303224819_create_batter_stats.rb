@@ -5,7 +5,7 @@ class CreateBatterStats < ActiveRecord::Migration[5.1]
       t.string   :handedness
       t.string   :range
       t.integer  :woba
-      t.integer  :ops
+      t.string   :ops
       t.integer  :ab
       t.integer  :so
       t.integer  :bb

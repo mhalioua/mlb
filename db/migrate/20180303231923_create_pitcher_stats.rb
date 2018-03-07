@@ -12,7 +12,7 @@ class CreatePitcherStats < ActiveRecord::Migration[5.1]
       t.float      :xfip
       t.float      :kbb
       t.integer    :woba
-      t.integer    :ops
+      t.string     :ops
       t.float      :era
       t.float      :fb
       t.float      :gb
