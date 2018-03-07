@@ -26,7 +26,7 @@ class Player < ApplicationRecord
       end
     else
       unless batter = batters.find_by(season: season, team: nil, game: nil)
-        batter = Batter.create(player: self, season: season)
+        batter = player.create(season: season)
       end
     end
     return batter
