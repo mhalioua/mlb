@@ -10,11 +10,4 @@ class Game < ApplicationRecord
   has_many :pitcher_box_scores, dependent: :destroy
   has_many :hitter_box_scores, dependent: :destroy
 
-  def away_pitcher
-    lancers.find_by(starter: true, team: away_team)
-  end
-
-  def home_pitcher
-    lancers.find_by(starter: true, team: home_team)
-  end
 end

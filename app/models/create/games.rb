@@ -1,6 +1,6 @@
 module Create
   class Games
-    include NewShare
+    include GetHtml
 
     def create(season, team)
       url = "https://www.baseball-reference.com/teams/#{team.abbr}/#{season.year}-schedule-scores.shtml"
