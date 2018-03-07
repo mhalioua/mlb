@@ -20,6 +20,6 @@ namespace :mlb do
   end
 
   task update_pitchers: :environment do
-    Season.where("year = 2018").map { |season| season.update_pitchers }
+    Season.where("year < 2018").map { |season| season.update_pitchers }
   end
 end
