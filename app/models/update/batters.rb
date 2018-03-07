@@ -70,11 +70,8 @@ module Update
     private
 
       def parse_identity(element)
-        href = element.child.child['href']
-        if href == nil
-          href = element.child['href']
-        end
-        return href[11..href.index(".")-1]
+        href = element.child['href']
+        href[36..href.rindex("/")-1]
       end
 
       def parse_fangraph_id(element)
