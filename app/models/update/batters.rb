@@ -17,6 +17,7 @@ module Update
         name = element.children[0].child.text
         identity = parse_identity(element.children[0])
         ops = element.children[16].text.to_i
+        puts element.children[16].text
         player = Player.find_by(name: name, identity: identity)
         if player
           batter = player.create_batter(season)

@@ -100,23 +100,24 @@ module Update
         unless player.find_lancer(season)
           next
         end
-        url = "https://www.baseball-reference.com/players/split.cgi?id=#{player.identity}&year=#{year}&t=p"
+        url = "http://www.espn.com/mlb/player/splits/_/id/#{player.identity}/year/#{year}"
         doc = download_document(url)
         unless doc
           puts "#{player.name} not found"
           next
         end
-        row = 0
-        doc.css("#plato td").each_slice(28) do |slice|
-          ops = slice[27].text.to_i
-          if row == 0
-            player.create_lancer(season).stats.find_by(handedness: "R").update_attributes(ops: ops)
-          elsif row == 1
-            player.create_lancer(season).stats.find_by(handedness: "L").update_attributes(ops: ops)
-          else
-            break
+        rows = doc.css("tr.oddrow, tr.evenrow")
+        count = 0
+        rows.each_with_index do |element, index|
+          if element.children[0].text == "vs. Left"
+            player.create_lancer(season).stats.find_by(handedness: "L").update_attributes(ops: element.children[16].text)
+            count = count + 1
           end
-          row += 1
+          if element.children[0].text == "vs. Right"
+            player.create_lancer(season).stats.find_by(handedness: "R").update_attributes(ops: element.children[16].text)
+            count = count + 1
+          end
+          break if count == 2
         end
       end
     end
