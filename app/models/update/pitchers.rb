@@ -109,13 +109,12 @@ module Update
         rows = doc.css("tr.oddrow, tr.evenrow")
         count = 0
         rows.each_with_index do |element, index|
-          puts element.inspect
-          if element.children[0].text == "vs. Left"
-            player.create_lancer(season).stats.find_by(handedness: "L").update_attributes(ops: element.children[16].text)
+          if element.children[1].text == "vs. Left"
+            player.create_lancer(season).stats.find_by(handedness: "L").update_attributes(ops: element.children[17].text)
             count = count + 1
           end
-          if element.children[0].text == "vs. Right"
-            player.create_lancer(season).stats.find_by(handedness: "R").update_attributes(ops: element.children[16].text)
+          if element.children[1].text == "vs. Right"
+            player.create_lancer(season).stats.find_by(handedness: "R").update_attributes(ops: element.children[17].text)
             count = count + 1
           end
           break if count == 2
