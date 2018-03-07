@@ -109,6 +109,7 @@ module Update
         rows = doc.css("tr.oddrow, tr.evenrow")
         count = 0
         rows.each_with_index do |element, index|
+          next unless element.children[1]
           if element.children[1].text == "vs. Left"
             player.create_lancer(season).stats.find_by(handedness: "L").update_attributes(ops: element.children[17].text)
             count = count + 1
