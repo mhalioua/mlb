@@ -97,10 +97,11 @@ module Update
       end
 
       team.players.each do |player|
-        unless player.find_lancer(season)
+        unless player.lancers.find_by(season: season)
           next
         end
         url = "http://www.espn.com/mlb/player/splits/_/id/#{player.identity}/year/#{year}"
+        puts url
         doc = download_document(url)
         unless doc
           puts "#{player.name} not found"
