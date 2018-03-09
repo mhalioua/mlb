@@ -1,7 +1,7 @@
 module Create
   class Matchups
 
-    include NewShare
+    include GetHtml
     
     def create(game_day)
       url = "http://www.espn.com/mlb/schedule/_/date/%d%02d%02d" % [game_day.year, game_day.month, game_day.day]

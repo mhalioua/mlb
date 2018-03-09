@@ -1,7 +1,7 @@
 module Update
   class Games
 
-    include NewShare
+    include GetHtml
 
     def update(game_day)
       closingline(game_day)

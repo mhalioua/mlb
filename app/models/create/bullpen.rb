@@ -1,7 +1,7 @@
 module Create
   class Bullpen
 
-    include NewShare
+    include GetHtml
 
     def create(game_day)
       set_bullpen(game_day)
