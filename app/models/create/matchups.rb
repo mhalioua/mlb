@@ -117,22 +117,25 @@ module Create
       def team_pitchers(pitcher, team, game)
         pitcher_size = pitcher.children.size
         return if pitcher_size == 3 && pitcher.children[1].children[0].children.size == 1
-        row = pitcher.children[1].children[0]
-        name = row.children[0].child.text
-        identify = parse_identity(row.children[0])
-        player = Player.find_by(identity: identity)
-        unless player
-          puts "Player #{name} not found" 
-          next
+        (1...batter_size-1).each do |index|
+          row = pitcher.children[index].children[0]
+          name = row.children[0].child.text
+          identify = parse_identity(row.children[0])
+          player = Player.find_by(identity: identity)
+          unless player
+            puts "Player #{name} not found"
+            next
+          end
+          if false
+            player.update(team: team)
+            lancer = player.create_lancer(game.game_day.season, team, game)
+            lancer.update(starter: true)
+            game_lancer = player.create_lancer(game.game_day.season, team, game)
+            game_lancer.update(starter: true)
+          end
+          puts player.name
+          break
         end
-        if false
-          player.update(team: team)
-          lancer = player.create_lancer(game.game_day.season, team, game)
-          lancer.update(starter: true)
-          game_lancer = player.create_lancer(game.game_day.season, team, game)
-          game_lancer.update(starter: true)
-        end
-        puts player.name
       end
 
       def remove_excess_starters(game_day)
