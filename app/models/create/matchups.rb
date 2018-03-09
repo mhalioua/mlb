@@ -38,7 +38,6 @@ module Create
             puts 'Canceled'
             next
           end
-          game = Game.find_or_create_by(game_id: game_id)
           if slice.children[index[:home_team]].children[0].children.size == 2
             home_abbr = slice.children[index[:home_team]].children[0].children[1].children[2].text
           elsif slice.children[index[:home_team]].children[0].children.size == 1
@@ -59,7 +58,8 @@ module Create
           element = doc.css(".game-date-time").first
           game_date = element.children[1]['data-date']
           date = DateTime.parse(game_date) - 4.hours - home_team.timezone.hours
-          game.update(game_days_id: game_day.id, away_team: away_team, home_team: home_team, game_date: date)
+          game = Game.find_or_create_by(game_days_id: game_day.id, away_team: away_team, home_team: home_team, game_id: game_id)
+          game.update(game_date: date)
         end
       end
 
