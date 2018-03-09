@@ -22,4 +22,16 @@ namespace :mlb do
   task update_pitchers: :environment do
     Season.where("year < 2018").map { |season| season.update_pitchers }
   end
+
+  task create_matchups: :environment do
+    GameDay.yesterday.create_matchups
+  end
+
+  task update_games: :environment do
+    GameDay.today.update_games
+  end
+
+  task pitcher_box_score: :environment do
+    GameDay.yesterday.pitcher_box_score
+  end
 end

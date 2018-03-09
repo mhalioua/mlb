@@ -29,4 +29,17 @@ class GameDay < ApplicationRecord
   def self.tomorrow
     GameDay.search(DateTime.now.tomorrow.to_date)
   end
+
+  def create_matchups
+    Create::Matchups.new.create(self)
+    Create::Bullpen.new.create(self)
+  end
+
+  def update_games
+    Update::Games.new.update(self)
+  end
+
+  def pitcher_box_score
+    Update::Pitchers.new.box_scores(self)
+  end
 end

@@ -126,13 +126,20 @@ module Update
 
     def box_scores(game_day)
       game_day.games.each do |game|
-        @pitcher_ids = Array.new
-        url = "https://www.baseball-reference.com/boxes/#{game.home_team.game_abbr}/#{game.url}.shtml"
+        url = "http://www.espn.com/mlb/boxscore?gameId=#{game.game_id}"
         puts url
+
         doc = download_document(url)
         next unless doc
-        team_pitchers(doc, game, game.away_team)
-        team_pitchers(doc, game, game.home_team)
+
+        pitchers = doc.css('.stats-wrap')
+        next if pitchers.size < 4
+
+        away_pitcher = pitchers[1]
+        home_pitcher = pitchers[3]
+
+        team_pitchers(away_pitcher)
+        team_pitchers(home_pitcher)
       end
     end
 
@@ -143,38 +150,28 @@ module Update
         href[36..href.rindex("/")-1]
       end
 
-      def team_pitchers(doc, game, team)
-        name = identity = ip = h = r = bb = nil
-        css = "##{team.css}pitching tbody .right , ##{team.css}pitching tbody .left"
-        doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
-        elements = doc.css(css)
-        elements.each_with_index do |element, index|
-          puts element.text
-          case index
-          when 0
-            name = element.child.text
-            identity = parse_identity(element)
-          when 1
-            ip = element.text.to_f
-          when 2
-            h = element.text.to_i
-          when 3
-            r = element.text.to_i
-          when 5
-            bb = element.text.to_i
-          when 6
-            if player = Player.find_by(identity: identity)
-              @pitcher_ids << player.id
-              lancer = game.lancers.where(starter: true).find_by(player: player)
-              unless lancer
-                lancer = player.create_lancer(game.game_day.season, team, game)
-                lancer.update(starter: true)
-              end
-              lancer.update(ip: ip, h: h, r: r, bb: bb)
-            end
-            break
-          end
+      def team_pitchers(pitcher)
+        pitcher_size = pitcher.children.size
+        return if pitcher_size == 3 && pitcher.children[1].children[0].children.size == 1
+        row = pitcher.children[1].children[0]
+        name = row.children[0].child.text
+        puts name
+        identify = parse_identity(row.children[0])
+        ip = row.children[1].text.to_i
+        h = row.children[2].text.to_i
+        r = row.children[3].text.to_i
+        bb = row.children[5].text.to_i
+        player = Player.find_by(identity: identity)
+        unless player
+          puts "Player #{name} not found" 
+          next
         end
+        lancer = game.lancers.where(starter: true).find_by(player: player)
+        unless lancer
+          lancer = player.create_lancer(game.game_day.season, team, game)
+          lancer.update(starter: true)
+        end
+        lancer.update(ip: ip, h: h, r: r, bb: bb)
       end
 
       def parse_fangraph_id(element)
