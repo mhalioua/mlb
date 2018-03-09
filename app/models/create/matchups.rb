@@ -51,8 +51,8 @@ module Create
             away_abbr = slice.children[index[:away_team]].children[0].children[2].text
           end
 
-          away_team = Team.find_by_name(away_abbr)
-          home_team = Team.find_by_name(home_abbr)
+          away_team = Team.find_by_espn_abbr(away_abbr)
+          home_team = Team.find_by_espn_abbr(home_abbr)
 
           url = "http://www.espn.com/mlb/game?gameId=#{game_id}"
           doc = download_document(url)
