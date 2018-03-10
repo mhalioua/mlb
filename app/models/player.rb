@@ -8,7 +8,7 @@ class Player < ApplicationRecord
       return player
     elsif fangraph_id != 0 && player = Player.find_by_fangraph_id(fangraph_id)
       return player
-    elsif player = Player.find_by_name(name)
+    elsif player = Player.find_by(name: name)
       return player
     end
   end
