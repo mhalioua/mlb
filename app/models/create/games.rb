@@ -7,7 +7,7 @@ module Create
       set_starters_false
       game_days = GameDay.where(season: season)
       game_days.each do |game_day|
-        create_game_stats(game_day)
+        create_game_stats(game_day, team)
         remove_excess_starters(game_day)
       end
     end
@@ -85,9 +85,10 @@ module Create
         end
       end
 
-      def create_game_stats(game_day)
+      def create_game_stats(game_day, team)
         games = game_day.games
         games.each do |game|
+          next if game.home_team != team && game.away_team != team
           url = "http://www.espn.com/mlb/boxscore?gameId=#{game.game_id}"
           puts url
 
