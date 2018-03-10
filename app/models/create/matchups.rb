@@ -24,7 +24,7 @@ module Create
         if element.child['href']
           href = element.child['href']
           doc = download_document(href)
-          doc.css("h1").first
+          doc.css("h1").first.text
         end
       end
 
