@@ -31,7 +31,7 @@ class Player < ApplicationRecord
     if game
       unless batter = batters.find_by(season: season, team: team, game: game)
         batter = batters.create(player: self, season: season, team: team, game: game)
-        puts "#{self.name} batter created for #{game.url}"
+        puts "#{self.name} batter created for #{game.game_id}"
         batter.create_game_stats
       end
     else
@@ -46,7 +46,7 @@ class Player < ApplicationRecord
     if game
       unless lancer = lancers.find_by(season: season, team: team, game: game)
         lancer = lancers.create(player: self, season: season, team: team, game: game)
-        puts "#{self.name} lancer created for #{game.url}"
+        puts "#{self.name} lancer created for #{game.game_id}"
         lancer.create_game_stats
       end
     else
