@@ -114,10 +114,9 @@ module Create
             game_batter = player.create_batter(game.game_day.season, team, game)
             game_batter.update(starter: true, position: position, lineup: lineup)
           end
-          puts player.name
           lineup = lineup + 1
         end
-        puts lineup
+        puts "-----------------#{lineup}-----------------"
       end
 
       def team_pitchers(pitcher, team, game)
@@ -139,7 +138,6 @@ module Create
             game_lancer = player.create_lancer(game.game_day.season, team, game)
             game_lancer.update(starter: true)
           end
-          puts player.name
           break
         end
       end
