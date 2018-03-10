@@ -121,7 +121,7 @@ module Create
           position = row.children[0].children[1].text
           player = Player.search(name, identity)
           unless player
-            # player = Player.create(name: name, identity: identity, bathand: handedness)
+            player = Player.create(name: name, identity: identity)
             puts "Player " + player.name + " created"
             next
           end
@@ -146,7 +146,7 @@ module Create
           identity = parse_identity(row.children[0])
           player = Player.search(name, identity)
           unless player
-            # player = Player.create(name: name, identity: identity, throwhand: handedness)
+            player = Player.create(name: name, identity: identity)
             puts "Player " + player.name + " created"
             next
           end
