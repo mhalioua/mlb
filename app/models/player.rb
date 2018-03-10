@@ -56,4 +56,20 @@ class Player < ApplicationRecord
     end
     return lancer
   end
+
+  def find_batter(season, team=nil, game=nil)
+    if game
+      batters.find_by(season: season, team: team, game: game)
+    else
+      batters.find_by(season: season, team: nil, game: nil)
+    end
+  end
+
+  def find_lancer(season, team=nil, game=nil)
+    if game
+      lancers.find_by(season: season, team: team, game: game)
+    else
+      lancers.find_by(season: season, team: nil, game: nil)
+    end
+  end
 end
