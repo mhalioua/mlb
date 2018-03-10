@@ -116,7 +116,7 @@ module Create
             puts "Player " + player.name + " created"
           end
           player.update(team: team)
-          batter = player.create_batter(game.game_day.season, team, game)
+          batter = player.create_batter(game.game_day.season)
           batter.update(starter: true)
           game_batter = player.create_batter(game.game_day.season, team, game)
           game_batter.update(starter: true, position: position, lineup: lineup)
@@ -138,7 +138,7 @@ module Create
             puts "Player " + player.name + " created"
           end
           player.update(team: team)
-          lancer = player.create_lancer(game.game_day.season, team, game)
+          lancer = player.create_lancer(game.game_day.season)
           lancer.update(starter: true)
           game_lancer = player.create_lancer(game.game_day.season, team, game)
           game_lancer.update(starter: true)
