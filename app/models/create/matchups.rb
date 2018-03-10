@@ -100,7 +100,7 @@ module Create
           row = batter.children[index].children[0]
           next if row.children[0].children.size != 2
           name = row.children[0].child.text
-          identify = parse_identity(row.children[0])
+          identity = parse_identity(row.children[0])
           position = row.children[0].children[1].text
           player = Player.find_by(identity: identity)
           unless player
@@ -126,7 +126,7 @@ module Create
         (1...pitcher_size-1).each do |index|
           row = pitcher.children[index].children[0]
           name = row.children[0].child.text
-          identify = parse_identity(row.children[0])
+          identity = parse_identity(row.children[0])
           player = Player.find_by(identity: identity)
           unless player
             puts "Player #{name} not found"
