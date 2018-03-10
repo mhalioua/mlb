@@ -100,54 +100,48 @@ module Create
         end
       end
 
-      def team_batters(batter, team, game)
-        batter_size = batter.children.size
-        return if batter_size == 3 && batter.children[1].children[0].children.size == 1
+      def team_batters(batters, team, game)
+        batter_size = batters.children.size
+        return if batter_size == 3 && batters.children[1].children[0].children.size == 1
         lineup = 1
         (1...batter_size-1).each do |index|
-          row = batter.children[index].children[0]
+          row = batters.children[index].children[0]
           next if row.children[0]['class'] == 'name bench'
           name = parse_name(row.children[0])
           identity = parse_identity(row.children[0])
           position = row.children[0].children[1].text
           player = Player.search(name, identity)
           unless player
-            # player = Player.create(name: name, identity: identity, bathand: handedness)
+            player = Player.create(team: team, name: name, identity: identity)
             puts "Player " + player.name + " created"
-            next
           end
-          if false
-            player.update(team: team)
-            batter = player.create_batter(game.game_day.season, team, game)
-            batter.update(starter: true)
-            game_batter = player.create_batter(game.game_day.season, team, game)
-            game_batter.update(starter: true, position: position, lineup: lineup)
-          end
+          player.update(team: team)
+          batter = player.create_batter(game.game_day.season, team, game)
+          batter.update(starter: true)
+          game_batter = player.create_batter(game.game_day.season, team, game)
+          game_batter.update(starter: true, position: position, lineup: lineup)
           lineup = lineup + 1
         end
         puts "-----------------#{lineup}-----------------"
       end
 
-      def team_pitchers(pitcher, team, game)
-        pitcher_size = pitcher.children.size
-        return if pitcher_size == 3 && pitcher.children[1].children[0].children.size == 1
+      def team_pitchers(pitchers, team, game)
+        pitcher_size = pitchers.children.size
+        return if pitcher_size == 3 && pitchers.children[1].children[0].children.size == 1
         (1...pitcher_size-1).each do |index|
-          row = pitcher.children[index].children[0]
+          row = pitchers.children[index].children[0]
           name = parse_name(row.children[0])
           identity = parse_identity(row.children[0])
           player = Player.search(name, identity)
           unless player
-            # player = Player.create(name: name, identity: identity, throwhand: handedness)
+            player = Player.create(team: team, name: name, identity: identity)
             puts "Player " + player.name + " created"
-            next
           end
-          if false
-            player.update(team: team)
-            lancer = player.create_lancer(game.game_day.season, team, game)
-            lancer.update(starter: true)
-            game_lancer = player.create_lancer(game.game_day.season, team, game)
-            game_lancer.update(starter: true)
-          end
+          player.update(team: team)
+          lancer = player.create_lancer(game.game_day.season, team, game)
+          lancer.update(starter: true)
+          game_lancer = player.create_lancer(game.game_day.season, team, game)
+          game_lancer.update(starter: true)
           break
         end
       end

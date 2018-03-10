@@ -109,14 +109,12 @@ module Create
         end
       end
 
-      def team_batters(batter, team, game)
-        batter_size = batter.children.size
-        puts batter_size
-        return if batter_size == 3 && batter.children[1].children[0].children.size == 1
+      def team_batters(batters, team, game)
+        batter_size = batters.children.size
+        return if batter_size == 3 && batters.children[1].children[0].children.size == 1
         lineup = 1
         (1...batter_size-1).each do |index|
-          puts batter.children[index].inspect
-          row = batter.children[index].children[0]
+          row = batters.children[index].children[0]
           next if row.children[0]['class'] == 'name bench'
           name = parse_name(row.children[0])
           identity = parse_identity(row.children[0])
@@ -136,11 +134,11 @@ module Create
         puts "-----------------#{lineup}-----------------"
       end
 
-      def team_pitchers(pitcher, team, game)
-        pitcher_size = pitcher.children.size
-        return if pitcher_size == 3 && pitcher.children[1].children[0].children.size == 1
+      def team_pitchers(pitchers, team, game)
+        pitcher_size = pitchers.children.size
+        return if pitcher_size == 3 && pitchers.children[1].children[0].children.size == 1
         (1...pitcher_size-1).each do |index|
-          row = pitcher.children[index].children[0]
+          row = pitchers.children[index].children[0]
           name = parse_name(row.children[0])
           identity = parse_identity(row.children[0])
           player = Player.search(name, identity)
