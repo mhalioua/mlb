@@ -17,7 +17,7 @@ module Update
         name = element.children[0].child.text
         identity = parse_identity(element.children[0])
         ops = element.children[16].text
-        player = Player.find_by(name: name, identity: identity)
+        player = Player.search(name, identity)
         if player
           batter = player.create_batter(season)
           batter.stats.each do |stat|
@@ -42,7 +42,7 @@ module Update
           doc.css(".grid_line_regular").each_slice(13+rost) do |slice|
             name = slice[index[:name]].text
             fangraph_id = parse_fangraph_id(slice[index[:name]])
-            player = Player.find_by(fangraph_id: fangraph_id)
+            player = Player.search(name, nil, fangraph_id)
             unless player
               puts "Player #{name} not found" 
               next

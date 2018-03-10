@@ -13,13 +13,15 @@ module Create
       is_pitcher = true
       rows.each_with_index do |element, index|
         next if element.children.size == 1
-        next unless element.children[1].child.child
         name = element.children[1].child.text
         identity = parse_identity(element.children[1])
         bathand = element.children[3].text
         throwhand = element.children[4].text
         age = element.children[5].text
-        player = Player.find_or_create_by(name: name, identity: identity)
+        unless player = Player.search(name, identity)
+          player = Player.create(name: name, identity: identity)
+          puts "Player " + player.name + " created"
+        end
         player.update(team: team, bathand: bathand, throwhand: throwhand, age: age)
       end
     end
@@ -33,10 +35,9 @@ module Create
           name = stat.child.child.to_s
           unless name.size == 0
             fangraph_id = parse_fangraph_id(stat)
-            player = Player.find_by(name: name)
+            player = Player.search(name, nil, fangraph_id)
             if player
-              puts name if player.fangraph_id != nil
-              player.update(fangraph_id: fangraph_id)
+              player.update_attributes(fangraph_id: fangraph_id)
             else
               puts "Player " + name + " not found"
             end
@@ -50,10 +51,9 @@ module Create
           name = stat.child.child.to_s
           unless name.size == 0
             fangraph_id = parse_fangraph_id(stat)
-            player = Player.find_by(name: name)
+            player = Player.search(name, nil, fangraph_id)
             if player
-              puts name if player.fangraph_id != nil
-              player.update(fangraph_id: fangraph_id)
+              player.update_attributes(fangraph_id: fangraph_id)
             else
               puts "Player " + name + " not found"
             end
@@ -73,7 +73,7 @@ module Create
 
     def parse_identity(element)
       href = element.child['href']
-      href[36..href.rindex("/")-1]
+      href[36..href.rindex("/")-1] if href
     end
 
     def parse_fangraph_id(element)

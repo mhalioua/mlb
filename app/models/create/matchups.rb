@@ -20,6 +20,14 @@ module Create
         href[36..href.rindex("/")-1]
       end
 
+      def parse_name(element)
+        if element.child['href']
+          href = element.child['href']
+          doc = download_document(href)
+          doc.css("h1").first
+        end
+      end
+
       def set_starters_false
         Batter.starters.update_all(starter: false)
         Lancer.starters.update_all(starter: false)
@@ -99,12 +107,13 @@ module Create
         (1...batter_size-1).each do |index|
           row = batter.children[index].children[0]
           next if row.children[0]['class'] == 'name bench'
-          name = row.children[0].child.text
+          name = parse_name(row.children[0])
           identity = parse_identity(row.children[0])
           position = row.children[0].children[1].text
-          player = Player.find_by(identity: identity)
+          player = Player.search(name, identity)
           unless player
-            puts "Player #{name} not found" 
+            # player = Player.create(name: name, identity: identity, bathand: handedness)
+            puts "Player " + player.name + " created"
             next
           end
           if false
@@ -124,11 +133,12 @@ module Create
         return if pitcher_size == 3 && pitcher.children[1].children[0].children.size == 1
         (1...pitcher_size-1).each do |index|
           row = pitcher.children[index].children[0]
-          name = row.children[0].child.text
+          name = parse_name(row.children[0])
           identity = parse_identity(row.children[0])
-          player = Player.find_by(identity: identity)
+          player = Player.search(name, identity)
           unless player
-            puts "Player #{name} not found"
+            # player = Player.create(name: name, identity: identity, throwhand: handedness)
+            puts "Player " + player.name + " created"
             next
           end
           if false

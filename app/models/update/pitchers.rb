@@ -15,7 +15,7 @@ module Update
         doc.css(".grid_line_regular").each_slice(16+rost) do |slice|
           name = slice[index[:name]].text
           fangraph_id = parse_fangraph_id(slice[index[:name]])
-          player = Player.find_by(fangraph_id: fangraph_id)
+          player = Player.search(name, nil, fangraph_id)
           unless player
             puts "Player " + name + " not found"
             next
@@ -45,7 +45,7 @@ module Update
           doc.css(".grid_line_regular").each_slice(14+rost) do |slice|
             name = slice[index[:name]].text
             fangraph_id = parse_fangraph_id(slice[index[:name]])
-            player = Player.find_by(fangraph_id: fangraph_id)
+          player = Player.search(name, nil, fangraph_id)
             unless player
               puts "Player " + name + " not found"
               next
@@ -78,7 +78,7 @@ module Update
         doc.css(".grid_line_regular").each_slice(8+rost) do |slice|
           name = slice[index[:name]].text
           fangraph_id = parse_fangraph_id(slice[index[:name]])
-          player = Player.find_by(fangraph_id: fangraph_id)
+          player = Player.search(name, nil, fangraph_id)
           unless player
             puts "Player " + name + " not found" 
             next
@@ -150,18 +150,25 @@ module Update
         href[36..href.rindex("/")-1]
       end
 
+      def parse_name(element)
+        if element.child['href']
+          href = element.child['href']
+          doc = download_document(href)
+          doc.css("h1").first
+        end
+      end
+
       def team_pitchers(pitcher)
         pitcher_size = pitcher.children.size
         return if pitcher_size == 3 && pitcher.children[1].children[0].children.size == 1
         row = pitcher.children[1].children[0]
-        name = row.children[0].child.text
-        puts name
+        name = parse_name(row.children[0])
         identify = parse_identity(row.children[0])
         ip = row.children[1].text.to_i
         h = row.children[2].text.to_i
         r = row.children[3].text.to_i
         bb = row.children[5].text.to_i
-        player = Player.find_by(identity: identity)
+        player = Player.search(name, identity)
         unless player
           puts "Player #{name} not found" 
           next

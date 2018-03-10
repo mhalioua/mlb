@@ -3,6 +3,16 @@ class Player < ApplicationRecord
   has_many :lancers, dependent: :destroy
   has_many :batters, dependent: :destroy
 
+  def self.search(name, identity=nil, fangraph_id=0)
+    if identity && player = Player.find_by_identity(identity)
+      return player
+    elsif fangraph_id != 0 && player = Player.find_by_fangraph_id(fangraph_id)
+      return player
+    elsif player = Player.find_by_name(name)
+      return player
+    end
+  end
+
   def self.create_players
     player_creator = Create::Players.new
     teams = Team.all
