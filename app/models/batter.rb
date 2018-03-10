@@ -5,6 +5,10 @@ class Batter < ApplicationRecord
   belongs_to :season
   has_many   :batter_stats, dependent: :destroy
 
+  def self.starters
+    where(game_id: nil, starter: true)
+  end
+
   def stats(handedness=nil)
     if self.batter_stats.size == 0
       batter_stats.create(batter_id: self.id, range: "Season", handedness: "L")
