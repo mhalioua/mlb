@@ -1,7 +1,7 @@
 class CreateGames < ActiveRecord::Migration[5.1]
   def change
     create_table :games do |t|
-      t.belongs_to :game_days
+      t.belongs_to :game_day
       t.references :away_team
       t.references :home_team
 
