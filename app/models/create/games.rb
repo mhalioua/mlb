@@ -111,9 +111,11 @@ module Create
 
       def team_batters(batter, team, game)
         batter_size = batter.children.size
+        puts batter_size
         return if batter_size == 3 && batter.children[1].children[0].children.size == 1
         lineup = 1
         (1...batter_size-1).each do |index|
+          puts batter.children[index].inspect
           row = batter.children[index].children[0]
           next if row.children[0]['class'] == 'name bench'
           name = parse_name(row.children[0])
