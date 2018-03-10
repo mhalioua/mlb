@@ -9,7 +9,7 @@ module Create
       puts url
       create_games(doc, game_day)
       set_starters_false
-      create_game_stats(doc, game_day)
+      create_game_stats(game_day)
       remove_excess_starters(game_day)
     end
 
@@ -76,7 +76,7 @@ module Create
         end
       end
 
-      def create_game_stats(doc, game_day)
+      def create_game_stats(game_day)
         games = game_day.games
         games.each do |game|
           url = "http://www.espn.com/mlb/boxscore?gameId=#{game.game_id}"
