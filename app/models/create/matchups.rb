@@ -98,7 +98,7 @@ module Create
         lineup = 1
         (1...batter_size-1).each do |index|
           row = batter.children[index].children[0]
-          next if row.children[0].children.size != 2
+          puts row.children[0]['class']
           name = row.children[0].child.text
           identity = parse_identity(row.children[0])
           position = row.children[0].children[1].text
