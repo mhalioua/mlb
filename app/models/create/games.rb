@@ -5,7 +5,7 @@ module Create
     def create(season, team)
       create_games(season.year, team.espn_abbr)
       set_starters_false
-      game_days = GameDay.find_by(season: season)
+      game_days = GameDay.where(season: season)
       game_days.each do |game_day|
         create_game_stats(doc, game_day)
         remove_excess_starters(game_day)
