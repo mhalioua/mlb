@@ -10,4 +10,7 @@ class Game < ApplicationRecord
   has_many :pitcher_box_scores, dependent: :destroy
   has_many :hitter_box_scores, dependent: :destroy
 
+  def url
+    "#{home_team.game_abbr}%d%02d%02d#{num}" % [game_day.year, game_day.month, game_day.day]
+  end
 end
