@@ -59,7 +59,7 @@ module Create
           game_date = element.children[1]['data-date']
           date = DateTime.parse(game_date) - 4.hours - home_team.timezone.hours
           unless game = Game.find_by(game_id: game_id)
-            game = Game.create(game_days_id: game_day.id, away_team_id: away_team.id, home_team_id: home_team.id, game_id: game_id)
+            game = game_day.games.create(away_team_id: away_team.id, home_team_id: home_team.id, game_id: game_id)
           end
           game.update(game_days_id: game_day.id, away_team_id: away_team.id, home_team_id: home_team.id, game_date: date)
         end
