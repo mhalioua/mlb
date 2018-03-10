@@ -58,8 +58,8 @@ module Create
           element = doc.css(".game-date-time").first
           game_date = element.children[1]['data-date']
           date = DateTime.parse(game_date) - 4.hours - home_team.timezone.hours
-          game = Game.find_or_create_by(game_days_id: game_day.id, away_team_id: away_team.id, home_team_id: home_team.id, game_id: game_id)
-          game.update(game_date: date)
+          game = Game.find_or_create_by_game_id(game_id)
+          game.update(game_days_id: game_day.id, away_team_id: away_team.id, home_team_id: home_team.id, game_date: date)
         end
       end
 
