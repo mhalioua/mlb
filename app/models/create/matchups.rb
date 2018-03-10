@@ -15,6 +15,11 @@ module Create
 
     private
 
+      def parse_identity(element)
+        href = element.child['href']
+        href[36..href.rindex("/")-1]
+      end
+
       def set_starters_false
         Batter.starters.update_all(starter: false)
         Lancer.starters.update_all(starter: false)
