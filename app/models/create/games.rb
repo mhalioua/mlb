@@ -121,16 +121,14 @@ module Create
           position = row.children[0].children[1].text
           player = Player.search(name, identity)
           unless player
-            player = Player.create(name: name, identity: identity)
+            player = Player.create(team: team, name: name, identity: identity)
             puts "Player " + player.name + " created"
           end
-          if false
-            player.update(team: team)
-            batter = player.create_batter(game.game_day.season, team, game)
-            batter.update(starter: true)
-            game_batter = player.create_batter(game.game_day.season, team, game)
-            game_batter.update(starter: true, position: position, lineup: lineup)
-          end
+          player.update(team: team)
+          batter = player.create_batter(game.game_day.season, team, game)
+          batter.update(starter: true)
+          game_batter = player.create_batter(game.game_day.season, team, game)
+          game_batter.update(starter: true, position: position, lineup: lineup)
           lineup = lineup + 1
         end
         puts "-----------------#{lineup}-----------------"
@@ -145,16 +143,14 @@ module Create
           identity = parse_identity(row.children[0])
           player = Player.search(name, identity)
           unless player
-            player = Player.create(name: name, identity: identity)
+            player = Player.create(team: team, name: name, identity: identity)
             puts "Player " + player.name + " created"
           end
-          if false
-            player.update(team: team)
-            lancer = player.create_lancer(game.game_day.season, team, game)
-            lancer.update(starter: true)
-            game_lancer = player.create_lancer(game.game_day.season, team, game)
-            game_lancer.update(starter: true)
-          end
+          player.update(team: team)
+          lancer = player.create_lancer(game.game_day.season, team, game)
+          lancer.update(starter: true)
+          game_lancer = player.create_lancer(game.game_day.season, team, game)
+          game_lancer.update(starter: true)
           break
         end
       end
