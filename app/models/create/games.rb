@@ -123,7 +123,6 @@ module Create
           unless player
             player = Player.create(name: name, identity: identity)
             puts "Player " + player.name + " created"
-            next
           end
           if false
             player.update(team: team)
@@ -148,7 +147,6 @@ module Create
           unless player
             player = Player.create(name: name, identity: identity)
             puts "Player " + player.name + " created"
-            next
           end
           if false
             player.update(team: team)
