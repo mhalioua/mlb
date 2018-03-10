@@ -38,8 +38,4 @@ namespace :mlb do
   task pitcher_box_score: :environment do
     GameDay.yesterday.pitcher_box_score
   end
-
-  task test: :environment do
-    puts Team.all.inspect
-  end
 end
