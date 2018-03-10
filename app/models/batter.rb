@@ -9,6 +9,15 @@ class Batter < ApplicationRecord
     where(game_id: nil, starter: true)
   end
 
+  def create_game_stats
+    batter = self.player.create_batter(self.season)
+    batter.stats.order("id").each do |stat|
+      new_stat = stat.dup
+      new_stat.batter_id = self.id
+      new_stat.save
+    end
+  end
+
   def stats(handedness=nil)
     if self.batter_stats.size == 0
       batter_stats.create(batter_id: self.id, range: "Season", handedness: "L")

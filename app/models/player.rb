@@ -44,7 +44,7 @@ class Player < ApplicationRecord
 
   def create_lancer(season, team=nil, game=nil)
     if game
-      unless lancer = lancers.find_by(season: season, team_id: team, game: game)
+      unless lancer = lancers.find_by(season: season, team: team, game: game)
         lancer = lancers.create(player: self, season: season, team: team, game: game)
         puts "#{self.name} lancer created for #{game.url}"
         lancer.create_game_stats

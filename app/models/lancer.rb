@@ -9,6 +9,15 @@ class Lancer < ApplicationRecord
     where(game_id: nil, starter: true)
   end
 
+  def create_game_stats
+    lancer = player.create_lancer(self.season)
+    lancer.stats.order("id").each do |stat|
+      new_stat = stat.dup
+      new_stat.lancer_id = self.id
+      new_stat.save
+    end
+  end
+
   def stats(handedness=nil)
     if pitcher_stats.size == 0
       PitcherStat.create(lancer: self, range: "Season", handedness: "L")
