@@ -45,7 +45,7 @@ module Update
           doc.css(".grid_line_regular").each_slice(14+rost) do |slice|
             name = slice[index[:name]].text
             fangraph_id = parse_fangraph_id(slice[index[:name]])
-          player = Player.search(name, nil, fangraph_id)
+            player = Player.search(name, nil, fangraph_id)
             unless player
               puts "Player " + name + " not found"
               next
@@ -171,7 +171,7 @@ module Update
         player = Player.search(name, identity)
         unless player
           puts "Player #{name} not found" 
-          next
+          return
         end
         lancer = game.lancers.where(starter: true).find_by(player: player)
         unless lancer
