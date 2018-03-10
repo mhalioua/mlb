@@ -118,7 +118,7 @@ module Create
       def team_pitchers(pitcher, team, game)
         pitcher_size = pitcher.children.size
         return if pitcher_size == 3 && pitcher.children[1].children[0].children.size == 1
-        (1...batter_size-1).each do |index|
+        (1...pitcher_size-1).each do |index|
           row = pitcher.children[index].children[0]
           name = row.children[0].child.text
           identify = parse_identity(row.children[0])
