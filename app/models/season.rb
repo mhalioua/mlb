@@ -12,7 +12,7 @@ class Season < ApplicationRecord
 
   def create_games
     game_creator = Create::Games.new
-    teams = Team.where("id > 9")
+    teams = Team.where("id > 18")
     teams.each { |team| game_creator.create(self, team) }
   end
 
