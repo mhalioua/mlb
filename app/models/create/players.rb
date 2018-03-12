@@ -74,6 +74,8 @@ module Create
         doc.css(".grid_line_regular").each_slice(count) do |slice|
           name = slice[0].text
           fangraph_id = parse_fangraph_id(slice[0])
+          puts name
+          puts fangraph_id
           player = Player.search(name, nil, fangraph_id)
           if player
             player.update_attributes(fangraph_id: fangraph_id)
