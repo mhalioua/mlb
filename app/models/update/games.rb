@@ -63,7 +63,7 @@ module Update
         (0...game_size).each do |i|
           game = game_array[i]
           if game
-            puts game.url
+            puts game.game_id
             game.update(away_money_line: away_money_line[i], home_money_line: home_money_line[i], away_total: away_totals[i], home_total: home_totals[i])
           end
         end
@@ -90,7 +90,7 @@ module Update
             if team = Team.find_by_name(team_name)
               game = games.find_by(home_team_id: team.id)
               game.update(ump: ump)
-              puts "#{game.url} #{ump}"
+              puts "#{game.game_id} #{ump}"
             end
           end
         end
