@@ -34,30 +34,28 @@ module Update
 
         away_money_line = Array.new
         home_money_line = Array.new
-        doc.css(".eventLine-consensus+ .eventLine-book b").each_with_index do |stat, index|
-          if index == game_size*2
+        doc.css(".event-holder").each_with_index do |element, index|
+          if index == game_size
             break
           end
-          if index%2 == 0
-            away_money_line << stat.text
-          else
-            home_money_line << stat.text
-          end
+          home_line = element.children[0].children[11].children[1].text.squish
+          away_line = element.children[0].children[11].children[0].text.squish
+          away_money_line << away_line
+          home_money_line << home_line
         end
 
         away_totals = Array.new
         home_totals = Array.new
         url = "https://www.sportsbookreview.com/betting-odds/mlb-baseball/totals/" + date_url
         doc = Nokogiri::HTML(open(url))
-        doc.css(".eventLine-consensus+ .eventLine-book b").each_with_index do |stat, index|
-          if index == game_size*2
+        doc.css(".event-holder").each_with_index do |element, index|
+          if index == game_size
             break
           end
-          if index%2 == 0
-            away_totals << stat.text
-          else
-            home_totals << stat.text
-          end
+          home_line = element.children[0].children[11].children[1].text.squish
+          away_line = element.children[0].children[11].children[0].text.squish
+          away_totals << away_line
+          home_totals << home_line
         end
 
         (0...game_size).each do |i|

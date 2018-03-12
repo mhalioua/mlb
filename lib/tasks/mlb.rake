@@ -36,7 +36,7 @@ namespace :mlb do
   end
 
   task update_games: :environment do
-    GameDay.today.update_games
+    [GameDay.yesterday, GameDay.today, GameDay.tomorrow].each { |game_day| game_day.update_games }
   end
 
   task pitcher_box_score: :environment do
