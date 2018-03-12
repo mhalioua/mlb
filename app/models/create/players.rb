@@ -62,15 +62,18 @@ module Create
       end
     end
 
-    def update_fangraphs(team)
-      year = 2015
-      (0..1).each do |rost|
-        url = "https://www.fangraphs.com/leaders.aspx?pos=all&stats=fld&lg=all&qual=0&type=1&season=#{year}&month=0&season1=#{year}&ind=0&team=#{team.fangraph_id}&rost=#{rost}&age=0&filter=&players=0&page=1_100"
+    def update_fangraphs
+      urls = [
+        'https://www.fangraphs.com/minorleaders.aspx?pos=all&stats=bat&lg=all&qual=0&type=0&season=2017&team=0&players=0&page=1_6000',
+        'https://www.fangraphs.com/minorleaders.aspx?pos=all&stats=pit&lg=all&qual=0&type=0&season=2017&team=0&players=0&page=1_5000'
+      ]
+      count = 23
+      urls.each do |url|
         puts url
         doc = download_document(url)
-        doc.css(".grid_line_regular").each_slice(18+rost) do |slice|
-          name = slice[1].text
-          fangraph_id = parse_fangraph_id(slice[1])
+        doc.css(".grid_line_regular").each_slice(count) do |slice|
+          name = slice[0].text
+          fangraph_id = parse_fangraph_id(slice[0])
           player = Player.search(name, nil, fangraph_id)
           if player
             player.update_attributes(fangraph_id: fangraph_id)
@@ -78,6 +81,7 @@ module Create
             puts "Player " + name + " not found"
           end
         end
+        count = 25
       end
     end
 

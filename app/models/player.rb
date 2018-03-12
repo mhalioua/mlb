@@ -30,10 +30,7 @@ class Player < ApplicationRecord
 
   def self.update_fangraphs
     player_creator = Create::Players.new
-    teams = Team.all
-    teams.each do |team|
-      player_creator.update_fangraphs(team)
-    end
+    player_creator.update_fangraphs
   end
 
   def create_batter(season, team=nil, game=nil)
