@@ -19,20 +19,20 @@ module Update
         url = "https://www.sportsbookreview.com/betting-odds/mlb-baseball/#{date_url}"
         puts url
         doc = Nokogiri::HTML(open(url))
+        elements = doc.css(".event-holder")
         game_array = Array.new
-        doc.css(".team-name a").each_with_index do |stat, index|
+        elements.each_with_index do |element, index|
           # Break once we find the all teams playing today
-          if index == game_size*2
+          if index == game_size
             break
           end
-          if index%2 == 1
-            abbr = stat.text[0...3].squish
-            abbr = 'CHW' if abbr == 'CWS'
-            team = Team.find_by(espn_abbr: abbr)
-            add_game_to_array(game_array, day_games, team)   
-            puts index
-            puts abbr
-          end
+          home_abbr = element.children[0].children[5].children[1].text[0...3].squish
+          away_abbr = element.children[0].children[5].children[0].text[0...3].squish
+          home_abbr = 'CHW' if home_abbr == 'CWS'
+          away_abbr = 'CHW' if away_abbr == 'CWS'
+          home_team = Team.find_by(espn_abbr: home_abbr)
+          away_team = Team.find_by(espn_abbr: away_abbr)
+          add_game_to_array(game_array, day_games, home_team, away_team)
         end
 
         away_money_line = Array.new
@@ -99,12 +99,12 @@ module Update
         end
       end
 
-      def add_game_to_array(game_array, day_games, team)
-        unless team
+      def add_game_to_array(game_array, day_games, home_team, away_team)
+        unless home_team && away_team
           game_array << nil
           return
         end
-        games = day_games.where(home_team_id: team.id)
+        games = day_games.where("home_team_id = ? AND away_team_id = ?", home_team.id, away_team.id)
         if games.size == 2
           if game_array.include?(games.first)
             game_array << games.second
