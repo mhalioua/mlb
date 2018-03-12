@@ -71,15 +71,11 @@ module Create
         doc.css(".grid_line_regular").each_slice(18+rost) do |slice|
           name = slice[1].text
           fangraph_id = parse_fangraph_id(slice[1])
-          puts name
-          puts fangraph_id
-          if false
-            player = Player.search(name, nil, fangraph_id)
-            if player
-              player.update_attributes(fangraph_id: fangraph_id)
-            else
-              puts "Player " + name + " not found"
-            end
+          player = Player.search(name, nil, fangraph_id)
+          if player
+            player.update_attributes(fangraph_id: fangraph_id)
+          else
+            puts "Player " + name + " not found"
           end
         end
       end
