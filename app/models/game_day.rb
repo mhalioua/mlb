@@ -42,4 +42,8 @@ class GameDay < ApplicationRecord
   def pitcher_box_score
     Update::Pitchers.new.box_scores(self)
   end
+
+  def time
+    Time.new(year, month, day)
+  end
 end
