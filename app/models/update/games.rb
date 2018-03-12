@@ -14,8 +14,7 @@ module Update
       def closingline(game_day)
         day_games = game_day.games
         game_size = day_games.size
-        hour, day, month, year = find_date(Time.now)
-        date_url = "?date=%d%02d%02d" % [year, month, day]
+        date_url = "?date=" + game_day.date.gsub('-', '')
         url = "https://www.sportsbookreview.com/betting-odds/mlb-baseball/#{date_url}"
         puts url
         doc = Nokogiri::HTML(open(url))

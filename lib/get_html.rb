@@ -14,8 +14,4 @@ module GetHtml
     end
     return doc
   end
-
-  def find_date(time)
-    return time.hour, time.day, time.month, time.year
-  end
 end
