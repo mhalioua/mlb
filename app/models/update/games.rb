@@ -26,7 +26,7 @@ module Update
           end
           if index%2 == 1
             abbr = stat.child.text[0...-3].to_s
-            abbr = 'CWS' if abbr = 'CHW'
+            abbr = 'CHW' if abbr == 'CWS'
             team = Team.find_by(espn_abbr: abbr)
             add_game_to_array(game_array, day_games, team)   
           end
