@@ -32,7 +32,7 @@ namespace :mlb do
   end
 
   task create_matchups: :environment do
-    GameDay.yesterday.create_matchups
+    [GameDay.yesterday, GameDay.today, GameDay.tomorrow].each { |game_day| game_day.create_matchups }
   end
 
   task update_games: :environment do

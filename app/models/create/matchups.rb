@@ -4,10 +4,7 @@ module Create
     include GetHtml
     
     def create(game_day)
-      url = "http://www.espn.com/mlb/schedule/_/date/%d%02d%02d" % [game_day.year, game_day.month, game_day.day]
-      doc = download_document(url)
-      puts url
-      create_games(doc, game_day)
+      create_games(game_day)
       set_starters_false
       create_game_stats(game_day)
       remove_excess_starters(game_day)
@@ -15,25 +12,15 @@ module Create
 
     private
 
-      def parse_identity(element)
-        href = element.child['href']
-        href[36..href.rindex("/")-1]
-      end
-
-      def parse_name(element)
-        if element.child['href']
-          href = element.child['href']
-          doc = download_document(href)
-          doc.css("h1").first.text
-        end
-      end
-
       def set_starters_false
         Batter.starters.update_all(starter: false)
         Lancer.starters.update_all(starter: false)
       end
 
-      def create_games(doc, game_day)
+      def create_games(game_day)
+        url = "http://www.espn.com/mlb/schedule/_/date/%d%02d%02d" % [game_day.year, game_day.month, game_day.day]
+        doc = download_document(url)
+        puts url
         index = { away_team: 0, home_team: 1, result: 2 }
         elements = doc.css("tr")
         elements.each do |slice|
@@ -72,79 +59,166 @@ module Create
           game_date = element.children[1]['data-date']
           date = DateTime.parse(game_date) - 4.hours - home_team.timezone.hours
           game = Game.find_or_create_by(game_id: game_id)
-          game.update(game_day: game_day, away_team: away_team, home_team: home_team, game_date: date)
+          gameDay = GameDay.find_or_create_by(season: Season.find_by_year(year), date: date)
+          game.update(game_day: gameDay, away_team: away_team, home_team: home_team, game_date: date)
         end
+      end
+
+      def element_type(element)
+        element_class = element['class']
+        case element_class
+        when /game-time/
+          type = 'time'
+        when /no-lineup/
+          type = 'no lineup'
+        when /team-name/
+          type = 'lineup'
+        else
+          if element.children.size == 3
+            type = 'batter'
+          else
+            type = 'pitcher'
+          end
+        end
+      end
+
+      def find_team_from_pitcher_index(pitcher_index, away_team, home_team)
+        if pitcher_index%2 == 0
+          away_team
+        else
+          home_team
+        end
+      end
+
+      def find_team_from_batter_index(batter_index, away_team, home_team, away_lineup, home_lineup)
+        if away_lineup && home_lineup
+          if batter_index/9 == 0
+            away_team
+          else
+            home_team
+          end
+        elsif away_lineup
+          away_team
+        else
+          home_team
+        end
+      end
+
+      def pitcher_info(element)
+        name = element.child.text
+        identity = element.child['data-bref']
+        fangraph_id = element.child['data-razz'].gsub!(/[^0-9]/, "")
+        handedness = element.children[1].text[2]
+        return identity, fangraph_id, name, handedness
+      end
+
+      def batter_info(element)
+        name = element.children[1].text
+        lineup = element.child.to_s[0].to_i
+        handedness = element.children[2].to_s[2]
+        position = element.children[2].to_s.match(/\w*$/).to_s
+        identity = element.children[1]['data-bref']
+        fangraph_id = element.children[1]['data-razz'].gsub!(/[^0-9]/, "")
+        return identity, fangraph_id, name, handedness, lineup, position
       end
 
       def create_game_stats(game_day)
+        url = "http://www.baseballpress.com/lineups/%d-%02d-%02d" % [game_day.year, game_day.month, game_day.day]
+        doc = download_document(url)
+        puts url
         games = game_day.games
-        games.each do |game|
-          url = "http://www.espn.com/mlb/boxscore?gameId=#{game.game_id}"
-          puts url
+        game_index = -1
+        away_lineup = home_lineup = false
+        away_team = home_team = nil
+        team_index = pitcher_index = batter_index = 0
+        elements = doc.css(".players div, .team-name+ div, .team-name, .game-time")
+        season = Season.find_by_year(game_day.year)
+        teams = Set.new
+        elements.each_with_index do |element, index|
+          type = element_type(element)
+          case type
+          when 'time'
+            game_index += 1
+            batter_index = 0
+            teams << away_team if away_team
+            next
+          when 'lineup'
+            if team_index%2 == 0
+              away_team = Team.find_by_name(element.text)
+              away_lineup = true
+            else
+              home_team = Team.find_by_name(element.text)
+              home_lineup = true
+            end
+            team_index += 1
+            next
+          when 'no lineup'
+            if team_index%2 == 0
+              away_team = Team.find_by_name(element.text)
+              away_lineup = false
+            else
+              home_team = Team.find_by_name(element.text)
+              home_lineup = false
+            end
+            team_index += 1
+            next
+          when 'pitcher'
+            if element.text == "TBD"
+              pitcher_index += 1
+              next
+            else
+              identity, fangraph_id, name, handedness = pitcher_info(element)
+            end
+            team = find_team_from_pitcher_index(pitcher_index, away_team, home_team)
+            pitcher_index += 1
+          when 'batter'
+            identity, fangraph_id, name, handedness, lineup, position = batter_info(element)
+            team = find_team_from_batter_index(batter_index, away_team, home_team, away_lineup, home_lineup)
+            batter_index += 1
+          end
 
-          doc = download_document(url)
-          next unless doc
-
-          pitchers = doc.css('.stats-wrap')
-          next if pitchers.size < 4
-          away_pitcher = pitchers[1]
-          home_pitcher = pitchers[3]
-          away_batter = pitchers[0]
-          home_batter = pitchers[2]
-
-          team_pitchers(away_pitcher, game.away_team, game)
-          team_pitchers(home_pitcher, game.home_team, game)
-
-          team_batters(away_batter, game.away_team, game)
-          team_batters(home_batter, game.home_team, game)
-        end
-      end
-
-      def team_batters(batters, team, game)
-        batter_size = batters.children.size
-        return if batter_size == 3 && batters.children[1].children[0].children.size == 1
-        lineup = 1
-        (1...batter_size-1).each do |index|
-          row = batters.children[index].children[0]
-          next if row.children[0]['class'] == 'name bench'
-          name = parse_name(row.children[0])
-          identity = parse_identity(row.children[0])
-          position = row.children[0].children[1].text
           player = Player.search(name, identity)
+
+          # Make sure the player is in database, otherwise create him
           unless player
-            player = Player.create(team: team, name: name, identity: identity)
+            if type == 'pitcher'
+              player = Player.create(name: name, identity: identity, throwhand: handedness)
+            else
+              player = Player.create(name: name, identity: identity, bathand: handedness)
+            end
             puts "Player " + player.name + " created"
           end
+
+
           player.update(team: team)
-          batter = player.create_batter(game.game_day.season)
-          batter.update(starter: true)
-          game_batter = player.create_batter(game.game_day.season, team, game)
-          game_batter.update(starter: true, position: position, lineup: lineup)
-          lineup = lineup + 1
+          game = find_game(games, away_team, teams)
+
+          # Set the season player and the game player to true
+          # This will help in determining whether or not to delete a player
+          if type == 'pitcher'
+            lancer = player.create_lancer(season)
+            lancer.update_attributes(starter: true)
+            game_lancer = player.create_lancer(season, team, game)
+            game_lancer.update(starter: true)
+          elsif type == 'batter'
+            batter = player.create_batter(season)
+            batter.update(starter: true)
+            game_batter = player.create_batter(season, team, game)
+            game_batter.update(starter: true, position: position, lineup: lineup)
+          end
         end
-        puts "-----------------#{lineup}-----------------"
       end
 
-      def team_pitchers(pitchers, team, game)
-        pitcher_size = pitchers.children.size
-        return if pitcher_size == 3 && pitchers.children[1].children[0].children.size == 1
-        (1...pitcher_size-1).each do |index|
-          row = pitchers.children[index].children[0]
-          name = parse_name(row.children[0])
-          identity = parse_identity(row.children[0])
-          player = Player.search(name, identity)
-          unless player
-            player = Player.create(team: team, name: name, identity: identity)
-            puts "Player " + player.name + " created"
-          end
-          player.update(team: team)
-          lancer = player.create_lancer(game.game_day.season)
-          lancer.update(starter: true)
-          game_lancer = player.create_lancer(game.game_day.season, team, game)
-          game_lancer.update(starter: true)
-          break
+      def find_game(games, away_team, teams)
+        games = games.where(away_team: away_team)
+        size = games.size
+        if size == 1
+          return games.first
+        elsif size == 2
+          return teams.include?(away_team) ? games.second : games.first
         end
       end
+
 
       def remove_excess_starters(game_day)
         game_day.games.each do |game|

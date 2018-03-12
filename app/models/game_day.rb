@@ -32,7 +32,7 @@ class GameDay < ApplicationRecord
 
   def create_matchups
     Create::Matchups.new.create(self)
-    # Create::Bullpen.new.create(self)
+    Create::Bullpen.new.create(self)
   end
 
   def update_games
