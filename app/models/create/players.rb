@@ -63,7 +63,7 @@ module Create
     end
 
     def update_fangraphs(team)
-      year = 2016
+      year = 2015
       (0..1).each do |rost|
         url = "https://www.fangraphs.com/leaders.aspx?pos=all&stats=fld&lg=all&qual=0&type=1&season=#{year}&month=0&season1=#{year}&ind=0&team=#{team.fangraph_id}&rost=#{rost}&age=0&filter=&players=0&page=1_100"
         puts url
