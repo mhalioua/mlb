@@ -9,6 +9,10 @@ class Lancer < ApplicationRecord
     where(game_id: nil, starter: true)
   end
 
+  def self.bullpen
+    where(game_id: nil, bullpen: true)
+  end
+
   def create_game_stats
     lancer = player.create_lancer(self.season)
     lancer.stats.order("id").each do |stat|
