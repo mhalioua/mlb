@@ -14,6 +14,7 @@ module Update
       def closingline(game_day)
         day_games = game_day.games
         game_size = day_games.size
+        puts game_size
         date_url = "?date=" + game_day.date.to_formatted_s(:number)
         url = "https://www.sportsbookreview.com/betting-odds/mlb-baseball/#{date_url}"
         puts url
@@ -29,6 +30,8 @@ module Update
             abbr = 'CHW' if abbr == 'CWS'
             team = Team.find_by(espn_abbr: abbr)
             add_game_to_array(game_array, day_games, team)   
+            puts index
+            puts abbr
           end
         end
 
@@ -42,6 +45,8 @@ module Update
           away_line = element.children[0].children[11].children[0].text.squish
           away_money_line << away_line
           home_money_line << home_line
+          puts away_line
+          puts home_line
         end
 
         away_totals = Array.new
