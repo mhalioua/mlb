@@ -3,8 +3,8 @@ module Create
 
     def self.create
       @teams.each do |team|
-        team = Team.find_or_create_by(id: team['id'])
-        team.update(name: team['name'], city: team['city'])
+        teams = Team.find_or_create_by(id: team[:id])
+        teams.update(name: team[:name], city: team[:city])
       end
     end
 
