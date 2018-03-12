@@ -19,12 +19,21 @@ class Player < ApplicationRecord
     teams.each do |team|
       player_creator.create(team)
       player_creator.fangraphs(team)
+      player_creator.update_fangraphs(team)
     end
   end
 
   def self.update_players
     player_creator = Create::Players.new
     player_creator.update
+  end
+
+  def self.update_fangraphs
+    player_creator = Create::Players.new
+    teams = Team.all
+    teams.each do |team|
+      player_creator.update_fangraphs(team)
+    end
   end
 
   def create_batter(season, team=nil, game=nil)

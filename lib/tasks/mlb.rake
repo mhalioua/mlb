@@ -15,6 +15,10 @@ namespace :mlb do
     Player.update_players
   end
 
+  task update_fangraphs: :environment do
+    Player.update_fangraphs
+  end
+
   task update_batters: :environment do
     Season.where("year < 2018").order("year DESC").each { |season| season.update_batters }
   end
