@@ -27,8 +27,7 @@ module Update
           end
           if index%2 == 1
             abbr = stat.child.text[0...-3].to_s
-            abbr = fix_abbr(abbr)
-            team = Team.find_by_abbr(abbr)
+            team = Team.find_by(espn_abbr: abbr)
             add_game_to_array(game_array, day_games, team)   
           end
         end
@@ -94,25 +93,6 @@ module Update
               puts "#{game.url} #{ump}"
             end
           end
-        end
-      end
-
-      def fix_abbr(abbr)
-        case abbr
-        when "TB"
-          "TBR"
-        when "SF"
-          "SFG"
-        when "SD"
-          "SDP"
-        when "CWS"
-          "CHW"
-        when "KC"
-          "KCR"
-        when "WSH"
-          "WSN"
-        else
-          abbr
         end
       end
 
