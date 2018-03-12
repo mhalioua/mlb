@@ -78,4 +78,8 @@ class Player < ApplicationRecord
       lancers.find_by(season: season, team: nil, game: nil)
     end
   end
+
+  def game_day_lancers(game_day)
+    Lancer.where(player: self, game: game_day.games)
+  end
 end
