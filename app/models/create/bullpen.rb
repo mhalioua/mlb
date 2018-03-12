@@ -12,6 +12,14 @@ module Create
 
       @@bullpen_teams = [1, 2, 3, 4, 12, 13, 17, 21, 22, 23, 26, 27, 28, 29, 30, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 18, 19, 20, 24, 25]
 
+      def pitcher_info(element)
+        name = element.child.text
+        identity = element.child['data-bref']
+        fangraph_id = element.child['data-razz'].gsub!(/[^0-9]/, "")
+        handedness = element.children[1].text[2]
+        return identity, fangraph_id, name, handedness
+      end
+
       def set_bullpen(game_day)
         url = "http://www.baseballpress.com/bullpenusage/%d-%02d-%02d" % [game_day.year, game_day.month, game_day.day]
         puts url
@@ -42,9 +50,9 @@ module Create
 
           if element.children.size == 2
             identity, fangraph_id, name, handedness = pitcher_info(element)
-            player = Player.search(name, identity, fangraph_id)
+            player = Player.search(name, nil, fangraph_id)
             unless player
-              player = Player.create(name: name, identity: identity, throwhand: handedness)
+              player = Player.create(name: name, fangraph_id: fangraph_id, throwhand: handedness)
             end
             player.update(team_id: @@bullpen_teams[team_index])
             lancer = player.create_lancer(season)
