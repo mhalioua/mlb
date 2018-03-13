@@ -19,7 +19,6 @@ class Player < ApplicationRecord
     teams.each do |team|
       player_creator.create(team)
       player_creator.fangraphs(team)
-      player_creator.update_fangraphs(team)
     end
   end
 
