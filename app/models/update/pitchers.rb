@@ -138,8 +138,8 @@ module Update
         away_pitcher = pitchers[1]
         home_pitcher = pitchers[3]
 
-        team_pitchers(game, away_pitcher)
-        team_pitchers(game, home_pitcher)
+        team_pitchers(game, game.away_team, away_pitcher)
+        team_pitchers(game, game.home_team, home_pitcher)
       end
     end
 
@@ -158,7 +158,7 @@ module Update
         end
       end
 
-      def team_pitchers(game, pitcher)
+      def team_pitchers(game, team, pitcher)
         pitcher_size = pitcher.children.size
         return if pitcher_size == 3 && pitcher.children[1].children[0].children.size == 1
         row = pitcher.children[1].children[0]
