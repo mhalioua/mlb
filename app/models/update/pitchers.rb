@@ -163,7 +163,7 @@ module Update
         return if pitcher_size == 3 && pitcher.children[1].children[0].children.size == 1
         row = pitcher.children[1].children[0]
         name = parse_name(row.children[0])
-        identify = parse_identity(row.children[0])
+        identity = parse_identity(row.children[0])
         ip = row.children[1].text.to_i
         h = row.children[2].text.to_i
         r = row.children[3].text.to_i

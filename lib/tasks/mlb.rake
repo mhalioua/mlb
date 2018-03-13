@@ -28,7 +28,7 @@ namespace :mlb do
   end
 
   task create_games: :environment do
-    Season.where("year = 2017").map { |season| season.create_games }
+    Season.where("year < 2018").map { |season| season.create_games }
   end
 
   task create_matchups: :environment do
