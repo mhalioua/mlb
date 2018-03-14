@@ -32,6 +32,10 @@ td.name {
   white-space: nowrap;
 }
 
+thead th, tbody td {
+  text-align: center;
+}
+
 td.border, th.border {
   background-color: gray;
 }
