@@ -21,7 +21,7 @@
 			<% if pitcher %>
 			<%= render partial: "starter", locals: { pitcher: pitcher } %>
 			<% else %>
-			<%= render partial: "not_found", locals: {count: 9, rowspan: 1 } %>
+			<%= render partial: "not_found", locals: {colspan: 9, rowspan: 1 } %>
 			<% end %>
 			<td rowspan="2" class="border"></td>
 			<% weather = nil %>
@@ -36,7 +36,7 @@
 			<% if pitcher %>
 			<%= render partial: "starter", locals: { pitcher: pitcher } %>
 			<% else %>
-			<%= render partial: "not_found", locals: {count: 9, rowspan: 1 } %>
+			<%= render partial: "not_found", locals: {colspan: 9, rowspan: 1 } %>
 			<% end %>
 		</tr>
 		<% end %>
