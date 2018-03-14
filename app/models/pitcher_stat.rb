@@ -2,7 +2,7 @@ class PitcherStat < ApplicationRecord
   belongs_to :lancer
 
   def ip_math
-    ip.to_i + (10 * ip.modulo(1))/3
+    ip.to_i + (10 * ip.round)/3
   end
 
   def outs
