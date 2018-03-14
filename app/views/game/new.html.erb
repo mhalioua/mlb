@@ -1,7 +1,26 @@
-<div class="header">
-	<h1><%= "#{@away_team.name} @ #{@home_team.name}" %></h1>
-	<h2><%= "Odds: #{@game.away_money_line} @ #{@game.home_money_line}" %></h2>
-	<h2><%= "Totals: #{@game.away_total} @ #{@game.home_total}" %></h2>
-	<h3><%= "Gametime: #{DateTime.parse(@game.game_date).strftime("%I:%M%p")} Local Time" %></h3>
-	<h3><%= "Ump: #{@game.ump}" %></h3>
+<div class="panel panel-primary text-center">
+	<div class="panel-heading">
+		<h1><%= "#{@away_team.name} @ #{@home_team.name}" %></h1>
+		<h2><%= "Odds: #{@game.away_money_line} @ #{@game.home_money_line}" %></h2>
+		<h2><%= "Totals: #{@game.away_total} @ #{@game.home_total}" %></h2>
+		<h3><%= "Gametime: #{DateTime.parse(@game.game_date).strftime("%I:%M%p")} Local Time" %></h3>
+		<h3><%= "Ump: #{@game.ump}" %></h3>
+	</div>
+	<div class="panel-body">
+		<ul class="list-group">
+			<li class="list-group-item"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
+			<li><%= link_to(@date + ' Matchups', { controller: 'index', action: 'game', id: @game_day.id }) %></li>
+		</ul>
+	</div>
+	<div class="image">
+		<%= image_tag(@image_url, :width => '600') %>
+		<h2><%= "Zipcode: " + @home_team.zipcode %></h2>
+	</div>
+	<%= render partial: "game/new/pitcher", locals: { caption: "Starting Pitchers", lancers: @away_starting_lancer + @home_starting_lancer  } %>
+
+	<%= render partial: "game/new/batter", locals: { caption: "#{@away_predicted}#{@away_team.name} Batters", predicted: @away_predicted, batters: @away_batters, left: @away_left } %>
+	<%= render partial: "game/new/batter", locals: { caption: "#{@home_predicted}#{@home_team.name} Batters", predicted: @home_predicted, batters: @home_batters, left: @home_left } %>
+
+	<%= render partial: "game/new/bullpen", locals: { caption: "#{@away_team.name} Bullpen", lancers: @away_bullpen_lancers }%>
+	<%= render partial: "game/new/bullpen", locals: { caption: "#{@home_team.name} Bullpen", lancers: @home_bullpen_lancers }%>
 </div>
