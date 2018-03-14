@@ -71,7 +71,7 @@ class Lancer < ApplicationRecord
         end
       end
 
-      if prev_game_day.id == 1
+      if i == 10
         return Batter.none
       end
 
