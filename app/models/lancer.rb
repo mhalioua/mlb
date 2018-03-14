@@ -50,6 +50,9 @@ class Lancer < ApplicationRecord
     game_day = game.game_day
     i = 1
     while true
+      if i == 10
+        return Batter.none
+      end
       prev_game_day = game_day.previous_days(i)
       unless prev_game_day
         i += 1
@@ -69,10 +72,6 @@ class Lancer < ApplicationRecord
           next unless lineup.size == 9
           return lineup
         end
-      end
-
-      if i == 10
-        return Batter.none
       end
 
       i += 1
