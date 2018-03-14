@@ -12,7 +12,7 @@
       <% end %>
       <% seasons.each do |season| %>
         <th colspan="2"><%= "#{season.year}" %></th>
-        <% if season.year == Time.now.year%>
+        <% if season.year == Time.now.year || season.year == 2017 %>
           <th colspan="2">Last 14 Days</th>
         <% end %>
       <% end %>
