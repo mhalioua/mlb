@@ -6,7 +6,7 @@
       <th></th>
       <% seasons.each do |season| %>
         <th colspan="10"><%= "#{season.year} vs #{handedness_header(left)}" %></th>
-        <% if season.year == Time.now.year%>
+        <% if season.year == Time.now.year || season.year == 2017 %>
           <th colspan="10">Last 14 Days</th>
         <% end %>
       <% end %>
