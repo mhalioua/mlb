@@ -132,7 +132,7 @@ module Create
         away_team = home_team = nil
         team_index = pitcher_index = batter_index = 0
         elements = doc.css(".players div, .team-name+ div, .team-name, .game-time")
-        season = Season.find_by_year(game_day.year)
+        season = game_day.season
         teams = Set.new
         elements.each_with_index do |element, index|
           type = element_type(element)
