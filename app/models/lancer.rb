@@ -5,6 +5,18 @@ class Lancer < ApplicationRecord
   belongs_to :season
   has_many   :pitcher_stats, dependent: :destroy
 
+  def name
+    player.name
+  end
+
+  def identity
+    player.identity
+  end
+
+  def throwhand
+    player.throwhand
+  end
+
   def self.starters
     where(game_id: nil, starter: true)
   end
