@@ -1,5 +1,5 @@
 <td><%= stats.map {|stat| stat.woba }.sum %></td>
-<td><%= stats.map {|stat| stat.ops }.sum %></td>
+<td><%= stats.map {|stat| stat.ops.to_f }.sum %></td>
 <td><%= stats.map {|stat| stat.ab }.sum %></td>
 <td><%= stats.map {|stat| stat.so }.sum %></td>
 <td><%= stats.map {|stat| stat.bb }.sum %></td>
