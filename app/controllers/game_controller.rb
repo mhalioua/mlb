@@ -4,6 +4,7 @@ class GameController < ApplicationController
 	def new
 		@game = Game.find_by_id(params[:id])
 		@game_day = @game.game_day
+		@season = @game_day.season
 
 		@away_team = @game.away_team
 		@home_team = @game.home_team
