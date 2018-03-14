@@ -118,4 +118,22 @@ class Lancer < ApplicationRecord
     end
     return stat_array
   end
+
+  def sort_bullpen
+    num_size = [10, 8, 6, 4, 2]
+    count = 0
+    (1..5).each_with_index do |days, index|
+      game_day = self.game.game_day.previous_days(days)
+      unless game_day
+        next
+      end
+      game_ids = game_day.games.map { |game| game.id }
+      lancer = Lancer.find_by(player: self.player, game_id: game_ids)
+
+      if lancer
+        count += lancer.pitches * 10 ** num_size[index]
+      end
+    end
+    return count
+  end
 end
