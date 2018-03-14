@@ -107,4 +107,15 @@ class Lancer < ApplicationRecord
       pitcher_stats.find_by(handedness: handedness)
     end
   end
+
+  def view_stats(seasons)
+    stat_array = Array.new
+    stat_array << self.stats
+    seasons.each do |season|
+      unless self.season == season
+        stat_array << player.create_lancer(season).stats
+      end
+    end
+    return stat_array
+  end
 end
