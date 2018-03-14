@@ -97,9 +97,9 @@ class Lancer < ApplicationRecord
 
   def stats(handedness=nil)
     if pitcher_stats.size == 0
-      PitcherStat.create(lancer: self, range: "Season", handedness: "L")
-      PitcherStat.create(lancer: self, range: "Season", handedness: "R")
-      PitcherStat.create(lancer: self, range: "30 Days", handedness: "")
+      pitcher_stats.create(lancer_id: self.id, range: "Season", handedness: "L")
+      pitcher_stats.create(lancer_id: self.id, range: "Season", handedness: "R")
+      pitcher_stats.create(lancer_id: self.id, range: "30 Days", handedness: "")
     end
     unless handedness
       pitcher_stats

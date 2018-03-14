@@ -82,7 +82,18 @@
         <% stats.each do |stat| %>
           <%= render partial: "game/new/pitcher_stat", locals: { stat: stat } %>
         <% end %>
-        <td><%= lancer.inspect %></td>
+        <% stats.each do |stat| %>
+          <td><%= stat.first.gb %></td>
+          <td><%= stat.second.gb %></td>
+        <% end %>
+        <% stats.each do |stat| %>
+          <td><%= stat.first.ld %></td>
+          <td><%= stat.second.ld %></td>
+        <% end %>
+        <% stats.each do |stat| %>
+          <td><%= stat.first.tld %></td>
+          <td><%= stat.second.tld %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
