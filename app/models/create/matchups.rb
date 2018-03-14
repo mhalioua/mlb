@@ -177,14 +177,14 @@ module Create
             batter_index += 1
           end
 
-          player = Player.search(name, identity)
+          player = Player.search(name, nil, fangraph_id)
 
           # Make sure the player is in database, otherwise create him
           unless player
             if type == 'pitcher'
-              player = Player.create(name: name, identity: identity, throwhand: handedness)
+              player = Player.create(name: name, fangraph_id: fangraph_id, throwhand: handedness)
             else
-              player = Player.create(name: name, identity: identity, bathand: handedness)
+              player = Player.create(name: name, fangraph_id: fangraph_id, bathand: handedness)
             end
             puts "Player " + player.name + " created"
           end
