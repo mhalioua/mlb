@@ -136,4 +136,17 @@ class Lancer < ApplicationRecord
     end
     return count
   end
+
+  def prev_bullpen_pitches(days)
+    unless game
+      return nil
+    end
+    prev_game_day = game.game_day.previous_days(days)
+    unless prev_game_day
+      return 0
+    end
+    games = prev_game_day.games
+    lancer = Lancer.find_by(player: player, game: games)
+    lancer ? lancer.pitches : 0
+  end
 end
