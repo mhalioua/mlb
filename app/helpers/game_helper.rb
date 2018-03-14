@@ -14,4 +14,12 @@ module GameHelper
       "RHP"
     end
   end
+
+  def handedness(left)
+    if left
+      "L"
+    else
+      "R"
+    end
+  end
 end
