@@ -2,6 +2,7 @@ class PitcherStat < ApplicationRecord
   belongs_to :lancer
 
   def ip_math
+  	0 unless ip
     ip.to_i + (10 * (ip.to_f - ip.to_i))/3
   end
 
