@@ -16,6 +16,232 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-.border {
-	background-color: gray;
+table {
+  border-collapse: collapse;
+  border: 1px solid #666666;
+  font: normal 11px verdana, arial, helvetica, sans-serif;
+  color: #363636;
+  background: #f6f6f6;
+  text-align: center;
+  float: left;
+  clear: left;
+}
+
+td.name {
+  text-align: left;
+  white-space: nowrap;
+}
+
+td.border, th.border {
+  background-color: gray;
+}
+
+tbody.bullpen td:nth-child(2){
+  background-color: #EA8DFE;
+}
+
+tbody.bullpen td:nth-child(3){
+  background-color: #FFF8DC;
+}
+
+tbody.bullpen td:nth-child(4){
+  background-color: #FF7F00;
+}
+
+tbody.bullpen td:nth-child(5){
+  background-color: #7FFFD4;
+}
+
+tbody.bullpen td:nth-child(6){
+  background-color: #6495ED;
+}
+
+
+tbody.bullpen td:nth-child(n+7):nth-child(-n+16){
+  background-color: #7FFFD4;
+}
+
+tbody.bullpen td:nth-child(n+17):nth-child(-n+22) {
+  background-color: #EA8DFE;
+}
+
+tbody.bullpen td:nth-child(n+23):nth-child(-n+24) {
+  background-color: #FFF8DC;
+}
+
+tbody.bullpen td:nth-child(n+26):nth-child(-n+29) {
+  background-color: #FFF8DC;
+}
+
+tbody.bullpen td:nth-child(n+31):nth-child(-n+34) {
+  background-color: #FFF8DC;
+}
+
+tbody.bullpen td:nth-child(n+35):nth-child(-n+36) {
+  background-color: #FF7F00;
+}
+
+tbody.bullpen td:nth-child(n+38):nth-child(-n+41) {
+  background-color: #FF7F00;
+}
+
+tbody.bullpen td:nth-child(n+43):nth-child(-n+46) {
+  background-color: #FF7F00;
+}
+
+tbody.bullpen td:nth-child(n+47):nth-child(-n+48) {
+  background-color: #D3D3D3;
+}
+
+tbody.bullpen td:nth-child(n+50):nth-child(-n+53) {
+  background-color: #D3D3D3;
+}
+
+tbody.bullpen td:nth-child(n+55):nth-child(-n+58) {
+  background-color: #D3D3D3;
+}
+
+tbody.bullpen td:nth-child(n+59):nth-child(-n+64) {
+  background-color: #DC143C;
+}
+
+tbody.bullpen td:nth-child(n+65):nth-child(-n+70) {
+  background-color: #FF7F00;
+}
+
+tbody.bullpen td:nth-child(n+71):nth-child(-n+76) {
+  background-color: #6495ED;
+}
+
+tbody.mixed td:nth-child(n+2):nth-child(-n+3){
+  background-color: #DC143C;
+}
+
+tbody.mixed td:nth-child(n+4):nth-child(-n+5){
+  background-color: #7FFFD4;
+}
+
+tbody.mixed td:nth-child(6){
+  background-color: #EA8DFE;
+}
+
+tbody.mixed td:nth-child(n+7):nth-child(-n+10){
+  background-color: #FFF8DC;
+}
+
+tbody.mixed td:nth-child(n+11):nth-child(-n+14){
+  background-color: #FF7F00;
+}
+
+tbody.mixed td:nth-child(n+15):nth-child(-n+18){
+  background-color: #D3D3D3;
+}
+
+tbody.mixed td:nth-child(n+19):nth-child(-n+21){
+  background-color: #DC143C;
+}
+
+tbody.mixed td:nth-child(n+22):nth-child(-n+24){
+  background-color: #FF7F00;
+}
+
+tbody.mixed td:nth-child(n+25):nth-child(-n+27){
+  background-color: #6495ED;
+}
+
+tbody.lancer td:nth-child(n+2):nth-child(-n+3){
+  background-color: #DC143C;
+}
+
+tbody.lancer td:nth-child(n+4):nth-child(-n+13){
+  background-color: #7FFFD4;
+}
+
+tbody.lancer td:nth-child(n+14):nth-child(-n+19) {
+  background-color: #EA8DFE;
+}
+
+tbody.lancer td:nth-child(n+20):nth-child(-n+21) {
+  background-color: #FFF8DC;
+}
+
+tbody.lancer td:nth-child(n+23):nth-child(-n+26) {
+  background-color: #FFF8DC;
+}
+
+tbody.lancer td:nth-child(n+28):nth-child(-n+31) {
+  background-color: #FFF8DC;
+}
+
+tbody.lancer td:nth-child(n+32):nth-child(-n+33) {
+  background-color: #FF7F00;
+}
+
+tbody.lancer td:nth-child(n+35):nth-child(-n+38) {
+  background-color: #FF7F00;
+}
+
+tbody.lancer td:nth-child(n+40):nth-child(-n+43) {
+  background-color: #FF7F00;
+}
+
+tbody.lancer td:nth-child(n+44):nth-child(-n+45) {
+  background-color: #D3D3D3;
+}
+
+tbody.lancer td:nth-child(n+47):nth-child(-n+50) {
+  background-color: #D3D3D3;
+}
+
+tbody.lancer td:nth-child(n+52):nth-child(-n+55) {
+  background-color: #D3D3D3;
+}
+
+tbody.lancer td:nth-child(n+56):nth-child(-n+61) {
+  background-color: #DC143C;
+}
+
+tbody.lancer td:nth-child(n+62):nth-child(-n+67) {
+  background-color: #FF7F00;
+}
+
+tbody.lancer td:nth-child(n+68):nth-child(-n+73) {
+  background-color: #6495ED;
+}
+
+
+tbody.batter td:nth-child(n+2):nth-child(-n+11){
+  background-color: #7FFFD4;
+}
+
+tbody.batter td:nth-child(n+12):nth-child(-n+21) {
+  background-color: #EA8DFE;
+}
+
+tbody.batter td:nth-child(n+22):nth-child(-n+31) {
+  background-color: #FFF8DC;
+}
+
+tbody.batter td:nth-child(n+32):nth-child(-n+41) {
+  background-color: #FFD700;
+}
+
+tbody.batter td:nth-child(n+42):nth-child(-n+49):nth-child(odd){
+  background-color: #6495ED;
+}
+
+tbody.batter td:nth-child(n+42):nth-child(-n+49):nth-child(even){
+  background-color: #FF7F00;
+}
+
+td.blue {
+  background-color: #6495ED;
+}
+
+td.lightgray {
+  background-color: lightgray;
+}
+
+tr.total td {
+  background-color: #f6f6f6;
 }
