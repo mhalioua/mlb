@@ -17,6 +17,68 @@ class Lancer < ApplicationRecord
     player.throwhand
   end
 
+  def opp_team
+    if game
+      team == game.away_team ? game.home_team : game.away_team
+    end
+  end
+
+  def opposing_lineup
+    if game
+      game.batters.where(team: opp_team, starter: true).order("lineup ASC")
+    end
+  end
+
+  def opposing_batters_handedness
+    if game
+      opp_lineup = self.opposing_lineup
+      opp_lineup = self.predict_opposing_lineup if opp_lineup.size == 0
+
+      throwhand = self.throwhand
+      same = opp_lineup.select { |batter| batter.bathand == throwhand }.size
+      diff = opp_lineup.size - same
+
+      if throwhand == "L"
+        return same, diff
+      else
+        return diff, same
+      end
+    end
+  end
+
+  def predict_opposing_lineup
+    game_day = game.game_day
+    i = 1
+    while true
+      prev_game_day = game_day.previous_days(i)
+      unless prev_game_day
+        i += 1
+        next
+      end
+      games = prev_game_day.games.includes(:lancers, :batters).where("away_team_id = #{opp_team.id} OR home_team_id = #{opp_team.id}")
+
+      games.each do |game|
+        if game.away_team_id == opp_team.id
+          opp_pitcher = game.lancers.find_by(starter: true, team_id: game.home_team_id)
+        else
+          opp_pitcher = game.lancers.find_by(starter: true, team_id: game.away_team_id)
+        end
+
+        if opp_pitcher && opp_pitcher.player.throwhand == throwhand
+          lineup = game.batters.where(team: opp_team, starter: true).order("lineup ASC")
+          next unless lineup.size == 9
+          return lineup
+        end
+      end
+
+      if prev_game_day.id == 1
+        return Batter.none
+      end
+
+      i += 1
+    end
+  end
+
   def self.starters
     where(game_id: nil, starter: true)
   end
