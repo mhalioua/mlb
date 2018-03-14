@@ -10,11 +10,14 @@ class PitcherStat < ApplicationRecord
   end
 
   def tld
-  	0 unless ip
-    a = outs + h - so
-    z = (a*ld/100).round
-    true_line_drives = z + bb
-    tld = ((true_line_drives.to_f/(outs + h + bb).to_f).round(3) * 100).round(1)
-    tld.nan? ? 0.0 : tld
+    unless ip
+      0.0
+    else
+      a = outs + h - so
+      z = (a*ld/100).round
+      true_line_drives = z + bb
+      tld = ((true_line_drives.to_f/(outs + h + bb).to_f).round(3) * 100).round(1)
+      tld.nan? ? 0.0 : tld
+    end
   end
 end
