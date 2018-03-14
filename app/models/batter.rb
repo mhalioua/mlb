@@ -5,6 +5,14 @@ class Batter < ApplicationRecord
   belongs_to :season
   has_many   :batter_stats, dependent: :destroy
 
+  def bathand
+    player.bathand
+  end
+
+  def name
+    player.name
+  end
+
   def self.starters
     where(game_id: nil, starter: true)
   end
