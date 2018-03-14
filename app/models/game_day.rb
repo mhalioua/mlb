@@ -51,7 +51,10 @@ class GameDay < ApplicationRecord
 
   def previous_days(num_days)
     puts date
+    puts num_days
     prev_date = date.prev_day(num_days)
+    puts prev_date
+    prev_date = Date.new(date).prev_day(num_days)
     puts prev_date
     GameDay.find_by_date(prev_date)
   end
