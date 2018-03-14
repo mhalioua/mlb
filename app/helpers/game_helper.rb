@@ -22,4 +22,10 @@ module GameHelper
       "R"
     end
   end
+
+  def bullpen_day_name(num)
+    num += 1
+    day = Date.parse("#{@game_day.year}-#{@game_day.month}-#{@game_day.day}").wday
+    return Date::DAYNAMES[day-num]
+  end
 end
