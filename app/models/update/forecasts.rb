@@ -13,7 +13,7 @@ module Update
       puts url
 
       return unless doc
-      header = doc.css(".obs-table tr").first
+      header = doc.css("#hourly-forecast-table tr").first
       return unless header
       headers = {
         'Temp.' => 0,
@@ -34,7 +34,7 @@ module Update
         headers[key] = index if key == 'Amount'
       end
 
-      hourlyweathers = doc.css(".obs-table tbody tr")
+      hourlyweathers = doc.css("#hourly-forecast-table tbody tr")
       start_index = hourlyweathers.size - 1
       hourlyweathers.each_with_index do |weather, index|
         date = weather.children[1].text.to_time
