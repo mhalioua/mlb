@@ -10,6 +10,14 @@ class Game < ApplicationRecord
   has_many :pitcher_box_scores, dependent: :destroy
   has_many :hitter_box_scores, dependent: :destroy
 
+  def update_weather
+    Update::Weathers.new.update(self)
+  end
+
+  def update_forecast
+    Update::Forecasts.new.update(self)
+  end
+
   def away_pitcher
     lancers.find_by(starter: true, team: away_team)
   end

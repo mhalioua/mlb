@@ -43,6 +43,15 @@ namespace :mlb do
     GameDay.yesterday.pitcher_box_score
   end
 
+  task update_weather: :environment do
+    GameDay.yesterday.update_weather
+    GameDay.today.update_weather
+  end
+
+  task update_forecast: :environment do
+    [GameDay.today, GameDay.tomorrow].each { |game_day| game_day.update_forecast }
+  end
+
   task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs]
 
   task daily: [:create_player, :update_batters, :update_pitchers]

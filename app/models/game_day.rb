@@ -45,6 +45,16 @@ class GameDay < ApplicationRecord
     Update::Pitchers.new.box_scores(self)
   end
 
+  def update_weather
+    games.each { |game| game.update_weather }
+  end
+
+  def update_forecast
+    if today? || tomorrow?
+      games.each { |game| game.update_forecast }
+    end
+  end
+
   def time
     Time.new(year, month, day)
   end
