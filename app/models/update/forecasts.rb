@@ -54,7 +54,7 @@ module Update
         wind_index = wind.rindex(' ')
         wind_dir = wind[wind_index+1..-1]
         wind_speed = wind[0..wind_index-1]
-        weather = game.weathers.find_or_create_by(station: "Actual", hour: index)
+        weather = game.weathers.find_or_create_by(station: "Forecast", hour: index)
         weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed, precip: precip)
 
         start_index = start_index + 1 if start_index < hourlyweathers.size - 1
