@@ -45,10 +45,10 @@ module Update
       end
 
       (1..3).each do |index|
-        temp = hourlyweathers[start_index].children[headers['Temp.']].children[1].children[0].text.squish
-        dp = hourlyweathers[start_index].children[headers['Dew Point']].children[1].children[0].text.squish
+        temp = hourlyweathers[start_index].children[headers['Temp.']].text.squish
+        dp = hourlyweathers[start_index].children[headers['Dew Point']].text.squish
         hum = hourlyweathers[start_index].children[headers['Humidity']].text.squish
-        pressure = hourlyweathers[start_index].children[headers['Pressure']].children[1].children[0].text.squish
+        pressure = hourlyweathers[start_index].children[headers['Pressure']].text.squish
         precip = hourlyweathers[start_index].children[headers['Amount']].text.squish
         wind = hourlyweathers[start_index].children[headers['Wind']].text.squish
         wind_index = wind.rindex(' ')
