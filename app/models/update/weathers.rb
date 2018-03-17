@@ -6,7 +6,7 @@ module Update
     def update(game)
       game_day = game.game_day
       home_team = game.home_team
-      time = DateTime.parse(game.game_date).to_time
+      time = DateTime.parse(game.game_date).strftime("%I:%M%p").to_time
 
       url = get_url(home_team, game_day)
       doc = download_document(url)
