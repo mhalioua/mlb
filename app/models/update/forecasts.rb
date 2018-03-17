@@ -37,6 +37,8 @@ module Update
       hourlyweathers = doc.css("#hourly-forecast-table tbody tr")
       start_index = hourlyweathers.size - 1
       hourlyweathers.each_with_index do |weather, index|
+        puts weather.children[2].text
+        puts weather.children[3].text
         date = weather.children[1].text.to_time
         if date > time
           start_index = index
