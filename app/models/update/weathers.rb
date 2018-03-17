@@ -6,9 +6,7 @@ module Update
     def update(game)
       game_day = game.game_day
       home_team = game.home_team
-      game_date = DateTime.parse(game.game_date)
-      game_date = game_date + (game.home_team.timezone.to_i).hours
-      time = game_date.strftime("%I:%M%p").to_time
+      time = DateTime.parse(game.game_date).to_time
 
       url = get_url(home_team, game_day)
       doc = download_document(url)
@@ -49,13 +47,13 @@ module Update
       end
 
       (1..3).each do |index|
-        temp = hourlyweathers[start_index].children[headers['Temp.']].children[1].children[0].text
-        dp = hourlyweathers[start_index].children[headers['Dew Point']].children[1].children[0].text
-        hum = hourlyweathers[start_index].children[headers['Humidity']].text
-        pressure = hourlyweathers[start_index].children[headers['Pressure']].children[1].children[0].text
-        precip = hourlyweathers[start_index].children[headers['Precip']].text
-        wind_dir = hourlyweathers[start_index].children[headers['Wind Dir']].text
-        wind_speed = hourlyweathers[start_index].children[headers['Wind Speed']].text
+        temp = hourlyweathers[start_index].children[headers['Temp.']].children[1].children[0].text.squish
+        dp = hourlyweathers[start_index].children[headers['Dew Point']].children[1].children[0].text.squish
+        hum = hourlyweathers[start_index].children[headers['Humidity']].text.squish
+        pressure = hourlyweathers[start_index].children[headers['Pressure']].children[1].children[0].text.squish
+        precip = hourlyweathers[start_index].children[headers['Precip']].text.squish
+        wind_dir = hourlyweathers[start_index].children[headers['Wind Dir']].text.squish
+        wind_speed = hourlyweathers[start_index].children[headers['Wind Speed']].text.squish
         # weather = game.weathers.find_or_create_by(station: "Actual", hour: index)
         # weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed, precip: precip)
         puts index

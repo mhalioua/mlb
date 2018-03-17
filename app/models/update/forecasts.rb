@@ -6,9 +6,7 @@ module Update
     def update(game)
       game_day = game.game_day
       home_team = game.home_team
-      game_date = DateTime.parse(game.game_date)
-      game_date = game_date + (game.home_team.timezone.to_i).hours
-      time = game_date.strftime("%I:%M%p").to_time
+      time = DateTime.parse(game.game_date).to_time
 
       url = get_url(home_team, game_day)
       doc = download_document(url)
@@ -47,12 +45,12 @@ module Update
       end
 
       (1..3).each do |index|
-        temp = hourlyweathers[start_index].children[headers['Temp.']].children[1].children[0].text unless hourlyweathers[start_index].children[headers['Temp.']].children.size == 1
-        dp = hourlyweathers[start_index].children[headers['Dew Point']].children[1].children[0].text unless hourlyweathers[start_index].children[headers['Dew Point']].children.size == 1
-        hum = hourlyweathers[start_index].children[headers['Humidity']].text
-        pressure = hourlyweathers[start_index].children[headers['Pressure']].children[1].children[0].text unless hourlyweathers[start_index].children[headers['Pressure']].children.size == 1
-        precip = hourlyweathers[start_index].children[headers['Amount']].text
-        wind = hourlyweathers[start_index].children[headers['Wind']].text
+        temp = hourlyweathers[start_index].children[headers['Temp.']].children[1].children[0].text.squish
+        dp = hourlyweathers[start_index].children[headers['Dew Point']].children[1].children[0].text.squish
+        hum = hourlyweathers[start_index].children[headers['Humidity']].text.squish
+        pressure = hourlyweathers[start_index].children[headers['Pressure']].children[1].children[0].text.squish
+        precip = hourlyweathers[start_index].children[headers['Amount']].text.squish
+        wind = hourlyweathers[start_index].children[headers['Wind']].text.squish
         wind_index = wind.rindex(' ')
         wind_dir = wind[wind_index+1..-1]
         wind_speed = wind[0..wind_index-1]
