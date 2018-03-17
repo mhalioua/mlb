@@ -4,6 +4,7 @@ module Update
     include GetHtml
 
     def update(game)
+      game_day = game.game_day
       home_team = game.home_team
       game_date = DateTime.parse(game.game_date)
       game_date = game_date + (game.home_team.timezone.to_i).hours
