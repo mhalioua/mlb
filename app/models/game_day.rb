@@ -50,9 +50,7 @@ class GameDay < ApplicationRecord
   end
 
   def update_forecast
-    if today? || tomorrow?
-      games.each { |game| game.update_forecast }
-    end
+    games.each { |game| game.update_forecast }
   end
 
   def time

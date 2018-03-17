@@ -44,8 +44,7 @@ namespace :mlb do
   end
 
   task update_weather: :environment do
-    GameDay.yesterday.update_weather
-    GameDay.today.update_weather
+    [GameDay.yesterday, GameDay.today].each { |game_day| game_day.update_weather }
   end
 
   task update_forecast: :environment do
