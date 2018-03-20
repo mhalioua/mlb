@@ -36,6 +36,7 @@ module Update
 
       hourlyweathers = doc.css("#hourly-forecast-table tbody tr")
       start_index = hourlyweathers.size - 1
+      return if start_index < 0 || hourlyweathers[0].children[2].text.squish.to_time > time
       hourlyweathers.each_with_index do |weather, index|
         date = weather.children[2].text.squish.to_time
         if date > time

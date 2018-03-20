@@ -38,6 +38,7 @@ module Update
 
       hourlyweathers = doc.css(".obs-table tbody tr")
       start_index = hourlyweathers.size - 1
+      return if hourlyweathers[start_index].children[1].text.to_time < time
       hourlyweathers.each_with_index do |weather, index|
         date = weather.children[1].text.to_time
         if date > time
@@ -46,7 +47,7 @@ module Update
         end
       end
 
-      (1..3).each do |index|
+      (1..3).each do |i|
         temp = hourlyweathers[start_index].children[headers['Temp.']].text.squish
         dp = hourlyweathers[start_index].children[headers['Dew Point']].text.squish
         hum = hourlyweathers[start_index].children[headers['Humidity']].text.squish
@@ -54,7 +55,7 @@ module Update
         precip = hourlyweathers[start_index].children[headers['Precip']].text.squish
         wind_dir = hourlyweathers[start_index].children[headers['Wind Dir']].text.squish
         wind_speed = hourlyweathers[start_index].children[headers['Wind Speed']].text.squish
-        weather = game.weathers.find_or_create_by(station: "Actual", hour: index)
+        weather = game.weathers.find_or_create_by(station: "Actual", hour: i)
         weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed, precip: precip)
 
         start_index = start_index + 1 if start_index < hourlyweathers.size - 1
