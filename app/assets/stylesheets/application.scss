@@ -18,13 +18,18 @@
 
 table {
   border-collapse: collapse;
-  border: 1px solid #666666;
+  border: 1px solid #666666 !important;
   font: normal 11px verdana, arial, helvetica, sans-serif;
   color: #363636;
   background: #f6f6f6;
   text-align: center;
   float: left;
   clear: left;
+}
+
+table.table.table-bordered td, table.table.table-bordered th {
+  vertical-align: middle;
+  border: 1px solid #666666 !important;
 }
 
 caption {
