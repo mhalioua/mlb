@@ -21,7 +21,8 @@ module Update
         'Humidity' => 0,
         'Pressure' => 0,
         'Wind' => 0,
-        'Amount' => 0
+        'Amount' => 0,
+        'Feels Like' => 0
       }
 
       header.children.each_with_index do |header_element, index|
@@ -32,6 +33,7 @@ module Update
         headers[key] = index if key == 'Pressure'
         headers[key] = index if key == 'Wind'
         headers[key] = index if key == 'Amount'
+        headers[key] = index if key == 'Feels Like'
       end
 
       hourlyweathers = doc.css("#hourly-forecast-table tbody tr")
@@ -52,11 +54,12 @@ module Update
         pressure = hourlyweathers[start_index].children[headers['Pressure']].text.squish
         precip = hourlyweathers[start_index].children[headers['Amount']].text.squish
         wind = hourlyweathers[start_index].children[headers['Wind']].text.squish
+        feel = hourlyweathers[start_index].children[headers['Feels Like']].text.squish
         wind_index = wind.rindex(' ')
         wind_dir = wind[wind_index+1..-1]
         wind_speed = wind[0..wind_index-1]
         weather = game.weathers.find_or_create_by(station: "Forecast", hour: index)
-        weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed, precip: precip)
+        weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed, precip: precip, feel: feel)
 
         start_index = start_index + 1 if start_index < hourlyweathers.size - 1
       end

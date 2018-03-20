@@ -25,7 +25,7 @@
 			<%= render partial: "not_found", locals: {colspan: 8, rowspan: 1 } %>
 			<% end %>
 			<td rowspan="2" class="border"></td>
-			<% weather = nil %>
+			<% weather = game.weathers.find_by(hour: 1, station: "Forecast") %>
 			<% if weather %>
 			<%= render partial: "weather", locals: { weather: weather } %>
 			<% else %>
