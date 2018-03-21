@@ -62,34 +62,18 @@ namespace :mlb do
   task add: :environment do
     require 'csv'
 
-    filename = File.join Rails.root, 'csv' , "Workbook.csv"
+    filename = File.join Rails.root, 'csv' , "colowind.csv"
     count = 0
     CSV.foreach(filename, headers:true) do |row|
-      Workbook.create(Home_Team:row['Home_Team'], TEMP:row['TEMP'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['BARo'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'], table:"Workbook")
+      Workbook.create(Home_Team:row['Home_Team'], TEMP:row['TEMP'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['BARo'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'], table:"colowind", M:row['M'], N:row['N'])
       count = count + 1
     end
     puts count
 
-    filename = File.join Rails.root, 'csv', "colo.csv"
+    filename = File.join Rails.root, 'csv', "wind.csv"
     count = 0
     CSV.foreach(filename, headers:true) do |row|
-      Workbook.create(Home_Team:row['Home_Team'], TEMP:row['temp'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['Baro'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'], table:"colo")
-      count = count + 1
-    end
-    puts count
-
-    filename = File.join Rails.root, 'csv', "houston.csv"
-    count = 0
-    CSV.foreach(filename, headers:true) do |row|
-      Workbook.create(Home_Team:row['Home_Team'], TEMP:row['TEMP'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['BARo'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'], table:"houston")
-      count = count + 1
-    end
-    puts count
-
-    filename = File.join Rails.root, 'csv', "tampa.csv"
-    count = 0
-    CSV.foreach(filename, headers:true) do |row|
-      Workbook.create(Home_Team:row['Home_Team'], TEMP:row['TEMP'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['BARo'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'], table:"tampa")
+      Workbook.create(Home_Team:row['Home_Team'], TEMP:row['temp'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['Baro'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'], table:"wind", M:row['M'], N:row['N'])
       count = count + 1
     end
     puts count
