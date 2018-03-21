@@ -12,7 +12,7 @@ class CreateWorkbooks < ActiveRecord::Migration[5.1]
       t.float :Total_Hits
       t.float :Total_Walks
       t.float :home_runs
-      t.string :type
+      t.string :table
 
       t.timestamps
     end
