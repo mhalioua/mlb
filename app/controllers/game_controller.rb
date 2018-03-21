@@ -41,5 +41,8 @@ class GameController < ApplicationController
 
 		@away_bullpen_lancers = @game.lancers.where(team_id: @away_team.id, bullpen: true)
 		@home_bullpen_lancers = @game.lancers.where(team_id: @home_team.id, bullpen: true)
+
+		@forecasts = @game.weathers.where(station: "Forecast").order(:hour)
+		@weathers = @game.weathers.where(station: "Actual").order(:hour)
 	end
 end
