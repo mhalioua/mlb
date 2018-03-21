@@ -65,7 +65,7 @@ namespace :mlb do
     filename = File.join Rails.root, 'csv' , "Workbook.csv"
     count = 0
     CSV.foreach(filename, headers:true) do |row|
-      Workbook.create(Home_Team:row['Home_Team'], TEMP:row['TEMP'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['BARo'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'], type:'Workbook')
+      Workbook.create(Home_Team:row['Home_Team'], TEMP:row['TEMP'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['BARo'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'], type:"Workbook")
       count = count + 1
     end
     puts count
@@ -73,7 +73,7 @@ namespace :mlb do
     filename = File.join Rails.root, 'csv', "colo.csv"
     count = 0
     CSV.foreach(filename, headers:true) do |row|
-      Workbook.create(Home_Team:row['Home_Team'], TEMP:row['temp'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['Baro'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'], type:'colo')
+      Workbook.create(Home_Team:row['Home_Team'], TEMP:row['temp'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['Baro'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'], type:"colo")
       count = count + 1
     end
     puts count
@@ -81,7 +81,7 @@ namespace :mlb do
     filename = File.join Rails.root, 'csv', "houston.csv"
     count = 0
     CSV.foreach(filename, headers:true) do |row|
-      Workbook.create(Home_Team:row['Home_Team'], TEMP:row['TEMP'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['BARo'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'], type:'houston')
+      Workbook.create(Home_Team:row['Home_Team'], TEMP:row['TEMP'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['BARo'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'], type:"houston")
       count = count + 1
     end
     puts count
@@ -89,7 +89,7 @@ namespace :mlb do
     filename = File.join Rails.root, 'csv', "tampa.csv"
     count = 0
     CSV.foreach(filename, headers:true) do |row|
-      Workbook.create(Home_Team:row['Home_Team'], TEMP:row['TEMP'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['BARo'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'], type:'tampa')
+      Workbook.create(Home_Team:row['Home_Team'], TEMP:row['TEMP'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['BARo'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'], type:"tampa")
       count = count + 1
     end
     puts count
