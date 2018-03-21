@@ -60,6 +60,8 @@ namespace :mlb do
   task ten: [:create_matchups]
 
   task add: :environment do
+    require 'csv'
+
     filename = File.join Rails.root, 'csv' , "Workbook.csv"
     count = 0
     CSV.foreach(filename, headers:true) do |row|
