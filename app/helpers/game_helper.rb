@@ -114,7 +114,7 @@ module GameHelper
       search_string.push('"Home_Team" = ' + "'#{name}'")
       search_string.push('"N" >= ' + "#{filter_min}" + ' AND "N" <= ' + "#{filter_max}")
 
-      search_string_original = search_string
+      search_string_original = search_string.dup
       wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph winds", search_string, 1)
       winds.push(wind)
 
@@ -122,7 +122,7 @@ module GameHelper
       parks = ['ARI', 'ATL', 'BAL', 'BOS', 'CHC', 'CHW', 'CIN', 'CLE', 'COL', 'DET', 'HOU', 'KCR', 'LAA', 'LAD', 'MIA', 'MIL', 'MIN', 'NYM', 'NYY', 'OAK', 'PHI', 'PIT', 'SDP', 'SFG', 'SEA', 'STL', 'TEX', 'TOR', 'WSN']
 
       wind_directions.each_with_index do |direction, index|
-        search_string = search_string_original
+        search_string = search_string_original.dup
         search_string.push('"M" = ' + "'#{direction}'")
 
         additional_wind = ''
