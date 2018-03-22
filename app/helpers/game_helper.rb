@@ -110,7 +110,7 @@ module GameHelper
       search_string.push("N >= #{filter_min} AND N <= #{filter_max}")
 
       search_string_original = search_string
-      wind = get_wind('average runs in this stadium with #{filter_min}-#{filter_max}mph winds', search_string, 1)
+      wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph winds", search_string, 1)
       winds.push(wind)
 
       directions = [ 'North', 'NNE', 'NE', 'ENE', 'East', 'ESE', 'SE', 'SSE', 'South', 'SSW', 'SW', 'WSW', 'West', 'WNW', 'NW', 'NNW']
@@ -133,7 +133,7 @@ module GameHelper
           direction = 0
         end
 
-        wind = get_wind('average runs in this stadium with #{filter_min}-#{filter_max}mph, going #{wind_directions[index]} (#{additional_wind})', search_string, direction)
+        wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph, going #{wind_directions[index]} (#{additional_wind})", search_string, direction)
         winds.push(wind)
       end
     else
