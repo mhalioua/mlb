@@ -42,11 +42,11 @@ module GameHelper
       search_string.push('"table" = ' + "'wind'")
     end
 
-    search_string.push("Home_Team = '#{name}'")
+    search_string.push('"Home_Team" = ' + "'#{name}'")
     wind = get_wind('average runs in this stadium', search_string, 0)
     winds.push(wind)
 
-    search_string.push("N >= 0 AND N <= 5")
+    search_string.push('"N" >= 0 AND "N" <= 5')
     wind = get_wind('average runs in this stadium with 0-5mph winds', search_string, 0)
     winds.push(wind)
 
@@ -111,8 +111,8 @@ module GameHelper
       else
         search_string.push('"table" = ' + "'wind'")
       end
-      search_string.push("Home_Team = '#{name}'")
-      search_string.push("N >= #{filter_min} AND N <= #{filter_max}")
+      search_string.push('"Home_Team" = ' + "'#{name}'")
+      search_string.push('"N" >= ' + "#{filter_min}" + ' AND "N" <= ' + "#{filter_max}")
 
       search_string_original = search_string
       wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph winds", search_string, 1)
