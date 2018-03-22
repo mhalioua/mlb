@@ -37,9 +37,9 @@ module GameHelper
     search_string = []
     winds = []
     if name == 'Rockies'
-      search_string.push("table = 'colowind'")
+      search_string.push('"table" = ' + "'colowind'")
     else
-      search_string.push("table = 'wind'")
+      search_string.push('"table" = ' + "'wind'")
     end
 
     search_string.push("Home_Team = '#{name}'")
@@ -106,6 +106,11 @@ module GameHelper
       currect_directions = currect_directions.uniq
 
       search_string = []
+      if name == 'Rockies'
+        search_string.push('"table" = ' + "'colowind'")
+      else
+        search_string.push('"table" = ' + "'wind'")
+      end
       search_string.push("Home_Team = '#{name}'")
       search_string.push("N >= #{filter_min} AND N <= #{filter_max}")
 
