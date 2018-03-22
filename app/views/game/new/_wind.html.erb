@@ -11,24 +11,22 @@
   	</tr>
   </thead>
   <tbody>
-    <% if weathers[2].temp_num != 0.0 %>
-      <% winds = wind_data(name, weathers[0].wind, weathers[1].wind, weathers[2].wind) %>
-      <% winds.each do |wind| %>
-        <% if wind[6].to_i == 1 %>
-        <tr bgcolor="#DC143C">
-        <% elsif wind[6].to_i == 0 %>
-        <tr>
-        <% else %>
-        <tr style="display:none" class="wind">
-        <% end %>
-          <td> <%= wind[0] %> </td>
-          <td> <%= wind[1] %> </td>
-          <td> <%= wind[2] %> </td>
-          <td> <%= wind[3] %> </td>
-          <td> <%= wind[4] %> </td>
-          <td> <%= wind[5] %> </td>
-        </tr>
+    <% winds = wind_data(name, weathers[0].wind, weathers[1].wind, weathers[2].wind) %>
+    <% winds.each do |wind| %>
+      <% if wind[6].to_i == 1 %>
+      <tr bgcolor="#DC143C">
+      <% elsif wind[6].to_i == 0 %>
+      <tr>
+      <% else %>
+      <tr style="display:none" class="wind">
       <% end %>
+        <td> <%= wind[0] %> </td>
+        <td> <%= wind[1] %> </td>
+        <td> <%= wind[2] %> </td>
+        <td> <%= wind[3] %> </td>
+        <td> <%= wind[4] %> </td>
+        <td> <%= wind[5] %> </td>
+      </tr>
     <% end %>
   </tbody>
 </table>
