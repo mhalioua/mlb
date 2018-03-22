@@ -123,7 +123,7 @@ module GameHelper
 
       wind_directions.each_with_index do |direction, index|
         search_string = search_string_original
-        search_string.push("M = '#{wind_directions[index]}'")
+        search_string.push('"M" = ' + "'#{wind_directions[index]}'")
 
         additional_wind = ''
         team = Team.find_by(name: name)
