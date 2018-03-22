@@ -123,22 +123,22 @@ module GameHelper
 
       wind_directions.each_with_index do |direction, index|
         search_string = search_string_original
-        search_string.push('"M" = ' + "'#{wind_directions[index]}'")
+        search_string.push('"M" = ' + "'#{direction}'")
 
         additional_wind = ''
         team = Team.find_by(name: name)
-        if directions.include?(wind_directions[index]) && parks.include?(team.espn_abbr)
-          additional_wind =  @@re[team.espn_abbr][wind_directions[index]]
+        if directions.include?(direction) && parks.include?(team.espn_abbr)
+          additional_wind =  @@re[team.espn_abbr][direction]
         end
 
-        direction = 2
+        flag = 2
         if real_directions.include?(index)
-          direction = 1
+          flag = 1
         elsif currect_directions.include?(index)
-          direction = 0
+          flag = 0
         end
 
-        wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph, going #{wind_directions[index]} (#{additional_wind})", search_string, direction)
+        wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph, going #{direction} (#{additional_wind})", search_string, flag)
         winds.push(wind)
       end
     else
