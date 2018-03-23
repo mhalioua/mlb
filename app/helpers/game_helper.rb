@@ -144,8 +144,8 @@ module GameHelper
 
         additional_wind = ''
         team = Team.find_by(name: name)
-        if directions.include?(direction) && parks.include?(team.espn_abbr)
-          additional_wind =  @@re[team.espn_abbr][direction]
+        if directions.include?(direction) && parks.include?(team.baseball_abbr)
+          additional_wind =  @@re[team.baseball_abbr][direction]
         end
 
         flag = 2
