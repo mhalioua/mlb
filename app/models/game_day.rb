@@ -62,4 +62,8 @@ class GameDay < ApplicationRecord
     prev_date = date.prev_day(num_days)
     GameDay.find_by_date(prev_date)
   end
+
+  def date_string
+    "#{year}/#{month}/#{day}"
+  end
 end

@@ -18,7 +18,7 @@
 	</div>
 	<%= render partial: "game/new/wind", locals: { caption: "Forecast Wind", weathers: @forecasts, name: @home_team.name } %>
 	<%= render partial: "game/new/wind", locals: { caption: "Weather Wind", weathers: @weathers, name: @home_team.name } %>
-	
+
 	<%= render partial: "game/new/weather", locals: { caption: "Wunderground Weather Forecast", weathers: @forecasts, name: @home_team.name } %>
 	<%= render partial: "game/new/weather", locals: { caption: "Wunderground Weather Records", weathers: @weathers, name: @home_team.name } %>
 
@@ -29,4 +29,11 @@
 
 	<%= render partial: "game/new/bullpen", locals: { caption: "#{@away_team.name} Bullpen", lancers: @away_bullpen_lancers }%>
 	<%= render partial: "game/new/bullpen", locals: { caption: "#{@home_team.name} Bullpen", lancers: @home_bullpen_lancers }%>
+
+	<% unless @away_starting_lancer.empty? %>
+		<%= render partial: "game/new/previous_pitcher_table", locals: { pitcher: @away_starting_lancer.first } %>
+	<% end %>
+	<% unless @home_starting_lancer.empty? %>
+		<%= render partial: "game/new/previous_pitcher_table", locals: { pitcher: @home_starting_lancer.first } %>
+	<% end %>
 </div>

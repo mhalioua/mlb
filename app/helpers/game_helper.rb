@@ -1,4 +1,17 @@
 module GameHelper
+
+  def add_innings(ip_array)
+    sum = 0
+    decimal = 0
+    ip_array.each do |i|
+      decimal += (i.to_f - i.to_i)
+      sum += i.to_i
+    end
+    thirds = (decimal*10).to_i
+    sum += thirds/3
+    return sum += (thirds%3).to_f/10
+  end
+
   def weather_time(game_date, hour)
     (DateTime.parse(game_date) + (hour - 1).hours).strftime("%I:%M%p")
   end
@@ -238,6 +251,17 @@ module GameHelper
     result[:home_one_count] = query.count(:R)
     
     return result
+  end
+
+  def d2_calc(park, direction)
+    directions = [ 'North', 'NNE', 'NE', 'ENE', 'East', 'ESE', 'SE', 'SSE', 'South', 'SSW', 'SW', 'WSW', 'West', 'WNW', 'NW', 'NNW']
+    parks = ['ARI', 'ATL', 'BAL', 'BOS', 'CHC', 'CHW', 'CIN', 'CLE', 'COL', 'DET', 'HOU', 'KCR', 'LAA', 'LAD', 'MIA', 'MIL', 'MIN', 'NYM', 'NYY', 'OAK', 'PHI', 'PIT', 'SDP', 'SFG', 'SEA', 'STL', 'TEX', 'TOR', 'WSN']
+    
+    if directions.include?(direction) && parks.include?(park)
+      return @@re[park][direction]
+    else
+      return ''
+    end
   end
 
   @@re = Hash[
