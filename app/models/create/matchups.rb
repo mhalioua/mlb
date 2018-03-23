@@ -52,6 +52,8 @@ module Create
 
           away_team = Team.find_by_espn_abbr(away_abbr)
           home_team = Team.find_by_espn_abbr(home_abbr)
+          next unless away_team
+          next unless home_team
 
           url = "http://www.espn.com/mlb/game?gameId=#{game_id}"
           doc = download_document(url)
