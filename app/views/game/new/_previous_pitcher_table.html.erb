@@ -82,10 +82,10 @@
 	  <td bgcolor="#DC143C">Totals</td>
 	  <td></td>
 	  <td></td>
-	  <td bgcolor="#DC143C"></td>
-	  <td bgcolor="#DC143C"></td>
-	  <td bgcolor="#DC143C"></td>
-	  <td bgcolor="#DC143C"></td>
+	  <td bgcolor="#DC143C"><%= add_innings(prev_pitchers.limit(50).map {|pitcher| pitcher.ip }) %></td>
+	  <td bgcolor="#DC143C"><%= prev_pitchers.limit(50).map {|pitcher| pitcher.bb.to_i }.sum %></td>
+	  <td bgcolor="#DC143C"><%= prev_pitchers.limit(50).map {|pitcher| pitcher.h.to_i }.sum %></td>
+	  <td bgcolor="#DC143C"><%= prev_pitchers.limit(50).map {|pitcher| pitcher.r.to_i }.sum %></td>
 	  <td colspan="26"></td>
 	</tr>
   </tbody>
