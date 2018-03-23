@@ -1,4 +1,4 @@
-<table class="previous">
+<table class="table table-bordered previous">
   <caption><%= "#{pitcher.name} Previous Games"%></caption>
   <thead>
 	<tr>
@@ -40,9 +40,9 @@
 	  		<% if weather %>
 	  		<td><%= weather.temp %></td>
 	  		<td><%= weather.dp %></td>
-	  		<td><%= weather.speed %></td>
-	  		<td><%= weather.dir %></td>
-	  		<td><%= d2_calc(pitcher.game.home_team.baseball_abbr, weather.dir) %></td>
+	  		<td><%= weather.wind_speed %></td>
+	  		<td><%= weather.wind_dir %></td>
+	  		<td><%= d2_calc(pitcher.game.home_team.baseball_abbr, weather.wind_dir) %></td>
 	  		<td><%= weather.pressure %></td>
 	  		<td><%= weather.hum %></td>
 	  		<td style="background-color: red;"><%= pitcher.game.home_team.baseball_abbr %></td>
