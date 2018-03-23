@@ -25,40 +25,37 @@
 	</tr>
   </thead>
   <tbody>
-  	<% prev_pitchers = pitcher.prev_pitchers %>
-  	<% prev_pitchers.limit(50).each_with_index do |pitcher, index| %>
-	  	<tr>
-	  		<td><%= index+1 %></td>
-	  		<td><%= pitcher.game.game_day.date_string %></td>
-	  		<td><%= DateTime.parse(pitcher.game.game_date).strftime("%I:%M%p") %></td>
-	  		<td><%= pitcher.opp_team.baseball_abbr if pitcher.opp_team %></td>
-	  		<td><%= pitcher.ip %></td>
-	  		<td><%= pitcher.bb %></td>
-	  		<td><%= pitcher.h %></td>
-	  		<td><%= pitcher.r %></td>
-	  		<% weather = pitcher.game.weathers.find_by(hour: 1, station: "Actual") %>
-	  		<% if weather %>
-	  		<td><%= weather.temp %></td>
-	  		<td><%= weather.dp %></td>
-	  		<td><%= weather.wind_speed %></td>
-	  		<td><%= weather.wind_dir %></td>
-	  		<td><%= d2_calc(pitcher.game.home_team.baseball_abbr, weather.wind_dir) %></td>
-	  		<td><%= weather.pressure %></td>
-	  		<td><%= weather.hum %></td>
-	  		<td style="background-color: red;"><%= pitcher.game.home_team.baseball_abbr %></td>
-	  		<%
-	  		humid_max = weather.humid_num + 3
-	  		humid_min = weather.humid_num - 3
-	  		index = pitcher.game.time.index(":")
-	  		game_hour = index ? pitcher.game.time[0...index].to_i : 0
-    	  	period = pitcher.game.time[-2..-1]
-	  		if period == "PM" && game_hour > 6
-	  			humid_min = humid_min + 2
-	  			humid_max = humid_max + 2
-	  		end
-	  		result = true_data(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, humid_min, humid_max, weather.pressure_num-0.04, weather.pressure_num+0.04, pitcher.game.home_team.name) 
-	  		%>
-	  		<td class="blue"><%= result[:count] %></td>
+	<% prev_pitchers = pitcher.prev_pitchers %>
+	<% prev_pitchers.limit(50).each_with_index do |pitcher, index| %>
+		<tr>
+			<td><%= index+1 %></td>
+			<td><%= pitcher.game.game_day.date_string %></td>
+			<td><%= DateTime.parse(pitcher.game.game_date).strftime("%I:%M%p") %></td>
+			<td><%= pitcher.opp_team.baseball_abbr if pitcher.opp_team %></td>
+			<td><%= pitcher.ip %></td>
+			<td><%= pitcher.bb %></td>
+			<td><%= pitcher.h %></td>
+			<td><%= pitcher.r %></td>
+			<% weather = pitcher.game.weathers.find_by(hour: 1, station: "Actual") %>
+			<% if weather %>
+			<td><%= weather.temp %></td>
+			<td><%= weather.dp %></td>
+			<td><%= weather.wind_speed %></td>
+			<td><%= weather.wind_dir %></td>
+			<td><%= d2_calc(pitcher.game.home_team.baseball_abbr, weather.wind_dir) %></td>
+			<td><%= weather.pressure %></td>
+			<td><%= weather.hum %></td>
+			<td style="background-color: red;"><%= pitcher.game.home_team.baseball_abbr %></td>
+			<%
+			humid_max = weather.humid_num + 3
+			humid_min = weather.humid_num - 3
+			if DateTime.parse(pitcher.game.game_date).hour > 18
+				humid_min = humid_min + 2
+				humid_max = humid_max + 2
+			end
+			result = true_data(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, humid_min, humid_max, weather.pressure_num-0.04, weather.pressure_num+0.04, pitcher.game.home_team.name) 
+			%>
+			<td class="blue"><%= result[:count] %></td>
 			<td style="background-color: royalblue;"><%= result[:total_runs1_avg] %></td>
 			<td style="background-color: royalblue;"><%= result[:total_runs2_avg] %></td>
 			<td class="blue"><%= result[:total_hits_avg] %></td>
@@ -77,19 +74,19 @@
 			<td> <%= opposite.bb %> </td>
 			<td> <%= opposite.h %> </td>
 			<td> <%= opposite.r %> </td>
-	  		<% end %>
-	  	</tr>
-  	<% end %>
-  	<tr>
-  	  <td></td>
-  	  <td bgcolor="#DC143C">Totals</td>
-  	  <td></td>
-  	  <td></td>
-  	  <td bgcolor="#DC143C"><%= add_innings(prev_pitchers.limit(50).map {|pitcher| pitcher.ip }) %></td>
-  	  <td bgcolor="#DC143C"><%= prev_pitchers.limit(50).map {|pitcher| pitcher.bb }.sum %></td>
-  	  <td bgcolor="#DC143C"><%= prev_pitchers.limit(50).map {|pitcher| pitcher.h }.sum %></td>
-  	  <td bgcolor="#DC143C"><%= prev_pitchers.limit(50).map {|pitcher| pitcher.r }.sum %></td>
-  	  <td colspan="26"></td>
-  	</tr>
+			<% end %>
+		</tr>
+	<% end %>
+	<tr>
+	  <td></td>
+	  <td bgcolor="#DC143C">Totals</td>
+	  <td></td>
+	  <td></td>
+	  <td bgcolor="#DC143C"><%= add_innings(prev_pitchers.limit(50).map {|pitcher| pitcher.ip }) %></td>
+	  <td bgcolor="#DC143C"><%= prev_pitchers.limit(50).map {|pitcher| pitcher.bb }.sum %></td>
+	  <td bgcolor="#DC143C"><%= prev_pitchers.limit(50).map {|pitcher| pitcher.h }.sum %></td>
+	  <td bgcolor="#DC143C"><%= prev_pitchers.limit(50).map {|pitcher| pitcher.r }.sum %></td>
+	  <td colspan="26"></td>
+	</tr>
   </tbody>
 </table>
