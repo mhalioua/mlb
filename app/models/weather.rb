@@ -13,7 +13,7 @@ class Weather < ApplicationRecord
 
   def humid_num
     return 0.0 if hum.size < 2
-    hum[0..1].to_f
+    hum[0..1].to_i
   end
 
   def pressure_num
