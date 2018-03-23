@@ -1,0 +1,478 @@
+<table class="weather">
+  <caption><%= caption %></caption>
+  <thead>
+  	<tr bgcolor="gray">
+  	  <th width="50">Time</th>
+  	  <th width="80">Temperature</th>
+      <th width="50">Dew</th>
+      <th width="60">Humidity</th>
+      <th width="60">Pressure</th>
+  	  <th width="60">Wind</th>
+      <th width="10" class="blue"></th>
+      <th width="50">Total Average 1</th>
+      <th width="50">Total Average 2</th>
+      <th width="50">Total Hits Average</th>
+      <th width="50">Home Runs Average</th>
+      <th width="50">Total Count</th>
+      <th width="10" class="blue"></th>
+      <th width="50">+/-1</th>
+      <th width="50">Total Count +/-1</th>
+      <th width="10" class="blue"></th>
+      <th width="50">Home Team Total 1</th>
+      <th width="50">Home Team Total 2</th>
+      <th width="50">Home Total Count</th>
+      <th width="50">Home +/- 1</th>
+      <th width="50">Home Total Count +/- 1</th>
+  	</tr>
+  </thead>
+  <tbody>
+    <% if weathers[2].temp_num != 0.0 %>
+      <tr bgcolor="#DC143C">
+        <td></td>
+        <td colspan="5"><%= caption %></td>
+        <td class="blue"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="blue"></td>
+        <td></td>
+        <td></td>
+        <td class="blue"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <% weathers.each do |weather| %>
+      	<tr>
+      		<td class="lightgray"><%= weather_time(weather.game.game_date, weather.hour) %></td>
+          <td><%= weather.temp %></td>
+          <td><%= weather.dew %></td>
+          <td><%= weather.humidity %></td>
+          <td><%= weather.pressure %></td>
+          <td><%= weather.wind %></td>
+          <% result = true_data(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, weather.humid_num-3, weather.humid_num+3, weather.pressure_num-0.04, weather.pressure_num+0.04, name) %>
+          <td class="blue"></td>
+          <td><%= result[:total_avg_1] %></td>
+          <td><%= result[:total_avg_2] %></td>
+          <td><%= result[:total_hits_avg] %></td>
+          <td><%= result[:home_runs_avg] %></td>
+          <td><%= result[:total_count] %></td>
+          <td class="blue"></td>
+          <td><%= result[:lower_one] %></td>
+          <td><%= result[:lower_one_count] %></td>
+          <td class="blue"></td>
+          <td><%= result[:home_total_runs1_avg] %></td>
+          <td><%= result[:home_total_runs2_avg] %></td>
+          <td><%= result[:home_count] %></td>
+          <td><%= result[:home_one] %></td>
+          <td><%= result[:home_one_count] %></td>
+      	</tr>
+      <% end %>
+
+      <tr bgcolor="#DC143C">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="blue"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="blue"></td>
+        <td></td>
+        <td></td>
+        <td class="blue"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <% weathers.each_with_index do |weather, index| %>
+        <tr>
+          <td class="lightgray"><%= index + 1 %> hour</td>
+          <td><%= "#{weather.temp_num-4}-#{weather.temp_num+4}" %></td>
+          <td><%= "#{weather.dew_num-2}-#{weather.dew_num+2}" %> <%= "#{weather.dew_num-1}-#{weather.dew_num+1}" %></td>
+          <td><%= "#{weather.humid_num-3}-#{weather.humid_num+3}" %></td>
+          <td><%= "#{((weather.pressure_num-0.04)*100).round%100}-#{((weather.pressure_num+0.04)*100).round%100}" %></td>
+          <td><%= weather.wind %></td>
+          <% result = true_data(weather.temp_num - 4, weather.temp_num + 4, weather.dew_num-2, weather.dew_num+2, weather.humid_num-3, weather.humid_num+3, weather.pressure_num-0.04, weather.pressure_num+0.04, name) %>
+          <td class="blue"></td>
+          <td><%= result[:total_avg_1] %></td>
+          <td><%= result[:total_avg_2] %></td>
+          <td><%= result[:total_hits_avg] %></td>
+          <td><%= result[:home_runs_avg] %></td>
+          <td><%= result[:total_count] %></td>
+          <td class="blue"></td>
+          <td><%= result[:lower_one] %></td>
+          <td><%= result[:lower_one_count] %></td>
+          <td class="blue"></td>
+          <td><%= result[:home_total_runs1_avg] %></td>
+          <td><%= result[:home_total_runs2_avg] %></td>
+          <td><%= result[:home_count] %></td>
+          <td><%= result[:home_one] %></td>
+          <td><%= result[:home_one_count] %></td>
+        </tr>
+      <% end %>
+
+      <tr bgcolor="#DC143C">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="blue"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="blue"></td>
+        <td></td>
+        <td></td>
+        <td class="blue"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <tr bgcolor="#6495ED">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="blue"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="blue"></td>
+        <td></td>
+        <td></td>
+        <td class="blue"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <tr bgcolor="#DC143C">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="blue"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="blue"></td>
+        <td></td>
+        <td></td>
+        <td class="blue"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <% weather_one = weathers[0] %>
+      <% weather_two = weathers[1] %>
+
+      <%
+        min = 0
+        middle = 1
+        max = 2
+        if weathers[min].humid_num > weathers[middle].humid_num
+          index_temp = min
+          min = middle
+          middle = index_temp
+        end
+
+        if weathers[min].humid_num > weathers[max].humid_num
+          index_temp = min
+          min = max
+          max = index_temp
+        end
+
+        if weathers[middle].humid_num > weathers[max].humid_num
+          index_temp = middle
+          middle = max
+          max = index_temp
+        end
+      %>
+
+      <% slogan = "1-2 hour" %>
+
+      <% (0..1).each do |one_sec| %>
+
+        <% temp = ((weather_one.temp_num + weather_two.temp_num)/2) %>
+        <% dew = ((weather_one.dew_num + weather_two.dew_num + 1)/2) %>
+        <%
+          hum_one = weather_one.humid_num
+          hum_two = weather_two.humid_num
+        %>
+        <% pressure = (((weather_one.pressure_num) *100).round + ((weather_two.pressure_num) *100).round)/2 %>
+
+        <% next if weather_one.temp_num == 0.0 %>
+        <% next if weather_two.temp_num == 0.0 %>
+      
+        <% if slogan == "1-2 hour" %>
+          <% 
+            if min > max
+              hum_min = weathers[max].humid_num + 1
+              hum_max = weathers[max].humid_num + 6
+            else
+              hum_min = weathers[min].humid_num - 6
+              hum_max = weathers[min].humid_num - 1
+            end
+            result = true_data(temp-4, temp+4, dew-2, dew+2, hum_min, hum_max, (pressure-4)/100.0, (pressure+4)/100.0, name) 
+          %>
+          <tr bgcolor="gray">
+            <td class="lightgray">Before</td>
+            <td><%= "#{temp-4}-#{temp+4}" %></td>
+            <td><%= "#{dew-2}-#{dew+2}" %> <%= "#{dew-1}-#{dew+1}" %></td>
+            <td><%= "#{hum_min}-#{hum_max}" %></td>
+            <td><%= "#{(pressure-4)%100}-#{(pressure+4)%100}" %></td>
+            <td></td>
+            <td class="blue"></td>
+            <td><%= result[:total_avg_1] %></td>
+            <td><%= result[:total_avg_2] %></td>
+            <td><%= result[:total_hits_avg] %></td>
+            <td><%= result[:home_runs_avg] %></td>
+            <td><%= result[:total_count] %></td>
+            <td class="blue"></td>
+            <td><%= result[:lower_one] %></td>
+            <td><%= result[:lower_one_count] %></td>
+            <td class="blue"></td>
+            <td><%= result[:home_total_runs1_avg] %></td>
+            <td><%= result[:home_total_runs2_avg] %></td>
+            <td><%= result[:home_count] %></td>
+            <td><%= result[:home_one] %></td>
+            <td><%= result[:home_one_count] %></td>
+          </tr>
+        <% end %>
+
+
+        <% if slogan == "2-3 hour" %>
+          <% 
+            if min < max
+              hum_min = weathers[max].humid_num + 1
+              hum_max = weathers[max].humid_num + 6
+            else
+              hum_min = weathers[min].humid_num - 6
+              hum_max = weathers[min].humid_num - 1
+            end
+            result = true_data(temp-4, temp+4, dew-2, dew+2, hum_min, hum_max, (pressure-4)/100.0, (pressure+4)/100.0, name) 
+          %>
+          <tr bgcolor="gray">
+            <td class="lightgray">After</td>
+            <td><%= "#{temp-4}-#{temp+4}" %></td>
+            <td><%= "#{dew-2}-#{dew+2}" %> <%= "#{dew-1}-#{dew+1}" %></td>
+            <td><%= "#{hum_min}-#{hum_max}" %></td>
+            <td><%= "#{(pressure-4)%100}-#{(pressure+4)%100}" %></td>
+            <td></td>
+            <td class="blue"></td>
+            <td><%= result[:total_avg_1] %></td>
+            <td><%= result[:total_avg_2] %></td>
+            <td><%= result[:total_hits_avg] %></td>
+            <td><%= result[:home_runs_avg] %></td>
+            <td><%= result[:total_count] %></td>
+            <td class="blue"></td>
+            <td><%= result[:lower_one] %></td>
+            <td><%= result[:lower_one_count] %></td>
+            <td class="blue"></td>
+            <td><%= result[:home_total_runs1_avg] %></td>
+            <td><%= result[:home_total_runs2_avg] %></td>
+            <td><%= result[:home_count] %></td>
+            <td><%= result[:home_one] %></td>
+            <td><%= result[:home_one_count] %></td>
+          </tr>
+        <% end %>
+
+        <%
+        if hum_one > hum_two
+          hum_temp = hum_one
+          hum_one = hum_two
+          hum_two = hum_temp
+        end
+        %>
+
+        <tr>
+          <td class="lightgray"><%= slogan %></td>
+          <td><%= "#{temp-4}-#{temp+4}" %></td>
+          <td><%= "#{dew-2}-#{dew+2}" %> <%= "#{dew-1}-#{dew+1}" %></td>
+          <td><%= "#{hum_one}-#{hum_two}" %></td>
+          <td><%= "#{(pressure-4)%100}-#{(pressure+4)%100}" %></td>
+          <td></td>
+          <% result = true_data(temp-4, temp+4, dew-2, dew+2, hum_one, hum_two, (pressure-4)/100.0, (pressure+4)/100.0, name) %>
+          <td class="blue"></td>
+          <td><%= result[:total_avg_1] %></td>
+          <td><%= result[:total_avg_2] %></td>
+          <td><%= result[:total_hits_avg] %></td>
+          <td><%= result[:home_runs_avg] %></td>
+          <td><%= result[:total_count] %></td>
+          <td class="blue"></td>
+          <td><%= result[:lower_one] %></td>
+          <td><%= result[:lower_one_count] %></td>
+          <td class="blue"></td>
+          <td><%= result[:home_total_runs1_avg] %></td>
+          <td><%= result[:home_total_runs2_avg] %></td>
+          <td><%= result[:home_count] %></td>
+          <td><%= result[:home_one] %></td>
+          <td><%= result[:home_one_count] %></td>
+        </tr>
+
+        <tr bgcolor="#6495ED">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="blue"></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="blue"></td>
+          <td></td>
+          <td></td>
+          <td class="blue"></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+        <% (hum_one..hum_two).each do |hum_each| %>
+          <tr>
+            <td class="lightgray"><%= slogan %></td>
+            <td><%= "#{temp-4}-#{temp+4}" %></td>
+            <td><%= "#{dew-2}-#{dew+2}" %> <%= "#{dew-1}-#{dew+1}" %></td>
+            <td><%= "#{hum_each}" %></td>
+            <td><%= "#{(pressure-4)%100}-#{(pressure+4)%100}" %></td>
+            <td></td>
+            <% result = true_data(temp-4, temp+4, dew-2, dew+2, hum_each, hum_each, (pressure-4)/100.0, (pressure+4)/100.0, name) %>
+            <td class="blue"></td>
+            <td><%= result[:total_avg_1] %></td>
+            <td><%= result[:total_avg_2] %></td>
+            <td><%= result[:total_hits_avg] %></td>
+            <td><%= result[:home_runs_avg] %></td>
+            <td><%= result[:total_count] %></td>
+            <td class="blue"></td>
+            <td><%= result[:lower_one] %></td>
+            <td><%= result[:lower_one_count] %></td>
+            <td class="blue"></td>
+            <td><%= result[:home_total_runs1_avg] %></td>
+            <td><%= result[:home_total_runs2_avg] %></td>
+            <td><%= result[:home_count] %></td>
+            <td><%= result[:home_one] %></td>
+            <td><%= result[:home_one_count] %></td>
+          </tr>
+        <% end %>
+        <% 
+          weather_one = weathers[1]
+          weather_two = weathers[2]
+        %>
+
+        <tr bgcolor="#DC143C">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="blue"></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="blue"></td>
+          <td></td>
+          <td></td>
+          <td class="blue"></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+        <tr bgcolor="#6495ED">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="blue"></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="blue"></td>
+          <td></td>
+          <td></td>
+          <td class="blue"></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+        <tr bgcolor="#DC143C">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="blue"></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="blue"></td>
+          <td></td>
+          <td></td>
+          <td class="blue"></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+        <% slogan="2-3 hour" %>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

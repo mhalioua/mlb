@@ -18,6 +18,9 @@
 	</div>
 	<%= render partial: "game/new/wind", locals: { caption: "Forecast Wind", weathers: @forecasts, name: @home_team.name } %>
 	<%= render partial: "game/new/wind", locals: { caption: "Weather Wind", weathers: @weathers, name: @home_team.name } %>
+	
+	<%= render partial: "game/new/weather", locals: { caption: "Wunderground Weather Forecast", weathers: @forecasts, name: @home_team.name } %>
+	<%= render partial: "game/new/weather", locals: { caption: "Wunderground Weather Records", weathers: @weathers, name: @home_team.name } %>
 
 	<%= render partial: "game/new/pitcher", locals: { caption: "Starting Pitchers", lancers: @away_starting_lancer + @home_starting_lancer  } %>
 

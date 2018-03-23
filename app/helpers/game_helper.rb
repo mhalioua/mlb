@@ -1,4 +1,8 @@
 module GameHelper
+  def weather_time(game_date, hour)
+    (DateTime.parse(game.game_date) + (hour - 1).hours).strftime("%I:%M%p")
+  end
+
   def batter_class(predicted)
     if predicted
       "predicted batter"
@@ -173,6 +177,67 @@ module GameHelper
       query.average(:home_runs).to_f.round(2),
       flag
     ]
+  end
+
+  def table_type(name)
+    search_string = []
+    search_string.push('"type" = ' + "'houston'") if name == 'Astros'
+    search_string.push('"type" = ' + "'tampa'") if name == 'Rays'
+    search_string.push('"type" = ' + "'colo'") if name == 'Rockies'
+    return search_string
+  end
+
+  def true_data(temp_min, temp_max, dew_min, dew_max, humid_min, humid_max, baro_min, baro_max, name)
+    search_string = table_type(name)
+    search_string_low = table_type(name)
+    result = {}
+    if temp_max != -1
+      search_string.push('"TEMP" >= ' + "'#{temp_min}'" + ' AND "TEMP" <= ' + "'#{temp_max}'")
+      search_string_low.push('"TEMP" >= ' + "'#{temp_min}'" + ' AND "TEMP" <= ' + "'#{temp_max}'")
+    end
+    if dew_max != -1
+      search_string.push('"DP" >= ' + "'#{dew_min}'" + ' AND "DP" <= ' + "'#{dew_max}'")
+      search_string_low.push('"DP" >= ' + "'#{dew_min + 1}'" + ' AND "DP" <= ' + "'#{dew_max - 1}'")
+    end
+    if humid_max != -1
+      search_string.push('"HUMID" >= ' + "'#{humid_min}'" + ' AND "HUMID" <= ' + "'#{humid_max}'")
+      search_string_low.push('"HUMID" >= ' + "'#{humid_min}'" + ' AND "HUMID" <= ' + "'#{humid_max}'")
+    end
+    if baro_max != -1
+      search_string.push('"BARo" >= ' + "'#{baro_min}'" + ' AND "BARo" <= ' + "'#{baro_max}'")
+      search_string_low.push('"BARo" >= ' + "'#{baro_min}'" + ' AND "BARo" <= ' + "'#{baro_max}'")
+    end
+
+    query = Workbook.where(search_string.join(" AND "))
+
+    result[:total_count] = query.count(:R)
+    result[:total_avg_1] = query.average(:R).to_f.round(2)
+    result[:total_avg_2] = query.average(:Total_Hits).to_f.round(2)
+    result[:total_hits_avg] = query.average(:Total_Walks).to_f.round(2)
+    result[:home_runs_avg] = query.average(:home_runs).to_f.round(2)
+
+    query = Workbook.where(search_string_low.join(" AND "))
+
+    result[:lower_one] = query.average(:R).to_f.round(2)
+    result[:lower_one_count] = query.count(:R)
+
+    if name != ""
+      search_string.push('"Home_Team" = ' + "'#{name}'")
+      search_string_low.push('"Home_Team" = ' + "'#{name}'")
+    end
+
+    query = Workbook.where(search_string.join(" AND "))
+
+    result[:home_total_runs1_avg] = query.average(:R).to_f.round(2)
+    result[:home_total_runs2_avg] = query.average(:Total_Hits).to_f.round(2)
+    result[:home_count] = query.count(:R)
+
+    query = Workbook.where(search_string_low.join(" AND "))
+
+    result[:home_one] = query.average(:R).to_f.round(2)
+    result[:home_one_count] = query.count(:R)
+    
+    return result
   end
 
   @@re = Hash[
