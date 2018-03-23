@@ -55,13 +55,13 @@
 			end
 			result = true_data(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, humid_min, humid_max, weather.pressure_num-0.04, weather.pressure_num+0.04, pitcher.game.home_team.name) 
 			%>
-			<td class="blue"><%= result[:count] %></td>
-			<td style="background-color: royalblue;"><%= result[:total_runs1_avg] %></td>
-			<td style="background-color: royalblue;"><%= result[:total_runs2_avg] %></td>
+			<td class="blue"><%= result[:total_count] %></td>
+			<td style="background-color: royalblue;"><%= result[:total_avg_1] %></td>
+			<td style="background-color: royalblue;"><%= result[:total_avg_2] %></td>
 			<td class="blue"><%= result[:total_hits_avg] %></td>
 			<td class="blue"><%= result[:home_runs_avg] %></td>
-			<td style="background-color: royalblue;"><%= result[:one] %></td>
-			<td class="blue"><%= result[:one_count] %></td>
+			<td style="background-color: royalblue;"><%= result[:lower_one] %></td>
+			<td class="blue"><%= result[:lower_one_count] %></td>
 			<% opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id) %>
 			<td style="background-color: red;"></td>
 			<td class="blue"> <%= result[:home_total_runs1_avg] %> </td>
