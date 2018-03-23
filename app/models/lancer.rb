@@ -149,4 +149,12 @@ class Lancer < ApplicationRecord
     lancer = Lancer.find_by(player: player, game: games)
     lancer ? lancer.pitches : 0
   end
+
+  def prev_pitchers
+    Lancer.includes(game: :game_day)
+    .where.not(game: nil)
+    .where(player: player, starter: true)
+    .where("game_days.date < ?", game.game_day.date)
+    .order("game_days.date DESC")
+  end
 end
