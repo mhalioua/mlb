@@ -1,6 +1,6 @@
 module GameHelper
   def weather_time(game_date, hour)
-    (DateTime.parse(game.game_date) + (hour - 1).hours).strftime("%I:%M%p")
+    (DateTime.parse(game_date) + (hour - 1).hours).strftime("%I:%M%p")
   end
 
   def batter_class(predicted)
