@@ -20,7 +20,7 @@ namespace :mlb do
   end
 
   task update_game_status: :environment do
-    (10..365).each do |index|
+    (365..700).each do |index|
       game_day = GameDay.today.previous_days(index)
       if game_day
         game_day.update_weather

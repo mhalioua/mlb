@@ -27,9 +27,10 @@ table {
   clear: left;
 }
 
-table.table.table-bordered td, table.table.table-bordered th {
+table.table-bordered td, table.table-bordered th {
   vertical-align: middle;
   border: 1px solid #666666 !important;
+  white-space: nowrap;
 }
 
 caption {
