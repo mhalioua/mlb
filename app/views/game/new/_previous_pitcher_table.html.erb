@@ -66,7 +66,6 @@
 				<td class="blue"><%= result[:home_runs_avg] %></td>
 				<td style="background-color: royalblue;"><%= result[:lower_one] %></td>
 				<td class="blue"><%= result[:lower_one_count] %></td>
-				<% opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id) %>
 				<td style="background-color: red;"></td>
 				<td class="blue"> <%= result[:home_total_runs1_avg] %> </td>
 				<td class="blue"> <%= result[:home_total_runs2_avg] %> </td>
@@ -76,6 +75,7 @@
 			<% else %>
 				<td colspan="14"></td>
 			<% end %>
+			<% opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id) %>
 			<td> <%= opposite.name %> </td>
 			<td> <%= opposite.ip %> </td>
 			<td> <%= opposite.bb %> </td>
