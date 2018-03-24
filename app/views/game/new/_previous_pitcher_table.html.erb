@@ -76,11 +76,15 @@
 				<td colspan="13"></td>
 			<% end %>
 			<% opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id) %>
-			<td> <%= opposite.name %> </td>
-			<td> <%= opposite.ip %> </td>
-			<td> <%= opposite.bb %> </td>
-			<td> <%= opposite.h %> </td>
-			<td> <%= opposite.r %> </td>
+			<% if opposite %>
+				<td> <%= opposite.name %> </td>
+				<td> <%= opposite.ip %> </td>
+				<td> <%= opposite.bb %> </td>
+				<td> <%= opposite.h %> </td>
+				<td> <%= opposite.r %> </td>
+			<% else %>
+				<td colspan="5"></td>
+			<% end %>
 		</tr>
 	<% end %>
 	<tr>
