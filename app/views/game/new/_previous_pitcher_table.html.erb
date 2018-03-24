@@ -73,7 +73,7 @@
 				<td class="blue"> <%= result[:home_one] %> </td>
 				<td class="blue"> <%= result[:home_one_count] %> </td>
 			<% else %>
-				<td colspan="14"></td>
+				<td colspan="13"></td>
 			<% end %>
 			<% opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id) %>
 			<td> <%= opposite.name %> </td>
