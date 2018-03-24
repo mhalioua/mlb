@@ -19,6 +19,16 @@ namespace :mlb do
     Player.update_fangraphs
   end
 
+  task update_game_status: :environment do
+    index = 1
+    (1..365).each do |index|
+      game_day = GameDay.today.previous_days(index)
+      game_day.update_weather
+      game_day.update_games
+      game_day.pitcher_box_score
+    end
+  end
+
   task update_batters: :environment do
     Season.where("year = 2017").order("year DESC").each { |season| season.update_batters }
   end
@@ -51,7 +61,7 @@ namespace :mlb do
     [GameDay.today, GameDay.tomorrow].each { |game_day| game_day.update_forecast }
   end
 
-  task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs]
+  task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs, :update_game_status]
 
   task daily: [:create_player, :update_batters, :update_pitchers]
 
