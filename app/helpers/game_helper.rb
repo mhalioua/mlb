@@ -194,9 +194,9 @@ module GameHelper
 
   def table_type(name)
     search_string = []
-    search_string.push('"type" = ' + "'houston'") if name == 'Astros'
-    search_string.push('"type" = ' + "'tampa'") if name == 'Rays'
-    search_string.push('"type" = ' + "'colo'") if name == 'Rockies'
+    search_string.push('"table" = ' + "'houston'") if name == 'Astros'
+    search_string.push('"table" = ' + "'tampa'") if name == 'Rays'
+    search_string.push('"table" = ' + "'colo'") if name == 'Rockies'
     return search_string
   end
 
