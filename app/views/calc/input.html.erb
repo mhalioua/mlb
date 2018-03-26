@@ -1,0 +1,929 @@
+<style>
+    .calcTable {
+        width: 70%;
+        margin-left: 15%;
+        margin-right: 15%;
+        white-space: nowrap;
+    }
+    tbody td {
+        max-width: 5em;
+    }
+    td input {
+        width: 90%;
+    }
+    input[type="submit"] {
+        background: red;
+        border-color: red;
+        color: white;
+    } 
+</style>
+<script>
+function expand() {
+    var elements = document.getElementsByClassName('wind')
+    for(var i = 0, length = elements.length; i < length; i++) {
+        elements[i].style.display = 'table-row';
+    }
+    elements = document.getElementsByClassName('expand')
+    elements[0].style.display = 'none';
+}
+</script>
+<%= form_tag("/calc/input", method: "post") do %>
+<% if @post['authenticity_token'] %>
+<%= select_tag :date_place, options_for_select(@date_dropdown, @post['date_place']) %>
+<% else %>
+<%= select_tag :date_place, options_for_select(@date_dropdown) %>
+<% end %>
+<table class="calcTable">
+    <tbody>
+        <tr>
+            <td colspan="8">STADIUM</td>
+            <td colspan="8">=</td>
+            <td colspan="8">
+                <% if @post['authenticity_token'] %>
+                <%= select_tag :form_stadium, options_for_select(@team_dropdown, @post['form_stadium']) %>
+                <% else %>
+                <%= select_tag :form_stadium, options_for_select(@team_dropdown) %>
+                <% end %>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="24">VARIANCE</td>
+        </tr>
+        <tr>
+            <td colspan="6">4</td>
+            <td colspan="6">1-2</td>
+            <td colspan="6">3</td>
+            <td colspan="6">4</td>
+        </tr>
+        <tr>
+            <td colspan="6">Temp</td>
+            <td colspan="6">Dew</td>
+            <td colspan="6">Humid</td>
+            <td colspan="6">Baro</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:temp_one, @post['temp_one']) %>
+                <% else %>
+                <%= text_field_tag(:temp_one) %>
+                <% end %>
+            </td>
+            <td colspan="2">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:temp_two, @post['temp_two']) %>
+                <% else %>
+                <%= text_field_tag(:temp_two) %>
+                <% end %>
+            </td>
+            <td colspan="2">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:temp_thr, @post['temp_thr']) %>
+                <% else %>
+                <%= text_field_tag(:temp_thr) %>
+                <% end %>
+            </td>
+            <td colspan="2">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:dew_one, @post['dew_one']) %>
+                <% else %>
+                <%= text_field_tag(:dew_one) %>
+                <% end %>
+            </td>
+            <td colspan="2">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:dew_two, @post['dew_two']) %>
+                <% else %>
+                <%= text_field_tag(:dew_two) %>
+                <% end %>
+            </td>
+            <td colspan="2">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:dew_thr, @post['dew_thr']) %>
+                <% else %>
+                <%= text_field_tag(:dew_thr) %>
+                <% end %>
+            </td>
+            <td colspan="2">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:humid_one, @post['humid_one']) %>
+                <% else %>
+                <%= text_field_tag(:humid_one) %>
+                <% end %>
+            </td>
+            <td colspan="2">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:humid_two, @post['humid_two']) %>
+                <% else %>
+                <%= text_field_tag(:humid_two) %>
+                <% end %>
+            </td>
+            <td colspan="2">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:humid_thr, @post['humid_thr']) %>
+                <% else %>
+                <%= text_field_tag(:humid_thr) %>
+                <% end %>
+            </td>
+            <td colspan="2">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:baro_one, @post['baro_one']) %>
+                <% else %>
+                <%= text_field_tag(:baro_one) %>
+                <% end %>
+            </td>
+            <td colspan="2">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:baro_two, @post['baro_two']) %>
+                <% else %>
+                <%= text_field_tag(:baro_two) %>
+                <% end %>
+            </td>
+            <td colspan="2">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:baro_thr, @post['baro_thr']) %>
+                <% else %>
+                <%= text_field_tag(:baro_thr) %>
+                <% end %>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">1st hour</td>
+            <td colspan="2">2nd hour</td>
+            <td colspan="2">3rd hour</td>
+            <td colspan="2">1st hour</td>
+            <td colspan="2">2nd hour</td>
+            <td colspan="2">3rd hour</td>
+            <td colspan="2">1st hour</td>
+            <td colspan="2">2nd hour</td>
+            <td colspan="2">3rd hour</td>
+            <td colspan="2">1st hour</td>
+            <td colspan="2">2nd hour</td>
+            <td colspan="2">3rd hour</td>
+        </tr>
+        <tr>
+            <td colspan="6">WIND</td>
+            <td colspan="3">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:wind_one_dir,  @post['wind_one_dir'], :placeholder => 'Wind Direction...') %>
+                <% else %>
+                <%= text_field_tag(:wind_one_dir, nil, :placeholder => 'Wind Direction...') %>
+                <% end %>
+            </td>
+            <td colspan="3">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:wind_one_speed,  @post['wind_one_speed'], :placeholder => 'Wind Speed...') %>
+                <% else %>
+                <%= text_field_tag(:wind_one_speed, nil, :placeholder => 'Wind Speed...') %>
+                <% end %>
+            </td>
+            <td colspan="3">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:wind_two_dir,  @post['wind_two_dir'], :placeholder => 'Wind Direction...') %>
+                <% else %>
+                <%= text_field_tag(:wind_two_dir, nil, :placeholder => 'Wind Direction...') %>
+                <% end %>
+            </td>
+            <td colspan="3">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:wind_two_speed,  @post['wind_two_speed'], :placeholder => 'Wind Speed...') %>
+                <% else %>
+                <%= text_field_tag(:wind_two_speed, nil, :placeholder => 'Wind Speed...') %>
+                <% end %>
+            </td>
+            <td colspan="3">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:wind_thr_dir,  @post['wind_thr_dir'], :placeholder => 'Wind Direction...') %>
+                <% else %>
+                <%= text_field_tag(:wind_thr_dir, nil, :placeholder => 'Wind Direction...') %>
+                <% end %>
+            </td>
+            <td colspan="3">
+                <% if @post['authenticity_token'] %>
+                <%= text_field_tag(:wind_thr_speed,  @post['wind_thr_speed'], :placeholder => 'Wind Speed...') %>
+                <% else %>
+                <%= text_field_tag(:wind_thr_speed, nil, :placeholder => 'Wind Speed...') %>
+                <% end %>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="24"><%= submit_tag("Run Data") %></td>
+        </tr>
+    </tbody>
+</table>
+<% end %>
+
+<% if @post['authenticity_token'] %>
+    <div>
+        <%
+            if @post['wind_two_speed'] == ""
+                @post['wind_two_speed'] = @post['wind_one_speed']
+            end
+            if @post['wind_thr_speed'] == ""
+                @post['wind_thr_speed'] = @post['wind_two_speed']
+            end
+            if @post['temp_one'] == '' && @post['temp_two'] == '' && @post['temp_thr'] == '' && @post['dew_one'] == '' && @post['dew_two'] == '' && @post['dew_thr'] == '' && @post['humid_one'] == '' && @post['humid_two'] == '' && @post['humid_thr'] == '' && @post['baro_one'] == '' && @post['baro_two'] == '' && @post['baro_thr'] == ''
+                @post['temp_one']   = @stadium[0][:temp]
+                @post['dew_one']    = @stadium[0][:dew]
+                @post['humid_one']  = @stadium[0][:humidity]
+                @post['baro_one']   = @stadium[0][:pressure]
+
+                @post['temp_two']   = @stadium[1][:temp]
+                @post['temp_thr']   = @stadium[2][:temp]
+                @post['dew_two']    = @stadium[1][:dew]
+                @post['dew_thr']    = @stadium[2][:dew]
+                @post['humid_two']  = @stadium[1][:humidity]
+                @post['humid_thr']  = @stadium[2][:humidity]
+                @post['baro_two']   = @stadium[1][:pressure]
+                @post['baro_thr']   = @stadium[2][:pressure]
+            end
+            unless @post['wind_one_speed'] != "" && @post['wind_one_dir'] != "" && @post['wind_two_speed'] != "" &&  @post['wind_two_dir'] != "" && @post['wind_thr_speed'] != "" && @post['wind_thr_dir'] != ""
+                @post['wind_one_speed'] = @stadium[0][:wind_speed].to_s
+                @post['wind_one_dir']   = @stadium[0][:wind_dir]
+                @post['wind_two_speed'] =  @stadium[1][:wind_speed].to_s
+                @post['wind_two_dir'] = @stadium[1][:wind_dir]
+                @post['wind_thr_speed'] = @stadium[2][:wind_speed].to_s
+                @post['wind_thr_dir'] = @stadium[2][:wind_dir]
+            end
+
+            weathers = []
+            weather = { 'temp_num' =>@post['temp_one'].to_f, 'dew_num'=> @post['dew_one'].to_f, 'humid_num'=> @post['humid_one'].to_f, 'pressure_num'=> @post['baro_one'].to_f, 'temp'=> @post['temp_one'].to_f, 'dew'=> @post['dew_one'].to_f, 'humidity'=> @post['humid_one'].to_f, 'pressure'=> @post['baro_one'].to_f, 'wind'=> @post['wind_one_speed'].to_f }
+            weathers << weather
+            weather = { 'temp_num'=> @post['temp_two'].to_f, 'dew_num'=> @post['dew_two'].to_f, 'humid_num'=> @post['humid_two'].to_f, 'pressure_num'=> @post['baro_two'].to_f, 'temp'=> @post['temp_two'].to_f, 'dew'=> @post['dew_two'].to_f, 'humidity'=> @post['humid_two'].to_f, 'pressure'=> @post['baro_two'].to_f, 'wind'=> @post['wind_two_speed'].to_f }
+            weathers << weather
+            weather = { 'temp_num'=> @post['temp_thr'].to_f, 'dew_num'=> @post['dew_thr'].to_f, 'humid_num'=> @post['humid_thr'].to_f, 'pressure_num'=> @post['baro_thr'].to_f, 'temp'=> @post['temp_thr'].to_f, 'dew'=> @post['dew_thr'].to_f, 'humidity'=> @post['humid_thr'].to_f, 'pressure'=> @post['baro_thr'].to_f, 'wind'=> @post['wind_thr_speed'].to_f }
+            weathers << weather
+            name = @post['form_stadium']
+        %>
+        <table class="weather">
+            <thead>
+                <tr bgcolor="gray">
+                    <th width="50">Time</th>
+                    <th width="80">Temperature</th>
+                    <th width="50">Dew</th>
+                    <th width="60">Humidity</th>
+                    <th width="60">Pressure</th>
+                    <th width="60">Wind</th>
+                    <th width="10" class="blue"></th>
+                    <th width="50">Total Average 1</th>
+                    <th width="50">Total Average 2</th>
+                    <th width="50">Total Hits Average</th>
+                    <th width="50">Home Runs Average</th>
+                    <th width="50">Total Count</th>
+                    <th width="10" class="blue"></th>
+                    <th width="50">+/-1</th>
+                    <th width="50">Total Count +/-1</th>
+                    <th width="10" class="blue"></th>
+                    <th width="50">Home Team Total 1</th>
+                    <th width="50">Home Team Total 2</th>
+                    <th width="50">Home Total Count</th>
+                    <th width="50">Home +/- 1</th>
+                    <th width="50">Home Total Count +/- 1</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr bgcolor="#DC143C">
+                    <td></td>
+                    <td colspan="5"></td>
+                    <td class="blue"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="blue"></td>
+                    <td></td>
+                    <td></td>
+                    <td class="blue"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <% weathers.each do |weather| %>
+                    <%
+                        weather_temp_min = weather['temp_num'] - 5
+                        weather_temp_max = weather['temp_num'] + 5
+                        if weather['temp_num'] == 0.0
+                            weather_temp_min = -1
+                            weather_temp_max = -1
+                        end
+
+                        weather_dew_min = weather['dew_num'] - 2
+                        weather_dew_max = weather['dew_num'] + 2
+                        if weather['dew_num'] == 0.0
+                            weather_dew_min = -1
+                            weather_dew_max = -1
+                        end
+
+                        weather_humid_min = weather['humid_num'] - 3
+                        weather_humid_max = weather['humid_num'] + 3
+                        if weather['humid_num'] == 0.0
+                            weather_humid_min = -1
+                            weather_humid_max = -1
+                        end
+
+                        weather_pressure_min = weather['pressure_num'] - 0.04
+                        weather_pressure_max = weather['pressure_num'] + 0.04
+                        if weather['pressure_num'] == 0.0
+                            weather_pressure_min = -1
+                            weather_pressure_max = -1
+                        end
+                    %>
+                    <tr>
+                        <td class="lightgray"></td>
+                        <td>
+                            <% if weather_temp_max != -1 %>
+                                <%= weather['temp'] %>
+                            <% end %>
+                        </td>
+                        <td>
+                            <% if weather_dew_max != -1 %>
+                                <%= weather['dew'] %>
+                            <% end %>
+                        </td>
+                        <td>
+                            <% if weather_humid_max != -1 %>
+                                <%= weather['humidity'] %>
+                            <% end %>
+                        </td>
+                        <td>
+                            <% if weather_pressure_max != -1 %>
+                                <%= weather['pressure'] %>
+                            <% end %>
+                        </td>
+                        <td><%= weather['wind'] %></td>
+                        <% total_count, total_avg_1, total_avg_2, total_hits_avg, home_runs_avg, lower_one, lower_one_count, home_total_runs1_avg, home_total_runs2_avg, home_count, home_one, home_one_count = Weather.true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, weather_humid_min, weather_humid_max, weather_pressure_min, weather_pressure_max, name) %>
+                        <td class="blue"></td>
+                        <td><%= total_avg_1 %></td>
+                        <td><%= total_avg_2 %></td>
+                        <td><%= total_hits_avg %></td>
+                        <td><%= home_runs_avg %></td>
+                        <td><%= total_count %></td>
+                        <td class="blue"></td>
+                        <td><%= lower_one %></td>
+                        <td><%= lower_one_count %></td>
+                        <td class="blue"></td>
+                        <td><%= home_total_runs1_avg %></td>
+                        <td><%= home_total_runs2_avg %></td>
+                        <td><%= home_count %></td>
+                        <td><%= home_one %></td>
+                        <td><%= home_one_count %></td>
+                    </tr>
+                <% end %>
+
+                <tr bgcolor="#DC143C">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="blue"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="blue"></td>
+                    <td></td>
+                    <td></td>
+                    <td class="blue"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <% weathers.each_with_index do |weather, index| %>
+                    <%
+                        weather_temp_min = weather['temp_num'] - 4
+                        weather_temp_max = weather['temp_num'] + 4
+                        if weather['temp_num'] == 0.0
+                            weather_temp_min = -1
+                            weather_temp_max = -1
+                        end
+
+                        weather_dew_min = weather['dew_num'] - 2
+                        weather_dew_max = weather['dew_num'] + 2
+                        if weather['dew_num'] == 0.0
+                            weather_dew_min = -1
+                            weather_dew_max = -1
+                        end
+
+                        weather_humid_min = weather['humid_num'] - 3
+                        weather_humid_max = weather['humid_num'] + 3
+                        if weather['humid_num'] == 0.0
+                            weather_humid_min = -1
+                            weather_humid_max = -1
+                        end
+
+                        weather_pressure_min = weather['pressure_num'] - 0.04
+                        weather_pressure_max = weather['pressure_num'] + 0.04
+                        if weather['pressure_num'] == 0.0
+                            weather_pressure_min = -1
+                            weather_pressure_max = -1
+                        end
+
+                    %>
+                    <tr>
+                        <td class="lightgray"><%= index + 1 %> hour</td>
+                        <td>
+                            <% if weather_temp_max != -1 %>
+                                <%= "#{weather_temp_min}-#{weather_temp_max}" %>
+                            <% end %>
+                        </td>
+                        <td>
+                            <% if weather_dew_max != -1 %>
+                                <%= "#{weather_dew_min}-#{weather_dew_max}" %> <%= "#{weather_dew_min+1}-#{weather_dew_max-1}" %>
+                            <% end %>
+                        </td>
+                        <td>
+                            <% if weather_humid_max != -1 %>
+                                <%= "#{weather_humid_min}-#{weather_humid_max}" %>
+                            <% end %>
+                        </td>
+                        <td>
+                            <% if weather_pressure_max != -1 %>
+                                <%= "#{(weather_pressure_min*100).round%100}-#{(weather_pressure_max*100).round%100}" %>
+                            <% end %>
+                        </td>
+                        <td><%= weather['wind'] %></td>
+                        <% total_count, total_avg_1, total_avg_2, total_hits_avg, home_runs_avg, lower_one, lower_one_count, home_total_runs1_avg, home_total_runs2_avg, home_count, home_one, home_one_count = Weather.true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, weather_humid_min, weather_humid_max, weather_pressure_min, weather_pressure_max, name) %>
+                        <td class="blue"></td>
+                        <td><%= total_avg_1 %></td>
+                        <td><%= total_avg_2 %></td>
+                        <td><%= total_hits_avg %></td>
+                        <td><%= home_runs_avg %></td>
+                        <td><%= total_count %></td>
+                        <td class="blue"></td>
+                        <td><%= lower_one %></td>
+                        <td><%= lower_one_count %></td>
+                        <td class="blue"></td>
+                        <td><%= home_total_runs1_avg %></td>
+                        <td><%= home_total_runs2_avg %></td>
+                        <td><%= home_count %></td>
+                        <td><%= home_one %></td>
+                        <td><%= home_one_count %></td>
+                    </tr>
+                <% end %>
+
+                <tr bgcolor="#DC143C">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="blue"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="blue"></td>
+                    <td></td>
+                    <td></td>
+                    <td class="blue"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr bgcolor="#6495ED">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="blue"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="blue"></td>
+                    <td></td>
+                    <td></td>
+                    <td class="blue"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr bgcolor="#DC143C">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="blue"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="blue"></td>
+                    <td></td>
+                    <td></td>
+                    <td class="blue"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <% weather_one = weathers[0] %>
+                <% weather_two = weathers[1] %>
+                <%
+                    min = 0
+                    middle = 1
+                    max = 2
+                    if weathers[min]['humid_num'].to_i > weathers[middle]['humid_num'].to_i
+                      index_temp = min
+                      min = middle
+                      middle = index_temp
+                    end
+
+                    if weathers[min]['humid_num'].to_i > weathers[max]['humid_num'].to_i
+                      index_temp = min
+                      min = max
+                      max = index_temp
+                    end
+
+                    if weathers[middle]['humid_num'].to_i > weathers[max]['humid_num'].to_i
+                      index_temp = middle
+                      middle = max
+                      max = index_temp
+                    end
+                %>
+                <% slogan = "1-2 hour" %>
+
+                <% (0..1).each do |one_sec| %>
+                    <% 
+                        temp = ((weather_one['temp_num'] + weather_two['temp_num'])/2).to_i 
+                        weather_temp_max = temp + 4
+                        weather_temp_min = temp - 4
+
+                        if weather_one['temp_num'] == 0.0 || weather_two['temp_num']== 0.0
+                            weather_temp_max = -1
+                            weather_temp_min = -1
+                        end
+
+                        dew = ((weather_one['dew_num'] + weather_two['dew_num'] + 1)/2).to_i 
+                        weather_dew_max = dew + 2
+                        weather_dew_min = dew - 2
+
+                        if weather_one['dew_num'] == 0.0 || weather_two['dew_num']== 0.0
+                            weather_dew_max = -1
+                            weather_dew_min = -1
+                        end
+
+                        pressure = (((weather_one['pressure_num']) *100).round + ((weather_two['pressure_num']) *100).round)/2
+                        weather_pressure_max = (pressure+4)/100.0
+                        weather_pressure_min = (pressure-4)/100.0
+                        if weather_one['pressure_num'] == 0.0 || weather_two['pressure_num']== 0.0
+                            weather_pressure_max = -1
+                            weather_pressure_min = -1
+                        end
+
+                        hum_one = weather_one['humid_num'].to_i
+                        hum_two = weather_two['humid_num'].to_i
+                    %>
+
+                    <% next if hum_one == 0 %>
+                    <% next if hum_two == 0 %>
+
+                    <% if slogan == "1-2 hour" %>
+                        <% 
+                            if min > max
+                              hum_min = weathers[max]['humid_num'].to_i+1
+                              hum_max = weathers[max]['humid_num'].to_i+6
+                            else
+                              hum_min = weathers[min]['humid_num'].to_i-6
+                              hum_max = weathers[min]['humid_num'].to_i-1
+                            end
+                            total_count, total_avg_1, total_avg_2, total_hits_avg, home_runs_avg, lower_one, lower_one_count, home_total_runs1_avg, home_total_runs2_avg, home_count, home_one, home_one_count = Weather.true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, hum_min, hum_max, weather_pressure_min, weather_pressure_max, name) 
+                        %>
+                        <tr bgcolor="gray">
+                            <td class="lightgray">Before</td>
+                            <td>
+                                <% if weather_temp_max != -1 %>
+                                    <%= "#{weather_temp_min}-#{weather_temp_max}" %>
+                                <% end %>
+                            </td>
+                            <td>
+                                <% if weather_dew_max != -1 %>
+                                    <%= "#{weather_dew_min}-#{weather_dew_max}" %> <%= "#{weather_dew_min + 1}-#{weather_dew_max - 1}" %>
+                                <% end %>
+                            </td>
+                            <td><%= "#{hum_min}-#{hum_max}" %></td>
+                            <td>
+                                <% if weather_pressure_max != -1 %>
+                                    <%= "#{weather_pressure_min%100}-#{weather_pressure_max%100}" %>
+                                <% end %>
+                            </td>
+                            <td></td>
+                            <td class="blue"></td>
+                            <td><%= total_avg_1 %></td>
+                            <td><%= total_avg_2 %></td>
+                            <td><%= total_hits_avg %></td>
+                            <td><%= home_runs_avg %></td>
+                            <td><%= total_count %></td>
+                            <td class="blue"></td>
+                            <td><%= lower_one %></td>
+                            <td><%= lower_one_count %></td>
+                            <td class="blue"></td>
+                            <td><%= home_total_runs1_avg %></td>
+                            <td><%= home_total_runs2_avg %></td>
+                            <td><%= home_count %></td>
+                            <td><%= home_one %></td>
+                            <td><%= home_one_count %></td>
+                        </tr>
+                    <% end %>
+
+                    <% if slogan == "2-3 hour" %>
+                        <% 
+                            if min < max
+                              hum_min = weathers[max]['humid_num'].to_i+1
+                              hum_max = weathers[max]['humid_num'].to_i+6
+                            else
+                              hum_min = weathers[min]['humid_num'].to_i-6
+                              hum_max = weathers[min]['humid_num'].to_i-1
+                            end
+                            total_count, total_avg_1, total_avg_2, total_hits_avg, home_runs_avg, lower_one, lower_one_count, home_total_runs1_avg, home_total_runs2_avg, home_count, home_one, home_one_count = Weather.true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, hum_min, hum_max, weather_pressure_min, weather_pressure_max, name) 
+                        %>
+                        <tr bgcolor="gray">
+                            <td class="lightgray">After</td>
+                            <td>
+                            <% if weather_temp_max != -1 %>
+                                <%= "#{weather_temp_min}-#{weather_temp_max}" %>
+                            <% end %>
+                            </td>
+                            <td>
+                            <% if weather_dew_max != -1 %>
+                                <%= "#{weather_dew_min}-#{weather_dew_max}" %> <%= "#{weather_dew_min + 1}-#{weather_dew_max - 1}" %>
+                            <% end %>
+                            </td>
+                            <td><%= "#{hum_min}-#{hum_max}" %></td>
+                            <td>
+                            <% if weather_pressure_max != -1 %>
+                                <%= "#{weather_pressure_min%100}-#{weather_pressure_max%100}" %>
+                            <% end %>
+                            </td>
+                            <td></td>
+                            <td class="blue"></td>
+                            <td><%= total_avg_1 %></td>
+                            <td><%= total_avg_2 %></td>
+                            <td><%= total_hits_avg %></td>
+                            <td><%= home_runs_avg %></td>
+                            <td><%= total_count %></td>
+                            <td class="blue"></td>
+                            <td><%= lower_one %></td>
+                            <td><%= lower_one_count %></td>
+                            <td class="blue"></td>
+                            <td><%= home_total_runs1_avg %></td>
+                            <td><%= home_total_runs2_avg %></td>
+                            <td><%= home_count %></td>
+                            <td><%= home_one %></td>
+                            <td><%= home_one_count %></td>
+                        </tr>
+                    <% end %>
+
+                    <%
+                        if hum_one > hum_two
+                          hum_temp = hum_one
+                          hum_one = hum_two
+                          hum_two = hum_temp
+                        end
+                    %>
+
+                    <tr>
+                        <td class="lightgray"><%= slogan %></td>
+                        <td>
+                        <% if weather_temp_max != -1 %>
+                            <%= "#{weather_temp_min}-#{weather_temp_max}" %>
+                        <% end %>
+                        </td>
+                        <td>
+                        <% if weather_dew_max != -1 %>
+                            <%= "#{weather_dew_min}-#{weather_dew_max}" %> <%= "#{weather_dew_min + 1}-#{weather_dew_max - 1}" %>
+                        <% end %>
+                        </td>
+                        <td><%= "#{hum_one}-#{hum_two}" %></td>
+                        <td>
+                        <% if weather_pressure_max != -1 %>
+                            <%= "#{weather_pressure_min%100}-#{weather_pressure_max%100}" %>
+                        <% end %>
+                        </td>
+                        <td></td>
+                        <% total_count, total_avg_1, total_avg_2, total_hits_avg, home_runs_avg, lower_one, lower_one_count, home_total_runs1_avg, home_total_runs2_avg, home_count, home_one, home_one_count = Weather.true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, hum_one, hum_two, weather_pressure_min, weather_pressure_max, name) %>
+                        <td class="blue"></td>
+                        <td><%= total_avg_1 %></td>
+                        <td><%= total_avg_2 %></td>
+                        <td><%= total_hits_avg %></td>
+                        <td><%= home_runs_avg %></td>
+                        <td><%= total_count %></td>
+                        <td class="blue"></td>
+                        <td><%= lower_one %></td>
+                        <td><%= lower_one_count %></td>
+                        <td class="blue"></td>
+                        <td><%= home_total_runs1_avg %></td>
+                        <td><%= home_total_runs2_avg %></td>
+                        <td><%= home_count %></td>
+                        <td><%= home_one %></td>
+                        <td><%= home_one_count %></td>
+                    </tr>
+                    <tr bgcolor="#6495ED">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="blue"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="blue"></td>
+                        <td></td>
+                        <td></td>
+                        <td class="blue"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <% (hum_one..hum_two).each do |hum_each| %>
+                        <tr>
+                            <td class="lightgray"><%= slogan %></td>
+                            <td>
+                            <% if weather_temp_max != -1 %>
+                                <%= "#{weather_temp_min}-#{weather_temp_max}" %>
+                            <% end %>
+                            </td>
+                            <td>
+                            <% if weather_dew_max != -1 %>
+                                <%= "#{weather_dew_min}-#{weather_dew_max}" %> <%= "#{weather_dew_min + 1}-#{weather_dew_max - 1}" %>
+                            <% end %>
+                            </td>
+                            <td><%= "#{hum_each}" %></td>
+                            <td>
+                            <% if weather_pressure_max != -1 %>
+                                <%= "#{weather_pressure_min%100}-#{weather_pressure_max%100}" %>
+                            <% end %>
+                            </td>
+                            <td></td>
+                            <% total_count, total_avg_1, total_avg_2, total_hits_avg, home_runs_avg, lower_one, lower_one_count, home_total_runs1_avg, home_total_runs2_avg, home_count, home_one, home_one_count = Weather.true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, hum_each, hum_each, weather_pressure_min, weather_pressure_max, name) %>
+                            <td class="blue"></td>
+                            <td><%= total_avg_1 %></td>
+                            <td><%= total_avg_2 %></td>
+                            <td><%= total_hits_avg %></td>
+                            <td><%= home_runs_avg %></td>
+                            <td><%= total_count %></td>
+                            <td class="blue"></td>
+                            <td><%= lower_one %></td>
+                            <td><%= lower_one_count %></td>
+                            <td class="blue"></td>
+                            <td><%= home_total_runs1_avg %></td>
+                            <td><%= home_total_runs2_avg %></td>
+                            <td><%= home_count %></td>
+                            <td><%= home_one %></td>
+                            <td><%= home_one_count %></td>
+                        </tr>
+                    <% end %>
+
+                    <% 
+                        weather_one = weathers[1]
+                        weather_two = weathers[2]
+                    %>
+                    <tr bgcolor="#DC143C">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="blue"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="blue"></td>
+                        <td></td>
+                        <td></td>
+                        <td class="blue"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr bgcolor="#6495ED">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="blue"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="blue"></td>
+                        <td></td>
+                        <td></td>
+                        <td class="blue"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr bgcolor="#DC143C">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="blue"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="blue"></td>
+                        <td></td>
+                        <td></td>
+                        <td class="blue"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <% slogan="2-3 hour" %>
+                <% end %>
+
+            </tbody>
+        </table>
+        <table class="wind">
+            <thead>
+                <tr bgcolor="gray">
+                    <th width="400">Wind</th>
+                    <th>TOTAL RUNS1</th>
+                    <th>TOTAL RUNS2</th>
+                    <th>TOTAL COUNT</th>
+                    <th>TOTAL HITS</th>
+                    <th>HR'S</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% 
+                    winds = Weather.wind_data(name, @post['wind_one_speed'] + " mph " + @post['wind_one_dir'],  @post['wind_two_speed'] + " mph " + @post['wind_two_dir'],  @post['wind_thr_speed'] + " mph " + @post['wind_thr_dir']) 
+                %>
+                <% winds.each do |wind| %>
+                    <% if wind[6].to_i == 1 %>
+                        <tr bgcolor="#DC143C">
+                    <% elsif wind[6].to_i == 0 %>
+                        <tr>
+                    <% else %>
+                        <tr style="display:none" class="wind">
+                    <% end %>
+                    <td> <%= wind[0] %> </td>
+                    <td> <%= wind[1] %> </td>
+                    <td> <%= wind[2] %> </td>
+                    <td> <%= wind[3] %> </td>
+                    <td> <%= wind[4] %> </td>
+                    <td> <%= wind[5] %> </td>
+                    </tr>
+                <% end %>
+                <tr class="expand">
+                    <td colspan="6">
+                        <button type="button" onclick="expand()" style="width: 100%"> Expand </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<% end %>
