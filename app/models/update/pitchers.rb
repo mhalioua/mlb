@@ -41,6 +41,7 @@ module Update
         urls.each_with_index do |url, url_index|
           puts url
           doc = download_document(url)
+          next unless doc
           index = { name: 1, ld: 2 + rost, whip: 3 + rost, ip: 4 + rost, so: 5 + rost, bb: 6 + rost, era: 7 + rost, fb: 8 + rost, xfip: 9 + rost,
             kbb: 10 + rost, woba: 11 + rost, gb: 12 + rost, h: 13 + rost }
           doc.css(".grid_line_regular").each_slice(14+rost) do |slice|
