@@ -28,11 +28,6 @@ function expand() {
 }
 </script>
 <%= form_tag("/calc/input", method: "post") do %>
-<% if @post['authenticity_token'] %>
-<%= select_tag :date_place, options_for_select(@date_dropdown, @post['date_place']) %>
-<% else %>
-<%= select_tag :date_place, options_for_select(@date_dropdown) %>
-<% end %>
 <table class="calcTable">
     <tbody>
         <tr>
