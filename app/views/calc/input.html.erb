@@ -350,22 +350,22 @@ function expand() {
                             <% end %>
                         </td>
                         <td><%= weather['wind'] %></td>
-                        <% total_count, total_avg_1, total_avg_2, total_hits_avg, home_runs_avg, lower_one, lower_one_count, home_total_runs1_avg, home_total_runs2_avg, home_count, home_one, home_one_count = Weather.true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, weather_humid_min, weather_humid_max, weather_pressure_min, weather_pressure_max, name) %>
+                        <% result = true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, weather_humid_min, weather_humid_max, weather_pressure_min, weather_pressure_max, name) %>
                         <td class="blue"></td>
-                        <td><%= total_avg_1 %></td>
-                        <td><%= total_avg_2 %></td>
-                        <td><%= total_hits_avg %></td>
-                        <td><%= home_runs_avg %></td>
-                        <td><%= total_count %></td>
+                        <td><%= result[:total_avg_1] %></td>
+                        <td><%= result[:total_avg_2] %></td>
+                        <td><%= result[:total_hits_avg] %></td>
+                        <td><%= result[:home_runs_avg] %></td>
+                        <td><%= result[:total_count] %></td>
                         <td class="blue"></td>
-                        <td><%= lower_one %></td>
-                        <td><%= lower_one_count %></td>
+                        <td><%= result[:lower_one] %></td>
+                        <td><%= result[:lower_one_count] %></td>
                         <td class="blue"></td>
-                        <td><%= home_total_runs1_avg %></td>
-                        <td><%= home_total_runs2_avg %></td>
-                        <td><%= home_count %></td>
-                        <td><%= home_one %></td>
-                        <td><%= home_one_count %></td>
+                        <td><%= result[:home_total_runs1_avg] %></td>
+                        <td><%= result[:home_total_runs2_avg] %></td>
+                        <td><%= result[:home_count] %></td>
+                        <td><%= result[:home_one] %></td>
+                        <td><%= result[:home_one_count] %></td>
                     </tr>
                 <% end %>
 
@@ -447,22 +447,22 @@ function expand() {
                             <% end %>
                         </td>
                         <td><%= weather['wind'] %></td>
-                        <% total_count, total_avg_1, total_avg_2, total_hits_avg, home_runs_avg, lower_one, lower_one_count, home_total_runs1_avg, home_total_runs2_avg, home_count, home_one, home_one_count = Weather.true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, weather_humid_min, weather_humid_max, weather_pressure_min, weather_pressure_max, name) %>
+                        <% result = true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, weather_humid_min, weather_humid_max, weather_pressure_min, weather_pressure_max, name) %>
                         <td class="blue"></td>
-                        <td><%= total_avg_1 %></td>
-                        <td><%= total_avg_2 %></td>
-                        <td><%= total_hits_avg %></td>
-                        <td><%= home_runs_avg %></td>
-                        <td><%= total_count %></td>
+                        <td><%= result[:total_avg_1] %></td>
+                        <td><%= result[:total_avg_2] %></td>
+                        <td><%= result[:total_hits_avg] %></td>
+                        <td><%= result[:home_runs_avg] %></td>
+                        <td><%= result[:total_count] %></td>
                         <td class="blue"></td>
-                        <td><%= lower_one %></td>
-                        <td><%= lower_one_count %></td>
+                        <td><%= result[:lower_one] %></td>
+                        <td><%= result[:lower_one_count] %></td>
                         <td class="blue"></td>
-                        <td><%= home_total_runs1_avg %></td>
-                        <td><%= home_total_runs2_avg %></td>
-                        <td><%= home_count %></td>
-                        <td><%= home_one %></td>
-                        <td><%= home_one_count %></td>
+                        <td><%= result[:home_total_runs1_avg] %></td>
+                        <td><%= result[:home_total_runs2_avg] %></td>
+                        <td><%= result[:home_count] %></td>
+                        <td><%= result[:home_one] %></td>
+                        <td><%= result[:home_one_count] %></td>
                     </tr>
                 <% end %>
 
@@ -608,7 +608,7 @@ function expand() {
                               hum_min = weathers[min]['humid_num'].to_i-6
                               hum_max = weathers[min]['humid_num'].to_i-1
                             end
-                            total_count, total_avg_1, total_avg_2, total_hits_avg, home_runs_avg, lower_one, lower_one_count, home_total_runs1_avg, home_total_runs2_avg, home_count, home_one, home_one_count = Weather.true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, hum_min, hum_max, weather_pressure_min, weather_pressure_max, name) 
+                            result = true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, hum_min, hum_max, weather_pressure_min, weather_pressure_max, name) 
                         %>
                         <tr bgcolor="gray">
                             <td class="lightgray">Before</td>
@@ -630,20 +630,20 @@ function expand() {
                             </td>
                             <td></td>
                             <td class="blue"></td>
-                            <td><%= total_avg_1 %></td>
-                            <td><%= total_avg_2 %></td>
-                            <td><%= total_hits_avg %></td>
-                            <td><%= home_runs_avg %></td>
-                            <td><%= total_count %></td>
+                            <td><%= result[:total_avg_1] %></td>
+                            <td><%= result[:total_avg_2] %></td>
+                            <td><%= result[:total_hits_avg] %></td>
+                            <td><%= result[:home_runs_avg] %></td>
+                            <td><%= result[:total_count] %></td>
                             <td class="blue"></td>
-                            <td><%= lower_one %></td>
-                            <td><%= lower_one_count %></td>
+                            <td><%= result[:lower_one] %></td>
+                            <td><%= result[:lower_one_count] %></td>
                             <td class="blue"></td>
-                            <td><%= home_total_runs1_avg %></td>
-                            <td><%= home_total_runs2_avg %></td>
-                            <td><%= home_count %></td>
-                            <td><%= home_one %></td>
-                            <td><%= home_one_count %></td>
+                            <td><%= result[:home_total_runs1_avg] %></td>
+                            <td><%= result[:home_total_runs2_avg] %></td>
+                            <td><%= result[:home_count] %></td>
+                            <td><%= result[:home_one] %></td>
+                            <td><%= result[:home_one_count] %></td>
                         </tr>
                     <% end %>
 
@@ -656,7 +656,7 @@ function expand() {
                               hum_min = weathers[min]['humid_num'].to_i-6
                               hum_max = weathers[min]['humid_num'].to_i-1
                             end
-                            total_count, total_avg_1, total_avg_2, total_hits_avg, home_runs_avg, lower_one, lower_one_count, home_total_runs1_avg, home_total_runs2_avg, home_count, home_one, home_one_count = Weather.true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, hum_min, hum_max, weather_pressure_min, weather_pressure_max, name) 
+                            result = true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, hum_min, hum_max, weather_pressure_min, weather_pressure_max, name) 
                         %>
                         <tr bgcolor="gray">
                             <td class="lightgray">After</td>
@@ -678,20 +678,20 @@ function expand() {
                             </td>
                             <td></td>
                             <td class="blue"></td>
-                            <td><%= total_avg_1 %></td>
-                            <td><%= total_avg_2 %></td>
-                            <td><%= total_hits_avg %></td>
-                            <td><%= home_runs_avg %></td>
-                            <td><%= total_count %></td>
+                            <td><%= result[:total_avg_1] %></td>
+                            <td><%= result[:total_avg_2] %></td>
+                            <td><%= result[:total_hits_avg] %></td>
+                            <td><%= result[:home_runs_avg] %></td>
+                            <td><%= result[:total_count] %></td>
                             <td class="blue"></td>
-                            <td><%= lower_one %></td>
-                            <td><%= lower_one_count %></td>
+                            <td><%= result[:lower_one] %></td>
+                            <td><%= result[:lower_one_count] %></td>
                             <td class="blue"></td>
-                            <td><%= home_total_runs1_avg %></td>
-                            <td><%= home_total_runs2_avg %></td>
-                            <td><%= home_count %></td>
-                            <td><%= home_one %></td>
-                            <td><%= home_one_count %></td>
+                            <td><%= result[:home_total_runs1_avg] %></td>
+                            <td><%= result[:home_total_runs2_avg] %></td>
+                            <td><%= result[:home_count] %></td>
+                            <td><%= result[:home_one] %></td>
+                            <td><%= result[:home_one_count] %></td>
                         </tr>
                     <% end %>
 
@@ -722,22 +722,22 @@ function expand() {
                         <% end %>
                         </td>
                         <td></td>
-                        <% total_count, total_avg_1, total_avg_2, total_hits_avg, home_runs_avg, lower_one, lower_one_count, home_total_runs1_avg, home_total_runs2_avg, home_count, home_one, home_one_count = Weather.true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, hum_one, hum_two, weather_pressure_min, weather_pressure_max, name) %>
+                        <% result = true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, hum_one, hum_two, weather_pressure_min, weather_pressure_max, name) %>
                         <td class="blue"></td>
-                        <td><%= total_avg_1 %></td>
-                        <td><%= total_avg_2 %></td>
-                        <td><%= total_hits_avg %></td>
-                        <td><%= home_runs_avg %></td>
-                        <td><%= total_count %></td>
+                        <td><%= result[:total_avg_1] %></td>
+                        <td><%= result[:total_avg_2] %></td>
+                        <td><%= result[:total_hits_avg] %></td>
+                        <td><%= result[:home_runs_avg] %></td>
+                        <td><%= result[:total_count] %></td>
                         <td class="blue"></td>
-                        <td><%= lower_one %></td>
-                        <td><%= lower_one_count %></td>
+                        <td><%= result[:lower_one] %></td>
+                        <td><%= result[:lower_one_count] %></td>
                         <td class="blue"></td>
-                        <td><%= home_total_runs1_avg %></td>
-                        <td><%= home_total_runs2_avg %></td>
-                        <td><%= home_count %></td>
-                        <td><%= home_one %></td>
-                        <td><%= home_one_count %></td>
+                        <td><%= result[:home_total_runs1_avg] %></td>
+                        <td><%= result[:home_total_runs2_avg] %></td>
+                        <td><%= result[:home_count] %></td>
+                        <td><%= result[:home_one] %></td>
+                        <td><%= result[:home_one_count] %></td>
                     </tr>
                     <tr bgcolor="#6495ED">
                         <td></td>
@@ -783,22 +783,22 @@ function expand() {
                             <% end %>
                             </td>
                             <td></td>
-                            <% total_count, total_avg_1, total_avg_2, total_hits_avg, home_runs_avg, lower_one, lower_one_count, home_total_runs1_avg, home_total_runs2_avg, home_count, home_one, home_one_count = Weather.true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, hum_each, hum_each, weather_pressure_min, weather_pressure_max, name) %>
+                            <% result = true_data(weather_temp_min, weather_temp_max, weather_dew_min, weather_dew_max, hum_each, hum_each, weather_pressure_min, weather_pressure_max, name) %>
                             <td class="blue"></td>
-                            <td><%= total_avg_1 %></td>
-                            <td><%= total_avg_2 %></td>
-                            <td><%= total_hits_avg %></td>
-                            <td><%= home_runs_avg %></td>
-                            <td><%= total_count %></td>
+                            <td><%= result[:total_avg_1] %></td>
+                            <td><%= result[:total_avg_2] %></td>
+                            <td><%= result[:total_hits_avg] %></td>
+                            <td><%= result[:home_runs_avg] %></td>
+                            <td><%= result[:total_count] %></td>
                             <td class="blue"></td>
-                            <td><%= lower_one %></td>
-                            <td><%= lower_one_count %></td>
+                            <td><%= result[:lower_one] %></td>
+                            <td><%= result[:lower_one_count] %></td>
                             <td class="blue"></td>
-                            <td><%= home_total_runs1_avg %></td>
-                            <td><%= home_total_runs2_avg %></td>
-                            <td><%= home_count %></td>
-                            <td><%= home_one %></td>
-                            <td><%= home_one_count %></td>
+                            <td><%= result[:home_total_runs1_avg] %></td>
+                            <td><%= result[:home_total_runs2_avg] %></td>
+                            <td><%= result[:home_count] %></td>
+                            <td><%= result[:home_one] %></td>
+                            <td><%= result[:home_one_count] %></td>
                         </tr>
                     <% end %>
 
@@ -895,7 +895,7 @@ function expand() {
             </thead>
             <tbody>
                 <% 
-                    winds = Weather.wind_data(name, @post['wind_one_speed'] + " mph " + @post['wind_one_dir'],  @post['wind_two_speed'] + " mph " + @post['wind_two_dir'],  @post['wind_thr_speed'] + " mph " + @post['wind_thr_dir']) 
+                    winds = wind_data(name, @post['wind_one_speed'] + " mph " + @post['wind_one_dir'],  @post['wind_two_speed'] + " mph " + @post['wind_two_dir'],  @post['wind_thr_speed'] + " mph " + @post['wind_thr_dir']) 
                 %>
                 <% winds.each do |wind| %>
                     <% if wind[6].to_i == 1 %>
