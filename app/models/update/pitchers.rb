@@ -11,6 +11,7 @@ module Update
         url = "http://www.fangraphs.com/leaders.aspx?pos=all&stats=pit&lg=all&qual=0&type=1&season=#{year}&month=0&season1=#{year}&ind=0&team=#{team.fangraph_id}&rost=#{rost}&age=0&filter=&players=0&page=1_50"
         doc = download_document(url)
         puts url
+        next unless doc
         index = { name: 1, fip: 11+rost, siera: 15+rost }
         doc.css(".grid_line_regular").each_slice(16+rost) do |slice|
           name = slice[index[:name]].text

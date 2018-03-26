@@ -36,6 +36,7 @@ module Update
         urls.each_with_index do |url, url_index|
           puts url
           doc = download_document(url)
+          next unless doc
           index = { name: 1, ab: 2 + rost, sb: 3 + rost, bb: 4 + rost, so: 5 + rost, slg: 6 + rost, obp: 7 + rost, woba: 8 + rost,
             wrc: 9 + rost, ld: 10 + rost, gb: 11 + rost, fb: 12 + rost }
 
