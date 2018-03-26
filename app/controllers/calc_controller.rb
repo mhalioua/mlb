@@ -1,4 +1,5 @@
 class CalcController < ApplicationController
+  include CalcHelper
   require 'date'
 
   def input

@@ -1,5 +1,5 @@
 module CalcHelper
-    def stadium_weather(zipcode)
+  def stadium_weather(zipcode)
     require 'open-uri'
     require 'json'
 
