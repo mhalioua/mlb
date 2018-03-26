@@ -14,8 +14,8 @@ class GameController < ApplicationController
 		day = @game_day.day.to_s
 		@date = "#{month} #{day}"
 
-		@away_starting_lancer = @game.lancers.where(team: @away_team, starter: true)
-		@home_starting_lancer = @game.lancers.where(team: @home_team, starter: true)
+		@away_starting_lancer = @game.lancers.where(team: @away_team, starter: true, season_id: 4)
+		@home_starting_lancer = @game.lancers.where(team: @home_team, starter: true, season_id: 4)
 
 		unless @away_starting_lancer.empty?
 			@home_left = @away_starting_lancer.first.throwhand == "L"
@@ -39,8 +39,8 @@ class GameController < ApplicationController
 			@away_batters = Batter.none
 		end
 
-		@away_bullpen_lancers = @game.lancers.where(team_id: @away_team.id, bullpen: true)
-		@home_bullpen_lancers = @game.lancers.where(team_id: @home_team.id, bullpen: true)
+		@away_bullpen_lancers = @game.lancers.where(team_id: @away_team.id, bullpen: true, season_id: 4)
+		@home_bullpen_lancers = @game.lancers.where(team_id: @home_team.id, bullpen: true, season_id: 4)
 
 		@forecasts = @game.weathers.where(station: "Forecast").order(:hour)
 		@weathers = @game.weathers.where(station: "Actual").order(:hour)
