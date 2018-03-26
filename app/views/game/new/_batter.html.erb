@@ -1,4 +1,4 @@
-<% seasons = Season.greater_than(2015) %>
+<% seasons = Season.greater_than(2016) %>
 <table class="table-bordered <%= batter_class(predicted)%>">
   <caption><%= caption %></caption>
   <thead>
@@ -6,13 +6,13 @@
       <th></th>
       <% seasons.each do |season| %>
         <th colspan="10"><%= "#{season.year} vs #{handedness_header(left)}" %></th>
-        <% if season.year == Time.now.year || season.year == 2017 %>
+        <% if season.year == Time.now.year %>
           <th colspan="10">Last 14 Days</th>
         <% end %>
       <% end %>
       <% seasons.each do |season| %>
         <th colspan="2"><%= "#{season.year}" %></th>
-        <% if season.year == Time.now.year || season.year == 2017 %>
+        <% if season.year == Time.now.year %>
           <th colspan="2">Last 14 Days</th>
         <% end %>
       <% end %>

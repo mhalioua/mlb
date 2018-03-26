@@ -4,7 +4,6 @@ class GameDay < ApplicationRecord
 
   def self.search(date)
     season = Season.find_by_year(date.year)
-    season = Season.find_by_year(2017) if date.year == 2018
     return GameDay.find_or_create_by(season: season, date: date)
   end
 
