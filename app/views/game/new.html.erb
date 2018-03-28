@@ -12,6 +12,14 @@
 			<li class="list-group-item"><%= link_to(@date + ' Matchups', { controller: 'index', action: 'game', id: @game_day.id }) %></li>
 		</ul>
 	</div>
+	<%= select_tag :days, options_for_select(@forecast_dropdown, @forecast), :id => "select_days" %>
+	<script>
+	$(document).ready(function(){
+		$('#select_days').change(function() {
+			window.location.href = window.location.href.split("/").slice(0,6).join("/") +"/" + $(this).val()
+		});
+	});
+	</script>
 	<div class="image">
 		<%= image_tag(@image_url, :width => '600') %>
 		<h2><%= "Zipcode: " + @home_team.zipcode %></h2>
