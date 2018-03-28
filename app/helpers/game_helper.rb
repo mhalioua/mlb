@@ -179,15 +179,16 @@ module GameHelper
   end
 
   def get_wind(header_string, search_string, flag)
-    query = Workbook.where(search_string.join(" AND "))
+    query = Workbook.where(search_string.join(" AND ")).to_a
+    count = Workbook.where(search_string.join(" AND ")).count(:R)
 
     return [
       header_string,
-      query.average(:R).to_f.round(2),
-      query.average(:Total_Hits).to_f.round(2),
-      query.count(:R),
-      query.average(:Total_Walks).to_f.round(2),
-      query.average(:home_runs).to_f.round(2),
+      (query.map {|stat| stat.R.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+      (query.map {|stat| stat.Total_Hits.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+      count,
+      (query.map {|stat| stat.Total_Walks.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+      (query.map {|stat| stat.home_runs.to_f }.sum / (count == 0 ? 1 : count)).round(2),
       flag
     ]
   end
