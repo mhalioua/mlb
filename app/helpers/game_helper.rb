@@ -222,13 +222,14 @@ module GameHelper
       search_string_low.push('"BARo" >= ' + "'#{baro_min}'" + ' AND "BARo" <= ' + "'#{baro_max}'")
     end
 
-    query = Workbook.where(search_string.join(" AND "))
+    query = Workbook.where(search_string.join(" AND ")).to_a
+    temp_count = Workbook.where(search_string.join(" AND ")).count(:R)
 
-    result[:total_count] = query.count(:R)
-    result[:total_avg_1] = query.average(:R).to_f.round(2)
-    result[:total_avg_2] = query.average(:Total_Hits).to_f.round(2)
-    result[:total_hits_avg] = query.average(:Total_Walks).to_f.round(2)
-    result[:home_runs_avg] = query.average(:home_runs).to_f.round(2)
+    result[:total_count] = temp_count
+    result[:total_avg_1] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_avg_2] = (query.map {|stat| stat.Total_Hits.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_hits_avg] = (query.map {|stat| stat.Total_Walks.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:home_runs_avg] = (query.map {|stat| stat.home_runs.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
 
     query = Workbook.where(search_string_low.join(" AND "))
 
