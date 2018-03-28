@@ -43,16 +43,11 @@ class GameController < ApplicationController
 		@home_bullpen_lancers = @game.lancers.where(team_id: @home_team.id, bullpen: true, season_id: @season.id)
 
 		@forecast = params[:forecast].to_i
-		@forecasts = @game.weathers.where(station: "Forecast").order("updated_at DESC")
+		@forecasts = @game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC")
 
-		forecast_count = @forecasts.count()
 		@forecast_dropdown = []
-		if forecast_count %3 == 0 && forecast_count > 0
-			@forecasts.each_with_index do |forecast_one, index|
-				if index % 3 == 2
-					@forecast_dropdown << [forecast_one.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p"), index/3]
-				end
-			end
+		@forecasts.each_with_index do |forecast_one, index|
+			@forecast_dropdown << [forecast_one.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p"), index/3]
 		end
 
 		@forecasts = @game.weathers.where(station: "Forecast").order("updated_at DESC").offset(@forecast*3).limit(3)
