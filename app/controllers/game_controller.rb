@@ -5,6 +5,7 @@ class GameController < ApplicationController
 		@game = Game.find_by_id(params[:id])
 		@game_day = @game.game_day
 		@season = @game_day.season
+		@head = @away_team.name + "@" + @home_team.name
 
 		@away_team = @game.away_team
 		@home_team = @game.home_team

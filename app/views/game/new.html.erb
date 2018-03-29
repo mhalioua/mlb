@@ -1,6 +1,7 @@
+<% content_for :title, @head %>
 <div class="panel panel-primary text-center">
 	<div class="panel-heading">
-		<h1><%= "#{@away_team.name} @ #{@home_team.name}" %></h1>
+		<h1><%= @head %></h1>
 		<h2><%= "Odds: #{@game.away_money_line} @ #{@game.home_money_line}" %></h2>
 		<h2><%= "Totals: #{@game.away_total} @ #{@game.home_total}" %></h2>
 		<h3><%= "Gametime: #{DateTime.parse(@game.game_date).strftime("%I:%M%p")} Local Time" %></h3>
