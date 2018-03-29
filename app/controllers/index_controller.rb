@@ -10,6 +10,6 @@ class IndexController < ApplicationController
 	def game
 		game_day = GameDay.find(params[:id])
 		@head = "#{Date::MONTHNAMES[game_day.month]} #{game_day.day.ordinalize}"
-		@games = game_day.games
+		@games = game_day.games.order(:game_date)
 	end
 end
