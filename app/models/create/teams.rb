@@ -15,7 +15,7 @@ module Create
       { id: 5,    name: 'Braves',           city: 'Atlanta',          espn_abbr: 'ATL',   baseball_abbr: 'ATL',    stadium: 'Turner Field',             fangraph_id: 16,      zipcode: '30315',   timezone: 0 },
       { id: 6,    name: 'Brewers',          city: 'Milwaukee',        espn_abbr: 'MIL',   baseball_abbr: 'MIL',    stadium: 'Miller Park',              fangraph_id: 23,      zipcode: '53214',   timezone: -1 },
       { id: 7,    name: 'Cardinals',        city: 'St. Louis',        espn_abbr: 'STL',   baseball_abbr: 'STL',    stadium: 'Busch Stadium',            fangraph_id: 28,      zipcode: '63102',   timezone: -1 },
-      { id: 8,    name: 'White Sox',        city: 'Chicago',          espn_abbr: 'CHW',   baseball_abbr: 'CHW',    stadium: 'Wrigley Field',            fangraph_id: 17,      zipcode: '60613',   timezone: -1 },
+      { id: 8,    name: 'Cubs',             city: 'Chicago',          espn_abbr: 'CHC',   baseball_abbr: 'CHC',    stadium: 'Wrigley Field',            fangraph_id: 17,      zipcode: '60613',   timezone: -1 },
       { id: 9,    name: 'Diamondbacks',     city: 'Arizona',          espn_abbr: 'ARI',   baseball_abbr: 'ARI',    stadium: 'Chase Field',              fangraph_id: 15,      zipcode: '85004',   timezone: -3 },
       { id: 10,   name: 'Dodgers',          city: 'Los Angeles',      espn_abbr: 'LAD',   baseball_abbr: 'LAD',    stadium: 'Dodgers Stadium',          fangraph_id: 22,      zipcode: '90012',   timezone: -3 },
       { id: 11,   name: 'Giants',           city: 'San Francisco',    espn_abbr: 'SF',    baseball_abbr: 'SFG',    stadium: 'AT&T Park',                fangraph_id: 30,      zipcode: '94107',   timezone: -3 },
@@ -36,7 +36,7 @@ module Create
       { id: 26,   name: 'Royals',           city: 'Kansas City',      espn_abbr: 'KC',    baseball_abbr: 'KCR',    stadium: 'Kauffman Stadium',         fangraph_id: 7,       zipcode: '64129',   timezone: -1 },
       { id: 27,   name: 'Tigers',           city: 'Detroit',          espn_abbr: 'DET',   baseball_abbr: 'DET',    stadium: 'Comerica Park',            fangraph_id: 6,       zipcode: '48201',   timezone: 0 },
       { id: 28,   name: 'Twins',            city: 'Minnesota',        espn_abbr: 'MIN',   baseball_abbr: 'MIN',    stadium: 'Target Field',             fangraph_id: 8,       zipcode: '55403',   timezone: -1 },
-      { id: 29,   name: 'Cubs',             city: 'Chicago',          espn_abbr: 'CHC',   baseball_abbr: 'CHC',    stadium: 'U.S. Cellular Field',      fangraph_id: 4,       zipcode: '60616',   timezone: -1 },
+      { id: 29,   name: 'White Sox',        city: 'Chicago',          espn_abbr: 'CHW',   baseball_abbr: 'CHW',    stadium: 'U.S. Cellular Field',      fangraph_id: 4,       zipcode: '60616',   timezone: -1 },
       { id: 30,   name: 'Yankees',          city: 'New York',         espn_abbr: 'NYY',   baseball_abbr: 'NYY',    stadium: 'Yankee Stadium',           fangraph_id: 9,       zipcode: '10451',   timezone: 0 }
     ]
   end
