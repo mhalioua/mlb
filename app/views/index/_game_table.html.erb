@@ -32,7 +32,7 @@
 			<%= render partial: "not_found", locals: {colspan: 8, rowspan: 1 } %>
 			<% end %>
 			<td rowspan="2" class="border"></td>
-			<% weather = game.weathers.find_by(hour: 1, station: "Forecast") %>
+			<% weather = game.weathers.where(hour: 1, station: "Forecast").order("updated_at DESC").first %>
 			<% if weather %>
 			<%= render partial: "weather", locals: { weather: weather } %>
 			<% else %>
