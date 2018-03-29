@@ -3,7 +3,7 @@ module Create
 
     def self.create
       @teams.each do |team|
-        search_team = Team.find(id: team[:id])
+        search_team = Team.find(team[:id])
         search_team.update(stadium: team[:stadium])
       end
     end
