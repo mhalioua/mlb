@@ -16,7 +16,7 @@
 	<tbody>
 		<% @games.each do |game| %>
 		<tr>
-			<td rowspan="2"><%= "#{(DateTime.parse(game.game_date)+ 4.hours - game.home_team.timezone.hours).strftime("%I:%M%p")}" %></td>
+			<td rowspan="2"><%= "#{(DateTime.parse(game.game_date) - game.home_team.timezone.hours).strftime("%I:%M%p")}" %></td>
 			<td rowspan="2"><%= link_to game_link(game), { controller: "game", action: "new", id: game.id } %></td>
 			<% pitcher = game.away_pitcher %>
 			<% if pitcher %>
