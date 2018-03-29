@@ -1,13 +1,16 @@
 <table class="table-bordered">
 	<thead>
 		<tr>
-			<th scope="col" colspan="2"><%= @head %></th>
+			<th scope="col" colspan="5"><%= @head %></th>
 			<th scope="col" colspan="9">Pitchers</th>
 			<th scope="col" class="border"></th>
 			<th scope="col" colspan="7">Weather</th>
 		</tr>
 		<tr>
 			<th colspan="2">Away @ Home</th>
+			<th>Game Stats</th>
+			<th>Weather</th>
+			<th>Previous Games</th>
 			<%= render "starter_header" %>
 			<th class="border"></th>
 			<%= render "weather_header" %>
@@ -18,6 +21,9 @@
 		<tr>
 			<td rowspan="2"><%= "#{(DateTime.parse(game.game_date) - game.home_team.timezone.hours).strftime("%I:%M%p")}" %></td>
 			<td rowspan="2"><%= link_to game_link(game), { controller: "game", action: "new", id: game.id } %></td>
+			<td rowspan="2"><%= link_to "Stats", { controller: "game", action: "stats", id: game.id } %></td>
+			<td rowspan="2"><%= link_to "Weather", { controller: "game", action: "weather", id: game.id } %></td>
+			<td rowspan="2"><%= link_to "Previous Games", { controller: "game", action: "previous", id: game.id } %></td>
 			<% pitcher = game.away_pitcher %>
 			<% if pitcher %>
 			<%= render partial: "starter", locals: { pitcher: pitcher } %>

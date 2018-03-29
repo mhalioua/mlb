@@ -1,0 +1,43 @@
+<% content_for :title, @head %>
+<div class="panel panel-primary text-center">
+	<div class="panel-heading">
+		<h1><%= @head %></h1>
+		<h2><%= "Odds: #{@game.away_money_line} @ #{@game.home_money_line}" %></h2>
+		<h2><%= "Totals: #{@game.away_total} @ #{@game.home_total}" %></h2>
+		<h3><%= "Gametime: #{DateTime.parse(@game.game_date).strftime("%I:%M%p")} Local Time" %></h3>
+		<h3><%= "Ump: #{@game.ump}" %></h3>
+	</div>
+	<div class="panel-body">
+		<ul class="list-group">
+			<li class="list-group-item"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
+			<li class="list-group-item"><%= link_to(@date + ' Matchups', { controller: 'index', action: 'game', id: @game_day.id }) %></li>
+		</ul>
+	</div>
+	<%= select_tag :days, options_for_select(@forecast_dropdown, @forecast), :id => "select_days" %>
+	<script>
+	$(document).ready(function(){
+		$('#select_days').change(function() {
+			window.location.href = window.location.href.split("/").slice(0,6).join("/") +"/" + $(this).val()
+		});
+	});
+	</script>
+	<% unless @forecasts.empty? %>
+		<%= render partial: "game/new/wind", locals: { caption: "Forecast Wind", weathers: @forecasts, name: @home_team.name } %>
+	<% end %>
+	<% unless @weathers.empty? %>
+		<%= render partial: "game/new/wind", locals: { caption: "Weather Wind", weathers: @weathers, name: @home_team.name } %>
+	<% end %>
+
+	<div class="image">
+		<%= image_tag(@image_url, :width => '600') %>
+		<h2><%= "Zipcode: " + @home_team.zipcode %></h2>
+	</div>
+
+	<% unless @forecasts.empty? %>
+		<%= render partial: "game/new/weather", locals: { caption: "Wunderground Weather Forecast", weathers: @forecasts, name: @home_team.name } %>
+	<% end %>
+	<% unless @weathers.empty? %>
+		<%= render partial: "game/new/weather", locals: { caption: "Wunderground Weather Records", weathers: @weathers, name: @home_team.name } %>
+	<% end %>
+</div>
+
