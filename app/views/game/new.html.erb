@@ -29,7 +29,7 @@
 
 		<div class="image">
 			<%= image_tag(@image_url, :width => '600') %>
-			<h2><%= "Zipcode: " + @home_team.zipcode %></h2>
+			<h2><%= @home_team.stadium + " Zipcode: " + @home_team.zipcode %></h2>
 		</div>
 
 		<% unless @forecasts.empty? %>
