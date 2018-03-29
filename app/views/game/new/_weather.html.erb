@@ -106,7 +106,7 @@
           <td><%= "#{weather.humid_num-3}-#{weather.humid_num+3}" %></td>
           <td><%= "#{((weather.pressure_num-0.04)*100).round%100}-#{((weather.pressure_num+0.04)*100).round%100}" %></td>
           <td><%= weather.wind %></td>
-          <% result = true_data(weather.temp_num - 4, weather.temp_num + 4, weather.dew_num-2, weather.dew_num+2, weather.humid_num-3, weather.humid_num+3, weather.pressure_num-0.04, weather.pressure_num+0.04, name) %>
+          <% result = true_data(weather.temp_num - 4, weather.temp_num + 4, weather.dew_num-2, weather.dew_num+2, weather.humid_num-3, weather.humid_num+3, (weather.pressure_num-0.04).round(2), (weather.pressure_num+0.04).round(2), name) %>
           <td class="blue"></td>
           <td><%= result[:total_avg_1] %></td>
           <td><%= result[:total_avg_2] %></td>
@@ -247,7 +247,7 @@
               hum_min = weathers[min].humid_num - 6
               hum_max = weathers[min].humid_num - 1
             end
-            result = true_data(temp-4, temp+4, dew-2, dew+2, hum_min, hum_max, (pressure-4)/100.0, (pressure+4)/100.0, name) 
+            result = true_data(temp-4, temp+4, dew-2, dew+2, hum_min, hum_max, ((pressure-4)/100.0).round(2), ((pressure+4)/100.0).round(2), name) 
           %>
           <tr bgcolor="gray">
             <td class="lightgray">Before</td>
