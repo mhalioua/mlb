@@ -57,7 +57,9 @@ table {
 
 table.table-bordered td, table.table-bordered th {
   vertical-align: middle;
-  border: 1px solid #666666 !important;
+  padding:5px;
+  border: 1px solid black !important;
+  text-align: center;
 }
 
 table.table-bordered td {
