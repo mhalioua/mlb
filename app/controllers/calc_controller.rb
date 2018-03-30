@@ -38,10 +38,10 @@ class CalcController < ApplicationController
     end
     @index = 1
     if @type === 1
-      @index = @post['index1']
+      @index = @post['index1'] ? @post['index1'] : 0
       @weathers = @wunderground
     else
-      @index = @post['index2']
+      @index = @post['index2'] ? @post['index2'] : 0
       @weathers = @weather
     end
 
