@@ -25,7 +25,12 @@ class CalcController < ApplicationController
 
     time = Time.now.hour - 3
     (0...12).each do |index|
-      time_format = DateTime.now.change({hour: time})
+      time_format = DateTime.now
+      if time < 24
+        time_format = DateTime.now.change({hour: time})
+      else
+        time_format = DateTime.tomorrow.change({hour: time-24})
+      end
       weather_element = [time_format.strftime('%F %I:%M %p'), index]
       @index_dropdown << weather_element
       time = time + 1
