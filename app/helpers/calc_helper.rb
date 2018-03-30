@@ -7,9 +7,9 @@ module CalcHelper
     doc = download_document(url)
     puts url
 
-    return unless doc
+    return [] unless doc
     header = doc.css("#hourly-forecast-table tr").first
-    return unless header
+    return [] unless header
     headers = {
       'Time' => 0,
       'Temp.' => 0,
