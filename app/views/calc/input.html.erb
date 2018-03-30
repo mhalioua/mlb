@@ -888,6 +888,10 @@ function expand() {
 
             </tbody>
         </table>
+        <div class="image">
+            <%= image_tag(@image_url, :width => '600') %>
+            <h2><%= @home_team.stadium + " Zipcode: " + @home_team.zipcode %></h2>
+        </div>
         <table class="wind table-bordered">
             <thead>
                 <tr bgcolor="gray">
