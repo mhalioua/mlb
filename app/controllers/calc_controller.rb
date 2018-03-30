@@ -26,6 +26,8 @@ class CalcController < ApplicationController
       @wunderground = stadium_weather(1)
       @weather = stadium_weather(1)
     end
+    puts @wunderground.inspect
+    puts @weather.inspect
     @type = 1
     @stadium = []
     @weathers = []
