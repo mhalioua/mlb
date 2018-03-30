@@ -48,6 +48,8 @@ class CalcController < ApplicationController
 
     @index = 0
     @index = @post['index'] if @post['index']
+    puts @weathers
+    puts @index
 
     (0..2).each do |element|
       weather_element = @weathers[@index]
