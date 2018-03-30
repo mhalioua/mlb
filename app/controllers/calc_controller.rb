@@ -9,6 +9,8 @@ class CalcController < ApplicationController
     @type_dropdown = []
     @index_dropdown1 = []
     @index_dropdown2 = []
+    @wunderground =[]
+    @weather = []
     @teams.each do |team|
       team_element = [team.name, team.name]
       @team_dropdown << team_element
