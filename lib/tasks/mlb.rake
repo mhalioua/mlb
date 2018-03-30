@@ -70,6 +70,33 @@ namespace :mlb do
 
   task ten: [:create_matchups]
 
+  task test: :environment do
+    include GetHtml
+    url = 'https://weather.com/weather/hourbyhour/l/CAXX0504:1:CA'
+    doc = download_document(url)
+    puts url
+
+    re = []
+    hourlyweathers = doc.css('.twc-table tbody tr')
+    hourlyweathers.each_with_index do |weather, index|
+      break if count == 12
+      time = weather.children[1].children[0].children[0].children[0].text.squish
+      minute_index = time.index(':')
+      next unless minute_index && time[minute_index+1..minute_index+2] == '00'
+      temp = weather.children[3].children[0].children[0].children[0].text.squish
+      hum = weather.children[6].children[0].children[0].children[0].text.squish
+      wind = weather.children[7].children[0].children[0].children[0].text.squish
+      wind_index = wind.rindex(' ')
+      wind_dir = wind[wind_index+1..-1]
+      wind_speed = wind[0..wind_index-1]
+      data = {temp: temp, humidity: hum, dew: '', pressure: '', wind_dir: wind_dir, wind_speed: wind_speed.to_f}
+      re << data
+      count = count + 1
+    end
+    puts re.inspect
+  end
+
+
   task add: :environment do
     require 'csv'
 

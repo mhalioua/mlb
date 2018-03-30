@@ -32,7 +32,6 @@ class CalcController < ApplicationController
     if @post['form_stadium']
       element = @teams.find{|x| x.name == @post['form_stadium'] }
       zipcode = element.zipcode
-      zipcode = 'M5V1J1' if element.id == 4
       @wunderground = wunderground_weather(element.zipcode)
       @weather = weather_weather(element.zipcode)
     end
