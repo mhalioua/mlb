@@ -80,14 +80,13 @@ namespace :mlb do
     count = 0
     hourlyweathers = doc.css('.twc-table tbody tr')
     hourlyweathers.each_with_index do |weather, index|
-      puts weather.inspect
       break if count == 12
       time = weather.children[1].children[0].children[0].children[0].text.squish
       minute_index = time.index(':')
       next unless minute_index && time[minute_index+1..minute_index+2] == '00'
-      temp = weather.children[3].children[0].children[0].children[0].text.squish
-      hum = weather.children[6].children[0].children[0].children[0].text.squish
-      wind = weather.children[7].children[0].children[0].children[0].text.squish
+      temp = weather.children[3].children[0].children[0].text.squish
+      hum = weather.children[6].children[0].children[0].text.squish
+      wind = weather.children[7].children[0].children[0].text.squish
       wind_index = wind.rindex(' ')
       wind_dir = wind[wind_index+1..-1]
       wind_speed = wind[0..wind_index-1]
