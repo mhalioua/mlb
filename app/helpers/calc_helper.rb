@@ -42,8 +42,8 @@ module CalcHelper
       hum = weather.children[6].children[0].children[0].text.squish
       wind = weather.children[7].children[0].children[0].text.squish
       wind_index = wind.rindex(' ')
-      wind_dir = wind[wind_index+1..-1]
-      wind_speed = wind[0..wind_index-1]
+      wind_speed = wind[wind_index+1..-1]
+      wind_dir = wind[0..wind_index-1]
       data = {temp: temp, humidity: hum, dew: '', pressure: '', wind_dir: wind_dir, wind_speed: wind_speed.to_f}
       re << data
       count = count + 1
