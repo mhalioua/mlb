@@ -11,7 +11,7 @@ module CalcHelper
       forecast_data = parsed_json['hourly_forecast']
       (0..2).each do |i|
         hour_data = forecast_data[i]
-        data = {temp: hour_data['temp']['english'], humidity: hour_data['humidity'], dew: hour_data['dewpoint']['english'], pressure: hour_data['mslp']['english'], wind_dir: hour_data['wdir']['dir'], wind_speed: hour_data['wspd']['english'].to_f}
+        data = {temp: hour_data['temp']['english'], humidity: hour_data['humidity'], dew: hour_data['dewpoint']['english'], pressure: hour_data['mslp']['english'], wind_dir: hour_data['wdir']['dir'], wind_speed: hour_data['wspd']['english']}
         re << data
       end
     end

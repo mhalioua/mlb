@@ -231,11 +231,11 @@ function expand() {
                 @post['baro_thr']   = @stadium[2][:pressure]
             end
             unless @post['wind_one_speed'] != "" && @post['wind_one_dir'] != "" && @post['wind_two_speed'] != "" &&  @post['wind_two_dir'] != "" && @post['wind_thr_speed'] != "" && @post['wind_thr_dir'] != ""
-                @post['wind_one_speed'] = @stadium[0][:wind_speed].to_s
+                @post['wind_one_speed'] = @stadium[0][:wind_speed]
                 @post['wind_one_dir']   = @stadium[0][:wind_dir]
-                @post['wind_two_speed'] =  @stadium[1][:wind_speed].to_s
+                @post['wind_two_speed'] =  @stadium[1][:wind_speed]
                 @post['wind_two_dir'] = @stadium[1][:wind_dir]
-                @post['wind_thr_speed'] = @stadium[2][:wind_speed].to_s
+                @post['wind_thr_speed'] = @stadium[2][:wind_speed]
                 @post['wind_thr_dir'] = @stadium[2][:wind_dir]
             end
 
