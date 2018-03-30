@@ -7,60 +7,56 @@ class CalcController < ApplicationController
     @teams = Team.all
     @team_dropdown = []
     @type_dropdown = []
-    @index_dropdown1 = []
-    @index_dropdown2 = []
+    @index_dropdown = []
     @wunderground =[]
     @weather = []
+    @weathers = []
+    @stadium = []
     @teams.each do |team|
       team_element = [team.name, team.name]
       @team_dropdown << team_element
     end
     @team_dropdown = @team_dropdown.sort
+
     @type_dropdown << ['Wunderground', 1]
     @type_dropdown << ['Weather', 2]
+
+    time = Time.now.hour - 3
+    (0...12).each do |index|
+      time_format = DateTime.now.change({hour: time})
+      weather_element = [time_format.strftime('%I:%M %p'), index]
+      @index_dropdown << weather_element
+      time = time + 1
+    end
+
     if @post['form_stadium']
       element = @teams.find{|x| x.name == @post['form_stadium'] }
-      @wunderground = stadium_weather(element.id)
-      @weather = stadium_weather(element.id)
-    else
-      @wunderground = stadium_weather(1)
-      @weather = stadium_weather(1)
+      zipcode = element.zipcode
+      zipcode = 'M5V1J1' if element.id == 4
+      @wunderground = wunderground_weather(element.zipcode)
+      @weather = weather_weather(element.zipcode)
     end
-    puts @wunderground.inspect
-    puts @weather.inspect
+
     @type = 1
-    @stadium = []
-    @weathers = []
     @type = @post['type'].to_i if @post['type']
-    @wunderground.each_with_index do |weather, index|
-      weather_element = [weather.time, index]
-      @index_dropdown1 << weather_element
-    end
-    @weather.each_with_index do |weather, index|
-      weather_element = [weather.time, index]
-      @index_dropdown1 << weather_element
-    end
-    @index = 1
+
     if @type === 1
-      @index = @post['index1'] ? @post['index1'] : 0
       @weathers = @wunderground
     else
-      @index = @post['index2'] ? @post['index2'] : 0
       @weathers = @weather
     end
 
-    @stadium.push(@weathers[@index])
-    if @weathers[@index+1]
-      @stadium.push(@weathers[@index+1])
-    else
-      @stadium.push(@weathers[@index])
-    end
+    @index = 0
+    @index = @post['index'] if @post['index']
 
-    if @weathers[@index+2]
-      @stadium.push(@weathers[@index+2])
-    else
+    (0..2).each do |element|
+      weather_element = @weathers[@index]
+      if @type == 2
+        weather_element[:dew] = @wunderground[@index][:dew]
+        weather_element[:pressure] = @wunderground[@index][:pressure]
+      end
       @stadium.push(@weathers[@index])
+      @index = @index + 1 if @weathers[@index+1]
     end
-
   end
 end

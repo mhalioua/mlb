@@ -15,17 +15,6 @@
         color: white;
     } 
 </style>
-<%= form_tag("/calc/input", method: "post") do %>
-
-<% if @post['authenticity_token'] %>
-<%= select_tag :type, options_for_select(@type_dropdown, @post['type']), :onchange => 'change_type()' %>
-<%= select_tag :index1, options_for_select(@index_dropdown1, @post['index1']) %>
-<%= select_tag :index2, options_for_select(@index_dropdown2, @post['index2']) %>
-<% else %>
-<%= select_tag :type, options_for_select(@type_dropdown), :onchange => 'change_type()' %>
-<%= select_tag :index1, options_for_select(@index_dropdown1) %>
-<%= select_tag :index2, options_for_select(@index_dropdown2) %>
-<% end %>
 <script>
 function expand() {
     var elements = document.getElementsByClassName('wind')
@@ -35,17 +24,16 @@ function expand() {
     elements = document.getElementsByClassName('expand')
     elements[0].style.display = 'none';
 }
-var type = <%= @post['authenticity_token'] ? @post['type'] : 1 %>;
-function change_type() {
-    type = document.getElementById('type').value;
-    console.log(type)
-    document.getElementById('index1').style.display = 'none';
-    document.getElementById('index2').style.display = 'none';
-    document.getElementById('index' + type).style.display = 'inline-block';
-}
-change_type()
 </script>
+<%= form_tag("/calc/input", method: "post") do %>
 
+<% if @post['authenticity_token'] %>
+<%= select_tag :type, options_for_select(@type_dropdown, @post['type']), :onchange => 'change_type()' %>
+<%= select_tag :index, options_for_select(@index_dropdown, @post['index']) %>
+<% else %>
+<%= select_tag :type, options_for_select(@type_dropdown), :onchange => 'change_type()' %>
+<%= select_tag :index, options_for_select(@index_dropdown) %>
+<% end %>
 <table class="calcTable table-bordered">
     <tbody>
         <tr>
