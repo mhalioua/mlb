@@ -31,6 +31,7 @@ module CalcHelper
 
     return [] unless doc
     re = []
+    count = 0
     hourlyweathers = doc.css('.twc-table tbody tr')
     hourlyweathers.each_with_index do |weather, index|
       break if count == 12

@@ -77,6 +77,7 @@ namespace :mlb do
     puts url
 
     re = []
+    count = 0
     hourlyweathers = doc.css('.twc-table tbody tr')
     hourlyweathers.each_with_index do |weather, index|
       break if count == 12
