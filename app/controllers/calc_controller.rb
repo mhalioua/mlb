@@ -15,9 +15,9 @@ class CalcController < ApplicationController
       team_element = [team.name, team.name]
       @team_dropdown << team_element
     end
-    @type_dropdown << [1, 'Wunderground']
-    @type_dropdown << [2, 'Weather']
     @team_dropdown = @team_dropdown.sort
+    @type_dropdown << ['Wunderground', 1]
+    @type_dropdown << ['Weather', 2]
     if @post['form_stadium']
       element = @teams.find{|x| x.name == @post['form_stadium'] }
       @wunderground = stadium_weather(element.id)
@@ -33,11 +33,11 @@ class CalcController < ApplicationController
     @weathers = []
     @type = @post['type'].to_i if @post['type']
     @wunderground.each_with_index do |weather, index|
-      weather_element = [index, weather.time]
+      weather_element = [weather.time, index]
       @index_dropdown1 << weather_element
     end
     @weather.each_with_index do |weather, index|
-      weather_element = [index, weather.time]
+      weather_element = [weather.time, index]
       @index_dropdown1 << weather_element
     end
     @index = 1

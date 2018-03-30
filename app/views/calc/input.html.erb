@@ -26,24 +26,24 @@ function expand() {
 }
 var type = <%= @post['authenticity_token'] ? @post['type'] : 1 %>;
 function change_type() {
-    type = document.getElementsByClassName('type')[0].value;
+    type = document.getElementById('type').value;
     console.log(type)
-    document.getElementsByClassName('index')[0].style.display = 'none';
-    document.getElementsByClassName('index')[1].style.display = 'none';
-    document.getElementsByClassName('index' + type)[0].style.display = 'inline-block';
+    document.getElementById('index1').style.display = 'none';
+    document.getElementById('index2').style.display = 'none';
+    document.getElementById('index' + type)[0].style.display = 'inline-block';
 }
 change_type()
 </script>
 <%= form_tag("/calc/input", method: "post") do %>
 
 <% if @post['authenticity_token'] %>
-<%= select_tag :type, options_for_select(@type_dropdown, @post['type']), {:class => 'type'}, :onchange => 'change_type()' %>
-<%= select_tag :index1, options_for_select(@index_dropdown1, @post['index1']), {:class => 'index1 index'} %>
-<%= select_tag :index2, options_for_select(@index_dropdown2, @post['index2']), {:class => 'index2 index'} %>
+<%= select_tag :type, options_for_select(@type_dropdown, @post['type']), :onchange => 'change_type()' %>
+<%= select_tag :index1, options_for_select(@index_dropdown1, @post['index1']) %>
+<%= select_tag :index2, options_for_select(@index_dropdown2, @post['index2']) %>
 <% else %>
 <%= select_tag :type, options_for_select(@type_dropdown), :onchange => 'change_type()' %>
-<%= select_tag :index1, options_for_select(@index_dropdown1), {:class => 'index1 index'} %>
-<%= select_tag :index2, options_for_select(@index_dropdown2), {:class => 'index2 index'} %>
+<%= select_tag :index1, options_for_select(@index_dropdown1) %>
+<%= select_tag :index2, options_for_select(@index_dropdown2) %>
 <% end %>
 
 <table class="calcTable table-bordered">
