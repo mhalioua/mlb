@@ -29,7 +29,7 @@ class CalcController < ApplicationController
       if time < 24
         time_format = DateTime.now.change({hour: time})
       else
-        time_format = DateTime.tomorrow.change({hour: time-24})
+        time_format = DateTime.now.tomorrow.change({hour: time-24})
       end
       weather_element = [time_format.strftime('%F %I:%M %p'), index]
       @index_dropdown << weather_element
