@@ -24,8 +24,28 @@ function expand() {
     elements = document.getElementsByClassName('expand')
     elements[0].style.display = 'none';
 }
+var type = <%= @post['authenticity_token'] ? @post['type'] : 1 %>;
+function change_type() {
+    type = document.getElementsByClassName('type')[0].value;
+    console.log(type)
+    document.getElementsByClassName('index')[0].style.display = 'none';
+    document.getElementsByClassName('index')[1].style.display = 'none';
+    document.getElementsByClassName('index' + type)[0].style.display = 'inline-block';
+}
+change_type()
 </script>
 <%= form_tag("/calc/input", method: "post") do %>
+
+<% if @post['authenticity_token'] %>
+<%= select_tag :type, options_for_select(@type_dropdown, @post['type']), {:class => 'type'}, :onchange => 'change_type()' %>
+<%= select_tag :index1, options_for_select(@index_dropdown1, @post['index1']), {:class => 'index1 index'} %>
+<%= select_tag :index2, options_for_select(@index_dropdown2, @post['index2']), {:class => 'index2 index'} %>
+<% else %>
+<%= select_tag :type, options_for_select(@type_dropdown), :onchange => 'change_type()' %>
+<%= select_tag :index1, options_for_select(@index_dropdown1), {:class => 'index1 index'} %>
+<%= select_tag :index2, options_for_select(@index_dropdown2), {:class => 'index2 index'} %>
+<% end %>
+
 <table class="calcTable table-bordered">
     <tbody>
         <tr>

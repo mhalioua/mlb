@@ -6,20 +6,57 @@ class CalcController < ApplicationController
     @post = params
     @teams = Team.all
     @team_dropdown = []
+    @type_dropdown = []
+    @index_dropdown1 = []
+    @index_dropdown2 = []
     @teams.each do |team|
       team_element = [team.name, team.name]
       @team_dropdown << team_element
     end
+    @type_dropdown << [1, 'Wunderground']
+    @type_dropdown << [2, 'Weather']
     @team_dropdown = @team_dropdown.sort
-    if @post['authenticity_token']
-      if @post['form_stadium']
-        element = @teams.find{|x| x.name == @post['form_stadium'] }
-        zipcode = element.zipcode
-        if element.id == 4
-          zipcode = "M5V1J1"
-        end
-        @stadium = stadium_weather(zipcode)
-      end
+    if @post['form_stadium']
+      element = @teams.find{|x| x.name == @post['form_stadium'] }
+      @wunderground = stadium_weather(element.id)
+      @weather = stadium_weather(element.id)
+    else
+      @wunderground = stadium_weather(1)
+      @weather = stadium_weather(1)
     end
+    @type = 1
+    @stadium = []
+    @weathers = []
+    @type = @post['type'].to_i if @post['type']
+    @wunderground.each_with_index do |weather, index|
+      weather_element = [index, weather.time]
+      @index_dropdown1 << weather_element
+    end
+    @weather.each_with_index do |weather, index|
+      weather_element = [index, weather.time]
+      @index_dropdown1 << weather_element
+    end
+    @index = 1
+    if @type === 1
+      @index = @post['index1']
+      @weathers = @wunderground
+    else
+      @index = @post['index2']
+      @weathers = @weather
+    end
+
+    @stadium.push(@weathers[@index])
+    if @weathers[@index+1]
+      @stadium.push(@weathers[@index+1])
+    else
+      @stadium.push(@weathers[@index])
+    end
+
+    if @weathers[@index+2]
+      @stadium.push(@weathers[@index+2])
+    else
+      @stadium.push(@weathers[@index])
+    end
+
   end
 end
