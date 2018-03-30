@@ -1,4 +1,5 @@
 module CalcHelper
+  include GetHtml
 
   def stadium_weather(home_team)
 
