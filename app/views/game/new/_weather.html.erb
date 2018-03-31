@@ -227,8 +227,8 @@
 
       <% (0..1).each do |one_sec| %>
 
-        <% temp = ((weather_one.temp_num + weather_two.temp_num)/2) %>
-        <% dew = ((weather_one.dew_num + weather_two.dew_num + 1)/2) %>
+        <% temp = (((weather_one.temp_num + weather_two.temp_num)/2)).round(1) %>
+        <% dew = (((weather_one.dew_num + weather_two.dew_num + 1)/2)).round(1) %>
         <%
           hum_one = weather_one.humid_num
           hum_two = weather_two.humid_num
