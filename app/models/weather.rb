@@ -3,12 +3,12 @@ class Weather < ApplicationRecord
 
   def temp_num
     return 0.0 if temp.size < 3
-    temp[0..-3].to_f
+    temp[0..-3].to_f.round(1)
   end
 
   def dew_num
     return 0.0 if dp.size < 3
-    dp[0..-3].to_f
+    dp[0..-3].to_f.round(1)
   end
 
   def humid_num
@@ -18,7 +18,7 @@ class Weather < ApplicationRecord
 
   def pressure_num
     return 0.0 if pressure.size < 3
-    pressure[0..-3].to_f
+    pressure[0..-3].to_f.round(2)
   end
 
   def wind
