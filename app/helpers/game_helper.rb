@@ -229,7 +229,7 @@ module GameHelper
     end
 
     query = Workbook.where(search_string.join(" AND ")).to_a
-    temp_count = Workbook.where(search_string.join(" AND ")).count(:R)
+    temp_count = query.count
 
     result[:total_count] = temp_count
     result[:total_avg_1] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
@@ -237,26 +237,29 @@ module GameHelper
     result[:total_hits_avg] = (query.map {|stat| stat.Total_Walks.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_runs_avg] = (query.map {|stat| stat.home_runs.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
 
-    query = Workbook.where(search_string_low.join(" AND "))
+    query = Workbook.where(search_string_low.join(" AND ")).to_a
+    temp_count = query.count
 
-    result[:lower_one] = query.average(:R).to_f.round(2)
-    result[:lower_one_count] = query.count(:R)
+    result[:lower_one] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:lower_one_count] = temp_count
 
     if name != ""
       search_string.push('"Home_Team" = ' + "'#{name}'")
       search_string_low.push('"Home_Team" = ' + "'#{name}'")
     end
 
-    query = Workbook.where(search_string.join(" AND "))
+    query = Workbook.where(search_string.join(" AND ")).to_a
+    temp_count = query.count
 
-    result[:home_total_runs1_avg] = query.average(:R).to_f.round(2)
-    result[:home_total_runs2_avg] = query.average(:Total_Hits).to_f.round(2)
-    result[:home_count] = query.count(:R)
+    result[:home_total_runs1_avg] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:home_total_runs2_avg] = (query.map {|stat| stat.Total_Hits.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:home_count] = temp_count
 
-    query = Workbook.where(search_string_low.join(" AND "))
+    query = Workbook.where(search_string_low.join(" AND ")).to_a
+    temp_count = query.count
 
-    result[:home_one] = query.average(:R).to_f.round(2)
-    result[:home_one_count] = query.count(:R)
+    result[:home_one] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:home_one_count] = temp_count
     
     return result
   end
