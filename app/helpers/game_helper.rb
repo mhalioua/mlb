@@ -46,6 +46,20 @@ module GameHelper
     return Date::DAYNAMES[day-num]
   end
 
+  def wind_validation(wind)
+    if wind === 'N'
+      return 'North'
+    elsif wind === 'E'
+      return 'East'
+    elsif wind === 'W'
+      return 'West'
+    elsif wind === 'S'
+      return 'South'
+    else
+      return wind
+    end
+  end
+
   def wind_data(name, first_wind, second_wind, third_wind)
     first_wind_speed, first_wind_dir = split_wind(first_wind)
     second_wind_speed, second_wind_dir = split_wind(second_wind)
@@ -92,9 +106,12 @@ module GameHelper
         filter_max = filter_value + 6
       end
 
-      wind_directions = ["NNW", "North", "NNE", "NE", "ENE", "East", "ESE", "SE", "SSE", "South", "SSW", "SW", "WSW", "West", "WNW", "NW", "NNW", "N"]
+      wind_directions = ["NNW", "North", "NNE", "NE", "ENE", "East", "ESE", "SE", "SSE", "South", "SSW", "SW", "WSW", "West", "WNW", "NW", "NNW", "North"]
       currect_directions = []
       real_directions = []
+      first_wind_dir = wind_validation(first_wind_dir)
+      second_wind_dir = wind_validation(second_wind_dir)
+      third_wind_dir = wind_validation(third_wind_dir)
 
       if wind_directions.include?(first_wind_dir)
         index = wind_directions.index(first_wind_dir)
