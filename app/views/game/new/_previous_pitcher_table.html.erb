@@ -28,7 +28,7 @@
 	<% prev_pitchers = pitcher.prev_pitchers %>
 	<% prev_pitchers.each_with_index do |pitcher, index| %>
 		<% weather = pitcher.game.weathers.find_by(hour: 1, station: "Actual") %>
-		<% if index % 4 == 0 %>
+		<% if index % 4 == 3 %>
 			<tr class='lightgray'>
 		<% else %>
 			<tr>
