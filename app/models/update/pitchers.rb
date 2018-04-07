@@ -167,7 +167,7 @@ module Update
         row = pitcher.children[1].children[0]
         name = parse_name(row.children[0])
         identity = parse_identity(row.children[0])
-        ip = row.children[1].text.to_i
+        ip = row.children[1].text.to_f
         h = row.children[2].text.to_i
         r = row.children[3].text.to_i
         bb = row.children[5].text.to_i
