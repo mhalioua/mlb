@@ -310,7 +310,7 @@ tbody.batter td:nth-child(n+42):nth-child(-n+49):nth-child(even){
   background-color: #FF7F00;
 }
 
-td.blue {
+td.blue, tr.blue {
   background-color: #6495ED;
 }
 
