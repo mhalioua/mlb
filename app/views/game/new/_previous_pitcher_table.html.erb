@@ -26,7 +26,7 @@
   </thead>
   <tbody>
 	<% prev_pitchers = pitcher.prev_pitchers %>
-	<% if flag %>
+	<% if flag === 1 %>
 		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15) } %>
 		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15).offset(15) } %>
 	<% else %>
