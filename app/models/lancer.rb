@@ -158,6 +158,6 @@ class Lancer < ApplicationRecord
     .where.not("game_days.date between ? and ?", Date.new(2017, 11, 2), Date.new(2018, 3, 28))
     .where('ip is not null')
     .order("game_days.date DESC")
-    .limit(50)
+    .limit(60)
   end
 end

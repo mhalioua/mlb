@@ -26,81 +26,14 @@
   </thead>
   <tbody>
 	<% prev_pitchers = pitcher.prev_pitchers %>
-	<% prev_pitchers.each_with_index do |pitcher, index| %>
-		<% weather = pitcher.game.weathers.find_by(hour: 1, station: "Actual") %>
-		<% if index % 4 == 3 %>
-			<tr class='lightgray'>
-		<% else %>
-			<tr>
-		<% end %>
-			<td><%= index+1 %></td>
-			<td><%= pitcher.game.game_day.date_string %></td>
-			<td><%= DateTime.parse(pitcher.game.game_date).strftime("%I:%M%p") %></td>
-			<td style="background-color: red;"><%= pitcher.opp_team.baseball_abbr if pitcher.opp_team %></td>
-			<td class="lightgray"><%= pitcher.ip %></td>
-			<td class="lightgray"><%= pitcher.bb %></td>
-			<td class="lightgray"><%= pitcher.h %></td>
-			<td class="lightgray"><%= pitcher.r %></td>
-			<% if weather %>
-				<td><%= weather.temp %></td>
-				<td><%= weather.dp %></td>
-				<td><%= weather.wind_speed %></td>
-				<td><%= weather.wind_dir %></td>
-				<td><%= d2_calc(pitcher.game.home_team.baseball_abbr, weather.wind_dir) %></td>
-				<td><%= weather.pressure %></td>
-				<td><%= weather.hum %></td>
-			<% else %>
-				<td colspan="7"></td>
-			<% end %>
-			<td style="background-color: red;"><%= pitcher.game.home_team.baseball_abbr %></td>
-			<% if weather %>
-				<%
-				humid_max = weather.humid_num + 3
-				humid_min = weather.humid_num - 3
-				if DateTime.parse(pitcher.game.game_date).hour > 18
-					humid_min = humid_min + 2
-					humid_max = humid_max + 2
-				end
-				result = true_data(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, humid_min, humid_max, weather.pressure_num-0.04, weather.pressure_num+0.04, pitcher.game.home_team.name) 
-				%>
-				<td class="blue"><%= result[:total_count] %></td>
-				<td style="background-color: royalblue;"><%= result[:total_avg_1] %></td>
-				<td style="background-color: royalblue;"><%= result[:total_avg_2] %></td>
-				<td class="blue"><%= result[:total_hits_avg] %></td>
-				<td class="blue"><%= result[:home_runs_avg] %></td>
-				<td style="background-color: royalblue;"><%= result[:lower_one] %></td>
-				<td class="blue"><%= result[:lower_one_count] %></td>
-				<td style="background-color: red;"></td>
-				<td class="blue"> <%= result[:home_total_runs1_avg] %> </td>
-				<td class="blue"> <%= result[:home_total_runs2_avg] %> </td>
-				<td class="blue"> <%= result[:home_count] %> </td>
-				<td class="blue"> <%= result[:home_one] %> </td>
-				<td class="blue"> <%= result[:home_one_count] %> </td>
-			<% else %>
-				<td colspan="13"></td>
-			<% end %>
-			<% opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id) %>
-			<% if opposite %>
-				<td> <%= opposite.name %> </td>
-				<td> <%= opposite.ip %> </td>
-				<td> <%= opposite.bb %> </td>
-				<td> <%= opposite.h %> </td>
-				<td> <%= opposite.r %> </td>
-			<% else %>
-				<td colspan="5"></td>
-			<% end %>
-		</tr>
+	<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers } %>
+	<% if flag %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15) } %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15).offset(15) } %>
+	<% else %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20) } %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(40).offset(20) } %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(60).offset(40) } %>
 	<% end %>
-	<tr>
-	  <td></td>
-	  <td bgcolor="#DC143C">Totals</td>
-	  <td></td>
-	  <td></td>
-	  <td bgcolor="#DC143C"><%= add_innings(prev_pitchers.map {|pitcher| pitcher.ip }) %></td>
-	  <td bgcolor="#DC143C"><%= prev_pitchers.map {|pitcher| pitcher.bb.to_i }.sum %></td>
-	  <td bgcolor="#DC143C"><%= prev_pitchers.map {|pitcher| pitcher.h.to_i }.sum %></td>
-	  <td bgcolor="#DC143C"><%= prev_pitchers.map {|pitcher| pitcher.r.to_i }.sum %></td>
-	  <td colspan="26"></td>
-	</tr>
   </tbody>
 </table>
