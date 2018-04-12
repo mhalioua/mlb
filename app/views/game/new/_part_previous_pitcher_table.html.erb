@@ -1,4 +1,4 @@
-<% if prev_pitchers.length %>
+<% if prev_pitchers.length > 0 %>
 	<% prev_pitchers.each_with_index do |pitcher, index| %>
 		<% weather = pitcher.game.weathers.find_by(hour: 1, station: "Actual") %>
 		<% if index % 4 == 3 %>
