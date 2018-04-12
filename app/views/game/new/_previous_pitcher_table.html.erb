@@ -27,12 +27,12 @@
   <tbody>
 	<% prev_pitchers = pitcher.prev_pitchers %>
 	<% if flag === 1 %>
-		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15) } %>
-		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15).offset(15) } %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15), start: 0 } %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15).offset(15), start: 15 } %>
 	<% else %>
-		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20) } %>
-		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(40).offset(20) } %>
-		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(60).offset(40) } %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20), start: 0 } %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20).offset(20), start: 20 } %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20).offset(40), start: 40 } %>
 	<% end %>
   </tbody>
 </table>
