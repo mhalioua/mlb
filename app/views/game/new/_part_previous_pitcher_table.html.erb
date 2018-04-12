@@ -74,17 +74,25 @@
 			<% end %>
 		</tr>
 	<% end %>
+	<%
+		prev_pitchers_ip = add_innings(prev_pitchers.map {|pitcher| pitcher.ip })
+		prev_pitchers_bb = prev_pitchers.map {|pitcher| pitcher.bb.to_i }.sum
+		prev_pitchers_h = prev_pitchers.map {|pitcher| pitcher.h.to_i }.sum
+		opposite_ip = add_innings(opposite_ip_sum)
+	%>
 	<tr>
 	  <td></td>
 	  <td bgcolor="#DC143C">Totals</td>
 	  <td></td>
 	  <td></td>
-	  <td bgcolor="#DC143C"><%= add_innings(prev_pitchers.map {|pitcher| pitcher.ip }) %></td>
-	  <td bgcolor="#DC143C"><%= prev_pitchers.map {|pitcher| pitcher.bb.to_i }.sum %></td>
-	  <td bgcolor="#DC143C"><%= prev_pitchers.map {|pitcher| pitcher.h.to_i }.sum %></td>
+	  <td bgcolor="#DC143C"><%= prev_pitchers_ip %></td>
+	  <td bgcolor="#DC143C"><%= prev_pitchers_bb %></td>
+	  <td bgcolor="#DC143C"><%= prev_pitchers_h %></td>
 	  <td bgcolor="#DC143C"><%= prev_pitchers.map {|pitcher| pitcher.r.to_i }.sum %></td>
-	  <td colspan="22"></td>
-	  <td bgcolor="#DC143C"><%= add_innings(opposite_ip_sum) %></td>
+	  <td class="blue"><%= ((prev_pitchers_bb + prev_pitchers_h) / prev_pitchers_ip.to_f).round(2) %></td>
+	  <td colspan="20"></td>
+	  <td class="blue"><%= ((opposite_bb_sum + opposite_h_sum) / opposite_ip.to_f).round(2) %></td>
+	  <td bgcolor="#DC143C"><%= opposite_ip %></td>
 	  <td bgcolor="#DC143C"><%= opposite_bb_sum %></td>
 	  <td bgcolor="#DC143C"><%= opposite_h_sum %></td>
 	  <td bgcolor="#DC143C"><%= opposite_r_sum %></td>
