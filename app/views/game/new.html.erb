@@ -26,7 +26,7 @@
 			<%= render partial: "game/new/wind", locals: { caption: "Forecast Wind", weathers: @forecasts, name: @home_team.name, additional: @additional } %>
 		<% end %>
 		<% unless @weathers.empty? %>
-			<%= render partial: "game/new/wind", locals: { caption: "Weather Wind", weathers: @weathers, name: @home_team.name, additional: @additional } %>
+			<%= render partial: "game/new/wind", locals: { caption: "Weather Wind", weathers: @weathers, name: @home_team.name, additional: 0 } %>
 		<% end %>
 
 		<div class="image">
