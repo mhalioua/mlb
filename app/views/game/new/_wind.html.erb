@@ -40,12 +40,12 @@
   $(document).ready(function(){
     $(".addWind").click(function(){
       var a = window.location.href.split("/")
-      a[7] = $(this).val() + 1
+      a[7] = a[7] + 1
       window.location.href = a.join("/")
     });
     $(".subWind").click(function(){
       var a = window.location.href.split("/")
-      a[7] = $(this).val() - 1
+      a[7] = a[7] - 1
       window.location.href = a.join("/")
     });
   });
