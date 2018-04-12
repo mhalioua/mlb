@@ -60,7 +60,7 @@ module GameHelper
     end
   end
 
-  def wind_data(name, first_wind, second_wind, third_wind)
+  def wind_data(name, first_wind, second_wind, third_wind, additional)
     first_wind_speed, first_wind_dir = split_wind(first_wind)
     second_wind_speed, second_wind_dir = split_wind(second_wind)
     third_wind_speed, third_wind_dir = split_wind(third_wind)
@@ -105,6 +105,8 @@ module GameHelper
         filter_min = filter_value - 1
         filter_max = filter_value + 6
       end
+      filter_min = filter_min + additional
+      filter_max = filter_max + additional
 
       wind_directions = ["NNW", "North", "NNE", "NE", "ENE", "East", "ESE", "SE", "SSE", "South", "SSW", "SW", "WSW", "West", "WNW", "NW", "NNW", "North"]
       currect_directions = []

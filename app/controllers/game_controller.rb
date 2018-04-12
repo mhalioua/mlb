@@ -54,6 +54,7 @@ class GameController < ApplicationController
 		@forecasts = @game.weathers.where(station: "Forecast").order("updated_at DESC").offset(@forecast*3).limit(3)
 		@forecasts = [@forecasts.last, @forecasts.second, @forecasts.first]
 		@weathers = @game.weathers.where(station: "Actual").order(:hour)
+		@additional = params[:option].to_i
 	end
 
 	def weather
@@ -80,6 +81,7 @@ class GameController < ApplicationController
 		@forecasts = @game.weathers.where(station: "Forecast").order("updated_at DESC").offset(@forecast*3).limit(3)
 		@forecasts = [@forecasts.last, @forecasts.second, @forecasts.first]
 		@weathers = @game.weathers.where(station: "Actual").order(:hour)
+		@additional = params[:option].to_i
 	end
 
 	def stats

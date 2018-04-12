@@ -905,7 +905,7 @@ function expand() {
             </thead>
             <tbody>
                 <% 
-                    winds = wind_data(name, @post['wind_one_speed'].to_s + " mph " + @post['wind_one_dir'],  @post['wind_two_speed'].to_s + " mph " + @post['wind_two_dir'],  @post['wind_thr_speed'].to_s + " mph " + @post['wind_thr_dir']) 
+                    winds = wind_data(name, @post['wind_one_speed'].to_s + " mph " + @post['wind_one_dir'],  @post['wind_two_speed'].to_s + " mph " + @post['wind_two_dir'],  @post['wind_thr_speed'].to_s + " mph " + @post['wind_thr_dir'], 0) 
                 %>
                 <% winds.each do |wind| %>
                     <% if wind[6].to_i == 1 %>

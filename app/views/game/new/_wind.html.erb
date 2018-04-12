@@ -1,7 +1,11 @@
 <table class="table-bordered wind">
-  <caption><%= caption %></caption>
-  <button class="btn-primary">+</button>
-  <button class="btn-danger">-</button>
+  <caption>
+    <%= caption %>
+    <% if caption === 'Forecast Wind' %>
+      <button class="btn-primary addWind">+</button>
+      <button class="btn-danger subWind">-</button>
+    <% end %>
+  </caption>
   <thead>
   	<tr bgcolor="gray">
   	  <th>Wind</th>
@@ -13,7 +17,7 @@
   	</tr>
   </thead>
   <tbody>
-    <% winds = wind_data(name, weathers[0].wind, weathers[1].wind, weathers[2].wind) %>
+    <% winds = wind_data(name, weathers[0].wind, weathers[1].wind, weathers[2].wind, additional) %>
     <% winds.each do |wind| %>
       <% if wind[6].to_i == 1 %>
       <tr bgcolor="#DC143C">
@@ -32,3 +36,17 @@
     <% end %>
   </tbody>
 </table>
+<script>
+  $(document).ready(function(){
+    $(".addWind").click(function(){
+      var a = window.location.href.split("/")
+      a[7] = $(this).val() + 1
+      window.location.href = a.join("/")
+    });
+    $(".subWind").click(function(){
+      var a = window.location.href.split("/")
+      a[7] = $(this).val() - 1
+      window.location.href = a.join("/")
+    });
+  });
+</script>

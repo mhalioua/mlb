@@ -16,15 +16,17 @@
 		<script>
 		$(document).ready(function(){
 			$('#select_days').change(function() {
-				window.location.href = window.location.href.split("/").slice(0,6).join("/") +"/" + $(this).val()
+				var a = window.location.href.split("/")
+				a[6] = $(this).val()
+				window.location.href = a.join("/")
 			});
 		});
 		</script>
 		<% unless @forecasts.empty? %>
-			<%= render partial: "game/new/wind", locals: { caption: "Forecast Wind", weathers: @forecasts, name: @home_team.name } %>
+			<%= render partial: "game/new/wind", locals: { caption: "Forecast Wind", weathers: @forecasts, name: @home_team.name, additional: @additional } %>
 		<% end %>
 		<% unless @weathers.empty? %>
-			<%= render partial: "game/new/wind", locals: { caption: "Weather Wind", weathers: @weathers, name: @home_team.name } %>
+			<%= render partial: "game/new/wind", locals: { caption: "Weather Wind", weathers: @weathers, name: @home_team.name, additional: @additional } %>
 		<% end %>
 
 		<div class="image">
