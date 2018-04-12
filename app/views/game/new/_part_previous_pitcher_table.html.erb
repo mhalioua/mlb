@@ -1,5 +1,5 @@
 <% if prev_pitchers.length > 0
-		opposite_ip_sum = 0
+		opposite_ip_sum = []
 		opposite_bb_sum = 0
 		opposite_h_sum = 0
 		opposite_r_sum = 0
@@ -59,7 +59,7 @@
 			<% opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id) %>
 			<%
 				if opposite
-					opposite_ip_sum = opposite_ip_sum + opposite.ip.to_f.round(1)
+					opposite_ip_sum.push(opposite.ip)
 					opposite_bb_sum = opposite_bb_sum + opposite.bb.to_i
 					opposite_h_sum = opposite_h_sum + opposite.h.to_i
 					opposite_r_sum = opposite_r_sum + opposite.r.to_i
@@ -84,7 +84,7 @@
 	  <td bgcolor="#DC143C"><%= prev_pitchers.map {|pitcher| pitcher.h.to_i }.sum %></td>
 	  <td bgcolor="#DC143C"><%= prev_pitchers.map {|pitcher| pitcher.r.to_i }.sum %></td>
 	  <td colspan="22"></td>
-	  <td bgcolor="#DC143C"><%= opposite_ip_sum %></td>
+	  <td bgcolor="#DC143C"><%= add_innings(opposite_ip_sum) %></td>
 	  <td bgcolor="#DC143C"><%= opposite_bb_sum %></td>
 	  <td bgcolor="#DC143C"><%= opposite_h_sum %></td>
 	  <td bgcolor="#DC143C"><%= opposite_r_sum %></td>
