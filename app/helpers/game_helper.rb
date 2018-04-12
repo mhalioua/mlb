@@ -7,7 +7,7 @@ module GameHelper
       decimal += (i.to_f - i.to_i)
       sum += i.to_i
     end
-    thirds = (decimal*10).to_i
+    thirds = (decimal*10).round
     sum += thirds/3
     return sum += (thirds%3).to_f/10
   end
