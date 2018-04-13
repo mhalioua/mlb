@@ -131,7 +131,7 @@ class Lancer < ApplicationRecord
       lancer = Lancer.find_by(player: self.player, game_id: game_ids)
 
       if lancer
-        count += lancer.pitches * 10 ** num_size[index]
+        count += lancer.pitches.to_i * 10 ** num_size[index]
       end
     end
     return count
