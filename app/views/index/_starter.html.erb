@@ -1,12 +1,37 @@
 <td><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
 <td><%= pitcher.player.age %></td>
-<% lefty_stat = pitcher.stats("L") %>
-<% righty_stat = pitcher.stats("R") %>
-<% num_lefty, num_righty = pitcher.opposing_batters_handedness %>
-<td><%= mixed_statistic(lefty_stat.fip, righty_stat.fip, num_lefty, num_righty) %></td>
-<td><%= mixed_statistic(lefty_stat.xfip, righty_stat.xfip, num_lefty, num_righty) %></td>
-<td><%= mixed_statistic(lefty_stat.kbb, righty_stat.kbb, num_lefty, num_righty) %></td>
-<td><%= mixed_statistic(lefty_stat.ops.to_f, righty_stat.ops.to_f, num_lefty, num_righty) %></td>
-<td><%= mixed_statistic(lefty_stat.woba, righty_stat.woba, num_lefty, num_righty) %></td>
-<td><%= mixed_statistic(lefty_stat.gb, righty_stat.gb, num_lefty, num_righty) %></td>
-<td><%= mixed_statistic(lefty_stat.ld, righty_stat.ld, num_lefty, num_righty) %></td>
+<% stats = pitcher.view_stats(seasons) %>
+<% lefty, righty = pitcher.opposing_batters_handedness %>
+<th><%= mixed_statistic(stats[1].first.gb, stats[1].second.gb, lefty, righty) %></th>
+<th><%= mixed_statistic(stats[0].first.gb, stats[0].second.gb, lefty, righty) %></th>
+<th><%= mixed_statistic(stats[1].first.woba, stats[1].second.woba, lefty, righty).to_i %></th>
+<th><%= mixed_statistic(stats[0].first.woba, stats[0].second.woba, lefty, righty).to_i %></th>
+<% lefty = stats[1].where(handedness: "L").first %>
+<th><%= lefty.fip %></th>
+<% lefty = stats[0].where(handedness: "L").first %>
+<th><%= lefty.fip %></th>
+<th><%= mixed_statistic(stats[1].first.tld, stats[1].second.tld, lefty, righty) %></th>
+<th><%= mixed_statistic(stats[0].first.tld, stats[0].second.tld, lefty, righty) %></th>
+<th>games 1-15 blue</th>
+<th>opp</th>
+<th>games 16-30 blue</th>
+<th>opp</th>
+<th>games 1-20</th>
+<th>opp</th>
+<th>games 21-40</th>
+<th>opp</th>
+<th>games 41-60</th>
+<th>opp</th>
+<th>team SB's 2017</th>
+<th>team AB's 2017</th>
+<th>team SB's 2018</th>
+<th>team AB's 2018</th>
+<th>2018</th>
+<th>2017</th>
+<th>2016</th>
+<th>SO's / AB's 2016</th>
+<th>SO's / AB's 2017</th>
+<th>SO's / AB's 2018</th>
+<th>TLD HITTERS 2016</th>
+<th>TLD HITTERS 2017</th>
+<th>TLD HITTERS 2018</th>

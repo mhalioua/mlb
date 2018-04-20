@@ -2,9 +2,8 @@
 	<thead>
 		<tr>
 			<th scope="col" colspan="5"><%= @head %></th>
-			<th scope="col" colspan="9">Pitchers</th>
-			<th scope="col" class="border"></th>
-			<th scope="col" colspan="7">Weather</th>
+			<th scope="col" colspan="20">Pitchers</th>
+			<th scope="col" colspan="13">Batters</th>
 		</tr>
 		<tr>
 			<th colspan="2">Away @ Home</th>
@@ -12,8 +11,6 @@
 			<th>Weather</th>
 			<th>Previous Games</th>
 			<%= render "starter_header" %>
-			<th class="border"></th>
-			<%= render "weather_header" %>
 		</tr>
 	</thead>
 	<tbody>
@@ -30,13 +27,6 @@
 			<% else %>
 			<td>TBD</td>
 			<%= render partial: "not_found", locals: {colspan: 8, rowspan: 1 } %>
-			<% end %>
-			<td rowspan="2" class="border"></td>
-			<% weather = game.weathers.where(hour: 1, station: "Forecast").order("updated_at DESC").first %>
-			<% if weather %>
-			<%= render partial: "weather", locals: { weather: weather } %>
-			<% else %>
-			<%= render partial: "not_found", locals: {colspan: 7, rowspan: 2 } %>
 			<% end %>
 		</tr>
 		<tr>
