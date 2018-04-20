@@ -107,6 +107,11 @@
 <th><%= ((game_five_bb + game_five_h) / add_innings(game_five_ip).to_f).round(2) %></th>
 <th><%= ((game_five_opp_bb + game_five_opp_h) / add_innings(game_five_opp_ip).to_f).round(2) %></th>
 <%
+	opposite = pitcher.game.lancers.find_by(starter: true, team_id: prev_pitcher.opp_team.id)
+	batters = opposite.opposing_lineup
+	batters = opposite.predict_opposing_lineup if batters.empty?
+%>
+<%
 	season = Season.find_by(year: 2017)
 	stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
 %>
