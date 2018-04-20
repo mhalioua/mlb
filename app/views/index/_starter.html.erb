@@ -13,16 +13,99 @@
 <th><%= left_stat.fip %></th>
 <th><%= mixed_statistic(stats[1].first.tld, stats[1].second.tld, lefty, righty) %></th>
 <th><%= mixed_statistic(stats[0].first.tld, stats[0].second.tld, lefty, righty) %></th>
-<th>games 1-15 blue</th>
-<th>opp</th>
-<th>games 16-30 blue</th>
-<th>opp</th>
-<th>games 1-20</th>
-<th>opp</th>
-<th>games 21-40</th>
-<th>opp</th>
-<th>games 41-60</th>
-<th>opp</th>
+<%
+	prev_pitchers = pitcher.prev_pitchers
+	game_one_ip = []
+	game_one_bb = 0
+	game_one_h = 0
+	game_one_opp_ip = []
+	game_one_opp_bb = 0
+	game_one_opp_h = 0
+	game_two_ip = []
+	game_two_bb = 0
+	game_two_h = 0
+	game_two_opp_ip = []
+	game_two_opp_bb = 0
+	game_two_opp_h = 0
+	game_three_ip = []
+	game_three_bb = 0
+	game_three_h = 0
+	game_three_opp_ip = []
+	game_three_opp_bb = 0
+	game_three_opp_h = 0
+	game_four_ip = []
+	game_four_bb = 0
+	game_four_h = 0
+	game_four_opp_ip = []
+	game_four_opp_bb = 0
+	game_four_opp_h = 0
+	game_five_ip = []
+	game_five_bb = 0
+	game_five_h = 0
+	game_five_opp_ip = []
+	game_five_opp_bb = 0
+	game_five_opp_h = 0
+	prev_pitchers.each_with_index do |prev_pitcher, index|
+		opposite = prev_pitcher.game.lancers.find_by(starter: true, team_id: prev_pitcher.opp_team.id)
+		if index < 15
+			game_one_ip.push(prev_pitcher.ip)
+			game_one_bb = game_one_bb + prev_pitcher.bb
+			game_one_h = game_one_h + prev_pitcher.h
+			if opposite
+				game_one_opp_ip.push(opposite.ip)
+				game_one_opp_bb = game_one_opp_bb + opposite.bb
+				game_one_opp_h = game_one_opp_h + opposite.h
+			end
+		elsif index < 30
+			game_two_ip.push(prev_pitcher.ip)
+			game_two_bb = game_two_bb + prev_pitcher.bb
+			game_two_h = game_two_h + prev_pitcher.h
+			if opposite
+				game_two_opp_ip.push(opposite.ip)
+				game_two_opp_bb = game_two_opp_bb + opposite.bb
+				game_two_opp_h = game_two_opp_h + opposite.h
+			end
+		end
+		if index < 20
+			game_three_ip.push(prev_pitcher.ip)
+			game_three_bb = game_three_bb + prev_pitcher.bb
+			game_three_h = game_three_h + prev_pitcher.h
+			if opposite
+				game_three_opp_ip.push(opposite.ip)
+				game_three_opp_bb = game_three_opp_bb + opposite.bb
+				game_three_opp_h = game_three_opp_h + opposite.h
+			end
+		elsif index < 40
+			game_four_ip.push(prev_pitcher.ip)
+			game_four_bb = game_four_bb + prev_pitcher.bb
+			game_four_h = game_four_h + prev_pitcher.h
+			if opposite
+				game_four_opp_ip.push(opposite.ip)
+				game_four_opp_bb = game_four_opp_bb + opposite.bb
+				game_four_opp_h = game_four_opp_h + opposite.h
+			end
+		elsif index < 60
+			game_five_ip.push(prev_pitcher.ip)
+			game_five_bb = game_five_bb + prev_pitcher.bb
+			game_five_h = game_five_h + prev_pitcher.h
+			if opposite
+				game_five_opp_ip.push(opposite.ip)
+				game_five_opp_bb = game_five_opp_bb + opposite.bb
+				game_five_opp_h = game_five_opp_h + opposite.h
+			end
+		end
+	end
+%>
+<th><%= ((game_one_bb + game_one_h) / add_innings(game_one_ip).to_f).round(2) %></th>
+<th><%= ((game_one_opp_bb + game_one_opp_h) / add_innings(game_one_opp_ip).to_f).round(2) %></th>
+<th><%= ((game_two_bb + game_two_h) / add_innings(game_two_ip).to_f).round(2) %></th>
+<th><%= ((game_two_opp_bb + game_two_opp_h) / add_innings(game_two_opp_ip).to_f).round(2) %></th>
+<th><%= ((game_three_bb + game_three_h) / add_innings(game_three_ip).to_f).round(2) %></th>
+<th><%= ((game_three_opp_bb + game_three_opp_h) / add_innings(game_three_opp_ip).to_f).round(2) %></th>
+<th><%= ((game_four_bb + game_four_h) / add_innings(game_four_ip).to_f).round(2) %></th>
+<th><%= ((game_four_opp_bb + game_four_opp_h) / add_innings(game_four_opp_ip).to_f).round(2) %></th>
+<th><%= ((game_five_bb + game_five_h) / add_innings(game_five_ip).to_f).round(2) %></th>
+<th><%= ((game_five_opp_bb + game_five_opp_h) / add_innings(game_five_opp_ip).to_f).round(2) %></th>
 <th>team SB's 2017</th>
 <th>team AB's 2017</th>
 <th>team SB's 2018</th>
