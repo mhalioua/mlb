@@ -1,8 +1,8 @@
 <% seasons = Season.greater_than(2017) %>
-<td><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
-<td><%= pitcher.player.age %></td>
 <% stats = pitcher.view_stats(seasons) %>
 <% lefty, righty = pitcher.opposing_batters_handedness %>
+<td><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
+<td><%= stats.inspect %><%= lefty %><%= righty %></td>
 <th><%= mixed_statistic(stats[1].first.gb, stats[1].second.gb, lefty, righty) %></th>
 <th><%= mixed_statistic(stats[0].first.gb, stats[0].second.gb, lefty, righty) %></th>
 <th><%= mixed_statistic(stats[1].first.woba, stats[1].second.woba, lefty, righty).to_i %></th>
