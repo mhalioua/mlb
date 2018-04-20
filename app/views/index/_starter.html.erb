@@ -1,3 +1,4 @@
+<% seasons = Season.greater_than(2017) %>
 <td><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
 <td><%= pitcher.player.age %></td>
 <% stats = pitcher.view_stats(seasons) %>
