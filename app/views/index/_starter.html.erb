@@ -53,8 +53,8 @@
 			game_one_h = game_one_h + prev_pitcher.h
 			if opposite
 				game_one_opp_ip.push(opposite.ip)
-				game_one_opp_bb = game_one_opp_bb + opposite.bb
-				game_one_opp_h = game_one_opp_h + opposite.h
+				game_one_opp_bb = game_one_opp_bb + opposite.bb.to_i
+				game_one_opp_h = game_one_opp_h + opposite.h.to_i
 			end
 		elsif index < 30
 			game_two_ip.push(prev_pitcher.ip)
