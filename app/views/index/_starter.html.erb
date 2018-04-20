@@ -132,9 +132,21 @@
 %>
 <td><%= count != 0 ? (sum.to_f / count).round(1) : 0 %></td>
 <% end %>
-<th>SO's / AB's 2016</th>
-<th>SO's / AB's 2017</th>
-<th>SO's / AB's 2018</th>
-<th>TLD HITTERS 2016</th>
-<th>TLD HITTERS 2017</th>
-<th>TLD HITTERS 2018</th>
+<%
+	(2016..2018).each do |year|
+		season = Season.find_by(year: year)
+		stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
+		sum = stats.map {|stat| stat.so }.sum
+		count = stats.map {|stat| stat.ab }.sum
+%>
+<td><%= count != 0 ? (sum.to_f / count).round(1) : 0 %></td>
+<% end %>
+<%
+	(2016..2018).each do |year|
+		season = Season.find_by(year: year)
+		stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
+		sum = stats.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
+		count = stats.map {|stat| stat.ab > 70 ? 1 : 0 }.sum
+%>
+<td><%= count != 0 ? (sum.to_f / count).round(1) : 0 %></td>
+<% end %>
