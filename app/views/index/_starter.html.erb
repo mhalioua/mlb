@@ -107,7 +107,7 @@
 <th><%= ((game_five_bb + game_five_h) / add_innings(game_five_ip).to_f).round(2) %></th>
 <th><%= ((game_five_opp_bb + game_five_opp_h) / add_innings(game_five_opp_ip).to_f).round(2) %></th>
 <%
-	opposite = pitcher.game.lancers.find_by(starter: true, team_id: prev_pitcher.opp_team.id)
+	opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id)
 	batters = opposite.opposing_lineup
 	batters = opposite.predict_opposing_lineup if batters.empty?
 %>
