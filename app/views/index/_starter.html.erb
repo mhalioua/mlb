@@ -112,41 +112,77 @@
 	batters = opposite.predict_opposing_lineup if batters.empty?
 %>
 <%
-	season = Season.find_by(year: 2017)
-	stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
+	season_one = Season.find_by(year: 2016)
+	season_two = Season.find_by(year: 2017)
+	season_three = Season.find_by(year: 2018)
+	stats_one = batters.map { |batter| batter.player.create_batter(season_one).stats(handedness(pitcher.throwhand == "L")) }
+	stats_two = batters.map { |batter| batter.player.create_batter(season_two).stats(handedness(pitcher.throwhand == "L")) }
+	stats_three = batters.map { |batter| batter.player.create_batter(season_three).stats(handedness(pitcher.throwhand == "L")) }
+	ab_qu_one = 0
+	tld_qu_one = 0
+	qu_count_one = 0
+	ab_one = 0
+	sb_one = 0
+	so_one = 0
+	count_one = stats_one.count
+	stats_one.each do |stat|
+		if stat.ab > 70
+			ab_qu_one = ab_qu_one + stat.ab
+			tld_qu_one = tld_qu_one + stat.tld
+			qu_count_one = qu_count_one + 1
+		end
+		ab_one = ab_one + stat.ab
+		sb_one = sb_one + stat.sb
+		so_one = so_one + stat.so
+	end
+
+	ab_qu_two = 0
+	tld_qu_two = 0
+	qu_count_two = 0
+	ab_two = 0
+	sb_two = 0
+	so_two = 0
+	count_two = stats_two.count
+	stats_two.each do |stat|
+		if stat.ab > 70
+			ab_qu_two = ab_qu_two + stat.ab
+			tld_qu_two = tld_qu_two + stat.tld
+			qu_count_two = qu_count_two + 1
+		end
+		ab_two = ab_two + stat.ab
+		sb_two = sb_two + stat.sb
+		so_two = so_two + stat.so
+	end
+
+	ab_qu_three = 0
+	tld_qu_three = 0
+	qu_count_three = 0
+	ab_three = 0
+	sb_three = 0
+	so_three = 0
+	count_three = stats_three.count
+	stats_three.each do |stat|
+		if stat.ab > 70
+			ab_qu_three = ab_qu_three + stat.ab
+			tld_qu_three = tld_qu_three + stat.tld
+			qu_count_three = qu_count_three + 1
+		end
+		ab_three = ab_three + stat.ab
+		sb_three = sb_three + stat.sb
+		so_three = so_three + stat.so
+	end
 %>
-<td><%= stats.map {|stat| stat.sb }.sum %></td>
-<td><%= stats.map {|stat| stat.ab }.sum %></td>
-<%
-	season = Season.find_by(year: 2018)
-	stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
-%>
-<td><%= stats.map {|stat| stat.sb }.sum %></td>
-<td><%= stats.map {|stat| stat.ab }.sum %></td>
-<%
-	(2016..2018).each do |year|
-		season = Season.find_by(year: year)
-		stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
-		sum = stats.map {|stat| stat.ab > 70 ? stat.ab : 0 }.sum
-		count = stats.map {|stat| stat.ab > 70 ? 1 : 0 }.sum
-%>
-<td><%= count != 0 ? (sum.to_f / count).round(1) : 0 %></td>
-<% end %>
-<%
-	(2016..2018).each do |year|
-		season = Season.find_by(year: year)
-		stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
-		sum = stats.map {|stat| stat.so }.sum
-		count = stats.map {|stat| stat.ab }.sum
-%>
-<td><%= count != 0 ? (100 * sum.to_f / count).round(1) : 0 %></td>
-<% end %>
-<%
-	(2016..2018).each do |year|
-		season = Season.find_by(year: year)
-		stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
-		sum = stats.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
-		count = stats.map {|stat| stat.ab > 70 ? 1 : 0 }.sum
-%>
-<td><%= count != 0 ? (sum.to_f / count).round(1) : 0 %></td>
-<% end %>
+<td><%= sb_two %></td>
+<td><%= ab_two %></td>
+<td><%= sb_three %></td>
+<td><%= ab_three %></td>
+<td><%= qu_count_one != 0 ? (ab_qu_one.to_f / qu_count_one).round(1) : 0 %></td>
+<td><%= qu_count_two != 0 ? (ab_qu_two.to_f / qu_count_two).round(1) : 0 %></td>
+<td><%= qu_count_three != 0 ? (ab_qu_three.to_f / qu_count_three).round(1) : 0 %></td>
+<td><%= (100 * so_one.to_f / ab_one).round(1) %></td>
+<td><%= (100 * so_two.to_f / ab_two).round(1) %></td>
+<td><%= (100 * so_three.to_f / ab_three).round(1) %></td>
+<td><%= qu_count_one != 0 ? (tld_qu_one.to_f / qu_count_one).round(1) : 0 %></td>
+<td><%= qu_count_two != 0 ? (tld_qu_two.to_f / qu_count_two).round(1) : 0 %></td>
+<td><%= qu_count_three != 0 ? (tld_qu_three.to_f / qu_count_three).round(1) : 0 %></td>
+
