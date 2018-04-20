@@ -62,8 +62,8 @@
 			game_two_h = game_two_h + prev_pitcher.h
 			if opposite
 				game_two_opp_ip.push(opposite.ip)
-				game_two_opp_bb = game_two_opp_bb + opposite.bb
-				game_two_opp_h = game_two_opp_h + opposite.h
+				game_two_opp_bb = game_two_opp_bb + opposite.bb.to_i
+				game_two_opp_h = game_two_opp_h + opposite.h.to_i
 			end
 		end
 		if index < 20
@@ -72,8 +72,8 @@
 			game_three_h = game_three_h + prev_pitcher.h
 			if opposite
 				game_three_opp_ip.push(opposite.ip)
-				game_three_opp_bb = game_three_opp_bb + opposite.bb
-				game_three_opp_h = game_three_opp_h + opposite.h
+				game_three_opp_bb = game_three_opp_bb + opposite.bb.to_i
+				game_three_opp_h = game_three_opp_h + opposite.h.to_i
 			end
 		elsif index < 40
 			game_four_ip.push(prev_pitcher.ip)
@@ -81,8 +81,8 @@
 			game_four_h = game_four_h + prev_pitcher.h
 			if opposite
 				game_four_opp_ip.push(opposite.ip)
-				game_four_opp_bb = game_four_opp_bb + opposite.bb
-				game_four_opp_h = game_four_opp_h + opposite.h
+				game_four_opp_bb = game_four_opp_bb + opposite.bb.to_i
+				game_four_opp_h = game_four_opp_h + opposite.h.to_i
 			end
 		elsif index < 60
 			game_five_ip.push(prev_pitcher.ip)
@@ -90,8 +90,8 @@
 			game_five_h = game_five_h + prev_pitcher.h
 			if opposite
 				game_five_opp_ip.push(opposite.ip)
-				game_five_opp_bb = game_five_opp_bb + opposite.bb
-				game_five_opp_h = game_five_opp_h + opposite.h
+				game_five_opp_bb = game_five_opp_bb + opposite.bb.to_i
+				game_five_opp_h = game_five_opp_h + opposite.h.to_i
 			end
 		end
 	end
