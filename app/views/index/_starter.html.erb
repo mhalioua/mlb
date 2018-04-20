@@ -112,41 +112,40 @@
 	batters = opposite.predict_opposing_lineup if batters.empty?
 %>
 <%
-	season = Season.find_by(year: 2017)
-	stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
+	season_one = Season.find_by(year: 2016)
+	season_two = Season.find_by(year: 2017)
+	season_three = Season.find_by(year: 2018)
+	stats_one = batters.map { |batter| batter.player.create_batter(season_one).stats(handedness(pitcher.throwhand == "L")) }
+	stats_two = batters.map { |batter| batter.player.create_batter(season_two).stats(handedness(pitcher.throwhand == "L")) }
+	stats_three = batters.map { |batter| batter.player.create_batter(season_three).stats(handedness(pitcher.throwhand == "L")) }
+	ab_one = stats_one.map {|stat| stat.ab }.sum
+	sb_two = stats_two.map {|stat| stat.sb }.sum
+	ab_two = stats_two.map {|stat| stat.ab }.sum
+	sb_three = stats_three.map {|stat| stat.sb }.sum
+	ab_three = stats_three.map {|stat| stat.ab }.sum
+	ab_qu_one = stats_one.map {|stat| stat.ab > 70 ? stat.ab : 0 }.sum
+	qu_one = stats_one.map {|stat| stat.ab > 70 ? 1 : 0 }.sum
+	ab_qu_two = stats_two.map {|stat| stat.ab > 70 ? stat.ab : 0 }.sum
+	qu_two = stats_two.map {|stat| stat.ab > 70 ? 1 : 0 }.sum
+	ab_qu_three = stats_three.map {|stat| stat.ab > 70 ? stat.ab : 0 }.sum
+	qu_three = stats_three.map {|stat| stat.ab > 70 ? 1 : 0 }.sum
+	so_one = stats_one.map {|stat| stat.so }.sum
+	so_two = stats_two.map {|stat| stat.so }.sum
+	so_three = stats_three.map {|stat| stat.so }.sum
+	tld_qu_one = stats_one.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
+	tld_qu_two = stats_two.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
+	tld_qu_three = stats_three.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
 %>
-<td><%= stats.map {|stat| stat.sb }.sum %></td>
-<td><%= stats.map {|stat| stat.ab }.sum %></td>
-<%
-	season = Season.find_by(year: 2018)
-	stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
-%>
-<td><%= stats.map {|stat| stat.sb }.sum %></td>
-<td><%= stats.map {|stat| stat.ab }.sum %></td>
-<%
-	(2016..2018).each do |year|
-		season = Season.find_by(year: year)
-		stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
-		sum = stats.map {|stat| stat.ab > 70 ? stat.ab : 0 }.sum
-		count = stats.map {|stat| stat.ab > 70 ? 1 : 0 }.sum
-%>
-<td><%= count != 0 ? (sum.to_f / count).round(1) : 0 %></td>
-<% end %>
-<%
-	(2016..2018).each do |year|
-		season = Season.find_by(year: year)
-		stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
-		sum = stats.map {|stat| stat.so }.sum
-		count = stats.map {|stat| stat.ab }.sum
-%>
-<td><%= count != 0 ? (100 * sum.to_f / count).round(1) : 0 %></td>
-<% end %>
-<%
-	(2016..2018).each do |year|
-		season = Season.find_by(year: year)
-		stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
-		sum = stats.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
-		count = stats.map {|stat| stat.ab > 70 ? 1 : 0 }.sum
-%>
-<td><%= count != 0 ? (sum.to_f / count).round(1) : 0 %></td>
-<% end %>
+<td><%= sb_two %></td>
+<td><%= ab_two %></td>
+<td><%= sb_three %></td>
+<td><%= ab_three %></td>
+<td><%= qu_one != 0 ? (ab_qu_one.to_f / qu_one).round(1) : 0 %></td>
+<td><%= qu_two != 0 ? (ab_qu_two.to_f / qu_two).round(1) : 0 %></td>
+<td><%= qu_three != 0 ? (ab_qu_three.to_f / qu_three).round(1) : 0 %></td>
+<td><%= (100 * so_one.to_f / ab_one).round(1) %></td>
+<td><%= (100 * so_two.to_f / ab_two).round(1) %></td>
+<td><%= (100 * so_three.to_f / ab_three).round(1) %></td>
+<td><%= qu_one != 0 ? (tld_qu_one.to_f / qu_one).round(1) : 0 %></td>
+<td><%= qu_two != 0 ? (tld_qu_two.to_f / qu_two).round(1) : 0 %></td>
+<td><%= qu_three != 0 ? (tld_qu_three.to_f / qu_three).round(1) : 0 %></td>
