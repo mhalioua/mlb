@@ -125,19 +125,25 @@
 <td><%= stats.map {|stat| stat.ab }.sum %></td>
 <%
 	season = Season.find_by(year: 2018)
-	stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }.map {|stat| stat.ab > 70 ? stat.ab : 0 }
+	stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
+	sum = stats.map {|stat| stat.ab > 70 ? stat.ab : 0 }.sum
+	count = stats.map {|stat| stat.ab > 70 ? 1 : 0 }
 %>
-<td><%= (stats.sum / stats.length).round(1) %></td>
+<td><%= (sum.to_f / count).round(1) %></td>
 <%
 	season = Season.find_by(year: 2017)
-	stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }.map {|stat| stat.ab > 70 ? stat.ab : 0 }
+	stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
+	sum = stats.map {|stat| stat.ab > 70 ? stat.ab : 0 }.sum
+	count = stats.map {|stat| stat.ab > 70 ? 1 : 0 }
 %>
-<td><%= (stats.sum / stats.length).round(1) %></td>
+<td><%= (sum.to_f / count).round(1) %></td>
 <%
 	season = Season.find_by(year: 2016)
-	stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }.map {|stat| stat.ab > 70 ? stat.ab : 0 }
+	stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
+	sum = stats.map {|stat| stat.ab > 70 ? stat.ab : 0 }.sum
+	count = stats.map {|stat| stat.ab > 70 ? 1 : 0 }
 %>
-<td><%= (stats.sum / stats.length).round(1) %></td>
+<td><%= (sum.to_f / count).round(1) %></td>
 <th>SO's / AB's 2016</th>
 <th>SO's / AB's 2017</th>
 <th>SO's / AB's 2018</th>
