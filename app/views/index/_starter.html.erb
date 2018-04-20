@@ -139,7 +139,7 @@
 		sum = stats.map {|stat| stat.so }.sum
 		count = stats.map {|stat| stat.ab }.sum
 %>
-<td><%= count != 0 ? (sum.to_f / count).round(1) : 0 %></td>
+<td><%= count != 0 ? (100 * sum.to_f / count).round(1) : 0 %></td>
 <% end %>
 <%
 	(2016..2018).each do |year|
