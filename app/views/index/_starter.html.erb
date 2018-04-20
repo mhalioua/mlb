@@ -3,16 +3,14 @@
 <% lefty, righty = pitcher.opposing_batters_handedness %>
 <td><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
 <td><%= stats.inspect %><%= lefty %><%= righty %></td>
-<th><%= mixed_statistic(stats[1].first.gb, stats[1].second.gb, lefty, righty) %></th>
-<th><%= mixed_statistic(stats[0].first.gb, stats[0].second.gb, lefty, righty) %></th>
-<th><%= mixed_statistic(stats[1].first.woba, stats[1].second.woba, lefty, righty).to_i %></th>
-<th><%= mixed_statistic(stats[0].first.woba, stats[0].second.woba, lefty, righty).to_i %></th>
-<% lefty = stats[1].where(handedness: "L").first %>
-<th><%= lefty.fip %></th>
-<% lefty = stats[0].where(handedness: "L").first %>
-<th><%= lefty.fip %></th>
-<th><%= mixed_statistic(stats[1].first.tld, stats[1].second.tld, lefty, righty) %></th>
-<th><%= mixed_statistic(stats[0].first.tld, stats[0].second.tld, lefty, righty) %></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
 <th>games 1-15 blue</th>
 <th>opp</th>
 <th>games 16-30 blue</th>
