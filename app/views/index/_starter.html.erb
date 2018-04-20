@@ -124,7 +124,7 @@
 <td><%= stats.map {|stat| stat.sb }.sum %></td>
 <td><%= stats.map {|stat| stat.ab }.sum %></td>
 <%
-	(2018..2016).each do |year|
+	(2016..2018).each do |year|
 		season = Season.find_by(year: year)
 		stats = batters.map { |batter| batter.player.create_batter(season).stats(handedness(pitcher.throwhand == "L")) }
 		sum = stats.map {|stat| stat.ab > 70 ? stat.ab : 0 }.sum
