@@ -6,6 +6,8 @@
   <%= render partial: "game/new/sum", locals: { stats: batter_stats } %>
   <% seasons[1..-1].each do |season| %>
     <% batter_stats = batters.map { |batter| batter.player.create_batter(season).stats(left) } %>
+    <% batter_id = batters.map { |batter| batter.id } %>
+    <td><%= batter_id.inspect %> </td>
     <%= render partial: "game/new/sum", locals: { stats: batter_stats } %>
   <% end %>
 
