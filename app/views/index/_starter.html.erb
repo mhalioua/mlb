@@ -3,14 +3,14 @@
 <% lefty, righty = pitcher.opposing_batters_handedness %>
 <td><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
 <td><%= pitcher.player.age %></td>
-<th><%= mixed_statistic(stats[1].first.gb, stats[1].second.gb, lefty, righty) %></th>
-<th><%= mixed_statistic(stats[0].first.gb, stats[0].second.gb, lefty, righty) %></th>
+<th style="background: rgb(54,155,148);"><%= mixed_statistic(stats[1].first.gb, stats[1].second.gb, lefty, righty) %></th>
+<th style="background: rgb(54,155,148);"><%= mixed_statistic(stats[0].first.gb, stats[0].second.gb, lefty, righty) %></th>
 <th><%= mixed_statistic(stats[1].first.woba, stats[1].second.woba, lefty, righty).to_i %></th>
 <th><%= mixed_statistic(stats[0].first.woba, stats[0].second.woba, lefty, righty).to_i %></th>
 <% left_stat = stats[1].where(handedness: "L").first %>
-<th><%= left_stat.fip %></th>
+<th style="background: rgb(54,155,148);"><%= left_stat.fip %></th>
 <% left_stat = stats[0].where(handedness: "L").first %>
-<th><%= left_stat.fip %></th>
+<th style="background: rgb(54,155,148);"><%= left_stat.fip %></th>
 <th><%= mixed_statistic(stats[1].first.tld, stats[1].second.tld, lefty, righty) %></th>
 <th><%= mixed_statistic(stats[0].first.tld, stats[0].second.tld, lefty, righty) %></th>
 <%
@@ -96,16 +96,16 @@
 		end
 	end
 %>
-<th><%= ((game_one_bb + game_one_h) / add_innings(game_one_ip).to_f).round(2) %></th>
-<th><%= ((game_one_opp_bb + game_one_opp_h) / add_innings(game_one_opp_ip).to_f).round(2) %></th>
-<th><%= ((game_two_bb + game_two_h) / add_innings(game_two_ip).to_f).round(2) %></th>
-<th><%= ((game_two_opp_bb + game_two_opp_h) / add_innings(game_two_opp_ip).to_f).round(2) %></th>
+<th style="background: rgb(54,155,148);"><%= ((game_one_bb + game_one_h) / add_innings(game_one_ip).to_f).round(2) %></th>
+<th style="background: rgb(54,155,148);"><%= ((game_one_opp_bb + game_one_opp_h) / add_innings(game_one_opp_ip).to_f).round(2) %></th>
+<th style="background: rgb(54,155,148);"><%= ((game_two_bb + game_two_h) / add_innings(game_two_ip).to_f).round(2) %></th>
+<th style="background: rgb(54,155,148);"><%= ((game_two_opp_bb + game_two_opp_h) / add_innings(game_two_opp_ip).to_f).round(2) %></th>
 <th><%= ((game_three_bb + game_three_h) / add_innings(game_three_ip).to_f).round(2) %></th>
-<th><%= ((game_three_opp_bb + game_three_opp_h) / add_innings(game_three_opp_ip).to_f).round(2) %></th>
+<th style="background: lightgray;"><%= ((game_three_opp_bb + game_three_opp_h) / add_innings(game_three_opp_ip).to_f).round(2) %></th>
 <th><%= ((game_four_bb + game_four_h) / add_innings(game_four_ip).to_f).round(2) %></th>
-<th><%= ((game_four_opp_bb + game_four_opp_h) / add_innings(game_four_opp_ip).to_f).round(2) %></th>
+<th style="background: lightgray;"><%= ((game_four_opp_bb + game_four_opp_h) / add_innings(game_four_opp_ip).to_f).round(2) %></th>
 <th><%= ((game_five_bb + game_five_h) / add_innings(game_five_ip).to_f).round(2) %></th>
-<th><%= ((game_five_opp_bb + game_five_opp_h) / add_innings(game_five_opp_ip).to_f).round(2) %></th>
+<th style="background: lightgray;"><%= ((game_five_opp_bb + game_five_opp_h) / add_innings(game_five_opp_ip).to_f).round(2) %></th>
 <%
 	opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id)
 	batters = Batter.none
@@ -140,16 +140,16 @@
 	tld_qu_two = stats_two.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
 	tld_qu_three = stats_three.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
 %>
-<td><%= sb_two %></td>
-<td><%= ab_two %></td>
-<td><%= sb_three %></td>
-<td><%= ab_three %></td>
+<td style="background: rgb(0, 233, 208)"><%= sb_two %></td>
+<td style="background: rgb(0, 233, 208)"><%= ab_two %></td>
+<td style="background: rgb(0, 233, 208)"><%= sb_three %></td>
+<td style="background: rgb(0, 233, 208)"><%= ab_three %></td>
 <td><%= qu_one != 0 ? (ab_qu_one.to_f / qu_one).round(1) : 0 %></td>
 <td><%= qu_two != 0 ? (ab_qu_two.to_f / qu_two).round(1) : 0 %></td>
 <td><%= qu_three != 0 ? (ab_qu_three.to_f / qu_three).round(1) : 0 %></td>
-<td><%= ab_one != 0 ? (100 * so_one.to_f / ab_one).round(1) : 0 %></td>
-<td><%= ab_two != 0 ? (100 * so_two.to_f / ab_two).round(1) : 0 %></td>
-<td><%= ab_three != 0 ? (100 * so_three.to_f / ab_three).round(1) : 0 %></td>
+<td style="background: rgb(54,155,148);"><%= ab_one != 0 ? (100 * so_one.to_f / ab_one).round(1) : 0 %></td>
+<td style="background: rgb(54,155,148);"><%= ab_two != 0 ? (100 * so_two.to_f / ab_two).round(1) : 0 %></td>
+<td style="background: rgb(54,155,148);"><%= ab_three != 0 ? (100 * so_three.to_f / ab_three).round(1) : 0 %></td>
 <td><%= qu_one != 0 ? (tld_qu_one.to_f / qu_one).round(1) : 0 %></td>
 <td><%= qu_two != 0 ? (tld_qu_two.to_f / qu_two).round(1) : 0 %></td>
 <td><%= qu_three != 0 ? (tld_qu_three.to_f / qu_three).round(1) : 0 %></td>
