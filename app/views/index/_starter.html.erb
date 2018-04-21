@@ -118,9 +118,9 @@
 	season_one = Season.find_by(year: 2016)
 	season_two = Season.find_by(year: 2017)
 	season_three = Season.find_by(year: 2018)
-	stats_one = batters.map { |batter| batter.stats(handedness(pitcher.throwhand == "L")) }
-	stats_two = batters.map { |batter| batter.stats(handedness(pitcher.throwhand == "L")) }
-	stats_three = batters.map { |batter| batter.stats(handedness(pitcher.throwhand == "L")) }
+	stats_one = batters.map { |batter| batter.player.create_batter(season_one).stats(handedness(pitcher.throwhand == "L")) }
+	stats_two = batters.map { |batter| batter.player.create_batter(season_two).stats(handedness(pitcher.throwhand == "L")) }
+	stats_three = batters.map { |batter| batter.player.create_batter(season_three).stats(handedness(pitcher.throwhand == "L")) }
 	ab_one = stats_one.map {|stat| stat.ab }.sum
 	sb_two = stats_two.map {|stat| stat.sb }.sum
 	ab_two = stats_two.map {|stat| stat.ab }.sum
