@@ -322,6 +322,6 @@ tr.total td {
   background-color: #f6f6f6;
 }
 
-table.game-index tr:nth-child(even) {
+table.game-index tr:nth-child(4n), table.game-index tr:nth-child(4n+1) {
   background-color: lightgray;
 }
