@@ -1,12 +1,47 @@
 <table class="table-bordered game-index">
 	<thead>
 		<tr style="background: gray;">
-			<th scope="col" colspan="5"><%= @head %></th>
-			<th scope="col" colspan="20">Pitchers</th>
-			<th scope="col" colspan="13">Batters</th>
+			<th scope="col"><%= @head %></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col">Pitchers</th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col" colspan="2">PITCHERS</th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col">70 AB's or more</th>
+			<th scope="col">70 AB's or more</th>
+			<th scope="col">70 AB's or more</th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
 		</tr>
 		<tr>
-			<th colspan="2">Away @ Home</th>
+			<th>TIME</th>
+			<th>Away @ Home</th>
 			<th>Game Stats</th>
 			<th>Weather</th>
 			<th>Previous Games</th>
@@ -26,7 +61,7 @@
 			<%= render partial: "starter", locals: { pitcher: pitcher } %>
 			<% else %>
 			<td>TBD</td>
-			<%= render partial: "not_found", locals: {colspan: 8, rowspan: 1 } %>
+			<%= render partial: "not_found", locals: {colspan: 32} %>
 			<% end %>
 		</tr>
 		<tr>
@@ -35,7 +70,7 @@
 			<%= render partial: "starter", locals: { pitcher: pitcher } %>
 			<% else %>
 			<td>TBD</td>
-			<%= render partial: "not_found", locals: {colspan: 8, rowspan: 1 } %>
+			<%= render partial: "not_found", locals: {colspan: 32} %>
 			<% end %>
 		</tr>
 		<% end %>
