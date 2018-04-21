@@ -109,7 +109,7 @@
 <%
 	opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id)
 	batters = Batter.none
-	if oppsite
+	if opposite
 		batters = opposite.opposing_lineup
 		batters = opposite.predict_opposing_lineup if batters.empty?
 	end
