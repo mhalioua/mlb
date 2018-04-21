@@ -321,3 +321,7 @@ td.lightgray, tr.lightgray {
 tr.total td {
   background-color: #f6f6f6;
 }
+
+table.game-index:nth-child(even) {
+  background-color: lightgray;
+}

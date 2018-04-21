@@ -1,11 +1,8 @@
 <table class="table-bordered game-index">
 	<thead>
 		<tr style="background: gray;">
-			<th scope="col"><%= @head %></th>
 			<th scope="col"></th>
-			<th scope="col"></th>
-			<th scope="col"></th>
-			<th scope="col"></th>
+			<th scope="col" colspan="4"><%= @head %></th>
 			<th scope="col">Pitchers</th>
 			<th scope="col"></th>
 			<th scope="col"></th>
@@ -35,16 +32,14 @@
 			<th scope="col"></th>
 			<th scope="col"></th>
 			<th scope="col"></th>
-			<th scope="col"></th>
-			<th scope="col"></th>
-			<th scope="col"></th>
+			<th scope="col" colspan="3">Qualified Players Only</th>
 		</tr>
 		<tr>
 			<th>TIME</th>
-			<th>Away @ Home</th>
-			<th>Game Stats</th>
-			<th>Weather</th>
-			<th>Previous Games</th>
+			<th style="background: lightgray;">Away @ Home</th>
+			<th style="background: lightgray;">Game Stats</th>
+			<th style="background: lightgray;">Weather</th>
+			<th style="background: lightgray;">Previous Games</th>
 			<%= render "starter_header" %>
 		</tr>
 	</thead>
