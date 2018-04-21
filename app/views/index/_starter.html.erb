@@ -146,9 +146,9 @@
 <td><%= qu_one != 0 ? (ab_qu_one.to_f / qu_one).round(1) : 0 %></td>
 <td><%= qu_two != 0 ? (ab_qu_two.to_f / qu_two).round(1) : 0 %></td>
 <td><%= qu_three != 0 ? (ab_qu_three.to_f / qu_three).round(1) : 0 %></td>
-<td><%= (100 * so_one.to_f / ab_one).round(1) %></td>
-<td><%= (100 * so_two.to_f / ab_two).round(1) %></td>
-<td><%= (100 * so_three.to_f / ab_three).round(1) %></td>
+<td><%= ab_one != 0 ? (100 * so_one.to_f / ab_one).round(1) : 0 %></td>
+<td><%= ab_two != 0 ? (100 * so_two.to_f / ab_two).round(1) : 0 %></td>
+<td><%= ab_three != 0 ? (100 * so_three.to_f / ab_three).round(1) : 0 %></td>
 <td><%= qu_one != 0 ? (tld_qu_one.to_f / qu_one).round(1) : 0 %></td>
 <td><%= qu_two != 0 ? (tld_qu_two.to_f / qu_two).round(1) : 0 %></td>
 <td><%= qu_three != 0 ? (tld_qu_three.to_f / qu_three).round(1) : 0 %></td>
