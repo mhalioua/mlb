@@ -119,9 +119,9 @@
 	season_two = Season.find_by(year: 2017)
 	season_three = Season.find_by(year: 2018)
 	batter_id = batters.map { |batter| batter.id }
-	stats_one = batters.map { |batter| batter.player.create_batter(season_one).stats(handedness(pitcher.throwhand == "L")) }
-	stats_two = batters.map { |batter| batter.player.create_batter(season_two).stats(handedness(pitcher.throwhand == "L")) }
-	stats_three = batters.map { |batter| batter.player.create_batter(season_three).stats(handedness(pitcher.throwhand == "L")) }
+	stats_one = batters.map { |batter| batter.player.create_batter(season_one).stats(handedness(opposite.throwhand == "L")) }
+	stats_two = batters.map { |batter| batter.player.create_batter(season_two).stats(handedness(opposite.throwhand == "L")) }
+	stats_three = batters.map { |batter| batter.player.create_batter(season_three).stats(handedness(opposite.throwhand == "L")) }
 	ab_one = stats_one.map {|stat| stat.ab }.sum
 	sb_two = stats_two.map {|stat| stat.sb }.sum
 	ab_two = stats_two.map {|stat| stat.ab }.sum
@@ -140,7 +140,6 @@
 	tld_qu_two = stats_two.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
 	tld_qu_three = stats_three.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
 %>
-<td><%= handedness(pitcher.throwhand == "L").inspect %></td>
 <td><%= sb_two %></td>
 <td><%= ab_two %></td>
 <td><%= sb_three %></td>
