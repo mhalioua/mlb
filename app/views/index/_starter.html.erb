@@ -140,7 +140,7 @@
 	tld_qu_two = stats_two.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
 	tld_qu_three = stats_three.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
 %>
-<td><%= batter_id.inspect %></td>
+<td><%= handedness(pitcher.throwhand == "L").inspect %></td>
 <td><%= sb_two %></td>
 <td><%= ab_two %></td>
 <td><%= sb_three %></td>
