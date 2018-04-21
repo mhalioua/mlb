@@ -101,11 +101,11 @@
 <th style="background: rgb(54,155,148);"><%= ((game_two_bb + game_two_h) / add_innings(game_two_ip).to_f).round(2) %></th>
 <th style="background: rgb(54,155,148);"><%= ((game_two_opp_bb + game_two_opp_h) / add_innings(game_two_opp_ip).to_f).round(2) %></th>
 <th><%= ((game_three_bb + game_three_h) / add_innings(game_three_ip).to_f).round(2) %></th>
-<th style="background: lightgray;"><%= ((game_three_opp_bb + game_three_opp_h) / add_innings(game_three_opp_ip).to_f).round(2) %></th>
+<th style="background: gray;"><%= ((game_three_opp_bb + game_three_opp_h) / add_innings(game_three_opp_ip).to_f).round(2) %></th>
 <th><%= ((game_four_bb + game_four_h) / add_innings(game_four_ip).to_f).round(2) %></th>
-<th style="background: lightgray;"><%= ((game_four_opp_bb + game_four_opp_h) / add_innings(game_four_opp_ip).to_f).round(2) %></th>
+<th style="background: gray;"><%= ((game_four_opp_bb + game_four_opp_h) / add_innings(game_four_opp_ip).to_f).round(2) %></th>
 <th><%= ((game_five_bb + game_five_h) / add_innings(game_five_ip).to_f).round(2) %></th>
-<th style="background: lightgray;"><%= ((game_five_opp_bb + game_five_opp_h) / add_innings(game_five_opp_ip).to_f).round(2) %></th>
+<th style="background: gray;"><%= ((game_five_opp_bb + game_five_opp_h) / add_innings(game_five_opp_ip).to_f).round(2) %></th>
 <%
 	opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id)
 	batters = Batter.none
