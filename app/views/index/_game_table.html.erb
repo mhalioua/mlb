@@ -34,12 +34,12 @@
 			<th scope="col"></th>
 			<th scope="col" colspan="3">Qualified Players Only</th>
 		</tr>
-		<tr>
+		<tr style="background: lightgray;">
 			<th>TIME</th>
-			<th style="background: lightgray;">Away @ Home</th>
-			<th style="background: lightgray;">Game Stats</th>
-			<th style="background: lightgray;">Weather</th>
-			<th style="background: lightgray;">Previous Games</th>
+			<th>Away @ Home</th>
+			<th>Game Stats</th>
+			<th>Weather</th>
+			<th>Previous Games</th>
 			<%= render "starter_header" %>
 		</tr>
 	</thead>
@@ -47,10 +47,10 @@
 		<% @games.each do |game| %>
 		<tr>
 			<td rowspan="2"><%= "#{(DateTime.parse(game.game_date) - game.home_team.timezone.hours).strftime("%I:%M%p")}" %></td>
-			<td rowspan="2"><%= link_to game_link(game), { controller: "game", action: "new", id: game.id, forecast: 0, option: 0 } %></td>
-			<td rowspan="2"><%= link_to "Stats", { controller: "game", action: "stats", id: game.id } %></td>
-			<td rowspan="2"><%= link_to "Weather", { controller: "game", action: "weather", id: game.id, forecast: 0, option: 0} %></td>
-			<td rowspan="2"><%= link_to "Previous Games", { controller: "game", action: "previous", id: game.id } %></td>
+			<td rowspan="2" style="background: lightgray;"><%= link_to game_link(game), { controller: "game", action: "new", id: game.id, forecast: 0, option: 0 } %></td>
+			<td rowspan="2" style="background: lightgray;"><%= link_to "Stats", { controller: "game", action: "stats", id: game.id } %></td>
+			<td rowspan="2" style="background: lightgray;"><%= link_to "Weather", { controller: "game", action: "weather", id: game.id, forecast: 0, option: 0} %></td>
+			<td rowspan="2" style="background: lightgray;"><%= link_to "Previous Games", { controller: "game", action: "previous", id: game.id } %></td>
 			<% pitcher = game.away_pitcher %>
 			<% if pitcher %>
 			<%= render partial: "starter", locals: { pitcher: pitcher } %>
