@@ -54,7 +54,16 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @games.each do |game| %>
+		<%
+			@games.each do |game|
+				@forecasts = game.weathers.where(station: "Forecast").order("updated_at DESC").limit(3)
+				first_speed, first_dir = split_wind(@forecasts.last.wind)
+				second_speed, second_dir = split_wind(@forecasts.second.wind)
+				third_speed, third_dir = split_wind(@forecasts.first.wind)
+				winds = wind_data(game.home_team.name, @forecasts.last.wind, @forecasts.second.wind, @forecasts.first.wind, 0)
+				second_wind = winds[1]
+				second_wind = winds[2] if winds.size > 2
+		%>
 		<tr>
 			<td rowspan="4"><%= "#{(DateTime.parse(game.game_date) - game.home_team.timezone.hours).strftime("%I:%M%p")}" %></td>
 			<td rowspan="4" style="background: lightgray;"><%= link_to game_link(game), { controller: "game", action: "new", id: game.id, forecast: 0, option: 0 } %></td>
@@ -68,18 +77,18 @@
 			<td rowspan="2">TBD</td>
 			<%= render partial: "not_found", locals: {colspan: 32} %>
 			<% end %>
-			<td>9.36</td>
-			<td>9.23</td>
-			<td>WNW</td>
-			<td>WNW</td>
-			<td>NW</td>
+			<td><%= winds[0][0] %></td>
+			<td><%= winds[0][1] %></td>
+			<td><%= first_dir %></td>
+			<td><%= second_dir %></td>
+			<td><%= third_dir %></td>
 			<td>Direction</td>
 		</tr>
 		<tr>
-			<td colspan="2">1161</td>
-			<td>11</td>
-			<td>11</td>
-			<td>11</td>
+			<td colspan="2"><%= winds[0][2] %></td>
+			<td><%= first_speed %></td>
+			<td><%= second_speed %></td>
+			<td><%= third_speed %></td>
 			<td>Wind Speed</td>
 		</tr>
 		<tr>
@@ -90,15 +99,15 @@
 			<td>TBD</td>
 			<%= render partial: "not_found", locals: {colspan: 32} %>
 			<% end %>
-			<td>9.18</td>
-			<td>8.87</td>
+			<td><%= second_wind[0] %></td>
+			<td><%= second_wind[1] %></td>
 			<td>9.95</td>
 			<td>9.95</td>
 			<td>9.77</td>
 			<td>Averages</td>
 		</tr>
 		<tr>
-			<td colspan="2">207</td>
+			<td colspan="2"><%= second_wind[2] %></td>
 			<td>26</td>
 			<td>26</td>
 			<td>41</td>
