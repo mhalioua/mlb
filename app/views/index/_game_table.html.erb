@@ -41,27 +41,46 @@
 			<th scope="col" style="background: lightgray;">Hour 3</th>
 			<th scope="col"></th>
 		</tr>
-		<tr style="background: lightgray;">
-			<th>TIME</th>
-			<th>Away @ Home</th>
-			<th>Game Stats</th>
-			<th>Weather</th>
-			<th>Previous Games</th>
-			<%= render "starter_header" %>
-			<th colspan="2">IN PARK with <br/>SPEED</th>
-			<th colspan="3">Averages in park going <br/> this direction</th>
-			<th></th>
-		</tr>
 	</thead>
 	<tbody>
 		<%
-			@games.each do |game|
+			@games.each_with_index do |game, index|
 				@forecasts = game.weathers.where(station: "Forecast").order("updated_at DESC").limit(3)
 				first_speed, first_dir = split_wind(@forecasts.last.wind)
 				second_speed, second_dir = split_wind(@forecasts.second.wind)
 				third_speed, third_dir = split_wind(@forecasts.first.wind)
 				winds = wind_data_match(game.home_team.name, @forecasts.last.wind, @forecasts.second.wind, @forecasts.first.wind)
 		%>
+		<% if index % 3 === 0 %>
+			<tr style="background: lightgray;">
+				<th>TIME</th>
+				<th>Away @ Home</th>
+				<th>Game Stats</th>
+				<th>Weather</th>
+				<th>Previous Games</th>
+				<%= render "starter_header" %>
+				<th colspan="2">IN PARK with <br/>SPEED</th>
+				<th colspan="3">Averages in park going <br/> this direction</th>
+				<th></th>
+			</tr>
+		<% end %>
+		<tr style="background: rgb(54,155,148);">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td colspan="8"><%= game_link(game) %></td>
+			<td colspan="12"><%= game_link(game) %></td>
+			<td colspan="10"><%= game_link(game) %></td>
+			<td colspan="5"><%= game_link(game) %></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
 		<tr>
 			<td rowspan="4"><%= "#{(DateTime.parse(game.game_date) - game.home_team.timezone.hours).strftime("%I:%M%p")}" %></td>
 			<td rowspan="4" style="background: lightgray;"><%= link_to game_link(game), { controller: "game", action: "new", id: game.id, forecast: 0, option: 0 } %></td>
