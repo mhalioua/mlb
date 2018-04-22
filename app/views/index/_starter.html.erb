@@ -144,12 +144,12 @@
 <td style="background: rgb(0, 233, 208)"><%= ab_two %></td>
 <td style="background: rgb(0, 233, 208)"><%= sb_three %></td>
 <td style="background: rgb(0, 233, 208)"><%= ab_three %></td>
-<td><%= qu_one != 0 ? (wrc_qu_one.to_f / qu_one).round(1) : 0 %></td>
-<td><%= qu_two != 0 ? (wrc_qu_two.to_f / qu_two).round(1) : 0 %></td>
-<td><%= qu_three != 0 ? (wrc_qu_three.to_f / qu_three).round(1) : 0 %></td>
-<td style="background: rgb(54,155,148);"><%= ab_one != 0 ? (100 * so_one.to_f / ab_one).round(1) : 0 %></td>
-<td style="background: rgb(54,155,148);"><%= ab_two != 0 ? (100 * so_two.to_f / ab_two).round(1) : 0 %></td>
-<td style="background: rgb(54,155,148);"><%= ab_three != 0 ? (100 * so_three.to_f / ab_three).round(1) : 0 %></td>
+<td><%= wrc_qu_one %> / <%= qu_one %> = <%= qu_one != 0 ? (wrc_qu_one.to_f / qu_one).round(1) : 0 %></td>
+<td><%= wrc_qu_two %> / <%= qu_two %> = <%= qu_two != 0 ? (wrc_qu_two.to_f / qu_two).round(1) : 0 %></td>
+<td><%= wrc_qu_three %> / <%= qu_three %> = <%= qu_three != 0 ? (wrc_qu_three.to_f / qu_three).round(1) : 0 %></td>
+<td style="background: rgb(54,155,148);"><%= so_one %> / <%= ab_one %> = <%= ab_one != 0 ? (100 * so_one.to_f / ab_one).round(1) : 0 %></td>
+<td style="background: rgb(54,155,148);"><%= so_two %> / <%= ab_two %> = <%= ab_two != 0 ? (100 * so_two.to_f / ab_two).round(1) : 0 %></td>
+<td style="background: rgb(54,155,148);"><%= so_three %> / <%= ab_three %> = <%= ab_three != 0 ? (100 * so_three.to_f / ab_three).round(1) : 0 %></td>
 <td><%= qu_one != 0 ? (tld_qu_one.to_f / qu_one).round(1) : 0 %></td>
 <td><%= qu_two != 0 ? (tld_qu_two.to_f / qu_two).round(1) : 0 %></td>
 <td><%= qu_three != 0 ? (tld_qu_three.to_f / qu_three).round(1) : 0 %></td>
