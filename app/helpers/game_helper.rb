@@ -252,20 +252,10 @@ module GameHelper
       wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph winds", search_string, 1)
       winds.push(wind)
 
-      directions = [ 'North', 'NNE', 'NE', 'ENE', 'East', 'ESE', 'SE', 'SSE', 'South', 'SSW', 'SW', 'WSW', 'West', 'WNW', 'NW', 'NNW']
-      parks = ['ARI', 'ATL', 'BAL', 'BOS', 'CHC', 'CHW', 'CIN', 'CLE', 'COL', 'DET', 'HOU', 'KCR', 'LAA', 'LAD', 'MIA', 'MIL', 'MIN', 'NYM', 'NYY', 'OAK', 'PHI', 'PIT', 'SDP', 'SFG', 'SEA', 'STL', 'TEX', 'TOR', 'WSN']
-
       currect_directions.each_with_index do |direction, index|
         search_string = search_string_original.dup
         search_string.push('"M" = ' + "'#{direction}'")
-
-        additional_wind = ''
-        team = Team.find_by(name: name)
-        if directions.include?(direction) && parks.include?(team.baseball_abbr)
-          additional_wind =  @@re[team.baseball_abbr][direction]
-        end
-
-        wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph, going #{direction} (#{additional_wind})", search_string, 2)
+        wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph, going #{direction}", search_string, 2)
         winds.push(wind)
       end
     else
