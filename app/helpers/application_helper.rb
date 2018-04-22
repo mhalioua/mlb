@@ -17,7 +17,7 @@ module ApplicationHelper
 			decimal = ((lefty_stat - lefty_stat.to_i)*10).round() + ((righty_stat - righty_stat.to_i)* 10).round()
 			sum = lefty_stat.to_i * num_lefty + righty_stat.to_i * num_righty
 			sum = ((sum * 3 + decimal)/(num_lefty + num_righty))
-			return (sum/3).to_i.to_s + '.' + (sum%3).to_i.to_s
+			return "#{(sum/3).to_i}.#{(sum%3).to_i}"
 		end
 	end
 end
