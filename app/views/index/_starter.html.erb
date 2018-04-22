@@ -127,11 +127,11 @@
 	ab_two = stats_two.map {|stat| stat.ab }.sum
 	sb_three = stats_three.map {|stat| stat.sb }.sum
 	ab_three = stats_three.map {|stat| stat.ab }.sum
-	ab_qu_one = stats_one.map {|stat| stat.ab > 70 ? stat.ab : 0 }.sum
+	wrc_qu_one = stats_one.map {|stat| stat.ab > 70 ? stat.wrc : 0 }.sum
 	qu_one = stats_one.map {|stat| stat.ab > 70 ? 1 : 0 }.sum
-	ab_qu_two = stats_two.map {|stat| stat.ab > 70 ? stat.ab : 0 }.sum
+	wrc_qu_two = stats_two.map {|stat| stat.ab > 70 ? stat.wrc : 0 }.sum
 	qu_two = stats_two.map {|stat| stat.ab > 70 ? 1 : 0 }.sum
-	ab_qu_three = stats_three.map {|stat| stat.ab > 70 ? stat.ab : 0 }.sum
+	wrc_qu_three = stats_three.map {|stat| stat.ab > 70 ? stat.wrc : 0 }.sum
 	qu_three = stats_three.map {|stat| stat.ab > 70 ? 1 : 0 }.sum
 	so_one = stats_one.map {|stat| stat.so }.sum
 	so_two = stats_two.map {|stat| stat.so }.sum
@@ -144,9 +144,9 @@
 <td style="background: rgb(0, 233, 208)"><%= ab_two %></td>
 <td style="background: rgb(0, 233, 208)"><%= sb_three %></td>
 <td style="background: rgb(0, 233, 208)"><%= ab_three %></td>
-<td><%= qu_one != 0 ? (ab_qu_one.to_f / qu_one).round(1) : 0 %></td>
-<td><%= qu_two != 0 ? (ab_qu_two.to_f / qu_two).round(1) : 0 %></td>
-<td><%= qu_three != 0 ? (ab_qu_three.to_f / qu_three).round(1) : 0 %></td>
+<td><%= qu_one != 0 ? (wrc_qu_one.to_f / qu_one).round(1) : 0 %></td>
+<td><%= qu_two != 0 ? (wrc_qu_two.to_f / qu_two).round(1) : 0 %></td>
+<td><%= qu_three != 0 ? (wrc_qu_three.to_f / qu_three).round(1) : 0 %></td>
 <td style="background: rgb(54,155,148);"><%= ab_one != 0 ? (100 * so_one.to_f / ab_one).round(1) : 0 %></td>
 <td style="background: rgb(54,155,148);"><%= ab_two != 0 ? (100 * so_two.to_f / ab_two).round(1) : 0 %></td>
 <td style="background: rgb(54,155,148);"><%= ab_three != 0 ? (100 * so_three.to_f / ab_three).round(1) : 0 %></td>
