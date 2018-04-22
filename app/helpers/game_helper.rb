@@ -197,11 +197,27 @@ module GameHelper
     end
 
     search_string.push('"Home_Team" = ' + "'#{name}'")
-    wind = get_wind('average runs in this stadium', search_string, 0)
+
+    query = Workbook.where(search_string.join(" AND ")).to_a
+    count = Workbook.where(search_string.join(" AND ")).count(:R)
+
+    wind = [
+      'average runs in this stadium',
+      (query.map {|stat| stat.R.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+      (query.map {|stat| stat.Total_Hits.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+      count
+    ]
     winds.push(wind)
 
     search_string.push('"N" >= 0 AND "N" <= 5')
-    wind = get_wind('average runs in this stadium with 0-5mph winds', search_string, 0)
+    query = Workbook.where(search_string.join(" AND ")).to_a
+    count = Workbook.where(search_string.join(" AND ")).count(:R)
+    wind = [
+      'average runs in this stadium with 0-5mph winds',
+      (query.map {|stat| stat.R.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+      (query.map {|stat| stat.Total_Hits.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+      count
+    ]
     winds.push(wind)
 
     first_wind_speed, second_wind_speed = swap(first_wind_speed, second_wind_speed) if first_wind_speed > second_wind_speed
@@ -249,13 +265,27 @@ module GameHelper
       search_string.push('"N" >= ' + "#{filter_min}" + ' AND "N" <= ' + "#{filter_max}")
 
       search_string_original = search_string.dup
-      wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph winds", search_string, 1)
+      query = Workbook.where(search_string.join(" AND ")).to_a
+      count = Workbook.where(search_string.join(" AND ")).count(:R)
+      wind = [
+        "average runs in this stadium with #{filter_min}-#{filter_max}mph winds",
+        (query.map {|stat| stat.R.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+        (query.map {|stat| stat.Total_Hits.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+        count
+      ]
       winds.push(wind)
 
       currect_directions.each_with_index do |direction, index|
         search_string = search_string_original.dup
         search_string.push('"M" = ' + "'#{direction}'")
-        wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph, going #{direction}", search_string, 2)
+        query = Workbook.where(search_string.join(" AND ")).to_a
+        count = Workbook.where(search_string.join(" AND ")).count(:R)
+        wind = [
+          "average runs in this stadium with #{filter_min}-#{filter_max}mph, going #{direction}",
+          (query.map {|stat| stat.R.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+          (query.map {|stat| stat.Total_Hits.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+          count
+        ]
         winds.push(wind)
       end
     else
