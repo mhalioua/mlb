@@ -10,9 +10,9 @@
 <td rowspan="2"><%= mixed_statistic(stats[1].first.woba, stats[1].second.woba, lefty, righty).to_i %></th>
 <td rowspan="2"><%= mixed_statistic(stats[0].first.woba, stats[0].second.woba, lefty, righty).to_i %></th>
 <% left_stat = stats[1].where(handedness: "L").first %>
-<td rowspan="2" style="background: rgb(54,155,148);"><%= left_stat.fip %></th>
+<td rowspan="2" style="background: rgb(0, 233, 208);"><%= left_stat.fip %></th>
 <% left_stat = stats[0].where(handedness: "L").first %>
-<td rowspan="2" style="background: rgb(54,155,148);"><%= left_stat.fip %></th>
+<td rowspan="2" style="background: rgb(0, 233, 208);"><%= left_stat.fip %></th>
 <td rowspan="2"><%= mixed_statistic(stats[1].first.tld, stats[1].second.tld, lefty, righty) %></th>
 <td rowspan="2"><%= mixed_statistic(stats[0].first.tld, stats[0].second.tld, lefty, righty) %></th>
 <%
@@ -142,10 +142,10 @@
 	tld_qu_two = stats_two.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
 	tld_qu_three = stats_three.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
 %>
-<td rowspan="2" style="background: rgb(0, 233, 208)"><%= sb_two %></td>
-<td rowspan="2" style="background: rgb(0, 233, 208)"><%= ab_two %></td>
-<td rowspan="2" style="background: rgb(0, 233, 208)"><%= sb_three %></td>
-<td rowspan="2" style="background: rgb(0, 233, 208)"><%= ab_three %></td>
+<td rowspan="2" style="background: rgb(54,155,148)"><%= sb_two %></td>
+<td rowspan="2" style="background: rgb(54,155,148)"><%= ab_two %></td>
+<td rowspan="2" style="background: rgb(54,155,148)"><%= sb_three %></td>
+<td rowspan="2" style="background: rgb(54,155,148)"><%= ab_three %></td>
 <td rowspan="2"><%= wrc_qu_one %> / <%= qu_one %> = <%= qu_one != 0 ? (wrc_qu_one.to_f / qu_one).round(1) : 0 %></td>
 <td rowspan="2"><%= wrc_qu_two %> / <%= qu_two %> = <%= qu_two != 0 ? (wrc_qu_two.to_f / qu_two).round(1) : 0 %></td>
 <td rowspan="2"><%= wrc_qu_three %> / <%= qu_three %> = <%= qu_three != 0 ? (wrc_qu_three.to_f / qu_three).round(1) : 0 %></td>
