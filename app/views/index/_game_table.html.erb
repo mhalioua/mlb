@@ -60,7 +60,7 @@
 				first_speed, first_dir = split_wind(@forecasts.last.wind)
 				second_speed, second_dir = split_wind(@forecasts.second.wind)
 				third_speed, third_dir = split_wind(@forecasts.first.wind)
-				winds = wind_data(game.home_team.name, @forecasts.last.wind, @forecasts.second.wind, @forecasts.first.wind, 0)
+				winds = wind_data_match(game.home_team.name, @forecasts.last.wind, @forecasts.second.wind, @forecasts.first.wind)
 				second_wind = winds[1]
 				second_wind = winds[2] if winds.size > 2
 		%>

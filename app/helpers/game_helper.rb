@@ -183,6 +183,97 @@ module GameHelper
     return winds
   end
 
+   def wind_data_match(name, first_wind, second_wind, third_wind)
+    first_wind_speed, first_wind_dir = split_wind(first_wind)
+    second_wind_speed, second_wind_dir = split_wind(second_wind)
+    third_wind_speed, third_wind_dir = split_wind(third_wind)
+
+    search_string = []
+    winds = []
+    if name == 'Rockies'
+      search_string.push('"table" = ' + "'colowind'")
+    else
+      search_string.push('"table" = ' + "'wind'")
+    end
+
+    search_string.push('"Home_Team" = ' + "'#{name}'")
+    wind = get_wind('average runs in this stadium', search_string, 0)
+    winds.push(wind)
+
+    search_string.push('"N" >= 0 AND "N" <= 5')
+    wind = get_wind('average runs in this stadium with 0-5mph winds', search_string, 0)
+    winds.push(wind)
+
+    first_wind_speed, second_wind_speed = swap(first_wind_speed, second_wind_speed) if first_wind_speed > second_wind_speed
+    first_wind_speed, third_wind_speed = swap(first_wind_speed, third_wind_speed) if first_wind_speed > third_wind_speed
+    second_wind_speed, third_wind_speed = swap(second_wind_speed, third_wind_speed) if second_wind_speed > third_wind_speed
+
+    if third_wind_speed > 5
+      filter_min = 6
+      filter_max = 13
+
+      if first_wind_speed < 6
+        if second_wind_speed < 6
+          filter_value = third_wind_speed
+        else
+          filter_value = second_wind_speed
+        end
+      else
+        filter_value = first_wind_speed
+      end
+
+      filter_value = filter_value.to_i
+
+      if filter_value > 6
+        filter_min = filter_value - 1
+        filter_max = filter_value + 6
+      end
+
+      wind_directions = ["NNW", "North", "NNE", "NE", "ENE", "East", "ESE", "SE", "SSE", "South", "SSW", "SW", "WSW", "West", "WNW", "NW", "NNW", "North"]
+      currect_directions = []
+      first_wind_dir = wind_validation(first_wind_dir)
+      second_wind_dir = wind_validation(second_wind_dir)
+      third_wind_dir = wind_validation(third_wind_dir)
+
+      currect_directions.push(first_wind_dir)
+      currect_directions.push(second_wind_dir)
+      currect_directions.push(third_wind_dir)
+
+      search_string = []
+      if name == 'Rockies'
+        search_string.push('"table" = ' + "'colowind'")
+      else
+        search_string.push('"table" = ' + "'wind'")
+      end
+      search_string.push('"Home_Team" = ' + "'#{name}'")
+      search_string.push('"N" >= ' + "#{filter_min}" + ' AND "N" <= ' + "#{filter_max}")
+
+      search_string_original = search_string.dup
+      wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph winds", search_string, 1)
+      winds.push(wind)
+
+      directions = [ 'North', 'NNE', 'NE', 'ENE', 'East', 'ESE', 'SE', 'SSE', 'South', 'SSW', 'SW', 'WSW', 'West', 'WNW', 'NW', 'NNW']
+      parks = ['ARI', 'ATL', 'BAL', 'BOS', 'CHC', 'CHW', 'CIN', 'CLE', 'COL', 'DET', 'HOU', 'KCR', 'LAA', 'LAD', 'MIA', 'MIL', 'MIN', 'NYM', 'NYY', 'OAK', 'PHI', 'PIT', 'SDP', 'SFG', 'SEA', 'STL', 'TEX', 'TOR', 'WSN']
+
+      currect_directions.each_with_index do |direction, index|
+        search_string = search_string_original.dup
+        search_string.push('"M" = ' + "'#{direction}'")
+
+        additional_wind = ''
+        team = Team.find_by(name: name)
+        if directions.include?(direction) && parks.include?(team.baseball_abbr)
+          additional_wind =  @@re[team.baseball_abbr][direction]
+        end
+
+        wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph, going #{direction} (#{additional_wind})", search_string, 2)
+        winds.push(wind)
+      end
+    else
+      winds[1][6] = 1
+    end
+    return winds
+  end
+
   def swap(first, second)
     return second, first
   end
