@@ -14,10 +14,9 @@ module ApplicationHelper
 		elsif lefty_stat == nil || righty_stat == nil
 			0
 		else
-			decimal = ((lefty_stat - lefty_stat.to_i)*10).round() + ((righty_stat - righty_stat.to_i)* 10).round()
+			decimal = ((lefty_stat - lefty_stat.to_i)*10).round() * num_lefty + ((righty_stat - righty_stat.to_i)* 10).round()* num_righty
 			sum = lefty_stat.to_i * num_lefty + righty_stat.to_i * num_righty
 			sum = ((sum * 3 + decimal)/(num_lefty + num_righty))
-			return decimal
 			return "#{(sum/3).to_i}.#{(sum%3).to_i}"
 		end
 	end
