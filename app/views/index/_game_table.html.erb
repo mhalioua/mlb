@@ -113,7 +113,7 @@
 			<% if pitcher %>
 			<%= render partial: "starter", locals: { pitcher: pitcher } %>
 			<% else %>
-			<td>TBD</td>
+			<td rowspan="2">TBD</td>
 			<%= render partial: "not_found", locals: {colspan: 32} %>
 			<% end %>
 			<td><%= winds[1][1] %></td>
