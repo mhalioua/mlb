@@ -18,6 +18,6 @@ class IndexController < ApplicationController
 	  	@gameDays = GameDay.where("date between ? and ?", Date.strptime(@game_start_index).beginning_of_day, Date.strptime(@game_end_index).end_of_day)
 	  	game_day = Date.strptime(@game_start_index, '%Y-%m-%d')
 		@head = "#{game_day.strftime("%B")} #{game_day.strftime("%e").to_i.ordinalize}"
-		@games = @gameDays.games.sort_by{|game| (DateTime.parse(game.game_date) - game.home_team.timezone.hours) }
+		@games = Game.where(id: @gameDays.map{|gameDay| gameDay.id }).sort_by{|game| (DateTime.parse(game.game_date) - game.home_team.timezone.hours) }
 	end
 end
