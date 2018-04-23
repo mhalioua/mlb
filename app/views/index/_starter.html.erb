@@ -3,8 +3,8 @@
 <% lefty, righty = pitcher.opposing_batters_handedness %>
 <td rowspan="2" style="background: darkorange;"><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
 <td rowspan="2"><%= pitcher.player.age %></td>
-<td rowspan="2"><%= mixed_statistic_ip(stats[1].first.ip, stats[1].second.ip, lefty, righty) %></th>
-<td rowspan="2"><%= mixed_statistic_ip(stats[0].first.ip, stats[0].second.ip, lefty, righty) %></th>
+<td rowspan="2"><%= mixed_statistic_ip(stats[1].first.ip, stats[1].second.ip) %></th>
+<td rowspan="2"><%= mixed_statistic_ip(stats[0].first.ip, stats[0].second.ip) %></th>
 <td rowspan="2" style="background: rgb(54,155,148);"><%= mixed_statistic(stats[1].first.gb, stats[1].second.gb, lefty, righty) %></th>
 <td rowspan="2" style="background: rgb(54,155,148);"><%= mixed_statistic(stats[0].first.gb, stats[0].second.gb, lefty, righty) %></th>
 <td rowspan="2"><%= mixed_statistic(stats[1].first.woba, stats[1].second.woba, lefty, righty).to_i %></th>
