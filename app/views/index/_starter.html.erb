@@ -1,7 +1,7 @@
 <% seasons = Season.greater_than(2017) %>
 <% stats = pitcher.view_stats(seasons) %>
 <% lefty, righty = pitcher.opposing_batters_handedness %>
-<td rowspan="2"><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
+<td rowspan="2" style="background: darkorange;"><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
 <td rowspan="2"><%= pitcher.player.age %></td>
 <td rowspan="2"><%= mixed_statistic_ip(stats[1].first.ip, stats[1].second.ip, lefty, righty) %></th>
 <td rowspan="2"><%= mixed_statistic_ip(stats[0].first.ip, stats[0].second.ip, lefty, righty) %></th>
@@ -142,7 +142,7 @@
 	tld_qu_two = stats_two.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
 	tld_qu_three = stats_three.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
 %>
-<td rowspan="2"><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
+<td rowspan="2" style="background: darkorange;"><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
 <td rowspan="2" style="background: rgb(54,155,148)"><%= sb_two %></td>
 <td rowspan="2" style="background: rgb(54,155,148)"><%= ab_two %></td>
 <td rowspan="2" style="background: rgb(54,155,148)"><%= sb_three %></td>
