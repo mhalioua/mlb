@@ -16,8 +16,8 @@ class IndexController < ApplicationController
 	  	@game_end_index = @game_index[13..23]
 
 	  	@gameDays = GameDay.where("date between ? and ?", Date.strptime(@game_start_index).beginning_of_day, Date.strptime(@game_end_index).end_of_day)
-	  	game_day = Date.strptime(@game_start_index, '%Y-%m-%d')
+	  	game_day = GameDay.find(Date.strptime(@game_start_index, '%Y-%m-%d'))
 		@head = "#{Date::MONTHNAMES[game_day.month]} #{game_day.day.ordinalize}"
-		@games = @gameDays.games.sort_by{|game| (DateTime.parse(game.game_date) - game.home_team.timezone.hours) }
+		@games = game_day.games.sort_by{|game| (DateTime.parse(game.game_date) - game.home_team.timezone.hours) }
 	end
 end
