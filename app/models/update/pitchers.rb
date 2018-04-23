@@ -7,7 +7,7 @@ module Update
       year = season.year
       puts "Update #{team.name} #{year} Pitchers"
 
-      (0..1).each do |rost|
+      rost = 1
         url = "http://www.fangraphs.com/leaders.aspx?pos=all&stats=pit&lg=all&qual=0&type=1&season=#{year}&month=0&season1=#{year}&ind=0&team=#{team.fangraph_id}&rost=#{rost}&age=0&filter=&players=0&page=1_50"
         doc = download_document(url)
         puts url
@@ -96,7 +96,6 @@ module Update
           pitcher_stat = lancer.stats.where(handedness: "").first
           pitcher_stat.update_attributes(ld: ld, whip: whip, ip: ip, so: so, bb: bb, siera: siera)
         end
-      end
 
       team.players.each do |player|
         unless player.lancers.find_by(season: season)
