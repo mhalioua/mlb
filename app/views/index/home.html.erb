@@ -5,9 +5,9 @@
 	</div>
 	<div class="panel-body">
 		<ul class="list-group">
-			<li class="list-group-item"><%= link_to @yesterday.date.strftime("%B %e"),	{ action: 'game', id: @yesterday.id } %></li>
-			<li class="list-group-item"><%= link_to @today.date.strftime("%B %e"),		{ action: 'game', id: @today.id } %></li>
-			<li class="list-group-item"><%= link_to @tomorrow.date.strftime("%B %e"),	{ action: 'game', id: @tomorrow.id } %></li>
+			<li class="list-group-item"><%= link_to @yesterday.strftime("%B %e"),	{ action: 'game', id: @yesterday.strftime("%Y-%m-%d") + " - " + @yesterday.strftime("%Y-%m-%d") } %></li>
+			<li class="list-group-item"><%= link_to @today.strftime("%B %e"),		{ action: 'game', id: @today.strftime("%Y-%m-%d") + " - " + @today.strftime("%Y-%m-%d") } %></li>
+			<li class="list-group-item"><%= link_to @tomorrow.strftime("%B %e"),	{ action: 'game', id: @tomorrow.strftime("%Y-%m-%d") + " - " + @tomorrow.strftime("%Y-%m-%d") } %></li>
 			<li class="list-group-item"><%= link_to 'MLB Calculator',			  		{ controller: 'calc', action: 'input' } %></li>
 			<li class="list-group-item"><%= link_to 'Sign Out',							{ controller: 'access', action: 'logout' } %></li>
 		</ul>
