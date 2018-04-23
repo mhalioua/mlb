@@ -1,6 +1,6 @@
 <table class="table-bordered game-index">
 	<thead>
-		<tr style="background: gray;">
+		<tr style="background: lightgray;">
 			<th scope="col"></th>
 			<th scope="col" colspan="4"><%= @head %></th>
 			<th scope="col">Pitchers</th>
@@ -52,7 +52,7 @@
 				winds = wind_data_match(game.home_team.name, @forecasts.last.wind, @forecasts.second.wind, @forecasts.first.wind)
 		%>
 		<% if index % 3 === 0 %>
-			<tr style="background: lightgray;">
+			<tr style="background: gray;">
 				<td>TIME</td>
 				<td>Away @ Home</td>
 				<td>Game Stats</td>

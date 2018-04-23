@@ -245,7 +245,6 @@ module GameHelper
         filter_max = filter_value + 6
       end
 
-      wind_directions = ["NNW", "North", "NNE", "NE", "ENE", "East", "ESE", "SE", "SSE", "South", "SSW", "SW", "WSW", "West", "WNW", "NW", "NNW", "North"]
       currect_directions = []
       first_wind_dir = wind_validation(first_wind_dir)
       second_wind_dir = wind_validation(second_wind_dir)
