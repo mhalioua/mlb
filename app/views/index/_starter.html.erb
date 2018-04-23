@@ -99,9 +99,9 @@
 	end
 %>
 <td rowspan="2" style="background: rgb(54,155,148);"><%= ((game_one_bb + game_one_h) / add_innings(game_one_ip).to_f).round(2) %></th>
-<td rowspan="2" style="background: rgb(54,155,148);"><%= ((game_one_opp_bb + game_one_opp_h) / add_innings(game_one_opp_ip).to_f).round(2) %></th>
+<td rowspan="2" style="background: rgb(0,124,119);"><%= ((game_one_opp_bb + game_one_opp_h) / add_innings(game_one_opp_ip).to_f).round(2) %></th>
 <td rowspan="2" style="background: rgb(54,155,148);"><%= ((game_two_bb + game_two_h) / add_innings(game_two_ip).to_f).round(2) %></th>
-<td rowspan="2" style="background: rgb(54,155,148);"><%= ((game_two_opp_bb + game_two_opp_h) / add_innings(game_two_opp_ip).to_f).round(2) %></th>
+<td rowspan="2" style="background: rgb(0,124,119);"><%= ((game_two_opp_bb + game_two_opp_h) / add_innings(game_two_opp_ip).to_f).round(2) %></th>
 <td rowspan="2"><%= ((game_three_bb + game_three_h) / add_innings(game_three_ip).to_f).round(2) %></th>
 <td rowspan="2" style="background: gray;"><%= ((game_three_opp_bb + game_three_opp_h) / add_innings(game_three_opp_ip).to_f).round(2) %></th>
 <td rowspan="2"><%= ((game_four_bb + game_four_h) / add_innings(game_four_ip).to_f).round(2) %></th>
@@ -142,6 +142,7 @@
 	tld_qu_two = stats_two.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
 	tld_qu_three = stats_three.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
 %>
+<td rowspan="2"><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
 <td rowspan="2" style="background: rgb(54,155,148)"><%= sb_two %></td>
 <td rowspan="2" style="background: rgb(54,155,148)"><%= ab_two %></td>
 <td rowspan="2" style="background: rgb(54,155,148)"><%= sb_three %></td>
