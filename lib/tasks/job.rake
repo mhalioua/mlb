@@ -34,6 +34,13 @@ namespace :job do
     puts count
   end
 
+  task :import => :environment do
+    require 'csv'
+    CSV.foreach(Rails.root.join('csv', 'results.csv'), headers: true) do |row|
+      Results.create(row.to_h)
+    end
+  end
+
   task bydate: :environment do
     include NewShare
     index_date = Date.new(2011, 3, 31)
