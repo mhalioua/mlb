@@ -37,7 +37,7 @@ namespace :job do
   task :import => :environment do
     require 'csv'
     CSV.foreach(Rails.root.join('csv', 'results.csv'), headers: true) do |row|
-      Results.create(row.to_h)
+      Result.create(row.to_h)
     end
   end
 
