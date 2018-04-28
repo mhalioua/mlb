@@ -13,7 +13,7 @@
 <td rowspan="2" style="background: rgb(0, 233, 208);"><%= left_stat.fip %></th>
 <% left_stat = stats[0].where(handedness: "L").first %>
 <td rowspan="2" style="background: rgb(0, 233, 208);"><%= left_stat.fip %></th>
-<td rowspan="2"><span style="display: none"> <%= stats[1].first.outs %> <%= stats[1].second.outs %><%= stats[1].first.tld %> <%= stats[1].second.tld %> </span><%= mixed_statistic(stats[1].first.tld, stats[1].second.tld, lefty, righty) %></th>
+<td rowspan="2"><span style="display: none"> <%= stats[1].first.inspect %> <%= stats[1].second.inspect %> </span><%= mixed_statistic(stats[1].first.tld, stats[1].second.tld, lefty, righty) %></th>
 <td rowspan="2"><%= mixed_statistic(stats[0].first.tld, stats[0].second.tld, lefty, righty) %></th>
 <%
 	prev_pitchers = pitcher.prev_pitchers
