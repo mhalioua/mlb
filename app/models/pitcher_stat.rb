@@ -1,12 +1,8 @@
 class PitcherStat < ApplicationRecord
   belongs_to :lancer
 
-  def ip_math
-    ip.to_i + (10 * (ip.to_f - ip.to_i))/3
-  end
-
   def outs
-    (ip_math * 3).round
+    (ip.to_i * 3 + 10* (ip.to_f - ip.to_i)).round
   end
 
   def tld
