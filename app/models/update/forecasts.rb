@@ -65,6 +65,73 @@ module Update
       end
     end
 
+    def update_check(game)
+      game_day = game.game_day
+      home_team = game.home_team
+      time = DateTime.parse(game.game_date).strftime("%I:%M%p").to_time - 30.minutes
+
+      url = get_url(home_team, game_day)
+      doc = download_document(url)
+      puts home_team
+      puts time
+      puts url
+
+      return unless doc
+      header = doc.css("#hourly-forecast-table tr").first
+      return unless header
+      headers = {
+        'Temp.' => 0,
+        'Dew Point' => 0,
+        'Humidity' => 0,
+        'Pressure' => 0,
+        'Wind' => 0,
+        'Amount' => 0,
+        'Feels Like' => 0
+      }
+
+      header.children.each_with_index do |header_element, index|
+        key = header_element.text.squish
+        headers[key] = index if key == 'Temp.'
+        headers[key] = index if key == 'Dew Point'
+        headers[key] = index if key == 'Humidity'
+        headers[key] = index if key == 'Pressure'
+        headers[key] = index if key == 'Wind'
+        headers[key] = index if key == 'Amount'
+        headers[key] = index if key == 'Feels Like'
+      end
+
+      hourlyweathers = doc.css("#hourly-forecast-table tbody tr")
+      start_index = hourlyweathers.size - 1
+      return if start_index < 0 || hourlyweathers[0].children[2].text.squish.to_time > time
+      hourlyweathers.each_with_index do |weather, index|
+        date = weather.children[2].text.squish.to_time
+        if date >= time
+          start_index = index
+          break
+        end
+      end
+
+      (1..3).each do |index|
+        puts hourlyweathers[start_index].children[2].text.squish
+        temp = hourlyweathers[start_index].children[headers['Temp.']].text.squish
+        dp = hourlyweathers[start_index].children[headers['Dew Point']].text.squish
+        hum = hourlyweathers[start_index].children[headers['Humidity']].text.squish
+        pressure = hourlyweathers[start_index].children[headers['Pressure']].text.squish
+        precip = hourlyweathers[start_index].children[headers['Amount']].text.squish
+        wind = hourlyweathers[start_index].children[headers['Wind']].text.squish
+        feel = hourlyweathers[start_index].children[headers['Feels Like']].text.squish
+        puts temp
+        puts dp
+        put hum
+        puts pressure
+        puts precip
+        puts wind
+        puts feel
+
+        start_index = start_index + 1 if start_index < hourlyweathers.size - 1
+      end
+    end
+
     private
 
       def get_url(home_team, game_day)

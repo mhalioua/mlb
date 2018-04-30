@@ -52,6 +52,10 @@ class GameDay < ApplicationRecord
     games.each { |game| game.update_forecast }
   end
 
+  def update_forecast_check
+    games.each { |game| game.update_forecast_check }
+  end
+
   def time
     Time.new(year, month, day)
   end
