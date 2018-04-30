@@ -72,8 +72,8 @@ module Update
 
       url = get_url(home_team, game_day)
       doc = download_document(url)
-      puts home_team
-      puts time
+      puts home_team.name
+      puts game.game_date
       puts url
 
       return unless doc
