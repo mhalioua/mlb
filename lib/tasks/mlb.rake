@@ -63,7 +63,7 @@ namespace :mlb do
   end
 
   task update_forecast_check: :environment do
-    [GameDay.today, GameDay.tomorrow].each { |game_day| game_day.update_forecast_check }
+    GameDay.today.update_forecast_check
   end
 
   task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs, :update_game_status]
