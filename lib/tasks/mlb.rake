@@ -34,6 +34,10 @@ namespace :mlb do
     Season.where("year = 2018").order("year DESC").each { |season| season.update_batters }
   end
 
+  task update_batter_prev: :environment do
+    Season.where("year = 2017").order("year DESC").each { |season| season.update_batters }
+  end
+
   task update_pitchers: :environment do
     Season.where("year = 2018").map { |season| season.update_pitchers }
   end
