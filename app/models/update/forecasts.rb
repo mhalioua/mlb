@@ -122,7 +122,7 @@ module Update
         feel = hourlyweathers[start_index].children[headers['Feels Like']].text.squish
         puts temp
         puts dp
-        put hum
+        puts hum
         puts pressure
         puts precip
         puts wind
