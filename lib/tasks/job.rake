@@ -666,7 +666,8 @@ namespace :job do
     'Cincinnati, Ohio 45999' => 'https://www.wunderground.com/history/airport/KLUK/year/month/day/DailyHistory.html?req_city=Cincinnati&req_state=OH&req_statename=Ohio&reqdb.zip=45201&reqdb.magic=1&reqdb.wmo=99999',
     'Cumberland, Georgia 39901' => 'https://www.wunderground.com/history/airport/KAHN/year/month/day/DailyHistory.html?req_city=Cumberland&req_state=&req_statename=Georgia&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
     'Philadelphia, Pennsylvania 19255' => 'https://www.wunderground.com/history/airport/KPHL/year/month/day/DailyHistory.html?req_city=Philadelphia&req_state=&req_statename=Pennsylvania&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Chicago, Illinois 60613' => 'https://www.wunderground.com/history/airport/KORD/year/month/day/DailyHistory.html?req_city=Chicago&req_state=&req_statename=Illinois&reqdb.zip=&reqdb.magic=&reqdb.wmo='
+    'Chicago, Illinois 60613' => 'https://www.wunderground.com/history/airport/KORD/year/month/day/DailyHistory.html?req_city=Chicago&req_state=&req_statename=Illinois&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+    'Cumberland, GA 30339' => 'https://www.wunderground.com/history/airport/KMGE/year/month/day/DailyHistory.html?req_city=Atlanta&req_state=GA&req_statename=Georgia&reqdb.zip=30339&reqdb.magic=1&reqdb.wmo=99999'
   }
 
 
