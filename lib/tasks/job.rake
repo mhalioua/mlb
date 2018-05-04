@@ -42,7 +42,7 @@ namespace :job do
   end
 
   task bydate: :environment do
-    include NewShare
+    include GetHtml
     index_date = Date.new(2011, 3, 31)
     year = 2011
     index = { away_team: 0, home_team: 1, result: 2 }
@@ -102,7 +102,7 @@ namespace :job do
   end
 
   task byteam: :environment do
-    include NewShare
+    include GetHtml
     team_abbrs = @team.keys
       year = 2018
       team_abbrs.each do |home_team_abbr|
@@ -186,7 +186,7 @@ namespace :job do
   end
 
   task getGameScore: :environment do
-    include NewShare
+    include GetHtml
     games = Result.where("home_score_first is null")
     games.each do |game|
       url = "http://www.espn.com/mlb/boxscore?gameId=#{game.game_id}"
@@ -243,7 +243,7 @@ namespace :job do
   end
 
   task getML: :environment do
-    include NewShare
+    include GetHtml
     index_date = Date.new(2018, 3, 29)
     while index_date <= Date.new(2018, 5, 3)
       game_date = index_date.strftime("%Y%m%d")
@@ -304,7 +304,7 @@ namespace :job do
   end
 
   task getTotal: :environment do
-    include NewShare
+    include GetHtml
     index_date = Date.new(2018, 3, 29)
     while index_date <= Date.new(2018, 5, 3)
       game_date = index_date.strftime("%Y%m%d")
@@ -366,7 +366,7 @@ namespace :job do
   end
 
   task getBoxScore: :environment do
-    include NewShare
+    include GetHtml
     games = Result.where("total_hits_both_team is null")
     games.each do |game|
       url = "http://www.espn.com/mlb/boxscore?gameId=#{game.game_id}"
@@ -485,7 +485,7 @@ namespace :job do
   end
 
   task getWeather: :environment do
-    include NewShare
+    include GetHtml
     games = Result.where("first_temp is null")
     games.each do |game|
       time = game.time.to_time - 30.minutes
