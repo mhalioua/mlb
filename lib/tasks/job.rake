@@ -104,9 +104,9 @@ namespace :job do
   task byteam: :environment do
     include NewShare
     team_abbrs = @team.keys
-      year = 1993
+      year = 2018
       team_abbrs.each do |home_team_abbr|
-        (1..2).each do |type|
+        (1..1).each do |type|
           url = "http://www.espn.com/mlb/team/schedule/_/name/#{home_team_abbr}/year/#{year}/seasontype/2/half/#{type}"
           doc = download_document(url)
           elements = doc.css("tr")
@@ -164,11 +164,11 @@ namespace :job do
               else
                 stadium = home_team
               end
-              game = Gameresult.find_or_create_by(game_id: game_id)
+              game = Result.find_or_create_by(game_id: game_id)
               game.update(year: year, away_team: away_team, away_abbr: away_abbr, home_team: home_team, home_abbr: home_abbr, game_id: game_id, game_date: date, stadium: stadium)
             else
               date = element.children[0].text.squish + " " + year.to_s
-              game = Gameresult.find_or_create_by(year: year, away_team: away_team, away_abbr: away_abbr, home_team: home_team, home_abbr: home_abbr, game_date: date)
+              game = Result.find_or_create_by(year: year, away_team: away_team, away_abbr: away_abbr, home_team: home_team, home_abbr: home_abbr, game_date: date)
             end
           end
         end
@@ -244,8 +244,8 @@ namespace :job do
 
   task getML: :environment do
     include NewShare
-    index_date = Date.new(2006, 4, 2)
-    while index_date <= Date.new(2006, 10, 1)
+    index_date = Date.new(2018, 3, 29)
+    while index_date <= Date.new(2018, 5, 3)
       game_date = index_date.strftime("%Y%m%d")
       puts game_date
       url = "https://www.sportsbookreview.com/betting-odds/mlb-baseball/?date=#{game_date}"
@@ -305,8 +305,8 @@ namespace :job do
 
   task getTotal: :environment do
     include NewShare
-    index_date = Date.new(2006, 4, 2)
-    while index_date <= Date.new(2006, 10, 1)
+    index_date = Date.new(2018, 3, 29)
+    while index_date <= Date.new(2018, 5, 3)
       game_date = index_date.strftime("%Y%m%d")
       puts game_date
       url = "https://www.sportsbookreview.com/betting-odds/mlb-baseball/totals/?date=#{game_date}"
