@@ -603,7 +603,7 @@ namespace :job do
     'nym' => 'New York Mets',
     'phi' => 'Philadelphia Phillies',
     'wsh' => 'Washington Nationals',
-    'chw' => 'Chicago White Sox',
+    'chc' => 'Chicago White Sox',
     'cle' => 'Cleveland Indians',
     'det' => 'Detroit Tigers',
     'kc' => 'Kansas City Royals',
