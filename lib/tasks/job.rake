@@ -574,6 +574,7 @@ namespace :job do
       url = "http://www.espn.com/mlb/boxscore?gameId=#{game.game_id}"
       puts url
       doc = download_document(url)
+      next unless doc
 
       pitchers = doc.css('.stats-wrap')
       next if pitchers.size < 4
