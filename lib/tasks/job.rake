@@ -598,31 +598,18 @@ namespace :job do
       home_pitcher_r = home_pitcher.children[1].children[0].children[3].text.squish
       home_pitcher_bb = home_pitcher.children[1].children[0].children[5].text.squish
 
-      puts away_pitcher_link
-      puts away_pitcher_name
-      puts away_pitcher_ip
-      puts away_pitcher_h
-      puts away_pitcher_r
-      puts away_pitcher_bb
-      puts home_pitcher_link
-      puts home_pitcher_name
-      puts home_pitcher_ip
-      puts home_pitcher_h
-      puts home_pitcher_r
-      puts home_pitcher_bb
-
-      # game.update(away_pitcher_link: away_pitcher_link,
-      #   away_pitcher_name: away_pitcher_name,
-      #   away_pitcher_ip: away_pitcher_ip,
-      #   away_pitcher_h: away_pitcher_h,
-      #   away_pitcher_r: away_pitcher_r,
-      #   away_pitcher_bb: away_pitcher_bb,
-      #   home_pitcher_link: home_pitcher_link,
-      #   home_pitcher_name: home_pitcher_name,
-      #   home_pitcher_ip: home_pitcher_ip,
-      #   home_pitcher_h: home_pitcher_h,
-      #   home_pitcher_r: home_pitcher_r,
-      #   home_pitcher_bb: home_pitcher_bb)
+      game.update(away_pitcher_link: away_pitcher_link,
+        away_pitcher_name: away_pitcher_name,
+        away_pitcher_ip: away_pitcher_ip,
+        away_pitcher_h: away_pitcher_h,
+        away_pitcher_r: away_pitcher_r,
+        away_pitcher_bb: away_pitcher_bb,
+        home_pitcher_link: home_pitcher_link,
+        home_pitcher_name: home_pitcher_name,
+        home_pitcher_ip: home_pitcher_ip,
+        home_pitcher_h: home_pitcher_h,
+        home_pitcher_r: home_pitcher_r,
+        home_pitcher_bb: home_pitcher_bb)
     end
   end
 
