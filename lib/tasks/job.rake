@@ -632,7 +632,7 @@ namespace :job do
     'San Diego, California 92199' => 'https://www.wunderground.com/history/airport/KSAN/year/month/day/DailyHistory.html?req_city=San+Diego&req_state=CA&req_statename=California&reqdb.zip=92101&reqdb.magic=1&reqdb.wmo=99999',
     'Kansas City, Missouri 64999' => 'https://www.wunderground.com/history/airport/KMKC/year/month/day/DailyHistory.html?req_city=Kansas+City&req_state=MO&req_statename=Missouri&reqdb.zip=64999&reqdb.magic=1&reqdb.wmo=99999',
     'Anaheim, California 92899' => 'https://www.wunderground.com/history/airport/KFUL/year/month/day/DailyHistory.html?req_city=Anaheim&req_state=CA&req_statename=California&reqdb.zip=92801&reqdb.magic=1&reqdb.wmo=99999',
-    'Houston, Texas 77299' => 'https://www.wunderground.com/history/airport/KMCJ/year/month/day/DailyHistory.html?req_city=Houston&req_state=TX&req_statename=Texas&reqdb.zip=77001&reqdb.magic=1&reqdb.wmo=99999',
+    'Houston, Texas 77299' => 'https://www.wunderground.com/history/airport/KMCJ/year/month/day/DailyHistory.html?req_city=Houston&req_state=TX&req_statename=Texas&reqdb.zip=77299&reqdb.magic=1&reqdb.wmo=99999',
     'Detroit, Michigan 48201' => 'https://www.wunderground.com/history/airport/KDET/year/month/day/DailyHistory.html?req_city=Detroit&req_state=&req_statename=Michigan&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
     'Toronto, Ontario' => 'https://www.wunderground.com/history/airport/CXTO/year/month/day/DailyHistory.html?req_city=Toronto&req_state=&req_statename=Ontario&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
     'Oakland, California 94666' => 'https://www.wunderground.com/history/airport/KOAK/year/month/day/DailyHistory.html?req_city=Oakland&req_state=&req_statename=California&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
