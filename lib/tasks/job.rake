@@ -567,6 +567,65 @@ namespace :job do
     end
   end
 
+  task pitchers: :environment do
+    include GetHtml
+    games = Result.where("home_pitcher_name is null")
+    games.each do |game|
+      url = "http://www.espn.com/mlb/boxscore?gameId=#{game.game_id}"
+      puts url
+      doc = download_document(url)
+
+      pitchers = doc.css('.stats-wrap')
+      next if pitchers.size < 4
+      away_pitcher = pitchers[1]
+      home_pitcher = pitchers[3]
+      away_pitcher_size = away_pitcher.children.size
+      home_pitcher_size = home_pitcher.children.size
+      next if away_pitcher_size == 3 && away_pitcher.children[1].children[0].children.size == 1
+      next if home_pitcher_size == 3 && home_pitcher.children[1].children[0].children.size == 1
+
+      away_pitcher_link = away_pitcher.children[1].children[0].children[0].children[0]['href']
+      away_pitcher_name = away_pitcher.children[1].children[0].children[0].children[0].text.squish
+      away_pitcher_ip = away_pitcher.children[1].children[0].children[1].text.squish
+      away_pitcher_h = away_pitcher.children[1].children[0].children[2].text.squish
+      away_pitcher_r = away_pitcher.children[1].children[0].children[3].text.squish
+      away_pitcher_bb = away_pitcher.children[1].children[0].children[5].text.squish
+
+      home_pitcher_link = home_pitcher.children[1].children[0].children[0].children[0]['href']
+      home_pitcher_name = home_pitcher.children[1].children[0].children[0].children[0].text.squish
+      home_pitcher_ip = home_pitcher.children[1].children[0].children[1].text.squish
+      home_pitcher_h = home_pitcher.children[1].children[0].children[2].text.squish
+      home_pitcher_r = home_pitcher.children[1].children[0].children[3].text.squish
+      home_pitcher_bb = home_pitcher.children[1].children[0].children[5].text.squish
+
+      puts away_pitcher_link
+      puts away_pitcher_name
+      puts away_pitcher_ip
+      puts away_pitcher_h
+      puts away_pitcher_r
+      puts away_pitcher_bb
+      puts home_pitcher_link
+      puts home_pitcher_name
+      puts home_pitcher_ip
+      puts home_pitcher_h
+      puts home_pitcher_r
+      puts home_pitcher_bb
+
+      game.update(away_pitcher_link: away_pitcher_link,
+        away_pitcher_name: away_pitcher_name,
+        away_pitcher_ip: away_pitcher_ip,
+        away_pitcher_h: away_pitcher_h,
+        away_pitcher_r: away_pitcher_r,
+        away_pitcher_bb: away_pitcher_bb,
+        home_pitcher_link: home_pitcher_link,
+        home_pitcher_name: home_pitcher_name,
+        home_pitcher_ip: home_pitcher_ip,
+        home_pitcher_h: home_pitcher_h,
+        home_pitcher_r: home_pitcher_r,
+        home_pitcher_bb: home_pitcher_bb)
+    end
+  end
+
   @month = {
     'Jan' => '1',
     'Feb' => '2',
