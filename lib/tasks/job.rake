@@ -611,18 +611,18 @@ namespace :job do
       puts home_pitcher_r
       puts home_pitcher_bb
 
-      game.update(away_pitcher_link: away_pitcher_link,
-        away_pitcher_name: away_pitcher_name,
-        away_pitcher_ip: away_pitcher_ip,
-        away_pitcher_h: away_pitcher_h,
-        away_pitcher_r: away_pitcher_r,
-        away_pitcher_bb: away_pitcher_bb,
-        home_pitcher_link: home_pitcher_link,
-        home_pitcher_name: home_pitcher_name,
-        home_pitcher_ip: home_pitcher_ip,
-        home_pitcher_h: home_pitcher_h,
-        home_pitcher_r: home_pitcher_r,
-        home_pitcher_bb: home_pitcher_bb)
+      # game.update(away_pitcher_link: away_pitcher_link,
+      #   away_pitcher_name: away_pitcher_name,
+      #   away_pitcher_ip: away_pitcher_ip,
+      #   away_pitcher_h: away_pitcher_h,
+      #   away_pitcher_r: away_pitcher_r,
+      #   away_pitcher_bb: away_pitcher_bb,
+      #   home_pitcher_link: home_pitcher_link,
+      #   home_pitcher_name: home_pitcher_name,
+      #   home_pitcher_ip: home_pitcher_ip,
+      #   home_pitcher_h: home_pitcher_h,
+      #   home_pitcher_r: home_pitcher_r,
+      #   home_pitcher_bb: home_pitcher_bb)
     end
   end
 
