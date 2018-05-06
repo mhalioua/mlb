@@ -47,7 +47,7 @@ module Update
         end
       end
 
-      (1..3).each do |i|
+      (1..4).each do |i|
         temp = hourlyweathers[start_index].children[headers['Temp.']].text.squish
         dp = hourlyweathers[start_index].children[headers['Dew Point']].text.squish
         hum = hourlyweathers[start_index].children[headers['Humidity']].text.squish
