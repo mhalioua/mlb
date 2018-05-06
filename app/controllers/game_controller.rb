@@ -51,7 +51,7 @@ class GameController < ApplicationController
 			@forecast_dropdown << [forecast_one.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p"), index]
 		end
 
-		@forecasts = @game.weathers.where(station: "Forecast").order("updated_at DESC").offset(@forecast*3).limit(3)
+		@forecasts = @game.weathers.where(station: "Forecast").order("updated_at DESC").offset(@forecast*4).limit(4)
 		@forecasts = [@forecasts.last, @forecasts.second, @forecasts.first]
 		@weathers = @game.weathers.where(station: "Actual").order(:hour)
 		@additional = params[:option].to_i
@@ -78,7 +78,7 @@ class GameController < ApplicationController
 			@forecast_dropdown << [forecast_one.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p"), index]
 		end
 
-		@forecasts = @game.weathers.where(station: "Forecast").order("updated_at DESC").offset(@forecast*3).limit(3)
+		@forecasts = @game.weathers.where(station: "Forecast").order("updated_at DESC").offset(@forecast*4).limit(4)
 		@forecasts = [@forecasts.last, @forecasts.second, @forecasts.first]
 		@weathers = @game.weathers.where(station: "Actual").order(:hour)
 		@additional = params[:option].to_i
