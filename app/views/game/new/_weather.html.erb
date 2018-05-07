@@ -131,7 +131,7 @@
               hum_max = weathers[0].humid_num - 1
             end
           %>
-          <%= render partial: "game/new/weather_value", locals: { caption: "Before", temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_min, hum_max: hum_max, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "" } %>
+          <%= render partial: "game/new/weather_value", locals: { caption: "Before", temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_min, hum_max: hum_max, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "", color: "gray" } %>
         <% end %>
 
 
@@ -145,7 +145,7 @@
               hum_max = weathers[3].humid_num - 1
             end
           %>
-          <%= render partial: "game/new/weather_value", locals: { caption: "After", temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_min, hum_max: hum_max, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "" } %>
+          <%= render partial: "game/new/weather_value", locals: { caption: "After", temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_min, hum_max: hum_max, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "", color: "gray" } %>
         <% end %>
 
         <%
