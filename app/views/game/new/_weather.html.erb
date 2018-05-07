@@ -37,11 +37,11 @@
         <td></td>
         <td colspan="5"><%= caption %></td>
         <td class="blue"></td>
-        <td colspan="8">All Stadiums</td>
+        <td colspan="8" style="background: yellow;">All Stadiums</td>
         <td class="blue"></td>
-        <td colspan="5">Only <%= stadium %></td>
+        <td colspan="5" style="background: sandybrown;">Only <%= stadium %></td>
         <td></td>
-        <td colspan="5">All Stadiums except <%= stadium %></td>
+        <td colspan="5" style="background: yellow;">All Stadiums except <%= stadium %></td>
       </tr>
 
       <% weathers.each do |weather| %>
@@ -169,9 +169,7 @@
           <%= render partial: "game/new/weather_value", locals: { caption: slogan, temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_each, hum_max: hum_each, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "", color: "" } %>
         <% end %>
 
-        <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
-        <%= render partial: "game/new/weather_blank", locals: { color: "#6495ED" } %>
-        <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
+        <%= render partial: "game/new/weather_blank", locals: { color: "sandybrown" } %>
       <% end %>
     <% end %>
   </tbody>
