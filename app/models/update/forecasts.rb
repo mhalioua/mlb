@@ -42,9 +42,9 @@ module Update
       hourlyweathers.each_with_index do |weather, index|
         date = weather.children[2].text.squish.to_time
         if date >= time
-          start_index = index
           break
         end
+        start_index = index
       end
 
       (1..4).each do |index|
@@ -68,7 +68,7 @@ module Update
     def update_check(game)
       game_day = game.game_day
       home_team = game.home_team
-      time = DateTime.parse(game.game_date).strftime("%I:%M%p").to_time - 30.minutes
+      time = DateTime.parse(game.game_date).strftime("%I:%M%p").to_time
 
       url = get_url(home_team, game_day)
       doc = download_document(url)
