@@ -51,8 +51,11 @@ class GameController < ApplicationController
 			@forecast_dropdown << [forecast_one.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p"), index]
 		end
 
-		@forecasts = @game.weathers.where(station: "Forecast").order("updated_at DESC").offset(@forecast*4).limit(4)
-		@forecasts = [@forecasts.last, @forecasts.second, @forecasts.first]
+		@forecast_one = @game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(@forecast)
+		@forecast_two = @game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC").offset(@forecast)
+		@forecast_three = @game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC").offset(@forecast)
+		@forecast_four = @game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").offset(@forecast)
+		@forecasts = [@forecast_one.first, @forecast_two.first, @forecast_three.first, @forecast_four.first]
 		@weathers = @game.weathers.where(station: "Actual").order(:hour)
 		@additional = params[:option].to_i
 	end
@@ -78,8 +81,11 @@ class GameController < ApplicationController
 			@forecast_dropdown << [forecast_one.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p"), index]
 		end
 
-		@forecasts = @game.weathers.where(station: "Forecast").order("updated_at DESC").offset(@forecast*4).limit(4)
-		@forecasts = [@forecasts.last, @forecasts.second, @forecasts.first]
+		@forecast_one = @game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(@forecast)
+		@forecast_two = @game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC").offset(@forecast)
+		@forecast_three = @game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC").offset(@forecast)
+		@forecast_four = @game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").offset(@forecast)
+		@forecasts = [@forecast_one.first, @forecast_two.first, @forecast_three.first, @forecast_four.first]
 		@weathers = @game.weathers.where(station: "Actual").order(:hour)
 		@additional = params[:option].to_i
 	end
