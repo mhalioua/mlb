@@ -77,7 +77,7 @@
       <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
 
       <% weathers.each_with_index do |weather, index| %>
-        <%= render partial: "game/new/weather_value", locals: { caption: "#{index + 1} hour", temp_min: weather.temp_num - 4, temp_max: weather.temp_num + 4, dew_min: weather.dew_num-2, dew_max: weather.dew_num+2, hum_min: weather.humid_num-3, hum_max: weather.humid_num+3, pressure_min: (weather.pressure_num-0.04).round(2), pressure_max: (weather.pressure_num+0.04).round(2), name: name, wind: weather.wind } %>
+        <%= render partial: "game/new/weather_value", locals: { caption: "#{index + 1} hour", temp_min: weather.temp_num - 4, temp_max: weather.temp_num + 4, dew_min: weather.dew_num-2, dew_max: weather.dew_num+2, hum_min: weather.humid_num-3, hum_max: weather.humid_num+3, pressure_min: (weather.pressure_num-0.04).round(2), pressure_max: (weather.pressure_num+0.04).round(2), name: name, wind: weather.wind, color: "" } %>
       <% end %>
 
       <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
@@ -156,14 +156,14 @@
             hum_max = weather_one.humid_num
           end
         %>
-          <%= render partial: "game/new/weather_value", locals: { caption: slogan, temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_min, hum_max: hum_max, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "" } %>
+          <%= render partial: "game/new/weather_value", locals: { caption: slogan, temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_min, hum_max: hum_max, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "", color: "" } %>
 
           <%= render partial: "game/new/weather_blank", locals: { color: "#6495ED" } %>
 
         <%
           (hum_min..hum_max).each do |hum_each|
         %>
-          <%= render partial: "game/new/weather_value", locals: { caption: slogan, temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_each, hum_max: hum_each, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "" } %>
+          <%= render partial: "game/new/weather_value", locals: { caption: slogan, temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_each, hum_max: hum_each, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "", color: "" } %>
         <% end %>
 
         <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
