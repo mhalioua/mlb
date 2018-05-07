@@ -23,6 +23,12 @@
       <th width="50">Home Total Count</th>
       <th width="50">Home +/- 1</th>
       <th width="50">Home Total Count +/- 1</th>
+      <th width="50" style="background: red;">Time</th>
+      <th width="50">Home Team Total 1</th>
+      <th width="50">Home Team Total 2</th>
+      <th width="50">Home Total Count</th>
+      <th width="50">Home +/- 1</th>
+      <th width="50">Home Total Count +/- 1</th>
   	</tr>
   </thead>
   <tbody>
@@ -31,20 +37,11 @@
         <td></td>
         <td colspan="5"><%= caption %></td>
         <td class="blue"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td colspan="8">All Stadiums</td>
         <td class="blue"></td>
+        <td colspan="5">Only <%= stadium %></td>
         <td></td>
-        <td></td>
-        <td class="blue"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td colspan="5">All Stadiums except <%= stadium %></td>
       </tr>
 
       <% weathers.each do |weather| %>
@@ -71,6 +68,12 @@
           <td><%= result[:home_count] %></td>
           <td><%= result[:home_one] %></td>
           <td><%= result[:home_one_count] %></td>
+          <td class="lightgray"><%= weather_time(weather.game.game_date, weather.hour) %></td>
+          <td><%= result[:home_total_runs1_avg_dup] %></td>
+          <td><%= result[:home_total_runs2_avg_dup] %></td>
+          <td><%= result[:home_count_dup] %></td>
+          <td><%= result[:home_one_dup] %></td>
+          <td><%= result[:home_one_count_dup] %></td>
       	</tr>
       <% end %>
 

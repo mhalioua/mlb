@@ -36,10 +36,10 @@
 	</div>
 
 	<% unless @forecasts.empty? %>
-		<%= render partial: "game/new/weather", locals: { caption: "Wunderground Weather Forecast", weathers: @forecasts, name: @home_team.name } %>
+		<%= render partial: "game/new/weather", locals: { caption: "Wunderground Weather Forecast", weathers: @forecasts, name: @home_team.name, stadium: @home_team.stadium } %>
 	<% end %>
 	<% unless @weathers.empty? %>
-		<%= render partial: "game/new/weather", locals: { caption: "Wunderground Weather Records", weathers: @weathers, name: @home_team.name } %>
+		<%= render partial: "game/new/weather", locals: { caption: "Wunderground Weather Records", weathers: @weathers, name: @home_team.name, stadium: @home_team.stadium } %>
 	<% end %>
 </div>
 
