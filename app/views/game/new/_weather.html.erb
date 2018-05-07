@@ -48,6 +48,7 @@
       </tr>
 
       <% weathers.each do |weather| %>
+        <% result = true_data(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, weather.humid_num-3, weather.humid_num+3, weather.pressure_num-0.04, weather.pressure_num+0.04, name) %>
       	<tr>
       		<td class="lightgray"><%= weather_time(weather.game.game_date, weather.hour) %></td>
           <td><%= weather.temp %></td>
@@ -55,7 +56,6 @@
           <td><%= weather.hum %></td>
           <td><%= weather.pressure %></td>
           <td><%= weather.wind %></td>
-          <% result = true_data(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, weather.humid_num-3, weather.humid_num+3, weather.pressure_num-0.04, weather.pressure_num+0.04, name) %>
           <td class="blue"></td>
           <td><%= result[:total_avg_1] %></td>
           <td><%= result[:total_avg_2] %></td>
@@ -74,154 +74,15 @@
       	</tr>
       <% end %>
 
-      <tr bgcolor="#DC143C">
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="blue"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="blue"></td>
-        <td></td>
-        <td></td>
-        <td class="blue"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
+      <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
 
       <% weathers.each_with_index do |weather, index| %>
-        <tr>
-          <td class="lightgray"><%= index + 1 %> hour</td>
-          <td><%= "#{(weather.temp_num-4).round(1)}-#{(weather.temp_num+4).round(1)}" %></td>
-          <td><%= "#{(weather.dew_num-2).round(1)}-#{(weather.dew_num+2).round(1)}" %> <%= "#{(weather.dew_num-1).round(1)}-#{(weather.dew_num+1).round(1)}" %></td>
-          <td><%= "#{weather.humid_num-3}-#{weather.humid_num+3}" %></td>
-          <td><%= "#{((weather.pressure_num-0.04)*100).round%100}-#{((weather.pressure_num+0.04)*100).round%100}" %></td>
-          <td><%= weather.wind %></td>
-          <% result = true_data(weather.temp_num - 4, weather.temp_num + 4, weather.dew_num-2, weather.dew_num+2, weather.humid_num-3, weather.humid_num+3, (weather.pressure_num-0.04).round(2), (weather.pressure_num+0.04).round(2), name) %>
-          <td class="blue"></td>
-          <td><%= result[:total_avg_1] %></td>
-          <td><%= result[:total_avg_2] %></td>
-          <td><%= result[:total_hits_avg] %></td>
-          <td><%= result[:home_runs_avg] %></td>
-          <td><%= result[:total_count] %></td>
-          <td class="blue"></td>
-          <td><%= result[:lower_one] %></td>
-          <td><%= result[:lower_one_count] %></td>
-          <td class="blue"></td>
-          <td><%= result[:home_total_runs1_avg] %></td>
-          <td><%= result[:home_total_runs2_avg] %></td>
-          <td><%= result[:home_count] %></td>
-          <td><%= result[:home_one] %></td>
-          <td><%= result[:home_one_count] %></td>
-        </tr>
+        <%= render partial: "game/new/weather_value", locals: { caption: "#{index + 1} hour", temp_min: weather.temp_num - 4, temp_max: weather.temp_num + 4, dew_min: weather.dew_num-2, dew_max: weather.dew_num+2, hum_min: weather.humid_num-3, hum_max: weather.humid_num+3, pressure_min: (weather.pressure_num-0.04).round(2), pressure_max: (weather.pressure_num+0.04).round(2), name: name, wind: weather.wind } %>
       <% end %>
 
-      <tr bgcolor="#DC143C">
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="blue"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="blue"></td>
-        <td></td>
-        <td></td>
-        <td class="blue"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-
-      <tr bgcolor="#6495ED">
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="blue"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="blue"></td>
-        <td></td>
-        <td></td>
-        <td class="blue"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-
-      <tr bgcolor="#DC143C">
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="blue"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="blue"></td>
-        <td></td>
-        <td></td>
-        <td class="blue"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-
-      <% weather_one = weathers[0] %>
-      <% weather_two = weathers[1] %>
-
-      <%
-        min = 0
-        middle = 1
-        max = 2
-        if weathers[min].humid_num > weathers[middle].humid_num
-          index_temp = min
-          min = middle
-          middle = index_temp
-        end
-
-        if weathers[min].humid_num > weathers[max].humid_num
-          index_temp = min
-          min = max
-          max = index_temp
-        end
-
-        if weathers[middle].humid_num > weathers[max].humid_num
-          index_temp = middle
-          middle = max
-          max = index_temp
-        end
-      %>
+      <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
+      <%= render partial: "game/new/weather_blank", locals: { color: "#6495ED" } %>
+      <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
 
       <% (1..3).each do |one_sec| %>
         <%
@@ -269,31 +130,8 @@
               hum_min = weathers[0].humid_num - 6
               hum_max = weathers[0].humid_num - 1
             end
-            result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, (pressure_min/100.0).round(2), (pressure_max/100.0).round(2), name)
           %>
-          <tr bgcolor="gray">
-            <td class="lightgray">Before</td>
-            <td><%= "#{temp_min}-#{temp_max}" %></td>
-            <td><%= "#{dew_min}-#{dew_max}" %> <%= "#{dew_min - 1}-#{dew_max + 1}" %></td>
-            <td><%= "#{hum_min}-#{hum_max}" %></td>
-            <td><%= "#{pressure_min%100}-#{pressure_max%100}" %></td>
-            <td></td>
-            <td class="blue"></td>
-            <td><%= result[:total_avg_1] %></td>
-            <td><%= result[:total_avg_2] %></td>
-            <td><%= result[:total_hits_avg] %></td>
-            <td><%= result[:home_runs_avg] %></td>
-            <td><%= result[:total_count] %></td>
-            <td class="blue"></td>
-            <td><%= result[:lower_one] %></td>
-            <td><%= result[:lower_one_count] %></td>
-            <td class="blue"></td>
-            <td><%= result[:home_total_runs1_avg] %></td>
-            <td><%= result[:home_total_runs2_avg] %></td>
-            <td><%= result[:home_count] %></td>
-            <td><%= result[:home_one] %></td>
-            <td><%= result[:home_one_count] %></td>
-          </tr>
+          <%= render partial: "game/new/weather_value", locals: { caption: "Before", temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_min, hum_max: hum_max, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "" } %>
         <% end %>
 
 
@@ -306,31 +144,8 @@
               hum_min = weathers[3].humid_num - 6
               hum_max = weathers[3].humid_num - 1
             end
-            result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, (pressure_min/100.0).round(2), (pressure_max/100.0).round(2), name)
           %>
-          <tr bgcolor="gray">
-            <td class="lightgray">After</td>
-            <td><%= "#{temp_min}-#{temp_max}" %></td>
-            <td><%= "#{dew_min}-#{dew_max}" %> <%= "#{dew_min - 1}-#{dew_max + 1}" %></td>
-            <td><%= "#{hum_min}-#{hum_max}" %></td>
-            <td><%= "#{pressure_min%100}-#{pressure_max%100}" %></td>
-            <td></td>
-            <td class="blue"></td>
-            <td><%= result[:total_avg_1] %></td>
-            <td><%= result[:total_avg_2] %></td>
-            <td><%= result[:total_hits_avg] %></td>
-            <td><%= result[:home_runs_avg] %></td>
-            <td><%= result[:total_count] %></td>
-            <td class="blue"></td>
-            <td><%= result[:lower_one] %></td>
-            <td><%= result[:lower_one_count] %></td>
-            <td class="blue"></td>
-            <td><%= result[:home_total_runs1_avg] %></td>
-            <td><%= result[:home_total_runs2_avg] %></td>
-            <td><%= result[:home_count] %></td>
-            <td><%= result[:home_one] %></td>
-            <td><%= result[:home_one_count] %></td>
-          </tr>
+          <%= render partial: "game/new/weather_value", locals: { caption: "After", temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_min, hum_max: hum_max, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "" } %>
         <% end %>
 
         <%
@@ -340,157 +155,20 @@
             hum_min = weather_two.humid_num
             hum_max = weather_one.humid_num
           end
-          result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, (pressure_min/100.0).round(2), (pressure_max/100.0).round(2), name)
         %>
+          <%= render partial: "game/new/weather_value", locals: { caption: slogan, temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_min, hum_max: hum_max, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "" } %>
 
-        <tr>
-          <td class="lightgray"><%= slogan %></td>
-          <td><%= "#{temp_min}-#{temp_max}" %></td>
-          <td><%= "#{dew_min}-#{dew_max}" %> <%= "#{dew_min - 1}-#{dew_max + 1}" %></td>
-          <td><%= "#{hum_min}-#{hum_max}" %></td>
-          <td><%= "#{pressure_min%100}-#{pressure_max%100}" %></td>
-          <td></td>
-          <td class="blue"></td>
-          <td><%= result[:total_avg_1] %></td>
-          <td><%= result[:total_avg_2] %></td>
-          <td><%= result[:total_hits_avg] %></td>
-          <td><%= result[:home_runs_avg] %></td>
-          <td><%= result[:total_count] %></td>
-          <td class="blue"></td>
-          <td><%= result[:lower_one] %></td>
-          <td><%= result[:lower_one_count] %></td>
-          <td class="blue"></td>
-          <td><%= result[:home_total_runs1_avg] %></td>
-          <td><%= result[:home_total_runs2_avg] %></td>
-          <td><%= result[:home_count] %></td>
-          <td><%= result[:home_one] %></td>
-          <td><%= result[:home_one_count] %></td>
-        </tr>
-
-        <tr bgcolor="#6495ED">
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td class="blue"></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td class="blue"></td>
-          <td></td>
-          <td></td>
-          <td class="blue"></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
+          <%= render partial: "game/new/weather_blank", locals: { color: "#6495ED" } %>
 
         <%
           (hum_min..hum_max).each do |hum_each|
-            result = true_data(temp_min, temp_max, dew_min, dew_max, hum_each, hum_each, (pressure_min/100.0).round(2), (pressure_max/100.0).round(2), name)
         %>
-          <tr>
-            <td class="lightgray"><%= slogan %></td>
-            <td><%= "#{temp_min}-#{temp_max}" %></td>
-            <td><%= "#{dew_min}-#{dew_max}" %> <%= "#{dew_min - 1}-#{dew_max + 1}" %></td>
-            <td><%= "#{hum_each}" %></td>
-            <td><%= "#{pressure_min%100}-#{pressure_max%100}" %></td>
-            <td></td>
-            <td class="blue"></td>
-            <td><%= result[:total_avg_1] %></td>
-            <td><%= result[:total_avg_2] %></td>
-            <td><%= result[:total_hits_avg] %></td>
-            <td><%= result[:home_runs_avg] %></td>
-            <td><%= result[:total_count] %></td>
-            <td class="blue"></td>
-            <td><%= result[:lower_one] %></td>
-            <td><%= result[:lower_one_count] %></td>
-            <td class="blue"></td>
-            <td><%= result[:home_total_runs1_avg] %></td>
-            <td><%= result[:home_total_runs2_avg] %></td>
-            <td><%= result[:home_count] %></td>
-            <td><%= result[:home_one] %></td>
-            <td><%= result[:home_one_count] %></td>
-          </tr>
+          <%= render partial: "game/new/weather_value", locals: { caption: slogan, temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_each, hum_max: hum_each, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "" } %>
         <% end %>
 
-        <tr bgcolor="#DC143C">
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td class="blue"></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td class="blue"></td>
-          <td></td>
-          <td></td>
-          <td class="blue"></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <tr bgcolor="#6495ED">
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td class="blue"></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td class="blue"></td>
-          <td></td>
-          <td></td>
-          <td class="blue"></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <tr bgcolor="#DC143C">
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td class="blue"></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td class="blue"></td>
-          <td></td>
-          <td></td>
-          <td class="blue"></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
+        <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
+        <%= render partial: "game/new/weather_blank", locals: { color: "#6495ED" } %>
+        <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
       <% end %>
     <% end %>
   </tbody>
