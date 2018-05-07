@@ -41,10 +41,10 @@ module Update
       return if hourlyweathers[start_index].children[1].text.to_time < time
       hourlyweathers.each_with_index do |weather, index|
         date = weather.children[1].text.to_time
-        if date >= time
-          start_index = index
+        if date > time
           break
         end
+        start_index = index
       end
 
       (1..4).each do |i|
