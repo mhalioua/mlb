@@ -85,7 +85,7 @@ module GameHelper
     first_wind_speed, third_wind_speed = swap(first_wind_speed, third_wind_speed) if first_wind_speed > third_wind_speed
     second_wind_speed, third_wind_speed = swap(second_wind_speed, third_wind_speed) if second_wind_speed > third_wind_speed
 
-    avg = ((first_wind_speed + second_wind_speed + third_wind_speed) / 3).ceil
+    avg = ((first_wind_speed + second_wind_speed + third_wind_speed) / 3.to_f).ceil
     filter_min = avg - 3
     filter_max = avg + 4
 
@@ -215,7 +215,7 @@ module GameHelper
     first_wind_speed, third_wind_speed = swap(first_wind_speed, third_wind_speed) if first_wind_speed > third_wind_speed
     second_wind_speed, third_wind_speed = swap(second_wind_speed, third_wind_speed) if second_wind_speed > third_wind_speed
 
-    avg = ((first_wind_speed + second_wind_speed + third_wind_speed) / 3).ceil
+    avg = ((first_wind_speed + second_wind_speed + third_wind_speed) / 3.to_f).ceil
     filter_min = avg - 3
     filter_max = avg + 4
 
