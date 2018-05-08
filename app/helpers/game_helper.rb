@@ -85,91 +85,100 @@ module GameHelper
     first_wind_speed, third_wind_speed = swap(first_wind_speed, third_wind_speed) if first_wind_speed > third_wind_speed
     second_wind_speed, third_wind_speed = swap(second_wind_speed, third_wind_speed) if second_wind_speed > third_wind_speed
 
-    avg = ((first_wind_speed + second_wind_speed + third_wind_speed) / 3.to_f).ceil
-    filter_min = avg - 3
-    filter_max = avg + 4
+    if third_wind_speed > 5
+      filter_min = 6
+      filter_max = 13
 
-    if (third_wind_speed - first_wind_speed) >= 8
-      filter_min = first_wind_speed
-      filter_max = third_wind_speed
-    elsif first_wind_speed >= 10
-      filter_min = avg - 4
-    elsif third_wind_speed <= 7
-      filter_min = avg - 2
-      filter_max = avg + 3
-    end
-
-    filter_min = filter_min + additional
-    filter_max = filter_max + additional
-
-    wind_directions = ["NNW", "North", "NNE", "NE", "ENE", "East", "ESE", "SE", "SSE", "South", "SSW", "SW", "WSW", "West", "WNW", "NW"]
-    currect_directions = []
-    real_directions = []
-    first_wind_dir = wind_validation(first_wind_dir)
-    second_wind_dir = wind_validation(second_wind_dir)
-    third_wind_dir = wind_validation(third_wind_dir)
-
-    if wind_directions.include?(first_wind_dir)
-      index = wind_directions.index(first_wind_dir)
-      currect_directions.push(index-1)
-      currect_directions.push(index)
-      real_directions.push(index)
-      currect_directions.push((index+1)%16)
-    end
-
-    if wind_directions.include?(second_wind_dir)
-      index = wind_directions.index(second_wind_dir)
-      currect_directions.push(index-1)
-      currect_directions.push(index)
-      real_directions.push(index)
-      currect_directions.push((index+1)%16)
-    end
-
-    if wind_directions.include?(third_wind_dir)
-      index = wind_directions.index(third_wind_dir)
-      currect_directions.push(index-1)
-      currect_directions.push(index)
-      real_directions.push(index)
-      currect_directions.push((index+1)%16)
-    end
-
-    currect_directions = currect_directions.uniq
-
-    search_string = []
-    if name == 'Rockies'
-      search_string.push('"table" = ' + "'colowind'")
-    else
-      search_string.push('"table" = ' + "'wind'")
-    end
-    search_string.push('"Home_Team" = ' + "'#{name}'")
-    search_string.push('"N" >= ' + "#{filter_min}" + ' AND "N" <= ' + "#{filter_max}")
-
-    search_string_original = search_string.dup
-    wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph winds", search_string, 1)
-    winds.push(wind)
-
-    directions = [ 'North', 'NNE', 'NE', 'ENE', 'East', 'ESE', 'SE', 'SSE', 'South', 'SSW', 'SW', 'WSW', 'West', 'WNW', 'NW', 'NNW']
-    parks = ['ARI', 'ATL', 'BAL', 'BOS', 'CHC', 'CHW', 'CIN', 'CLE', 'COL', 'DET', 'HOU', 'KCR', 'LAA', 'LAD', 'MIA', 'MIL', 'MIN', 'NYM', 'NYY', 'OAK', 'PHI', 'PIT', 'SDP', 'SFG', 'SEA', 'STL', 'TEX', 'TOR', 'WSN']
-
-    wind_directions.each_with_index do |direction, index|
-      search_string = search_string_original.dup
-      search_string.push('"M" = ' + "'#{direction}'")
-
-      additional_wind = ''
-      team = Team.find_by(name: name)
-      if directions.include?(direction) && parks.include?(team.baseball_abbr)
-        additional_wind =  @@re[team.baseball_abbr][direction]
+      if first_wind_speed < 6
+        if second_wind_speed < 6
+          filter_value = third_wind_speed
+        else
+          filter_value = second_wind_speed
+        end
+      else
+        filter_value = first_wind_speed
       end
 
-      flag = 2
-      if real_directions.include?(index)
-        flag = 1
-      elsif currect_directions.include?(index)
-        flag = 0
+      filter_value = filter_value.to_i
+
+      if filter_value > 6
+        filter_min = filter_value - 1
+        filter_max = filter_value + 6
+      end
+      filter_min = filter_min + additional
+      filter_max = filter_max + additional
+
+      wind_directions = ["NNW", "North", "NNE", "NE", "ENE", "East", "ESE", "SE", "SSE", "South", "SSW", "SW", "WSW", "West", "WNW", "NW", "NNW", "North"]
+      currect_directions = []
+      real_directions = []
+      first_wind_dir = wind_validation(first_wind_dir)
+      second_wind_dir = wind_validation(second_wind_dir)
+      third_wind_dir = wind_validation(third_wind_dir)
+
+      if wind_directions.include?(first_wind_dir)
+        index = wind_directions.index(first_wind_dir)
+        currect_directions.push(index-1)
+        currect_directions.push(index)
+        real_directions.push(index)
+        currect_directions.push(index+1)
       end
 
-      wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph, going #{direction} (#{additional_wind})", search_string, flag)
+      if wind_directions.include?(second_wind_dir)
+        index = wind_directions.index(second_wind_dir)
+        currect_directions.push(index-1)
+        currect_directions.push(index)
+        real_directions.push(index)
+        currect_directions.push(index+1)
+      end
+
+      if wind_directions.include?(third_wind_dir)
+        index = wind_directions.index(third_wind_dir)
+        currect_directions.push(index-1)
+        currect_directions.push(index)
+        real_directions.push(index)
+        currect_directions.push(index+1)
+      end
+
+      currect_directions = currect_directions.uniq
+
+      search_string = []
+      if name == 'Rockies'
+        search_string.push('"table" = ' + "'colowind'")
+      else
+        search_string.push('"table" = ' + "'wind'")
+      end
+      search_string.push('"Home_Team" = ' + "'#{name}'")
+      search_string.push('"N" >= ' + "#{filter_min}" + ' AND "N" <= ' + "#{filter_max}")
+
+      search_string_original = search_string.dup
+      wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph winds", search_string, 1)
       winds.push(wind)
+
+      directions = [ 'North', 'NNE', 'NE', 'ENE', 'East', 'ESE', 'SE', 'SSE', 'South', 'SSW', 'SW', 'WSW', 'West', 'WNW', 'NW', 'NNW']
+      parks = ['ARI', 'ATL', 'BAL', 'BOS', 'CHC', 'CHW', 'CIN', 'CLE', 'COL', 'DET', 'HOU', 'KCR', 'LAA', 'LAD', 'MIA', 'MIL', 'MIN', 'NYM', 'NYY', 'OAK', 'PHI', 'PIT', 'SDP', 'SFG', 'SEA', 'STL', 'TEX', 'TOR', 'WSN']
+
+      wind_directions.each_with_index do |direction, index|
+        search_string = search_string_original.dup
+        search_string.push('"M" = ' + "'#{direction}'")
+
+        additional_wind = ''
+        team = Team.find_by(name: name)
+        if directions.include?(direction) && parks.include?(team.baseball_abbr)
+          additional_wind =  @@re[team.baseball_abbr][direction]
+        end
+
+        flag = 2
+        if real_directions.include?(index)
+          flag = 1
+        elsif currect_directions.include?(index)
+          flag = 0
+        end
+
+        wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph, going #{direction} (#{additional_wind})", search_string, flag)
+        winds.push(wind)
+      end
+    else
+      winds[1][6] = 1
     end
     return winds
   end
@@ -215,52 +224,71 @@ module GameHelper
     first_wind_speed, third_wind_speed = swap(first_wind_speed, third_wind_speed) if first_wind_speed > third_wind_speed
     second_wind_speed, third_wind_speed = swap(second_wind_speed, third_wind_speed) if second_wind_speed > third_wind_speed
 
-    avg = ((first_wind_speed + second_wind_speed + third_wind_speed) / 3.to_f).ceil
-    filter_min = avg - 3
-    filter_max = avg + 4
+    if third_wind_speed > 5
+      filter_min = 6
+      filter_max = 13
 
-    if (third_wind_speed - first_wind_speed) >= 8
-      filter_min = first_wind_speed
-      filter_max = third_wind_speed
-    elsif first_wind_speed >= 10
-      filter_min = avg - 4
-    elsif third_wind_speed <= 7
-      filter_min = avg - 2
-      filter_max = avg + 3
-    end
+      if first_wind_speed < 6
+        if second_wind_speed < 6
+          filter_value = third_wind_speed
+        else
+          filter_value = second_wind_speed
+        end
+      else
+        filter_value = first_wind_speed
+      end
 
-    currect_directions = []
-    first_wind_dir = wind_validation(first_wind_dir)
-    second_wind_dir = wind_validation(second_wind_dir)
-    third_wind_dir = wind_validation(third_wind_dir)
+      filter_value = filter_value.to_i
 
-    currect_directions.push(first_wind_dir)
-    currect_directions.push(second_wind_dir)
-    currect_directions.push(third_wind_dir)
+      if filter_value > 6
+        filter_min = filter_value - 1
+        filter_max = filter_value + 6
+      end
 
-    search_string = []
-    if name == 'Rockies'
-      search_string.push('"table" = ' + "'colowind'")
-    else
-      search_string.push('"table" = ' + "'wind'")
-    end
-    search_string.push('"Home_Team" = ' + "'#{name}'")
-    search_string.push('"N" >= ' + "#{filter_min}" + ' AND "N" <= ' + "#{filter_max}")
+      currect_directions = []
+      first_wind_dir = wind_validation(first_wind_dir)
+      second_wind_dir = wind_validation(second_wind_dir)
+      third_wind_dir = wind_validation(third_wind_dir)
 
-    search_string_original = search_string.dup
+      currect_directions.push(first_wind_dir)
+      currect_directions.push(second_wind_dir)
+      currect_directions.push(third_wind_dir)
 
-    currect_directions.each_with_index do |direction, index|
-      search_string = search_string_original.dup
-      search_string.push('"M" = ' + "'#{direction}'")
+      search_string = []
+      if name == 'Rockies'
+        search_string.push('"table" = ' + "'colowind'")
+      else
+        search_string.push('"table" = ' + "'wind'")
+      end
+      search_string.push('"Home_Team" = ' + "'#{name}'")
+      search_string.push('"N" >= ' + "#{filter_min}" + ' AND "N" <= ' + "#{filter_max}")
+
+      search_string_original = search_string.dup
       query = Workbook.where(search_string.join(" AND ")).to_a
       count = Workbook.where(search_string.join(" AND ")).count(:R)
       wind = [
-        "average runs in this stadium with #{filter_min}-#{filter_max}mph, going #{direction}",
+        "average runs in this stadium with #{filter_min}-#{filter_max}mph winds",
         (query.map {|stat| stat.R.to_f }.sum / (count == 0 ? 1 : count)).round(2),
         (query.map {|stat| stat.Total_Hits.to_f }.sum / (count == 0 ? 1 : count)).round(2),
         count
       ]
       winds.push(wind)
+
+      currect_directions.each_with_index do |direction, index|
+        search_string = search_string_original.dup
+        search_string.push('"M" = ' + "'#{direction}'")
+        query = Workbook.where(search_string.join(" AND ")).to_a
+        count = Workbook.where(search_string.join(" AND ")).count(:R)
+        wind = [
+          "average runs in this stadium with #{filter_min}-#{filter_max}mph, going #{direction}",
+          (query.map {|stat| stat.R.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+          (query.map {|stat| stat.Total_Hits.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+          count
+        ]
+        winds.push(wind)
+      end
+    else
+      winds[1][6] = 1
     end
     return winds
   end
