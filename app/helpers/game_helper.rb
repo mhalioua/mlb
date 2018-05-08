@@ -89,7 +89,10 @@ module GameHelper
     filter_min = avg - 3
     filter_max = avg + 4
 
-    if first_wind_speed >= 10
+    if (third_wind_speed - first_wind_speed) >= 8
+      filter_min = first_wind_speed
+      filter_max = third_wind_speed
+    elsif first_wind_speed >= 10
       filter_min = avg - 4
     elsif third_wind_speed <= 7
       filter_min = avg - 2
