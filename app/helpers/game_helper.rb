@@ -248,15 +248,6 @@ module GameHelper
     search_string.push('"N" >= ' + "#{filter_min}" + ' AND "N" <= ' + "#{filter_max}")
 
     search_string_original = search_string.dup
-    query = Workbook.where(search_string.join(" AND ")).to_a
-    count = Workbook.where(search_string.join(" AND ")).count(:R)
-    wind = [
-      "average runs in this stadium with #{filter_min}-#{filter_max}mph winds",
-      (query.map {|stat| stat.R.to_f }.sum / (count == 0 ? 1 : count)).round(2),
-      (query.map {|stat| stat.Total_Hits.to_f }.sum / (count == 0 ? 1 : count)).round(2),
-      count
-    ]
-    winds.push(wind)
 
     currect_directions.each_with_index do |direction, index|
       search_string = search_string_original.dup

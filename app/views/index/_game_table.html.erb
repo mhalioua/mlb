@@ -137,9 +137,9 @@
 			<% end %>
 			<td><%= winds[1][1] %></td>
 			<td><%= winds[1][2] %></td>
+			<td><%= winds.size > 2 ? winds[2][1] : 0 %></td>
 			<td><%= winds.size > 2 ? winds[3][1] : 0 %></td>
 			<td><%= winds.size > 2 ? winds[4][1] : 0 %></td>
-			<td><%= winds.size > 2 ? winds[5][1] : 0 %></td>
 			<td>Averages</td>
 			<% if pitcher %>
 				<td rowspan="2" style="background: darkorange;"><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
@@ -149,9 +149,9 @@
 		</tr>
 		<tr style="background: lightgray;">
 			<td colspan="2"><%= winds[1][3] %></td>
+			<td><%= winds.size > 2 ? winds[2][3] : 0 %></td>
 			<td><%= winds.size > 2 ? winds[3][3] : 0 %></td>
 			<td><%= winds.size > 2 ? winds[4][3] : 0 %></td>
-			<td><%= winds.size > 2 ? winds[5][3] : 0 %></td>
 			<td>Count</td>
 		</tr>
 		<% end %>
