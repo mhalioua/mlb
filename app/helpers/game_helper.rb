@@ -215,71 +215,61 @@ module GameHelper
     first_wind_speed, third_wind_speed = swap(first_wind_speed, third_wind_speed) if first_wind_speed > third_wind_speed
     second_wind_speed, third_wind_speed = swap(second_wind_speed, third_wind_speed) if second_wind_speed > third_wind_speed
 
-    if third_wind_speed > 5
-      filter_min = 6
-      filter_max = 13
+    avg = ((first_wind_speed + second_wind_speed + third_wind_speed) / 3).ceil
+    filter_min = avg - 3
+    filter_max = avg + 4
 
-      if first_wind_speed < 6
-        if second_wind_speed < 6
-          filter_value = third_wind_speed
-        else
-          filter_value = second_wind_speed
-        end
-      else
-        filter_value = first_wind_speed
-      end
+    if (third_wind_speed - first_wind_speed) >= 8
+      filter_min = first_wind_speed
+      filter_max = third_wind_speed
+    elsif first_wind_speed >= 10
+      filter_min = avg - 4
+    elsif third_wind_speed <= 7
+      filter_min = avg - 2
+      filter_max = avg + 3
+    end
 
-      filter_value = filter_value.to_i
+    currect_directions = []
+    first_wind_dir = wind_validation(first_wind_dir)
+    second_wind_dir = wind_validation(second_wind_dir)
+    third_wind_dir = wind_validation(third_wind_dir)
 
-      if filter_value > 6
-        filter_min = filter_value - 1
-        filter_max = filter_value + 6
-      end
+    currect_directions.push(first_wind_dir)
+    currect_directions.push(second_wind_dir)
+    currect_directions.push(third_wind_dir)
 
-      currect_directions = []
-      first_wind_dir = wind_validation(first_wind_dir)
-      second_wind_dir = wind_validation(second_wind_dir)
-      third_wind_dir = wind_validation(third_wind_dir)
+    search_string = []
+    if name == 'Rockies'
+      search_string.push('"table" = ' + "'colowind'")
+    else
+      search_string.push('"table" = ' + "'wind'")
+    end
+    search_string.push('"Home_Team" = ' + "'#{name}'")
+    search_string.push('"N" >= ' + "#{filter_min}" + ' AND "N" <= ' + "#{filter_max}")
 
-      currect_directions.push(first_wind_dir)
-      currect_directions.push(second_wind_dir)
-      currect_directions.push(third_wind_dir)
+    search_string_original = search_string.dup
+    query = Workbook.where(search_string.join(" AND ")).to_a
+    count = Workbook.where(search_string.join(" AND ")).count(:R)
+    wind = [
+      "average runs in this stadium with #{filter_min}-#{filter_max}mph winds",
+      (query.map {|stat| stat.R.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+      (query.map {|stat| stat.Total_Hits.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+      count
+    ]
+    winds.push(wind)
 
-      search_string = []
-      if name == 'Rockies'
-        search_string.push('"table" = ' + "'colowind'")
-      else
-        search_string.push('"table" = ' + "'wind'")
-      end
-      search_string.push('"Home_Team" = ' + "'#{name}'")
-      search_string.push('"N" >= ' + "#{filter_min}" + ' AND "N" <= ' + "#{filter_max}")
-
-      search_string_original = search_string.dup
+    currect_directions.each_with_index do |direction, index|
+      search_string = search_string_original.dup
+      search_string.push('"M" = ' + "'#{direction}'")
       query = Workbook.where(search_string.join(" AND ")).to_a
       count = Workbook.where(search_string.join(" AND ")).count(:R)
       wind = [
-        "average runs in this stadium with #{filter_min}-#{filter_max}mph winds",
+        "average runs in this stadium with #{filter_min}-#{filter_max}mph, going #{direction}",
         (query.map {|stat| stat.R.to_f }.sum / (count == 0 ? 1 : count)).round(2),
         (query.map {|stat| stat.Total_Hits.to_f }.sum / (count == 0 ? 1 : count)).round(2),
         count
       ]
       winds.push(wind)
-
-      currect_directions.each_with_index do |direction, index|
-        search_string = search_string_original.dup
-        search_string.push('"M" = ' + "'#{direction}'")
-        query = Workbook.where(search_string.join(" AND ")).to_a
-        count = Workbook.where(search_string.join(" AND ")).count(:R)
-        wind = [
-          "average runs in this stadium with #{filter_min}-#{filter_max}mph, going #{direction}",
-          (query.map {|stat| stat.R.to_f }.sum / (count == 0 ? 1 : count)).round(2),
-          (query.map {|stat| stat.Total_Hits.to_f }.sum / (count == 0 ? 1 : count)).round(2),
-          count
-        ]
-        winds.push(wind)
-      end
-    else
-      winds[1][6] = 1
     end
     return winds
   end
