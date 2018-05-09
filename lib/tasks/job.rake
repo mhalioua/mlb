@@ -621,7 +621,7 @@ namespace :job do
     games = Result.where("home_pitcher_game_first_ip is null")
     games.each do |game|
       away_pitcher = game.away_pitcher_link
-      away_previous_games = Result.where("away_pitcher_link = ? AND game_date < ?", away_pitcher, game.game_date).or(Result.where("home_pitcher_link = ? AND game_date < ?", away_pitcher, game.game_date)).order(:game_date).limit(30)
+      away_previous_games = Result.where("away_pitcher_link = ? AND game_date < ?", away_pitcher, game.game_date).or(Result.where("home_pitcher_link = ? AND game_date < ?", away_pitcher, game.game_date)).order('game_date DESC').limit(30)
 
       away_pitcher_game_first_ip = []
       away_pitcher_game_first_bb = 0
@@ -686,7 +686,7 @@ namespace :job do
       end
 
       home_pitcher = game.home_pitcher_link
-      home_previous_games = Result.where("home_pitcher_link = ? AND game_date < ?", home_pitcher, game.game_date).or(Result.where("away_pitcher_link = ? AND game_date < ?", home_pitcher, game.game_date)).order(:game_date).limit(30)
+      home_previous_games = Result.where("home_pitcher_link = ? AND game_date < ?", home_pitcher, game.game_date).or(Result.where("away_pitcher_link = ? AND game_date < ?", home_pitcher, game.game_date)).order('game_date DESC').limit(30)
 
       home_pitcher_game_first_ip = []
       home_pitcher_game_first_bb = 0
