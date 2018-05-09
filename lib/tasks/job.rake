@@ -787,6 +787,80 @@ namespace :job do
     end
   end
 
+  task update_pitcher_value_check: :environment do
+    include GetHtml
+    games = Result.where("id = 29186")
+    games.each do |game|
+      away_pitcher = game.away_pitcher_link
+      away_previous_games = Result.where("away_pitcher_link = ? AND game_date < ?", away_pitcher, game.game_date).or(Result.where("home_pitcher_link = ? AND game_date < ?", away_pitcher, game.game_date)).order(:game_date).limit(30)
+
+      away_pitcher_game_first_ip = []
+      away_pitcher_game_first_bb = 0
+      away_pitcher_game_first_h = 0
+      away_pitcher_game_first_r = 0
+      away_pitcher_game_second_ip = []
+      away_pitcher_game_second_bb = 0
+      away_pitcher_game_second_h = 0
+      away_pitcher_game_second_r = 0
+
+      away_pitcher_game_opp_first_ip = []
+      away_pitcher_game_opp_first_bb = 0
+      away_pitcher_game_opp_first_h = 0
+      away_pitcher_game_opp_first_r = 0
+      away_pitcher_game_opp_second_ip = []
+      away_pitcher_game_opp_second_bb = 0
+      away_pitcher_game_opp_second_h = 0
+      away_pitcher_game_opp_second_r = 0
+
+      away_previous_games.each_with_index do |element, index|
+        if element.away_pitcher_link == game.away_pitcher_link
+          puts element.away_pitcher_ip
+          if index < 15
+            away_pitcher_game_first_ip.push(element.away_pitcher_ip)
+            away_pitcher_game_first_bb = away_pitcher_game_first_bb + element.away_pitcher_bb
+            away_pitcher_game_first_h = away_pitcher_game_first_h + element.away_pitcher_h
+            away_pitcher_game_first_r = away_pitcher_game_first_r + element.away_pitcher_r
+            away_pitcher_game_opp_first_ip.push(element.home_pitcher_ip)
+            away_pitcher_game_opp_first_bb = away_pitcher_game_opp_first_bb + element.home_pitcher_bb
+            away_pitcher_game_opp_first_h = away_pitcher_game_opp_first_h + element.home_pitcher_h
+            away_pitcher_game_opp_first_r = away_pitcher_game_opp_first_r + element.home_pitcher_r
+          else
+            away_pitcher_game_second_ip.push(element.away_pitcher_ip)
+            away_pitcher_game_second_bb = away_pitcher_game_second_bb + element.away_pitcher_bb
+            away_pitcher_game_second_h = away_pitcher_game_second_h + element.away_pitcher_h
+            away_pitcher_game_second_r = away_pitcher_game_second_r + element.away_pitcher_r
+            away_pitcher_game_opp_second_ip.push(element.home_pitcher_ip)
+            away_pitcher_game_opp_second_bb = away_pitcher_game_opp_second_bb + element.home_pitcher_bb
+            away_pitcher_game_opp_second_h = away_pitcher_game_opp_second_h + element.home_pitcher_h
+            away_pitcher_game_opp_second_r = away_pitcher_game_opp_second_r + element.home_pitcher_r
+          end
+        else
+          puts element.home_pitcher_ip
+          if index < 15
+            away_pitcher_game_first_ip.push(element.home_pitcher_ip)
+            away_pitcher_game_first_bb = away_pitcher_game_first_bb + element.home_pitcher_bb
+            away_pitcher_game_first_h = away_pitcher_game_first_h + element.home_pitcher_h
+            away_pitcher_game_first_r = away_pitcher_game_first_r + element.home_pitcher_r
+            away_pitcher_game_opp_first_ip.push(element.away_pitcher_ip)
+            away_pitcher_game_opp_first_bb = away_pitcher_game_opp_first_bb + element.away_pitcher_bb
+            away_pitcher_game_opp_first_h = away_pitcher_game_opp_first_h + element.away_pitcher_h
+            away_pitcher_game_opp_first_r = away_pitcher_game_opp_first_r + element.away_pitcher_r
+          else
+            puts element.home_pitcher_ip
+            away_pitcher_game_second_ip.push(element.home_pitcher_ip)
+            away_pitcher_game_second_bb = away_pitcher_game_second_bb + element.home_pitcher_bb
+            away_pitcher_game_second_h = away_pitcher_game_second_h + element.home_pitcher_h
+            away_pitcher_game_second_r = away_pitcher_game_second_r + element.home_pitcher_r
+            away_pitcher_game_opp_second_ip.push(element.away_pitcher_ip)
+            away_pitcher_game_opp_second_bb = away_pitcher_game_opp_second_bb + element.away_pitcher_bb
+            away_pitcher_game_opp_second_h = away_pitcher_game_opp_second_h + element.away_pitcher_h
+            away_pitcher_game_opp_second_r = away_pitcher_game_opp_second_r + element.away_pitcher_r
+          end
+        end
+      end
+    end
+  end
+
   @month = {
     'Jan' => '1',
     'Feb' => '2',
