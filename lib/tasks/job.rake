@@ -614,7 +614,7 @@ namespace :job do
     end
   end
 
-  task pitchers: :environment do
+  task update_pitcher_value: :environment do
     include GetHtml
     games = Result.where("home_pitcher_game_first_ip is null")
     games.each do |game|
