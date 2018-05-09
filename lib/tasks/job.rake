@@ -616,7 +616,7 @@ namespace :job do
 
   task pitchers: :environment do
     include GetHtml
-    games = Result.where("home_pitcher_name is null")
+    games = Result.where("home_pitcher_game_first_ip is null")
     games.each do |game|
       away_pitcher = game.away_pitcher_link
       away_previous_games = Result.where("away_pitcher_link = ? AND game_date < ?", away_pitcher, game.game_date).or(Result.where("home_pitcher_link = ? AND game_date < ?", away_pitcher, game.game_date)).order(:game_date).limit(30)
