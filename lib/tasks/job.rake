@@ -1,3 +1,5 @@
+require "#{Rails.root}/app/helpers/game_helper"
+include GameHelper
 namespace :job do
 
   task add: :environment do
