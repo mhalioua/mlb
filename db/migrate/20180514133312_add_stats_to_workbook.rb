@@ -3,8 +3,6 @@ class AddStatsToWorkbook < ActiveRecord::Migration[5.1]
   	add_column :workbooks, :Date, :string
   	add_column :workbooks, :Time, :string
   	add_column :workbooks, :Away_Team, :string
-  	add_column :workbooks, :Date, :string
-  	add_column :workbooks, :Date, :string
   	add_column :workbooks, :Away_Money_Line, :integer
   	add_column :workbooks, :Home_Money_Line, :integer
   	add_column :workbooks, :Away_Total, :string
