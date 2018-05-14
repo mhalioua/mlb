@@ -909,7 +909,7 @@ namespace :job do
     workbooks = Workbook.where('total_line is null')
     workbooks.each do |workbook|
       away = @team_uppercase[workbook['Away_Team']]
-      total = Total.where('DATE = ? AND AWAY = ?', workbook['Date'], away).first
+      total = Total.where('"DATE" = ? AND "AWAY" = ?', workbook['Date'], away).first
       workbook.update(total_line: total['TOTAL'])
     end
   end
