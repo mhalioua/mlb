@@ -910,7 +910,7 @@ namespace :job do
     workbooks.each do |workbook|
       away = @team_uppercase[workbook['Away_Team']]
       total = Total.where('"DATE" = ? AND "AWAY" = ?', workbook['Date'], away).first
-      workbook.update(total_line: total['TOTAL'])
+      workbook.update(total_line: total['TOTAL']) if total
     end
   end
 
