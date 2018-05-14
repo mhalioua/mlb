@@ -908,9 +908,9 @@ namespace :job do
   task update_total_line: :environment do
     workbooks = Workbook.where('total_line is null')
     workbooks.each do |workbook|
-      away = @team_uppercase[workbook.Away_Team]
-      total = Total.where('DATE = ? AND AWAY = ?', workbook.Date, away).first
-      workbook.update(total_line: total.TOTAL)
+      away = @team_uppercase[workbook['Away_Team']]
+      total = Total.where('DATE = ? AND AWAY = ?', workbook['Date'], away).first
+      workbook.update(total_line: total['TOTAL'])
     end
   end
 
