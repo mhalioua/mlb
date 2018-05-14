@@ -2,6 +2,14 @@ require "#{Rails.root}/app/helpers/game_helper"
 include GameHelper
 namespace :job do
 
+  task :totalData => :environment do
+    require 'csv'
+    filename = Rails.root.join('csv', 'totals.csv')
+    CSV.foreach(filename, headers: true) do |row|
+      Total.create(row.to_h)
+    end
+  end
+
   task add: :environment do
     filename = File.join Rails.root, "Workbook.csv"
     count = 0
