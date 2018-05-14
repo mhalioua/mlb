@@ -924,7 +924,7 @@ namespace :job do
     'Cardinals' => 'ST LOUIS',
     'Cubs' => 'CHI CUBS',
     'Diamondbacks' => 'ARIZONA',
-    'Dodgers' => 'LA DODGERS',
+    'Dodgers' => 'LOS ANGELES',
     'Giants' => 'SAN FRANCISCO',
     'Indians' => 'CLEVELAND',
     'Mariners' => 'SEATTLE',
