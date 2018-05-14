@@ -932,7 +932,7 @@ namespace :job do
     'Mets' => 'NY METS',
     'Nationals' => 'WASHINGTON',
     'Orioles' => 'BALTIMORE',
-    'Padres' => 'SANDIEGO',
+    'Padres' => 'SAN DIEGO',
     'Phillies' => 'PHILADELPHIA',
     'Pirates' => 'PITTSBURGH',
     'Rangers' => 'TEXAS',
