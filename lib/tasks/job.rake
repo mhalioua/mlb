@@ -11,37 +11,73 @@ namespace :job do
   end
 
   task add: :environment do
-    filename = File.join Rails.root, "Workbook.csv"
-    count = 0
-    CSV.foreach(filename, headers:true) do |row|
-      Workbook.create(Home_Team:row['Home_Team'], TEMP:row['TEMP'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['BARo'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'])
-      count = count + 1
-    end
-    puts count
+    require 'csv'
 
-    filename = File.join Rails.root, "colo.csv"
-    count = 0
+    filename = File.join Rails.root, 'csv' , "Workbook.csv"
     CSV.foreach(filename, headers:true) do |row|
-      Colo.create(Home_Team:row['Home_Team'], TEMP:row['TEMP'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['BARo'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'])
-      count = count + 1
+      workbook = row.to_h
+      workbook['table'] = 'Workbook'
+      if row['Away_Total']
+        line_index = row['Away_Total'].index(' ')
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      end
+      Workbook.create(workbook)
     end
-    puts count
 
-    filename = File.join Rails.root, "houston.csv"
-    count = 0
+    filename = File.join Rails.root, 'csv', "colo.csv"
     CSV.foreach(filename, headers:true) do |row|
-      Houston.create(Home_Team:row['Home_Team'], TEMP:row['TEMP'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['BARo'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'])
-      count = count + 1
+      workbook = row.to_h
+      workbook['table'] = "colo"
+      if row['Away_Total']
+        line_index = row['Away_Total'].index(' ')
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      end
+      Workbook.create(workbook)
     end
-    puts count
 
-    filename = File.join Rails.root, "tampa.csv"
-    count = 0
+    filename = File.join Rails.root, 'csv', "houston.csv"
     CSV.foreach(filename, headers:true) do |row|
-      Tampa.create(Home_Team:row['Home_Team'], TEMP:row['TEMP'], DP:row['DP'], HUMID:row['HUMID'], BARo:row['BARo'], R:row['R'], Total_Hits:row['Total_Hits'], Total_Walks:row['Total_Walks'], home_runs:row['home_runs'])
-      count = count + 1
+      workbook = row.to_h
+      workbook['table'] = "houston"
+      if row['Away_Total']
+        line_index = row['Away_Total'].index(' ')
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      end
+      Workbook.create(workbook)
     end
-    puts count
+
+    filename = File.join Rails.root, 'csv', "tampa.csv"
+    CSV.foreach(filename, headers:true) do |row|
+      workbook = row.to_h
+      workbook['table'] = "tampa"
+      if row['Away_Total']
+        line_index = row['Away_Total'].index(' ')
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      end
+      Workbook.create(workbook)
+    end
+
+    filename = File.join Rails.root, 'csv' , "colowind.csv"
+    CSV.foreach(filename, headers:true) do |row|
+      workbook = row.to_h
+      workbook['table'] = "colowind"
+      if row['Away_Total']
+        line_index = row['Away_Total'].index(' ')
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      end
+      Workbook.create(workbook)
+    end
+
+    filename = File.join Rails.root, 'csv', "wind.csv"
+    CSV.foreach(filename, headers:true) do |row|
+      workbook = row.to_h
+      workbook['table'] = "wind"
+      if row['Away_Total']
+        line_index = row['Away_Total'].index(' ')
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      end
+      Workbook.create(workbook)
+    end
   end
 
   task :import => :environment do
@@ -868,6 +904,48 @@ namespace :job do
       end
     end
   end
+
+  task update_total_line: :environment do
+    workbooks = Workbook.where('total_line is null')
+    workbooks.each do |workbook|
+      away = @team_uppercase[workbook.Away_Team]
+      total = Total.where('DATE = ? AND AWAY = ?', workbook.Date, away).first
+      workbook.update(total_line: total.TOTAL)
+    end
+  end
+
+  @team_uppercase = {
+    'Angels' => 'LA ANGELS',
+    'Astros' => 'HOUSTON',
+    'Athletics' => 'OAKLAND',
+    'Blue Jays' => 'TORONTO',
+    'Braves' => 'ATLANTA',
+    'Brewers' => 'MILWAUKEE',
+    'Cardinals' => 'ST LOUIS',
+    'Cubs' => 'CHI CUBS',
+    'Diamondbacks' => 'ARIZONA',
+    'Dodgers' => 'LA DODGERS',
+    'Giants' => 'SAN FRANCISCO',
+    'Indians' => 'CLEVELAND',
+    'Mariners' => 'SEATTLE',
+    'Marlins' => 'MIAMI',
+    'Mets' => 'NY METS',
+    'Nationals' => 'WASHINGTON',
+    'Orioles' => 'BALTIMORE',
+    'Padres' => 'SANDIEGO',
+    'Phillies' => 'PHILADELPHIA',
+    'Pirates' => 'PITTSBURGH',
+    'Rangers' => 'TEXAS',
+    'Rays' => 'TAMPA BAY',
+    'Red Sox' => 'BOSTON',
+    'Reds' => 'CINCINNATI',
+    'Rockies' => 'COLORADO',
+    'Royals' => 'KANSAS CITY',
+    'Tigers' => 'DETROIT',
+    'Twins' => 'MINNESOTA',
+    'White Sox' => 'CHI WHITE SOX',
+    'Yankees' => 'NY YANKEES'
+  }
 
   @month = {
     'Jan' => '1',
