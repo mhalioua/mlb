@@ -85,8 +85,10 @@ namespace :mlb do
     CSV.foreach(filename, headers:true) do |row|
       workbook = row.to_h
       workbook['table'] = 'Workbook'
-      line_index = row['Away_Total'].index(' ')
-      workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      if row['Away_Total']
+        line_index = row['Away_Total'].index(' ')
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      end
       Workbook.create(workbook)
     end
 
@@ -94,8 +96,10 @@ namespace :mlb do
     CSV.foreach(filename, headers:true) do |row|
       workbook = row.to_h
       workbook['table'] = "colo"
-      line_index = row['Away_Total'].index(' ')
-      workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      if row['Away_Total']
+        line_index = row['Away_Total'].index(' ')
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      end
       Workbook.create(workbook)
     end
 
@@ -103,8 +107,10 @@ namespace :mlb do
     CSV.foreach(filename, headers:true) do |row|
       workbook = row.to_h
       workbook['table'] = "houston"
-      line_index = row['Away_Total'].index(' ')
-      workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      if row['Away_Total']
+        line_index = row['Away_Total'].index(' ')
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      end
       Workbook.create(workbook)
     end
 
@@ -112,8 +118,10 @@ namespace :mlb do
     CSV.foreach(filename, headers:true) do |row|
       workbook = row.to_h
       workbook['table'] = "tampa"
-      line_index = row['Away_Total'].index(' ')
-      workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      if row['Away_Total']
+        line_index = row['Away_Total'].index(' ')
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      end
       Workbook.create(workbook)
     end
 
@@ -121,8 +129,10 @@ namespace :mlb do
     CSV.foreach(filename, headers:true) do |row|
       workbook = row.to_h
       workbook['table'] = "colowind"
-      line_index = row['Away_Total'].index(' ')
-      workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      if row['Away_Total']
+        line_index = row['Away_Total'].index(' ')
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      end
       Workbook.create(workbook)
     end
 
@@ -130,8 +140,10 @@ namespace :mlb do
     CSV.foreach(filename, headers:true) do |row|
       workbook = row.to_h
       workbook['table'] = "wind"
-      line_index = row['Away_Total'].index(' ')
-      workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      if row['Away_Total']
+        line_index = row['Away_Total'].index(' ')
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+      end
       Workbook.create(workbook)
     end
   end
