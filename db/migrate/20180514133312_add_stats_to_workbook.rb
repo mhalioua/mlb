@@ -1,0 +1,54 @@
+class AddStatsToWorkbook < ActiveRecord::Migration[5.1]
+  def change
+  	add_column :workbooks, :Date, :string
+  	add_column :workbooks, :Time, :string
+  	add_column :workbooks, :Away_Team, :string
+  	add_column :workbooks, :Date, :string
+  	add_column :workbooks, :Date, :string
+  	add_column :workbooks, :Away_Money_Line, :integer
+  	add_column :workbooks, :Home_Money_Line, :integer
+  	add_column :workbooks, :Away_Total, :string
+  	add_column :workbooks, :Home_Total, :string
+  	add_column :workbooks, :O, :float
+  	add_column :workbooks, :P, :float
+  	add_column :workbooks, :Q, :float
+  	add_column :workbooks, :Total_Walks_Hits, :integer
+  	add_column :workbooks, :Total_Bases, :integer
+  	add_column :workbooks, :Away_Inning_1, :integer
+  	add_column :workbooks, :h9, :integer
+  	add_column :workbooks, :h8, :integer
+  	add_column :workbooks, :h7, :integer
+  	add_column :workbooks, :h6, :integer
+  	add_column :workbooks, :h5, :integer
+  	add_column :workbooks, :h4, :integer
+  	add_column :workbooks, :h3, :integer
+  	add_column :workbooks, :h2, :integer
+  	add_column :workbooks, :h1, :integer
+  	add_column :workbooks, :Home_Inning_1, :string
+  	add_column :workbooks, :a9, :integer
+  	add_column :workbooks, :a8, :integer
+  	add_column :workbooks, :a7, :integer
+  	add_column :workbooks, :a6, :integer
+  	add_column :workbooks, :a5, :integer
+  	add_column :workbooks, :a4, :integer
+  	add_column :workbooks, :A3, :integer
+  	add_column :workbooks, :A2, :integer
+  	add_column :workbooks, :A1, :integer
+  	add_column :workbooks, :AQ, :string
+  	add_column :workbooks, :stolen_bases, :integer
+  	add_column :workbooks, :Away_Starter_Last_Name, :string
+  	add_column :workbooks, :Away_Starter_Handedness, :string
+  	add_column :workbooks, :Home_Starter_First_Name, :string
+  	add_column :workbooks, :Home_Starter_Last_Name, :string
+  	add_column :workbooks, :Home_Starter_Handedness, :string
+  	add_column :workbooks, :LD_PA, :string
+  	add_column :workbooks, :GB_PA, :float
+  	add_column :workbooks, :FB_PA, :float
+  	add_column :workbooks, :SO_PA, :float
+  	add_column :workbooks, :LD_BABIP, :float
+  	add_column :workbooks, :GB_BABIP, :float
+  	add_column :workbooks, :FB_BABIP, :float
+  	add_column :workbooks, :BF, :float
+  	add_column :workbooks, :total_line, :float
+  end
+end
