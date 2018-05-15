@@ -10,6 +10,20 @@ namespace :job do
     end
   end
 
+  task :prevgame => :environment do
+    require 'csv'
+    filename = File.join Rails.root, 'csv' , "prev_game.csv"
+    CSV.foreach(filename, headers: true) do |row|
+      game = row.to_h
+      if game['away_total']
+        line_index = row['away_total'].index('-')
+        line_index = row['away_total'].index('+') unless line_index
+        game['total_line'] = line_index ? row['away_total'][0..line_index-1] : ''
+      end
+      Prevgame.create(game)
+    end
+  end
+
   task add: :environment do
     require 'csv'
 
