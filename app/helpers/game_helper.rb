@@ -182,7 +182,7 @@ module GameHelper
     search_string = []
     winds = []
 
-    search_string.push('"Home_Team" = ' + "'#{name}'")
+    search_string.push('"Home_Team1" = ' + "'#{name}'")
     wind = get_wind('average runs in this stadium', search_string, 0)
     winds.push(wind)
 
@@ -245,7 +245,7 @@ module GameHelper
     currect_directions = currect_directions.uniq
 
     search_string = []
-    search_string.push('"Home_Team" = ' + "'#{name}'")
+    search_string.push('"Home_Team1" = ' + "'#{name}'")
     search_string.push('"N" >= ' + "#{filter_min}" + ' AND "N" <= ' + "#{filter_max}")
 
     search_string_original = search_string.dup

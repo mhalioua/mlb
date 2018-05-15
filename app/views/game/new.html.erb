@@ -41,6 +41,13 @@
 			<%= render partial: "game/new/weather", locals: { caption: "Wunderground Weather Records", weathers: @weathers, name: @home_team.name, stadium: @home_team.stadium } %>
 		<% end %>
 
+		<% unless @forecasts.empty? %>
+			<%= render partial: "game/new/prev", locals: { caption: "Wunderground Weather Forecast", weathers: @forecasts, name: @home_team.name, stadium: @home_team.stadium } %>
+		<% end %>
+		<% unless @weathers.empty? %>
+			<%= render partial: "game/new/prev", locals: { caption: "Wunderground Weather Records", weathers: @weathers, name: @home_team.name, stadium: @home_team.stadium } %>
+		<% end %>
+
 		<%= render partial: "game/new/pitcher", locals: { caption: "Starting Pitchers", lancers: @away_starting_lancer + @home_starting_lancer  } %>
 
 		<%= render partial: "game/new/batter", locals: { caption: "#{@away_predicted}#{@away_team.name} Batters", predicted: @away_predicted, batters: @away_batters, left: @away_left } %>
