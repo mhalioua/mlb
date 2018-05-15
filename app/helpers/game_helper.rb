@@ -281,7 +281,8 @@ module GameHelper
       count,
       (query.map {|stat| stat.Total_Walks.to_f }.sum / (count == 0 ? 1 : count)).round(2),
       (query.map {|stat| stat.home_runs.to_f }.sum / (count == 0 ? 1 : count)).round(2),
-      flag
+      flag,
+      (query.map {|stat| stat.total_line.to_f }.sum / (count == 0 ? 1 : count)).round(2)
     ]
   end
 
