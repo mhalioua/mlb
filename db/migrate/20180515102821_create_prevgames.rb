@@ -11,7 +11,7 @@ class CreatePrevgames < ActiveRecord::Migration[5.1]
     	t.integer :home_ml
     	t.string :away_total
     	t.string :home_total
-    	t.float :TEMP,
+    	t.float :TEMP
     	t.float :DP
     	t.integer :humid
     	t.float :BARO
