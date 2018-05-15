@@ -174,6 +174,110 @@ module GameHelper
     return winds
   end
 
+  def wind_data_prev(name, first_wind, second_wind, third_wind)
+    first_wind_speed, first_wind_dir = split_wind(first_wind)
+    second_wind_speed, second_wind_dir = split_wind(second_wind)
+    third_wind_speed, third_wind_dir = split_wind(third_wind)
+
+    search_string = []
+    winds = []
+
+    search_string.push('"Home_Team" = ' + "'#{name}'")
+    wind = get_wind('average runs in this stadium', search_string, 0)
+    winds.push(wind)
+
+    search_string.push('"N" >= 0 AND "N" <= 5')
+    wind = get_wind('average runs in this stadium with 0-5mph winds', search_string, 0)
+    winds.push(wind)
+
+    first_wind_speed, second_wind_speed = swap(first_wind_speed, second_wind_speed) if first_wind_speed > second_wind_speed
+    first_wind_speed, third_wind_speed = swap(first_wind_speed, third_wind_speed) if first_wind_speed > third_wind_speed
+    second_wind_speed, third_wind_speed = swap(second_wind_speed, third_wind_speed) if second_wind_speed > third_wind_speed
+
+    avg = ((first_wind_speed + second_wind_speed + third_wind_speed) / 3.to_f).ceil
+    filter_min = avg - 3
+    filter_max = avg + 4
+
+    if (third_wind_speed - first_wind_speed) >= 8
+      filter_min = first_wind_speed
+      filter_max = third_wind_speed
+    elsif first_wind_speed >= 10
+      filter_min = avg - 4
+    elsif third_wind_speed <= 7
+      filter_min = avg - 2
+      filter_max = avg + 3
+    end
+
+    filter_min = filter_min + additional
+    filter_max = filter_max + additional
+
+    wind_directions = ["NNW", "North", "NNE", "NE", "ENE", "East", "ESE", "SE", "SSE", "South", "SSW", "SW", "WSW", "West", "WNW", "NW"]
+    currect_directions = []
+    real_directions = []
+    first_wind_dir = wind_validation(first_wind_dir)
+    second_wind_dir = wind_validation(second_wind_dir)
+    third_wind_dir = wind_validation(third_wind_dir)
+
+    if wind_directions.include?(first_wind_dir)
+      index = wind_directions.index(first_wind_dir)
+      currect_directions.push(index-1)
+      currect_directions.push(index)
+      real_directions.push(index)
+      currect_directions.push((index+1)%16)
+    end
+
+    if wind_directions.include?(second_wind_dir)
+      index = wind_directions.index(second_wind_dir)
+      currect_directions.push(index-1)
+      currect_directions.push(index)
+      real_directions.push(index)
+      currect_directions.push((index+1)%16)
+    end
+
+    if wind_directions.include?(third_wind_dir)
+      index = wind_directions.index(third_wind_dir)
+      currect_directions.push(index-1)
+      currect_directions.push(index)
+      real_directions.push(index)
+      currect_directions.push((index+1)%16)
+    end
+
+    currect_directions = currect_directions.uniq
+
+    search_string = []
+    search_string.push('"Home_Team" = ' + "'#{name}'")
+    search_string.push('"N" >= ' + "#{filter_min}" + ' AND "N" <= ' + "#{filter_max}")
+
+    search_string_original = search_string.dup
+    wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph winds", search_string, 1)
+    winds.push(wind)
+
+    directions = [ 'North', 'NNE', 'NE', 'ENE', 'East', 'ESE', 'SE', 'SSE', 'South', 'SSW', 'SW', 'WSW', 'West', 'WNW', 'NW', 'NNW']
+    parks = ['ARI', 'ATL', 'BAL', 'BOS', 'CHC', 'CHW', 'CIN', 'CLE', 'COL', 'DET', 'HOU', 'KCR', 'LAA', 'LAD', 'MIA', 'MIL', 'MIN', 'NYM', 'NYY', 'OAK', 'PHI', 'PIT', 'SDP', 'SFG', 'SEA', 'STL', 'TEX', 'TOR', 'WSN']
+
+    wind_directions.each_with_index do |direction, index|
+      search_string = search_string_original.dup
+      search_string.push('"M" = ' + "'#{direction}'")
+
+      additional_wind = ''
+      team = Team.find_by(name: name)
+      if directions.include?(direction) && parks.include?(team.baseball_abbr)
+        additional_wind =  @@re[team.baseball_abbr][direction]
+      end
+
+      flag = 2
+      if real_directions.include?(index)
+        flag = 1
+      elsif currect_directions.include?(index)
+        flag = 0
+      end
+
+      wind = get_wind("average runs in this stadium with #{filter_min}-#{filter_max}mph, going #{direction} (#{additional_wind})", search_string, flag)
+      winds.push(wind)
+    end
+    return winds
+  end
+
   def wind_data_match(name, first_wind, second_wind, third_wind)
     first_wind_speed, first_wind_dir = split_wind(first_wind)
     second_wind_speed, second_wind_dir = split_wind(second_wind)

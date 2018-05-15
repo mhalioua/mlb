@@ -24,6 +24,15 @@ namespace :job do
     end
   end
 
+  task :cleanPrevgame => :environment do
+    prevGames = Prevgame.where('Home_Team is null')
+    prevGames.each do |prevGame|
+      prevGame.update(Home_Team: @clean[prevGame.home_team],
+        M: prevGame.wind,
+        N: prevGame.speed.to_f)
+    end
+  end
+
   task add: :environment do
     require 'csv'
 
@@ -927,6 +936,39 @@ namespace :job do
       workbook.update(total_line: total['TOTAL']) if total
     end
   end
+
+  @clean = {
+    'Los Angeles Angels' => 'Angels',
+    'Houston Astros' => 'Astros',
+    'Oakland Athletics' => 'Athletics',
+    'Toronto Blue Jays' => 'Blue Jays',
+    'Atlanta Braves' => 'Braves',
+    'Milwaukee Brewers' => 'Brewers',
+    'St. Louis Cardinals' => 'Cardinals',
+    'Chicago Cubs' => 'Cubs',
+    'Arizona Diamondbacks' => 'Diamondbacks',
+    'Los Angeles Dodgers' => 'Dodgers',
+    'San Francisco Giants' => 'Giants',
+    'Cleveland Indians' => 'Indians',
+    'Seattle Mariners' => 'Mariners',
+    'Miami Marlins' => 'Marlins',
+    'New York Mets' => 'Mets',
+    'Washington Nationals' => 'Nationals',
+    'Baltimore Orioles' => 'Orioles',
+    'San Diego Padres' => 'Padres',
+    'Philadelphia Phillies' => 'Phillies',
+    'Pittsburgh Pirates' => 'Pirates',
+    'Texas Rangers' => 'Rangers',
+    'Tampa Bay Rays' => 'Rays',
+    'Boston Red Sox' => 'Red Sox',
+    'Cincinnati Reds' => 'Reds',
+    'Colorado Rockies' => 'Rockies',
+    'Kansas City Royals' => 'Royals',
+    'Detroit Tigers' => 'Tigers',
+    'Minnesota Twins' => 'Twins',
+    'Chicago White Sox' => 'White Sox',
+    'New York Yankees' => 'Yankees'
+  }
 
   @team_uppercase = {
     'Angels' => 'LA ANGELS',
