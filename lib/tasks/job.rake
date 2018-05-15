@@ -25,7 +25,7 @@ namespace :job do
   end
 
   task :cleanPrevgame => :environment do
-    prevGames = Prevgame.where('Home_Team is null')
+    prevGames = Prevgame.where('"Home_Team" is null')
     prevGames.each do |prevGame|
       prevGame.update(Home_Team: @clean[prevGame.home_team],
         M: prevGame.wind,
