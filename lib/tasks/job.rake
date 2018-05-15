@@ -33,6 +33,16 @@ namespace :job do
     end
   end
 
+  task :addingprevgame => :environment do
+    require 'csv'
+    filename = File.join Rails.root, 'csv' , "prev_game.csv"
+    CSV.foreach(filename, headers: true) do |row|
+      game = row.to_h
+      prev = Prevgame.where('id = ?', game['id'])
+      prev.update(total_walks_both_team: game['total_walks_both_team'])
+    end
+  end
+
   task add: :environment do
     require 'csv'
 

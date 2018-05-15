@@ -50,7 +50,7 @@
       </tr>
 
       <% weathers.each do |weather| %>
-        <% result = true_data(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, weather.humid_num-3, weather.humid_num+3, weather.pressure_num-0.04, weather.pressure_num+0.04, name) %>
+        <% result = true_data_prev(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, weather.humid_num-3, weather.humid_num+3, weather.pressure_num-0.04, weather.pressure_num+0.04, name) %>
       	<tr>
       		<td class="lightgray"><%= weather_time(weather.game.game_date, weather.hour) %></td>
           <td><%= weather.temp %></td>
