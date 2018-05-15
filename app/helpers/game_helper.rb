@@ -208,9 +208,6 @@ module GameHelper
       filter_max = avg + 3
     end
 
-    filter_min = filter_min + additional
-    filter_max = filter_max + additional
-
     wind_directions = ["NNW", "North", "NNE", "NE", "ENE", "East", "ESE", "SE", "SSE", "South", "SSW", "SW", "WSW", "West", "WNW", "NW"]
     currect_directions = []
     real_directions = []
