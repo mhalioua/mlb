@@ -3,10 +3,10 @@ class Player < ApplicationRecord
   has_many :lancers, dependent: :destroy
   has_many :batters, dependent: :destroy
 
-  def self.search(name, identity=nil, fangraph_id=0)
+  def self.search(name, identity=nil, fangraph_id=nil)
     if identity && player = Player.find_by_identity(identity)
       return player
-    elsif fangraph_id != 0 && player = Player.find_by_fangraph_id(fangraph_id)
+    elsif fangraph_id != nil && player = Player.find_by_fangraph_id(fangraph_id)
       return player
     elsif player = Player.find_by(name: name)
       return player
