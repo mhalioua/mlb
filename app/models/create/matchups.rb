@@ -120,7 +120,7 @@ module Create
         handedness = element.children[2].to_s[2]
         position = element.children[2].to_s.match(/\w*$/).to_s
         identity = element.children[1]['data-bref']
-        fangraph_id = element.children[1]['data-razz'].gsub!(/[^0-9]/, "")
+        fangraph_id = element.children[1]['data-razz'].gsub!(/[^0-9]/, "").to_i
         return identity, fangraph_id, name, handedness, lineup, position
       end
 
