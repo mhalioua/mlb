@@ -15,7 +15,7 @@ module Create
       def pitcher_info(element)
         name = element.child.text
         identity = element.child['data-bref']
-        fangraph_id = element.child['data-razz'].gsub!(/[^0-9]/, "")
+        fangraph_id = element.child['data-razz'].gsub!(/[^0-9]/, "").to_i
         handedness = element.children[1].text[2]
         return identity, fangraph_id, name, handedness
       end
