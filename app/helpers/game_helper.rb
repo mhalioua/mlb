@@ -433,10 +433,11 @@ module GameHelper
 
     query = Workbook.where(search_string_low.join(" AND ")).to_a
     temp_count = query.count
+    lines_count = query.count{|x| x.total_line !== nil}
 
     result[:lower_one] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:lower_one_count] = temp_count
-    result[:total_lines_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_lines_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count == 0 ? 1 : lines_count)).round(2)
 
     search_string_dup = search_string.dup
     search_string_low_dup = search_string_low.dup
@@ -459,10 +460,11 @@ module GameHelper
 
     query = Workbook.where(search_string_low.join(" AND ")).to_a
     temp_count = query.count
+    lines_count = query.count{|x| x.total_line !== nil}
 
     result[:home_one] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_one_count] = temp_count
-    result[:total_lines_park_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_lines_park_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count == 0 ? 1 : lines_count)).round(2)
 
     query = Workbook.where(search_string_dup.join(" AND ")).to_a
     temp_count_dup = query.count
@@ -512,10 +514,11 @@ module GameHelper
 
     query = Prevgame.where(search_string_low.join(" AND ")).to_a
     temp_count = query.count
+    lines_count = query.count{|x| x.total_line !== nil}
 
     result[:lower_one] = (query.map {|stat| stat.total.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:lower_one_count] = temp_count
-    result[:total_lines_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_lines_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count == 0 ? 1 : lines_count)).round(2)
 
     search_string_dup = search_string.dup
     search_string_low_dup = search_string_low.dup
@@ -538,10 +541,11 @@ module GameHelper
 
     query = Prevgame.where(search_string_low.join(" AND ")).to_a
     temp_count = query.count
+    lines_count = query.count{|x| x.total_line !== nil}
 
     result[:home_one] = (query.map {|stat| stat.total.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_one_count] = temp_count
-    result[:total_lines_park_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_lines_park_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count == 0 ? 1 : lines_count)).round(2)
 
     query = Prevgame.where(search_string_dup.join(" AND ")).to_a
     temp_count_dup = query.count
