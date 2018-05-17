@@ -2,7 +2,7 @@
 <tr bgcolor="<%= color %>">
     <td class="lightgray"><%= caption %></td>
     <td><%= "#{temp_min}-#{temp_max}" %></td>
-    <td><%= "#{dew_min}-#{dew_max}" %> <%= "#{dew_min-1}-#{dew_max+1}" %></td>
+    <td><%= "#{dew_min}-#{dew_max}" %> <%= "#{dew_min+1}-#{dew_max-1}" %></td>
     <td><%= hum_min === hum_max ? hum_min : "#{hum_min}-#{hum_max}" %></td>
     <td><%= "#{(pressure_min*100).round%100}-#{(pressure_max*100).round%100}" %></td>
     <td><%= wind %></td>
