@@ -424,20 +424,20 @@ module GameHelper
 
     query = Workbook.where(search_string.join(" AND ")).to_a
     temp_count = query.count
+    lines_count = query.count{|x| x.total_line != nil}
 
     result[:total_count] = temp_count
     result[:total_avg_1] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:total_avg_2] = (query.map {|stat| stat.Total_Hits.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:total_hits_avg] = (query.map {|stat| stat.Total_Walks.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_runs_avg] = (query.map {|stat| stat.home_runs.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_lines_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count == 0 ? 1 : lines_count)).round(2)
 
     query = Workbook.where(search_string_low.join(" AND ")).to_a
     temp_count = query.count
-    lines_count = query.count{|x| x.total_line != nil}
 
     result[:lower_one] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:lower_one_count] = temp_count
-    result[:total_lines_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count == 0 ? 1 : lines_count)).round(2)
 
     search_string_dup = search_string.dup
     search_string_low_dup = search_string_low.dup
@@ -451,20 +451,20 @@ module GameHelper
 
     query = Workbook.where(search_string.join(" AND ")).to_a
     temp_count = query.count
+    lines_count = query.count{|x| x.total_line != nil}
 
     result[:home_total_runs1_avg] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_total_runs2_avg] = (query.map {|stat| stat.Total_Hits.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:total_hits_park_avg] = (query.map {|stat| stat.Total_Walks.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:total_hr_park] = (query.map {|stat| stat.home_runs.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_count] = temp_count
+    result[:total_lines_park_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count == 0 ? 1 : lines_count)).round(2)
 
     query = Workbook.where(search_string_low.join(" AND ")).to_a
     temp_count = query.count
-    lines_count = query.count{|x| x.total_line != nil}
 
     result[:home_one] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_one_count] = temp_count
-    result[:total_lines_park_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count == 0 ? 1 : lines_count)).round(2)
 
     query = Workbook.where(search_string_dup.join(" AND ")).to_a
     temp_count_dup = query.count
@@ -505,20 +505,20 @@ module GameHelper
 
     query = Prevgame.where(search_string.join(" AND ")).to_a
     temp_count = query.count
+    lines_count = query.count{|x| x.total_line != nil}
 
     result[:total_count] = temp_count
     result[:total_avg_1] = (query.map {|stat| stat.total.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:total_avg_2] = ''
     result[:total_hits_avg] = (query.map {|stat| stat.total_hits_both_team.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_runs_avg] = (query.map {|stat| stat.total_home_runs_both_team.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_lines_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count == 0 ? 1 : lines_count)).round(2)
 
     query = Prevgame.where(search_string_low.join(" AND ")).to_a
     temp_count = query.count
-    lines_count = query.count{|x| x.total_line != nil}
 
     result[:lower_one] = (query.map {|stat| stat.total.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:lower_one_count] = temp_count
-    result[:total_lines_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count == 0 ? 1 : lines_count)).round(2)
 
     search_string_dup = search_string.dup
     search_string_low_dup = search_string_low.dup
@@ -532,20 +532,20 @@ module GameHelper
 
     query = Prevgame.where(search_string.join(" AND ")).to_a
     temp_count = query.count
+    lines_count = query.count{|x| x.total_line != nil}
 
     result[:home_total_runs1_avg] = (query.map {|stat| stat.total.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_total_runs2_avg] = ''
     result[:total_hits_park_avg] = (query.map {|stat| stat.total_hits_both_team.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:total_hr_park] = (query.map {|stat| stat.total_home_runs_both_team.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_count] = temp_count
+    result[:total_lines_park_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count == 0 ? 1 : lines_count)).round(2)
 
     query = Prevgame.where(search_string_low.join(" AND ")).to_a
     temp_count = query.count
-    lines_count = query.count{|x| x.total_line != nil}
 
     result[:home_one] = (query.map {|stat| stat.total.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_one_count] = temp_count
-    result[:total_lines_park_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count == 0 ? 1 : lines_count)).round(2)
 
     query = Prevgame.where(search_string_dup.join(" AND ")).to_a
     temp_count_dup = query.count
