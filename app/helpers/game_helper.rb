@@ -433,7 +433,7 @@ module GameHelper
 
     query = Workbook.where(search_string_low.join(" AND ")).to_a
     temp_count = query.count
-    lines_count = query.count{|x| x.total_line !== nil}
+    lines_count = query.count{|x| x.total_line != nil}
 
     result[:lower_one] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:lower_one_count] = temp_count
@@ -460,7 +460,7 @@ module GameHelper
 
     query = Workbook.where(search_string_low.join(" AND ")).to_a
     temp_count = query.count
-    lines_count = query.count{|x| x.total_line !== nil}
+    lines_count = query.count{|x| x.total_line != nil}
 
     result[:home_one] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_one_count] = temp_count
@@ -514,7 +514,7 @@ module GameHelper
 
     query = Prevgame.where(search_string_low.join(" AND ")).to_a
     temp_count = query.count
-    lines_count = query.count{|x| x.total_line !== nil}
+    lines_count = query.count{|x| x.total_line != nil}
 
     result[:lower_one] = (query.map {|stat| stat.total.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:lower_one_count] = temp_count
@@ -541,7 +541,7 @@ module GameHelper
 
     query = Prevgame.where(search_string_low.join(" AND ")).to_a
     temp_count = query.count
-    lines_count = query.count{|x| x.total_line !== nil}
+    lines_count = query.count{|x| x.total_line != nil}
 
     result[:home_one] = (query.map {|stat| stat.total.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_one_count] = temp_count
