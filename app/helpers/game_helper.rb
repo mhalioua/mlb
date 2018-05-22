@@ -407,10 +407,10 @@ module GameHelper
 
     query = Workbook.where(search_string.join(" AND "))
 
-    result[:total_avg_1] = query.average(:R).round(2)
-    result[:total_avg_2] = query.average(:Total_Hits).round(2)
-    result[:total_hits_avg] = query.average(:Total_Walks).round(2)
-    result[:home_runs_avg] = query.average(:home_runs).round(2)
+    result[:total_avg_1] = query.average(:R).to_f.round(2)
+    result[:total_avg_2] = query.average(:Total_Hits).to_f.round(2)
+    result[:total_hits_avg] = query.average(:Total_Walks).to_f.round(2)
+    result[:home_runs_avg] = query.average(:home_runs).to_f.round(2)
 
     search_string_dup = search_string.dup
 
@@ -421,17 +421,17 @@ module GameHelper
 
     query = Workbook.where(search_string.join(" AND "))
 
-    result[:home_total_runs1_avg] = query.average(:R).round(2)
-    result[:home_total_runs2_avg] = query.average(:Total_Hits).round(2)
-    result[:total_hits_park_avg] = query.average(:Total_Walks).round(2)
-    result[:total_hr_park] = query.average(:home_runs).round(2)
+    result[:home_total_runs1_avg] = query.average(:R).to_f.round(2)
+    result[:home_total_runs2_avg] = query.average(:Total_Hits).to_f.round(2)
+    result[:total_hits_park_avg] = query.average(:Total_Walks).to_f.round(2)
+    result[:total_hr_park] = query.average(:home_runs).to_f.round(2)
 
     query = Workbook.where(search_string_dup.join(" AND "))
 
-    result[:home_total_runs1_avg_dup] = query.average(:R).round(2)
-    result[:home_total_runs2_avg_dup] = query.average(:Total_Hits).round(2)
-    result[:total_hits_park_avg_dup] = query.average(:Total_Walks).round(2)
-    result[:total_hr_park_dup] = query.average(:home_runs).round(2)
+    result[:home_total_runs1_avg_dup] = query.average(:R).to_f.round(2)
+    result[:home_total_runs2_avg_dup] = query.average(:Total_Hits).to_f.round(2)
+    result[:total_hits_park_avg_dup] = query.average(:Total_Walks).to_f.round(2)
+    result[:total_hr_park_dup] = query.average(:home_runs).to_f.round(2)
 
     return result
   end
@@ -703,25 +703,25 @@ module GameHelper
     result = {}
     query = Prevgame.all
 
-    result[:total_avg_1] = query.average(:total).round(2)
+    result[:total_avg_1] = query.average(:total).to_f.round(2)
     result[:total_avg_2] = ''
-    result[:total_hits_avg] = query.average(:total_hits_both_team).round(2)
-    result[:home_runs_avg] = query.average(:total_home_runs_both_team).round(2)
+    result[:total_hits_avg] = query.average(:total_hits_both_team).to_f.round(2)
+    result[:home_runs_avg] = query.average(:total_home_runs_both_team).to_f.round(2)
 
     query = Prevgame.where('"Home_Team" = ' + "'#{name}'")
     temp_count = query.count
 
-    result[:home_total_runs1_avg] = query.average(:total).round(2)
+    result[:home_total_runs1_avg] = query.average(:total).to_f.round(2)
     result[:home_total_runs2_avg] = ''
-    result[:total_hits_park_avg] = query.average(:total_hits_both_team).round(2)
-    result[:total_hr_park] = query.average(:total_home_runs_both_team).round(2)
+    result[:total_hits_park_avg] = query.average(:total_hits_both_team).to_f.round(2)
+    result[:total_hr_park] = query.average(:total_home_runs_both_team).to_f.round(2)
 
     query = Prevgame.where('"Home_Team" != ' + "'#{name}'")
 
-    result[:home_total_runs1_avg_dup] = query.average(:total).round(2)
+    result[:home_total_runs1_avg_dup] = query.average(:total).to_f.round(2)
     result[:home_total_runs2_avg_dup] = ''
-    result[:total_hits_park_avg_dup] = query.average(:total_hits_both_team).round(2)
-    result[:total_hr_park_dup] = query.average(:total_home_runs_both_team).round(2)
+    result[:total_hits_park_avg_dup] = query.average(:total_hits_both_team).to_f.round(2)
+    result[:total_hr_park_dup] = query.average(:total_home_runs_both_team).to_f.round(2)
 
     return result
   end
