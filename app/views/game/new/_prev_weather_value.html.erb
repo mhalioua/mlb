@@ -2,7 +2,7 @@
 <tr bgcolor="<%= color %>">
     <td class="lightgray"><%= caption %></td>
     <td><%= "#{temp_min}-#{temp_max}" %></td>
-    <td><%= "#{dew_min}-#{dew_max}" %> <%= "#{dew_min+1}-#{dew_max-1}" %></td>
+    <td><%= "#{dew_min.round}-#{dew_max.round}" %><br><%= "#{(dew_min+1).round}-#{(dew_max-1).round}" %></td>
     <td><%= hum_min === hum_max ? hum_min : "#{hum_min}-#{hum_max}" %></td>
     <td><%= "#{(pressure_min*100).round%100}-#{(pressure_max*100).round%100}" %></td>
     <td><%= wind %></td>
@@ -29,7 +29,11 @@
     <td class="lightgray"><%= caption %></td>
     <td><%= result[:home_total_runs1_avg_dup] %></td>
     <td><%= result[:home_total_runs2_avg_dup] %></td>
+    <td><%= result[:total_hits_park_avg_dup] %></td>
+    <td><%= result[:total_hr_park_dup] %></td>
     <td><%= result[:home_count_dup] %></td>
+    <td class="blue"></td>
     <td><%= result[:home_one_dup] %></td>
     <td><%= result[:home_one_count_dup] %></td>
+    <td><%= result[:total_lines_park_avg_dup] %></td>
 </tr>

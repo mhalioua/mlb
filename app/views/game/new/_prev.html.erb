@@ -31,9 +31,13 @@
       <th width="50" style="background: red;">Time</th>
       <th width="50">Home Team Total 1</th>
       <th width="50">Home Team Total 2</th>
+      <th width="50">Total Hits not in Park Average</th>
+      <th width="50">Total HR's not in this park</th>
       <th width="50">Home Total Count</th>
+      <th width="10" class="blue"></th>
       <th width="50">Home +/- 1</th>
       <th width="50">Home Total Count +/- 1</th>
+      <th width="50">Total Lines Average</th>
   	</tr>
   </thead>
   <tbody>
@@ -42,11 +46,23 @@
         <td></td>
         <td colspan="5"><%= caption %></td>
         <td class="blue"></td>
-        <td colspan="9" style="background: yellow;">All Stadiums</td>
+        <td style="background: yellow;"></td>
+        <td style="background: yellow;"></td>
+        <td colspan="5" style="background: yellow;">All Stadiums</td>
+        <td style="background: yellow;"></td>
+        <td style="background: yellow;"></td>
         <td class="blue"></td>
-        <td colspan="9" style="background: sandybrown;">Only <%= stadium %></td>
+        <td style="background: sandybrown;"></td>
+        <td style="background: sandybrown;"></td>
+        <td colspan="5" style="background: sandybrown;">Only <%= stadium %></td>
+        <td style="background: sandybrown;"></td>
+        <td style="background: sandybrown;"></td>
         <td></td>
+        <td style="background: yellow;"></td>
+        <td style="background: yellow;"></td>
         <td colspan="5" style="background: yellow;">All Stadiums except <%= stadium %></td>
+        <td style="background: yellow;"></td>
+        <td style="background: yellow;"></td>
       </tr>
 
       <% weathers.each do |weather| %>
@@ -81,9 +97,13 @@
           <td class="lightgray"><%= weather_time(weather.game.game_date, weather.hour) %></td>
           <td><%= result[:home_total_runs1_avg_dup] %></td>
           <td><%= result[:home_total_runs2_avg_dup] %></td>
+          <td><%= result[:total_hits_park_avg_dup] %></td>
+          <td><%= result[:total_hr_park_dup] %></td>
           <td><%= result[:home_count_dup] %></td>
+          <td class="blue"></td>
           <td><%= result[:home_one_dup] %></td>
           <td><%= result[:home_one_count_dup] %></td>
+          <td><%= result[:total_lines_park_avg_dup] %></td>
       	</tr>
       <% end %>
 
