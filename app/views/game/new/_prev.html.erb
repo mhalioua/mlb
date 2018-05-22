@@ -170,14 +170,14 @@
           wind_speed_min = wind_speed_min - wind_speed_diff
           wind_speed_max = wind_speed_max + wind_speed_diff
         %>
-          <% result = true_wind_prev(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_min, wind_max, weather_one.wind_dir, weather_two.wind_dir, name) %>
+          <% result = true_wind_prev(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_speed_min, wind_speed_max, weather_one.wind_dir, weather_two.wind_dir, name) %>
           <tr bgcolor="#6495ED">
               <td class="green">With wind</td>
               <td><%= "#{temp_min}-#{temp_max}" %></td>
               <td><%= "#{dew_min.round}-#{dew_max.round}" %><br><%= "#{(dew_min+1).round}-#{(dew_max-1).round}" %></td>
               <td><%= "#{hum_min}-#{hum_max}" %></td>
               <td><%= "#{(pressure_min*100).round%100}-#{(pressure_max*100).round%100}" %></td>
-              <td><%= "#{wind_min}-#{wind_max}" %> , <%= weather_one.wind_dir == weather_two.wind_dir ? weather_one.wind_dir : "#{weather_one.wind_dir}, #{weather_two.wind_dir}" %></td>
+              <td><%= "#{wind_speed_min}-#{wind_speed_max}" %> , <%= weather_one.wind_dir == weather_two.wind_dir ? weather_one.wind_dir : "#{weather_one.wind_dir}, #{weather_two.wind_dir}" %></td>
               <td class="blue"></td>
               <td><%= result[:total_avg_1] %></td>
               <td><%= result[:total_avg_2] %></td>
