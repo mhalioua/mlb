@@ -527,8 +527,8 @@ module GameHelper
     search_string_dup = search_string.dup
     search_string_low_dup = search_string_low.dup
 
-    wind_dir1 = filter_wind(wind_dir1)
-    wind_dir2 = filter_wind(wind_dir2)
+    wind_dir1 = wind_validation(wind_dir1)
+    wind_dir2 = wind_validation(wind_dir2)
 
     if name != ""
       search_string.push('"M" IN ' + "('#{wind_dir1}', '#{wind_dir2}')")
@@ -664,20 +664,6 @@ module GameHelper
     return result
   end
 
-  def filter_wind(wind)
-    if wind == 'W'
-      'West'
-    elsif wind == 'E'
-      'East'
-    elsif wind == 'N'
-      'North'
-    elsif wind == 'S'
-      'South'
-    else
-      wind
-    end
-  end
-
   def true_wind_prev(temp_min, temp_max, dew_min, dew_max, humid_min, humid_max, baro_min, baro_max, wind_min, wind_max, wind_dir1, wind_dir2, name)
     search_string = []
     search_string_low = []
@@ -719,8 +705,8 @@ module GameHelper
     search_string_dup = search_string.dup
     search_string_low_dup = search_string_low.dup
 
-    wind_dir1 = filter_wind(wind_dir1)
-    wind_dir2 = filter_wind(wind_dir2)
+    wind_dir1 = wind_validation(wind_dir1)
+    wind_dir2 = wind_validation(wind_dir2)
 
     if name != ""
       search_string.push('"M" IN ' + "('#{wind_dir1}', '#{wind_dir2}')")
