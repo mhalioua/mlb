@@ -438,6 +438,8 @@ module GameHelper
     result[:total_hits_park_avg_dup] = (query.map {|stat| stat.Total_Walks.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
     result[:total_hr_park_dup] = (query.map {|stat| stat.home_runs.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
     result[:home_count_dup] = temp_count_dup
+
+    return result
   end
 
   def true_data(temp_min, temp_max, dew_min, dew_max, humid_min, humid_max, baro_min, baro_max, name)
@@ -521,7 +523,7 @@ module GameHelper
 
     result[:home_one_dup] = (query.map {|stat| stat.R.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
     result[:home_one_count_dup] = temp_count_dup
-    
+
     return result
   end
 
@@ -731,6 +733,8 @@ module GameHelper
     result[:total_hits_park_avg_dup] = (query.map {|stat| stat.Total_Walks.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
     result[:total_hr_park_dup] = (query.map {|stat| stat.home_runs.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
     result[:home_count_dup] = temp_count_dup
+
+    return result
   end
 
   def true_wind_prev(temp_min, temp_max, dew_min, dew_max, humid_min, humid_max, baro_min, baro_max, wind_min, wind_max, wind_dir1, wind_dir2, name)
