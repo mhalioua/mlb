@@ -711,27 +711,27 @@ module GameHelper
     temp_count = query.count
 
     result[:total_count] = temp_count
-    result[:total_avg_1] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
-    result[:total_avg_2] = (query.map {|stat| stat.Total_Hits.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
-    result[:total_hits_avg] = (query.map {|stat| stat.Total_Walks.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
-    result[:home_runs_avg] = (query.map {|stat| stat.home_runs.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_avg_1] = (query.map {|stat| stat.total.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_avg_2] = ''
+    result[:total_hits_avg] = (query.map {|stat| stat.total_hits_both_team.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:home_runs_avg] = (query.map {|stat| stat.total_home_runs_both_team.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
 
     query = Prevgame.where('"Home_Team" = ' + "'#{name}'").to_a
     temp_count = query.count
 
-    result[:home_total_runs1_avg] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
-    result[:home_total_runs2_avg] = (query.map {|stat| stat.Total_Hits.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
-    result[:total_hits_park_avg] = (query.map {|stat| stat.Total_Walks.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
-    result[:total_hr_park] = (query.map {|stat| stat.home_runs.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:home_total_runs1_avg] = (query.map {|stat| stat.total.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:home_total_runs2_avg] = ''
+    result[:total_hits_park_avg] = (query.map {|stat| stat.total_hits_both_team.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_hr_park] = (query.map {|stat| stat.total_home_runs_both_team.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_count] = temp_count
 
     query = Prevgame.where('"Home_Team" != ' + "'#{name}'").to_a
     temp_count_dup = query.count
 
-    result[:home_total_runs1_avg_dup] = (query.map {|stat| stat.R.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
-    result[:home_total_runs2_avg_dup] = (query.map {|stat| stat.Total_Hits.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
-    result[:total_hits_park_avg_dup] = (query.map {|stat| stat.Total_Walks.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
-    result[:total_hr_park_dup] = (query.map {|stat| stat.home_runs.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
+    result[:home_total_runs1_avg_dup] = (query.map {|stat| stat.total.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
+    result[:home_total_runs2_avg_dup] = ''
+    result[:total_hits_park_avg_dup] = (query.map {|stat| stat.total_hits_both_team.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
+    result[:total_hr_park_dup] = (query.map {|stat| stat.total_home_runs_both_team.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
     result[:home_count_dup] = temp_count_dup
 
     return result
