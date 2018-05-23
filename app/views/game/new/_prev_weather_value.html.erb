@@ -26,7 +26,7 @@
     <td style="<%= caption == "Before" || caption == "After" ? "" : "background: sandybrown;" %>"><%= result[:home_one] %></td>
     <td style="<%= caption == "Before" || caption == "After" ? "" : "background: sandybrown;" %>"><%= result[:home_one_count] %></td>
     <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg] %></td>
-    <td class="lightgray"><%= caption %></td>
+    <td class="<%= caption == "Before" || caption == "After" ? "" : "lightgray" %>"><%= caption %></td>
     <td><%= result[:home_total_runs1_avg_dup] %></td>
     <td><%= result[:home_total_runs2_avg_dup] %></td>
     <td><%= result[:total_hits_park_avg_dup] %></td>
