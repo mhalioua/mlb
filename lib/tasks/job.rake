@@ -24,16 +24,6 @@ namespace :job do
     end
   end
 
-  task :changetype => :environment do
-    games = Prevgame.all
-    games.each do |game|
-      away = ((game['a1'] + game['a2'] + game['a3'] + game['a4']).to_f * 2.25).round(2)
-      home = ((game['h1'] + game['h2'] + game['h3'] + game['h4']).to_f * 2.25).round(2)
-      total = (away + home).round(2)
-      game.update(away: away, home: home, total: total)
-    end
-  end
-
   task :cleanPrevgame => :environment do
     prevGames = Prevgame.where('"Home_Team" is null')
     prevGames.each do |prevGame|
