@@ -104,7 +104,7 @@
           <td class="blue"></td>
           <td><%= result[:home_one_dup] %></td>
           <td><%= result[:home_one_count_dup] %></td>
-          <td><%= result[:total_lines_park_avg_dup] %></td>
+          <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg_dup] %></td>
       	</tr>
       <% end %>
 
@@ -200,7 +200,7 @@
               <td class="blue"></td>
               <td><%= result[:home_one] %></td>
               <td><%= result[:home_one_count] %></td>
-              <td><%= result[:total_lines_park_avg] %></td>
+              <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg] %></td>
               <td class="lightgray"><%= "#{one_sec} hour" %></td>
               <td><%= result[:home_total_runs1_avg_dup] %></td>
               <td><%= result[:home_total_runs2_avg_dup] %></td>
@@ -210,7 +210,7 @@
               <td class="blue"></td>
               <td><%= result[:home_one_dup] %></td>
               <td><%= result[:home_one_count_dup] %></td>
-              <td><%= result[:total_lines_park_avg_dup] %></td>
+              <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg_dup] %></td>
           </tr>
       <% end %>
       <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
