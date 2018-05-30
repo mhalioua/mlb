@@ -74,7 +74,7 @@
           <td><%= weather['dp'] %></td>
           <td><%= weather['hum'] %></td>
           <td><%= weather['pressure'] %></td>
-          <td><%= weather['wind_speed'] + ' ' + weather['wind_dir'] %></td>
+          <td><%= weather['wind_speed'].to_s + ' ' + weather['wind_dir'] %></td>
           <td class="blue"></td>
           <td><%= result[:total_avg_1] %></td>
           <td><%= result[:total_avg_2] %></td>
@@ -111,7 +111,7 @@
       <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
 
       <% weathers.each_with_index do |weather, index| %>
-        <%= render partial: "game/new/weather_value", locals: { caption: "#{index + 1} hour", temp_min: weather['temp_num'] - 4, temp_max: weather['temp_num'] + 4, dew_min: weather['dew_num']-2, dew_max: weather['dew_num']+2, hum_min: weather['humid_num']-3, hum_max: weather['humid_num']+3, pressure_min: (weather['pressure_num']-0.04).round(2), pressure_max: (weather['pressure_num']+0.04).round(2), name: name, wind: weather['wind_speed'] + ' ' + weather['wind_dir'], color: "" } %>
+        <%= render partial: "game/new/weather_value", locals: { caption: "#{index + 1} hour", temp_min: weather['temp_num'] - 4, temp_max: weather['temp_num'] + 4, dew_min: weather['dew_num']-2, dew_max: weather['dew_num']+2, hum_min: weather['humid_num']-3, hum_max: weather['humid_num']+3, pressure_min: (weather['pressure_num']-0.04).round(2), pressure_max: (weather['pressure_num']+0.04).round(2), name: name, wind: weather['wind_speed'].to_s + ' ' + weather['wind_dir'], color: "" } %>
       <% end %>
 
       <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
