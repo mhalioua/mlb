@@ -23,7 +23,7 @@ class CalcController < ApplicationController
     @type_dropdown << ['Wunderground', 1]
     @type_dropdown << ['Weather', 2]
 
-    time = Time.now.hour - 3
+    time = Time.now.hour - 1
     (0...12).each do |index|
       time_format = DateTime.now
       if time < 24
@@ -38,7 +38,6 @@ class CalcController < ApplicationController
 
     if @post['form_stadium']
       @home_team = @teams.find{|x| x.name == @post['form_stadium'] }
-      zipcode = @home_team.zipcode
       @wunderground = wunderground_weather(@home_team.zipcode)
       @weather = weather_weather(@home_team.zipcode)
       @image_url = @home_team.id.to_s + ".png"
@@ -56,7 +55,7 @@ class CalcController < ApplicationController
     @index = 0
     @index = @post['index'].to_i if @post['index']
 
-    (0..2).each do |element|
+    (0..3).each do |element|
       weather_element = @weathers[@index]
       if @type == 2
         weather_element[:dew] = @wunderground[@index][:dew]
