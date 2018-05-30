@@ -74,7 +74,7 @@
           <td><%= weather['dp'] %></td>
           <td><%= weather['hum'] %></td>
           <td><%= weather['pressure'] %></td>
-          <td><%= weather['wind_speed'] %></td>
+          <td><%= weather['wind_speed'] + ' ' + weather['wind_dir'] %></td>
           <td class="blue"></td>
           <td><%= result[:total_avg_1] %></td>
           <td><%= result[:total_avg_2] %></td>
@@ -95,7 +95,7 @@
           <td style="background: sandybrown;"><%= result[:home_one] %></td>
           <td style="background: sandybrown;"><%= result[:home_one_count] %></td>
           <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg] %></td>
-          <td class="lightgray"><%= weather_time(weather.game.game_date, weather.hour) %></td>
+          <td class="lightgray"><%= "#{index + 1} hour" %></td>
           <td><%= result[:home_total_runs1_avg_dup] %></td>
           <td><%= result[:home_total_runs2_avg_dup] %></td>
           <td><%= result[:total_hits_park_avg_dup] %></td>
@@ -111,7 +111,7 @@
       <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
 
       <% weathers.each_with_index do |weather, index| %>
-        <%= render partial: "game/new/weather_value", locals: { caption: "#{index + 1} hour", temp_min: weather['temp_num'] - 4, temp_max: weather['temp_num'] + 4, dew_min: weather['dew_num']-2, dew_max: weather['dew_num']+2, hum_min: weather['humid_num']-3, hum_max: weather['humid_num']+3, pressure_min: (weather['pressure_num']-0.04).round(2), pressure_max: (weather['pressure_num']+0.04).round(2), name: name, wind: weather['wind_speed'], color: "" } %>
+        <%= render partial: "game/new/weather_value", locals: { caption: "#{index + 1} hour", temp_min: weather['temp_num'] - 4, temp_max: weather['temp_num'] + 4, dew_min: weather['dew_num']-2, dew_max: weather['dew_num']+2, hum_min: weather['humid_num']-3, hum_max: weather['humid_num']+3, pressure_min: (weather['pressure_num']-0.04).round(2), pressure_max: (weather['pressure_num']+0.04).round(2), name: name, wind: weather['wind_speed'] + ' ' + weather['wind_dir'], color: "" } %>
       <% end %>
 
       <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
@@ -162,25 +162,25 @@
           pressure_min = ((pressure_min - pressure_diff)/100.0).round(2)
           pressure_max = ((pressure_max + pressure_diff)/100.0).round(2)
 
-          wind_speed_min = weather_one['wind_speed']_speed.to_f
-          wind_speed_max = weather_two['wind_speed']_speed.to_f
+          wind_speed_min = weather_one['wind_speed'].to_f
+          wind_speed_max = weather_two['wind_speed']to_f
           if wind_speed_min > wind_speed_max
-            wind_speed_min = weather_two['wind_speed']_speed.to_f
-            wind_speed_max = weather_one['wind_speed']_speed.to_f
+            wind_speed_min = weather_two['wind_speed']to_f
+            wind_speed_max = weather_one['wind_speed'].to_f
           end
           wind_speed_diff = ((11 + wind_speed_min - wind_speed_max)/2).to_i
           wind_speed_min = wind_speed_min - wind_speed_diff
           wind_speed_max = wind_speed_max + wind_speed_diff
           wind_speed_min = 3 if wind_speed_min < 3
         %>
-          <% result = true_wind(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_speed_min, wind_speed_max, weather_one['wind_speed']_dir, weather_two['wind_speed']_dir, name) %>
+          <% result = true_wind(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_speed_min, wind_speed_max, weather_one['wind_dir'], weather_two['wind_dir'], name) %>
           <tr bgcolor="#6495ED">
               <td bgcolor="lightgreen">With wind</td>
               <td><%= "#{temp_min}-#{temp_max}" %></td>
               <td><%= "#{dew_min.round}-#{dew_max.round}" %><br><%= "#{(dew_min+1).round}-#{(dew_max-1).round}" %></td>
               <td><%= "#{hum_min}-#{hum_max}" %></td>
               <td><%= "#{(pressure_min*100).round%100}-#{(pressure_max*100).round%100}" %></td>
-              <td><%= "#{wind_speed_min}-#{wind_speed_max}" %> , <%= weather_one['wind_speed']_dir == weather_two['wind_speed']_dir ? weather_one['wind_speed']_dir : "#{weather_one['wind_speed']_dir}, #{weather_two['wind_speed']_dir}" %></td>
+              <td><%= "#{wind_speed_min}-#{wind_speed_max}" %> , <%= weather_one['wind_dir'] == weather_two['wind_dir'] ? weather_one['wind_dir'] : "#{weather_one['wind_dir']}, #{weather_two['wind_dir']}" %></td>
               <td class="blue"></td>
               <td><%= result[:total_avg_1] %></td>
               <td><%= result[:total_avg_2] %></td>
