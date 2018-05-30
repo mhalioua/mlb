@@ -306,6 +306,6 @@
             <%= image_tag(@image_url, :width => '600') %>
             <h2><%= @home_team.stadium + " Zipcode: " + @home_team.zipcode %></h2>
         </div>
-        <%= render partial: "calc/new/wind", locals: { caption: "Wind", weathers: weathers, name: name, additional: 0 } %>
+        <%= render partial: "calc/new/wind", locals: { caption: "Wind", weathers: weathers, name: name } %>
     </div>
 <% end %>

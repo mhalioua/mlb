@@ -1,10 +1,6 @@
 <table class="table-bordered wind">
   <caption>
     <%= caption %>
-    <% if caption === 'Forecast Wind' %>
-      <button class="btn-primary addWind">+</button>
-      <button class="btn-danger subWind">-</button>
-    <% end %>
   </caption>
   <thead>
   	<tr bgcolor="gray">
@@ -18,7 +14,7 @@
   	</tr>
   </thead>
   <tbody>
-    <% winds = wind_data(name, weathers[0].wind, weathers[1].wind, weathers[2].wind, additional) %>
+    <% winds = wind_data(name, weathers[0]['wind_speed'].to_s + ' ' + weathers[0]['wind_dir'], weathers[1]['wind_speed'].to_s + ' ' + weathers[1]['wind_dir'], weathers[2]['wind_speed'].to_s + ' ' + weathers[2]['wind_dir'], 0) %>
     <% winds.each do |wind| %>
       <% if wind[6].to_i == 1 %>
       <tr bgcolor="#DC143C">
