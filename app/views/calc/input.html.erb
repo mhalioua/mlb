@@ -290,13 +290,13 @@
             end
 
             weathers = []
-            weather = { 'temp_num' =>@post['temp_one'].to_f, 'dew_num'=> @post['dew_one'].to_f, 'humid_num'=> @post['humid_one'].to_f, 'pressure_num'=> @post['baro_one'].to_f, 'temp'=> @post['temp_one'].to_f, 'dp'=> @post['dew_one'].to_f, 'hum'=> @post['humid_one'].to_f, 'pressure'=> @post['baro_one'].to_f, 'wind_speed'=> @post['wind_one_speed'].to_f, 'wind_dir'=> @post['wind_one_dir'] }
+            weather = { 'temp_num' =>@post['temp_one'].to_f, 'dew_num'=> @post['dew_one'].to_f, 'humid_num'=> @post['humid_one'].to_i, 'pressure_num'=> @post['baro_one'].to_f, 'temp'=> @post['temp_one'].to_f, 'dp'=> @post['dew_one'].to_f, 'hum'=> @post['humid_one'].to_i, 'pressure'=> @post['baro_one'].to_f, 'wind_speed'=> @post['wind_one_speed'].to_f, 'wind_dir'=> @post['wind_one_dir'] }
             weathers << weather
-            weather = { 'temp_num'=> @post['temp_two'].to_f, 'dew_num'=> @post['dew_two'].to_f, 'humid_num'=> @post['humid_two'].to_f, 'pressure_num'=> @post['baro_two'].to_f, 'temp'=> @post['temp_two'].to_f, 'dp'=> @post['dew_two'].to_f, 'hum'=> @post['humid_two'].to_f, 'pressure'=> @post['baro_two'].to_f, 'wind_speed'=> @post['wind_two_speed'].to_f, 'wind_dir'=> @post['wind_two_dir'] }
+            weather = { 'temp_num'=> @post['temp_two'].to_f, 'dew_num'=> @post['dew_two'].to_f, 'humid_num'=> @post['humid_two'].to_i, 'pressure_num'=> @post['baro_two'].to_f, 'temp'=> @post['temp_two'].to_f, 'dp'=> @post['dew_two'].to_f, 'hum'=> @post['humid_two'].to_i, 'pressure'=> @post['baro_two'].to_f, 'wind_speed'=> @post['wind_two_speed'].to_f, 'wind_dir'=> @post['wind_two_dir'] }
             weathers << weather
-            weather = { 'temp_num'=> @post['temp_thr'].to_f, 'dew_num'=> @post['dew_thr'].to_f, 'humid_num'=> @post['humid_thr'].to_f, 'pressure_num'=> @post['baro_thr'].to_f, 'temp'=> @post['temp_thr'].to_f, 'dp'=> @post['dew_thr'].to_f, 'hum'=> @post['humid_thr'].to_f, 'pressure'=> @post['baro_thr'].to_f, 'wind_speed'=> @post['wind_thr_speed'].to_f, 'wind_dir'=> @post['wind_thr_dir'] }
+            weather = { 'temp_num'=> @post['temp_thr'].to_f, 'dew_num'=> @post['dew_thr'].to_f, 'humid_num'=> @post['humid_thr'].to_i, 'pressure_num'=> @post['baro_thr'].to_f, 'temp'=> @post['temp_thr'].to_f, 'dp'=> @post['dew_thr'].to_f, 'hum'=> @post['humid_thr'].to_i, 'pressure'=> @post['baro_thr'].to_f, 'wind_speed'=> @post['wind_thr_speed'].to_f, 'wind_dir'=> @post['wind_thr_dir'] }
             weathers << weather
-            weather = { 'temp_num'=> @post['temp_four'].to_f, 'dew_num'=> @post['dew_four'].to_f, 'humid_num'=> @post['humid_four'].to_f, 'pressure_num'=> @post['baro_four'].to_f, 'temp'=> @post['temp_four'].to_f, 'dp'=> @post['dew_four'].to_f, 'hum'=> @post['humid_four'].to_f, 'pressure'=> @post['baro_four'].to_f, 'wind_speed'=> @post['wind_four_speed'].to_f, 'wind_dir'=> @post['wind_four_dir'] }
+            weather = { 'temp_num'=> @post['temp_four'].to_f, 'dew_num'=> @post['dew_four'].to_f, 'humid_num'=> @post['humid_four'].to_i, 'pressure_num'=> @post['baro_four'].to_f, 'temp'=> @post['temp_four'].to_f, 'dp'=> @post['dew_four'].to_f, 'hum'=> @post['humid_four'].to_i, 'pressure'=> @post['baro_four'].to_f, 'wind_speed'=> @post['wind_four_speed'].to_f, 'wind_dir'=> @post['wind_four_dir'] }
             weathers << weather
             name = @post['form_stadium']
         %>
