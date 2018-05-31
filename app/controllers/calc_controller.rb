@@ -64,5 +64,7 @@ class CalcController < ApplicationController
       @stadium.push(@weathers[@index])
       @index = @index + 1 if @weathers[@index+1]
     end
+    @index = 0
+    @index = @post['index'].to_i if @post['index']
   end
 end
