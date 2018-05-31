@@ -23,7 +23,7 @@ class CalcController < ApplicationController
     @type_dropdown << ['Wunderground', 1]
     @type_dropdown << ['Weather', 2]
 
-    time = Time.now.hour - 1
+    time = Time.now.hour - 3
     (0...12).each do |index|
       time_format = DateTime.now
       if time < 24
