@@ -1,5 +1,5 @@
 <table class="table-bordered previous">
-  <caption><%= "#{pitcher.name} Previous Games"%></caption>
+  <caption>(<%= "#{pitcher.throwhand}" %>) <%= "#{pitcher.name} Previous Games"%></caption>
   <thead>
 	<tr>
 	  <th></th><th>Date</th><th>Time</th><th>VS</th><th>IP</th><th>BB</th><th>H</th><th>R</th>
@@ -27,12 +27,12 @@
   <tbody>
 	<% prev_pitchers = pitcher.prev_pitchers %>
 	<% if flag === 1 %>
-		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15), start: 0 } %>
-		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15).offset(15), start: 15 } %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15), start: 0, throwhand: pitcher.throwhand } %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15).offset(15), start: 15, throwhand: pitcher.throwhand } %>
 	<% else %>
-		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20), start: 0 } %>
-		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20).offset(20), start: 20 } %>
-		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20).offset(40), start: 40 } %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20), start: 0, throwhand: pitcher.throwhand } %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20).offset(20), start: 20, throwhand: pitcher.throwhand } %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20).offset(40), start: 40, throwhand: pitcher.throwhand } %>
 	<% end %>
   </tbody>
 </table>

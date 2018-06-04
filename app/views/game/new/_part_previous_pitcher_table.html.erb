@@ -7,6 +7,9 @@
 		opposite_bb_sum = 0
 		opposite_h_sum = 0
 		opposite_r_sum = 0
+		opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id)
+		style = ""
+		style = "background: yellow" if opposite && opposite.throwhand == throwhand
 		prev_pitchers.each_with_index do |pitcher, index| %>
 		<% weather = pitcher.game.weathers.find_by(hour: 1, station: "Actual") %>
 		<% if index % 4 == 3 %>
@@ -31,9 +34,9 @@
 			<% if weather %>
 				<td><%= weather.temp %></td>
 				<td><%= weather.dp %></td>
-				<td><%= weather.wind_speed %></td>
-				<td><%= weather.wind_dir %></td>
-				<td><%= d2_calc(pitcher.game.home_team.baseball_abbr, weather.wind_dir) %></td>
+				<td style="<%= {style} %>"><%= weather.wind_speed %></td>
+				<td style="<%= {style} %>"><%= weather.wind_dir %></td>
+				<td style="<%= {style} %>"><%= d2_calc(pitcher.game.home_team.baseball_abbr, weather.wind_dir) %></td>
 				<td><%= weather.pressure %></td>
 				<td><%= weather.hum %></td>
 			<% else %>
@@ -66,7 +69,6 @@
 			<% else %>
 				<td colspan="13"></td>
 			<% end %>
-			<% opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id) %>
 			<%
 				if opposite
 					opposite_ip_sum.push(opposite.ip)
@@ -74,11 +76,11 @@
 					opposite_h_sum = opposite_h_sum + opposite.h.to_i
 					opposite_r_sum = opposite_r_sum + opposite.r.to_i
 			%>
-				<td> <%= opposite.name %> </td>
+				<td> (<%= "#{opposite.throwhand}" %>) <%= opposite.name %> </td>
 				<td> <%= opposite.ip %> </td>
 				<td> <%= opposite.bb %> </td>
 				<td> <%= opposite.h %> </td>
-				<td> <%= opposite.r %> </td>
+				<td style="<%= {style} %>"> <%= opposite.r %> </td>
 			<% else %>
 				<td colspan="5"></td>
 			<% end %>
