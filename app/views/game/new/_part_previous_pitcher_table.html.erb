@@ -7,10 +7,10 @@
 		opposite_bb_sum = 0
 		opposite_h_sum = 0
 		opposite_r_sum = 0
+		prev_pitchers.each_with_index do |pitcher, index|
 		opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id)
 		style = ""
-		style = "background: yellow" if opposite && opposite.throwhand == throwhand
-		prev_pitchers.each_with_index do |pitcher, index| %>
+		style = "background: yellow" if opposite && opposite.throwhand == throwhand %>
 		<% weather = pitcher.game.weathers.find_by(hour: 1, station: "Actual") %>
 		<% if index % 4 == 3 %>
 			<tr class='lightgray'>
