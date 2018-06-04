@@ -436,7 +436,18 @@ module GameHelper
     return result
   end
 
-  def true_data(temp_min, temp_max, dew_min, dew_max, humid_min, humid_max, baro_min, baro_max, name)
+  def true_data(temp_min, temp_max, dew_min, dew_max, humid_min, humid_max, baro_min, baro_max, wind_one_speed, wind_two_speed, wind_dir1, wind_dir2, name)
+    wind_min = wind_one_speed.to_f
+    wind_max = wind_two_speed.to_f
+    if wind_min > wind_max
+      wind_min = wind_two_speed.to_f
+      wind_max = wind_one_speed.to_f
+    end
+    wind_speed_diff = ((11 + wind_min - wind_max)/2).to_i
+    wind_min = wind_min - wind_speed_diff
+    wind_max = wind_max + wind_speed_diff
+    wind_min = 3 if wind_min < 3
+
     search_string = table_type(name)
     search_string_low = table_type(name)
     result = {}

@@ -1,4 +1,4 @@
-<% result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, name) %>
+<% result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, weather_one_speed, weather_two_speed, weather_one_dir, weather_two_dir, name) %>
 <tr bgcolor="<%= color %>">
     <td class="<%= caption == "Before" || caption == "After" ? "" : "lightgray" %>"><%= caption %></td>
     <td><%= "#{temp_min}-#{temp_max}" %></td>
