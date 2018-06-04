@@ -25,7 +25,10 @@
 	</tr>
   </thead>
   <tbody>
-	<% prev_pitchers = pitcher.prev_pitchers %>
+	<%
+		prev_pitchers = pitcher.prev_pitchers
+		limit_number = 30
+	%>
 	<% if flag === 1 %>
 		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15), start: 0, throwhand: pitcher.throwhand } %>
 		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15).offset(15), start: 15, throwhand: pitcher.throwhand } %>
@@ -33,6 +36,48 @@
 		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20), start: 0, throwhand: pitcher.throwhand } %>
 		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20).offset(20), start: 20, throwhand: pitcher.throwhand } %>
 		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20).offset(40), start: 40, throwhand: pitcher.throwhand } %>
+		<% limit_number = 60 %>
 	<% end %>
+	<%
+		ip_sum = []
+		bb_sum = 0
+		h_sum = 0
+		r_sum = 0
+		opposite_ip_sum = []
+		opposite_bb_sum = 0
+		opposite_h_sum = 0
+		opposite_r_sum = 0
+		prev_pitchers.limit(limit_number).each do |prev_pitcher|
+			ip_sum.push(prev_pitcher.ip)
+			bb_sum = bb_sum + prev_pitcher.bb
+			h_sum = h_sum + prev_pitcher.h
+			r_sum = r_sum + prev_pitcher.r
+			opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id)
+			if opposite
+				opposite_ip_sum.push(opposite.ip)
+				opposite_bb_sum = opposite_bb_sum + opposite.bb.to_i
+				opposite_h_sum = opposite_h_sum + opposite.h.to_i
+				opposite_r_sum = opposite_r_sum + opposite.r.to_i
+			end
+		end
+		prev_pitchers_ip = add_innings(ip_sum)
+		opposite_ip = add_innings(opposite_ip_sum)
+	%>
+	<tr>
+	  <td></td>
+	  <td colspan="3">Combined >>>></td>
+	  <td bgcolor="yellow"><%= prev_pitchers_ip %></td>
+	  <td bgcolor="yellow"><%= bb_sum %></td>
+	  <td bgcolor="yellow"><%= h_sum %></td>
+	  <td bgcolor="yellow"><%= r_sum %></td>
+	  <td class="lightgreen"><%= ((bb_sum + h_sum) / prev_pitchers_ip.to_f).round(2) %></td>
+	  <td colspan="17"></td>
+	  <td colspan="3">Combined >>>></td>
+	  <td class="lightgreen"><%= ((opposite_bb_sum + opposite_h_sum) / opposite_ip.to_f).round(2) %></td>
+	  <td bgcolor="yellow"><%= opposite_ip %></td>
+	  <td bgcolor="yellow"><%= opposite_bb_sum %></td>
+	  <td bgcolor="yellow"><%= opposite_h_sum %></td>
+	  <td bgcolor="yellow"><%= opposite_r_sum %></td>
+	</tr>
   </tbody>
 </table>
