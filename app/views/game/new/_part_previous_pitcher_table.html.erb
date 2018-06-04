@@ -34,9 +34,9 @@
 			<% if weather %>
 				<td><%= weather.temp %></td>
 				<td><%= weather.dp %></td>
-				<td style="<%= {style} %>"><%= weather.wind_speed %></td>
-				<td style="<%= {style} %>"><%= weather.wind_dir %></td>
-				<td style="<%= {style} %>"><%= d2_calc(pitcher.game.home_team.baseball_abbr, weather.wind_dir) %></td>
+				<td style="<%= '{style}' %>"><%= weather.wind_speed %></td>
+				<td style="<%= '{style}' %>"><%= weather.wind_dir %></td>
+				<td style="<%= '{style}' %>"><%= d2_calc(pitcher.game.home_team.baseball_abbr, weather.wind_dir) %></td>
 				<td><%= weather.pressure %></td>
 				<td><%= weather.hum %></td>
 			<% else %>
@@ -80,7 +80,7 @@
 				<td> <%= opposite.ip %> </td>
 				<td> <%= opposite.bb %> </td>
 				<td> <%= opposite.h %> </td>
-				<td style="<%= {style} %>"> <%= opposite.r %> </td>
+				<td style="<%= '{style}' %>"> <%= opposite.r %> </td>
 			<% else %>
 				<td colspan="5"></td>
 			<% end %>
