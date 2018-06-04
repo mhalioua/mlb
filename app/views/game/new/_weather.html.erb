@@ -200,7 +200,7 @@
           wind_max = wind_max + wind_speed_diff
           wind_min = 3 if wind_min < 3
         %>
-          <% result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, weather_one.wind_speed, weather_two.wind_speed, weather_one.wind_dir, weather_two.wind_dir, name) %>
+          <% result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_min, wind_max, weather_one.wind_dir, weather_two.wind_dir, name) %>
           <tr bgcolor="#6495ED">
               <td bgcolor="lightgreen">With wind</td>
               <td><%= "#{temp_min}-#{temp_max}" %></td>
