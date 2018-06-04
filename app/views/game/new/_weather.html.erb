@@ -86,7 +86,6 @@
         wind_min = 3 if wind_min < 3
         %>
         <% result = true_data(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, weather.humid_num-3, weather.humid_num+3, weather.pressure_num-0.04, weather.pressure_num+0.04, wind_min, wind_max, weather.wind_dir, weather.wind_dir, name) %>
-        <%= render partial: "game/new/weather_value", locals: { caption: weather_time(weather.game.game_date, weather.hour), temp_min: weather.temp_num - 5, temp_max: weather.temp_num + 5, dew_min: weather.dew_num-2, dew_max: weather.dew_num+2, hum_min: weather.humid_num-3, hum_max: weather.humid_num+3, pressure_min: (weather.pressure_num-0.04).round(2), pressure_max: (weather.pressure_num+0.04).round(2), name: name, wind: weather.wind, color: "", weather_one_speed: weather.wind_speed, weather_two_speed: weather.wind_speed, weather_one_dir: weather.wind_dir, weather_two_dir: weather.wind_dir } %>
       	<tr>
       		<td class="lightgray"><%= weather_time(weather.game.game_date, weather.hour) %></td>
           <td><%= weather.temp %></td>
