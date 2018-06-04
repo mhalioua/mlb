@@ -189,11 +189,11 @@
           pressure_min = ((pressure_min - pressure_diff)/100.0).round(2)
           pressure_max = ((pressure_max + pressure_diff)/100.0).round(2)
 
-          wind_min = wind_one_speed.to_f
-          wind_max = wind_two_speed.to_f
+          wind_min = weather_one.wind_speed.to_f
+          wind_max = weather_two.wind_speed.to_f
           if wind_min > wind_max
-            wind_min = wind_two_speed.to_f
-            wind_max = wind_one_speed.to_f
+            wind_min = weather_two.wind_speed.to_f
+            wind_max = weather_one.wind_speed.to_f
           end
           wind_speed_diff = ((11 + wind_min - wind_max)/2).to_i
           wind_min = wind_min - wind_speed_diff
