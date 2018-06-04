@@ -52,7 +52,7 @@
 			bb_sum = bb_sum + prev_pitcher.bb
 			h_sum = h_sum + prev_pitcher.h
 			r_sum = r_sum + prev_pitcher.r
-			opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id)
+			opposite = prev_pitcher.game.lancers.find_by(starter: true, team_id: prev_pitcher.opp_team.id)
 			if opposite
 				opposite_ip_sum.push(opposite.ip)
 				opposite_bb_sum = opposite_bb_sum + opposite.bb.to_i
