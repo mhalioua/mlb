@@ -31,6 +31,15 @@
       <th width="50" style="background: red;">Time</th>
       <th width="50">Home Team Total 1</th>
       <th width="50">Home Team Total 2</th>
+      <th width="50">Total Hits in Park Average</th>
+      <th width="50">Total HR's in this park</th>
+      <th width="50">Home Total Count</th>
+      <th width="10" class="blue"></th>
+      <th width="50">Home +/- 1</th>
+      <th width="50">Home Total Count +/- 1</th>
+      <th width="50">Total Lines Average</th>
+      <th width="50">Home Team Total 1</th>
+      <th width="50">Home Team Total 2</th>
       <th width="50">Total Hits not in Park Average</th>
       <th width="50">Total HR's not in this park</th>
       <th width="50">Home Total Count</th>
@@ -59,6 +68,11 @@
         <td style="background: sandybrown;"><%= result[:total_hits_park_avg] %></td>
         <td style="background: sandybrown;"><%= result[:total_hr_park] %></td>
         <td></td>
+        <td style="background: sandybrown;"><%= result[:home_total_runs1_avg] %></td>
+        <td style="background: sandybrown;"><%= result[:home_total_runs2_avg] %></td>
+        <td colspan="5" style="background: yellow;">Only <%= stadium %> with wind</td>
+        <td style="background: sandybrown;"><%= result[:total_hits_park_avg] %></td>
+        <td style="background: sandybrown;"><%= result[:total_hr_park] %></td>
         <td style="background: yellow;"><%= result[:home_total_runs1_avg_dup] %></td>
         <td style="background: yellow;"><%= result[:home_total_runs2_avg_dup] %></td>
         <td colspan="5" style="background: yellow;">All Stadiums except <%= stadium %></td>
@@ -95,7 +109,16 @@
           <td style="background: sandybrown;"><%= result[:home_one] %></td>
           <td style="background: sandybrown;"><%= result[:home_one_count] %></td>
           <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg] %></td>
-          <td class="lightgray"><%= weather_time(weather.game.game_date, weather.hour) %></td>
+          <td class="gray"><%= weather_time(weather.game.game_date, weather.hour) %></td>
+          <td style="background: sandybrown;"><%= result[:home_total_runs1_avg_wind] %></td>
+          <td style="background: sandybrown;"><%= result[:home_total_runs2_avg_wind] %></td>
+          <td style="background: sandybrown;"><%= result[:total_hits_park_avg_wind] %></td>
+          <td style="background: sandybrown;"><%= result[:total_hr_park_wind] %></td>
+          <td style="background: sandybrown;"><%= result[:home_count_wind] %></td>
+          <td class="blue"></td>
+          <td style="background: sandybrown;"><%= result[:home_one_wind] %></td>
+          <td style="background: sandybrown;"><%= result[:home_one_count_wind] %></td>
+          <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg_wind] %></td>
           <td><%= result[:home_total_runs1_avg_dup] %></td>
           <td><%= result[:home_total_runs2_avg_dup] %></td>
           <td><%= result[:total_hits_park_avg_dup] %></td>
@@ -173,7 +196,7 @@
           wind_speed_max = wind_speed_max + wind_speed_diff
           wind_speed_min = 3 if wind_speed_min < 3
         %>
-          <% result = true_wind(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_speed_min, wind_speed_max, weather_one.wind_dir, weather_two.wind_dir, name) %>
+          <% result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_speed_min, wind_speed_max, weather_one.wind_dir, weather_two.wind_dir, name) %>
           <tr bgcolor="#6495ED">
               <td bgcolor="lightgreen">With wind</td>
               <td><%= "#{temp_min}-#{temp_max}" %></td>
@@ -202,6 +225,15 @@
               <td><%= result[:home_one_count] %></td>
               <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg] %></td>
               <td class="lightgray"><%= "#{one_sec} hour" %></td>
+              <td><%= result[:home_total_runs1_avg_wind] %></td>
+              <td><%= result[:home_total_runs2_avg_wind] %></td>
+              <td><%= result[:total_hits_park_avg_wind] %></td>
+              <td><%= result[:total_hr_park_wind] %></td>
+              <td><%= result[:home_count_wind] %></td>
+              <td class="blue"></td>
+              <td><%= result[:home_one_wind] %></td>
+              <td><%= result[:home_one_count_wind] %></td>
+              <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg_wind] %></td>
               <td><%= result[:home_total_runs1_avg_dup] %></td>
               <td><%= result[:home_total_runs2_avg_dup] %></td>
               <td><%= result[:total_hits_park_avg_dup] %></td>
