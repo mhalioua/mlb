@@ -87,7 +87,7 @@
         %>
         <% result = true_data(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, weather.humid_num-3, weather.humid_num+3, (weather.pressure_num-0.04).round(2), (weather.pressure_num+0.04).round(2), wind_min, wind_max, weather.wind_dir, weather.wind_dir, name) %>
       	<tr>
-      		<td class="lightgray"><%= weather_time(weather.game.game_date, weather.hour) %></td>
+      		<td class="lightgray"><%= "#{index + 1} hour" %></td>
           <td><%= weather.temp %></td>
           <td><%= weather.dp %></td>
           <td><%= weather.hum %></td>
@@ -113,7 +113,7 @@
           <td style="background: sandybrown;"><%= result[:home_one] %></td>
           <td style="background: sandybrown;"><%= result[:home_one_count] %></td>
           <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg] %></td>
-          <td bgcolor="lightgray"><%= weather_time(weather.game.game_date, weather.hour) %></td>
+          <td bgcolor="lightgray"><%= "#{index + 1} hour" %></td>
           <td bgcolor="lightgray"><%= result[:home_total_runs1_avg_wind] %></td>
           <td bgcolor="lightgray"><%= result[:home_total_runs2_avg_wind] %></td>
           <td bgcolor="lightgray"><%= result[:total_hits_park_avg_wind] %></td>
