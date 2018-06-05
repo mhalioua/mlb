@@ -51,7 +51,7 @@
 					humid_min = humid_min + 2
 					humid_max = humid_max + 2
 				end
-				result = true_data(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, humid_min, humid_max, weather.pressure_num-0.04, weather.pressure_num+0.04, pitcher.game.home_team.name) 
+				result = true_data(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, humid_min, humid_max, weather.pressure_num-0.04, weather.pressure_num+0.04, weather.wind_speed, weather.wind_speed, weather.wind_dir, weather.wind_dir, pitcher.game.home_team.name) 
 				%>
 				<td class="blue"><%= result[:total_count] %></td>
 				<td style="background-color: royalblue;"><%= result[:total_avg_1] %></td>
