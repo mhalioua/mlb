@@ -85,7 +85,7 @@
         wind_max = weather.wind_speed.to_f + 5
         wind_min = 3 if wind_min < 3
         %>
-        <% result = true_data(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, weather.humid_num-3, weather.humid_num+3, weather.pressure_num-0.04, weather.pressure_num+0.04, wind_min, wind_max, weather.wind_dir, weather.wind_dir, name) %>
+        <% result = true_data(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, weather.humid_num-3, weather.humid_num+3, (weather.pressure_num-0.04).round(2), (weather.pressure_num+0.04).round(2), wind_min, wind_max, weather.wind_dir, weather.wind_dir, name) %>
       	<tr>
       		<td class="lightgray"><%= weather_time(weather.game.game_date, weather.hour) %></td>
           <td><%= weather.temp %></td>
