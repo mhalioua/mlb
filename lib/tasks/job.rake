@@ -1220,8 +1220,8 @@ namespace :job do
           pressure_max = (weather_one.pressure_num * 100).round
         end
         pressure_diff = ((8 + pressure_min - pressure_max)/2).to_i
-        pressure_min = pressure_min - pressure_diff
-        pressure_max = pressure_max + pressure_diff
+        pressure_min = ((pressure_min - pressure_diff)/100.0).round(2)
+        pressure_max = ((pressure_max + pressure_diff)/100.0).round(2)
 
         wind_min = weather_one.wind_speed.to_f
         wind_max = weather_two.wind_speed.to_f
