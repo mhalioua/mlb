@@ -88,8 +88,8 @@ class GameController < ApplicationController
 		@forecasts = [@forecast_one.first, @forecast_two.first, @forecast_three.first, @forecast_four.first]
 		@weathers = @game.weathers.where(station: "Actual").order(:hour)
 		@additional = params[:option].to_i
-		@weather_forecasts = @game.weathersources.where(table_number: 0, date: @forecast_one.first.updated_at.advance(hours: game.home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
-		@weather_previous = @game.weathersources.where(table_number: 1, date: @forecast_one.first.updated_at.advance(hours: game.home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
+		@weather_forecasts = @game.weathersources.where(table_number: 0, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
+		@weather_previous = @game.weathersources.where(table_number: 1, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
 	end
 
 	def stats
