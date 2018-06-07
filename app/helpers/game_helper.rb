@@ -656,13 +656,6 @@ module GameHelper
 
   def prev_data(name)
     result = {}
-    query = Prevgame.all
-
-    result[:total_avg_1] = query.average(:total).to_f.round(2)
-    result[:total_avg_2] = ''
-    result[:total_hits_avg] = query.average(:total_hits_both_team).to_f.round(2)
-    result[:home_runs_avg] = query.average(:total_home_runs_both_team).to_f.round(2)
-
     query = Prevgame.where('"Home_Team" = ' + "'#{name}'")
     temp_count = query.count
 
