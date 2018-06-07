@@ -950,12 +950,12 @@ namespace :job do
   task update_weather_source: :environment do
     gameDays = GameDay.where("date between ? and ?", Date.today, Date.tomorrow)
     games = Game.where(game_day_id: gameDays.map{|gameDay| gameDay.id }).sort_by{|game| (DateTime.parse(game.game_date) - game.home_team.timezone.hours) }
-    game.each do |game|
+    games.each do |game|
       puts game.inspect
-      forecast_one = @game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC")
-      forecast_two = @game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC")
-      forecast_three = @game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC")
-      forecast_four = @game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC")
+      forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC")
+      forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC")
+      forecast_three = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC")
+      forecast_four = game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC")
       forecasts = [forecast_one.first, forecast_two.first, forecast_three.first, forecast_four.first]
     end
   end
