@@ -1150,7 +1150,7 @@ namespace :job do
           dew: "#{dew_min.round}-#{dew_max.round} #{(dew_min+1).round}-#{(dew_max-1).round}",
           humid: hum_min === hum_max ? hum_min : "#{hum_min}-#{hum_max}",
           pressure: "#{(pressure_min*100).round%100}-#{(pressure_max*100).round%100}",
-          wind: "#{wind_min}-#{wind_max} ," + weather_one.wind_dir == weather_two.wind_dir ? weather_one.wind_dir : "#{weather_one.wind_dir}, #{weather_two.wind_dir}",
+          wind: "#{wind_min}-#{wind_max} ," + (weather_one.wind_dir == weather_two.wind_dir ? weather_one.wind_dir : "#{weather_one.wind_dir}, #{weather_two.wind_dir}"),
           all_stadium_total_average_one: result[:total_avg_1],
           all_stadium_total_average_two: result[:total_avg_2],
           all_stadium_total_hits_average: result[:total_hits_avg],
@@ -1242,6 +1242,7 @@ namespace :job do
             hum_min = forecasts[0].humid_num - 6
             hum_max = forecasts[0].humid_num - 1
           end
+          result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_min, wind_max, weather_one.wind_dir, weather_two.wind_dir, name)
           Weathersource.create(
             game_id: game.id,
             date: date,
@@ -1299,6 +1300,7 @@ namespace :job do
             hum_min = forecasts[3].humid_num - 6
             hum_max = forecasts[3].humid_num - 1
           end
+          result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_min, wind_max, weather_one.wind_dir, weather_two.wind_dir, name)
           Weathersource.create(
             game_id: game.id,
             date: date,
@@ -1354,6 +1356,7 @@ namespace :job do
           hum_min = weather_two.humid_num
           hum_max = weather_one.humid_num
         end
+        result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_min, wind_max, weather_one.wind_dir, weather_two.wind_dir, name)
         Weathersource.create(
           game_id: game.id,
           date: date,
@@ -1404,6 +1407,7 @@ namespace :job do
         block_number = block_number + 1
 
        (hum_min..hum_max).each do |hum_each|
+          result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_min, wind_max, weather_one.wind_dir, weather_two.wind_dir, name)
           Weathersource.create(
             game_id: game.id,
             date: date,
