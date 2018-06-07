@@ -1222,6 +1222,17 @@ namespace :job do
         pressure_diff = ((8 + pressure_min - pressure_max)/2).to_i
         pressure_min = pressure_min - pressure_diff
         pressure_max = pressure_max + pressure_diff
+
+        wind_min = weather_one.wind_speed.to_f
+        wind_max = weather_two.wind_speed.to_f
+        if wind_min > wind_max
+          wind_min = weather_two.wind_speed.to_f
+          wind_max = weather_one.wind_speed.to_f
+        end
+        wind_speed_diff = ((11 + wind_min - wind_max)/2).to_i
+        wind_min = wind_min - wind_speed_diff
+        wind_max = wind_max + wind_speed_diff
+        wind_min = 3 if wind_min < 3
       
         if one_sec == 1
           if forecasts[0].humid_num > forecasts[3].humid_num
