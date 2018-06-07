@@ -952,6 +952,7 @@ namespace :job do
     games = gameDay.games.sort_by{|game| (DateTime.parse(game.game_date) - game.home_team.timezone.hours) }
     games.each do |game|
       puts game.inspect
+      name = game.home_team.name
       forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC")
       forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC")
       forecast_three = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC")
