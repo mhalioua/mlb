@@ -78,7 +78,7 @@
       <td style="background: yellow;"><%= result[:total_hits_park_avg_dup] %></td>
       <td style="background: yellow;"><%= result[:total_hr_park_dup] %></td>
     </tr>
-    <% row_number = 0 %>
+    <% block_number = 0 %>
 
     <% weathers.each do |weather|
       bgcolor = ""
@@ -88,14 +88,14 @@
       color = "#6495ED" if weather.block_number == "With wind"
       color = "gray" if weather.caption == "Before" || weather.caption == "After"
     %>
-      <% if row_number != weather.row_number %>
-          <% if weather.row_number == 1 || weather.row_number == 3 %>
+      <% if block_number != weather.block_number %>
+          <% if weather.block_number == 1 || weather.block_number == 3 %>
             <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
           <% end %>
-          <% if weather.row_number == 4 || weather.row_number == 6 || weather.row_number == 8 %>
+          <% if weather.block_number == 4 || weather.block_number == 6 || weather.block_number == 8 %>
             <%= render partial: "game/new/weather_blank", locals: { color: "#6495ED" } %>
           <% end %>
-          <% if weather.row_number == 5 || weather.row_number == 7 || weather.row_number == 9 %>
+          <% if weather.block_number == 5 || weather.block_number == 7 || weather.block_number == 9 %>
             <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
             <%= render partial: "game/new/weather_blank", locals: { color: "#6495ED" } %>
             <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
@@ -104,7 +104,7 @@
       <% end %>
       <%= render partial: "game/new/updated_weather_value", locals: { weather: weather, color: color, bgcolor: bgcolor } %>
     <%
-      row_number = weather.row_number
+      block_number = weather.block_number
       end
     %>
     <%= render partial: "game/new/weather_blank", locals: { color: "sandybrown" } %>
