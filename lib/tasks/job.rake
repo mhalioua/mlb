@@ -1407,7 +1407,7 @@ namespace :job do
         block_number = block_number + 1
 
        (hum_min..hum_max).each do |hum_each|
-          result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_min, wind_max, weather_one.wind_dir, weather_two.wind_dir, name)
+          result = true_data(temp_min, temp_max, dew_min, dew_max, hum_each, hum_each, pressure_min, pressure_max, wind_min, wind_max, weather_one.wind_dir, weather_two.wind_dir, name)
           Weathersource.create(
             game_id: game.id,
             date: date,
