@@ -89,7 +89,7 @@
       color = "gray" if weather.caption == "Before" || weather.caption == "After"
     %>
       <% if block_number != weather.block_number %>
-          <% if weather.block_number == 1 || weather.block_number == 3 %>
+          <% if weather.block_number == 1 || weather.block_number == 2 || weather.block_number == 3 %>
             <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
           <% end %>
           <% if weather.block_number == 4 || weather.block_number == 6 || weather.block_number == 8 %>
