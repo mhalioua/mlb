@@ -83,9 +83,9 @@
     <% weathers.each do |weather|
       bgcolor = ""
       bgcolor = "lightgray" if weather.block_number == 0
-      bgcolor = "lightgreen" if weather.caption == "Before" || weather.caption == "After"
+      bgcolor = "lightgreen" if weather.caption == "With wind"
       color = ""
-      color = "#6495ED" if weather.block_number == "With wind"
+      color = "#6495ED" if weather.caption == "With wind"
       color = "gray" if weather.caption == "Before" || weather.caption == "After"
     %>
       <% if block_number != weather.block_number %>
