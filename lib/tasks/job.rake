@@ -948,8 +948,8 @@ namespace :job do
   end
 
   task update_weather_source: :environment do
-    gameDays = GameDay.where("date between ? and ?", Date.today, Date.tomorrow)
-    games = Game.where(game_day_id: gameDays.map{|gameDay| gameDay.id }).sort_by{|game| (DateTime.parse(game.game_date) - game.home_team.timezone.hours) }
+    gameDay = GameDay.where("date = ?", Date.today).first
+    games = gameDay.games.sort_by{|game| (DateTime.parse(game.game_date) - game.home_team.timezone.hours) }
     games.each do |game|
       puts game.inspect
       forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC")
