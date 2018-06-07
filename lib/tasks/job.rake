@@ -947,6 +947,19 @@ namespace :job do
     end
   end
 
+  task update_weather_source: :environment do
+    gameDays = GameDay.where("date between ? and ?", Date.today, Date.tomorrow)
+    games = gameDays.games
+    game.each do |game|
+      puts game.inspect
+      forecast_one = @game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC")
+      forecast_two = @game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC")
+      forecast_three = @game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC")
+      forecast_four = @game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC")
+      forecasts = [forecast_one.first, forecast_two.first, forecast_three.first, forecast_four.first]
+    end
+  end
+
   @clean = {
     'Los Angeles Angels' => 'Angels',
     'Houston Astros' => 'Astros',
