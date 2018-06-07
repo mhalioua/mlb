@@ -961,7 +961,7 @@ namespace :job do
       block_number = 0
       date = forecast_one.first.updated_at.advance(hours: game.home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")
 
-      Weathersource.delete_all(["game_id = ? AND date = ? AND table_number = ? ", game.id, date, 0])
+      Weathersource.where(game_id: game.id, date: date, table_number: 0).destroy_all
       forecasts.each do |weather|
         wind_min = weather.wind_speed.to_f - 5
         wind_max = weather.wind_speed.to_f + 5
