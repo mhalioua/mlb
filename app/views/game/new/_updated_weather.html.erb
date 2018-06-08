@@ -50,16 +50,16 @@
   	</tr>
   </thead>
   <tbody>
-    <% result = total_data(name) %>
+    <% result = (type == 0 ? total_data(name) : prev_data(name)) %>
     <tr bgcolor="#DC143C">
       <td></td>
       <td colspan="5"><%= caption %></td>
       <td class="blue"></td>
-      <td style="background: yellow;">8.93</td>
-      <td style="background: yellow;">8.84</td>
+      <td style="background: yellow;"><%= result[:total_avg_1] %></td>
+      <td style="background: yellow;"><%= result[:total_avg_2] %></td>
       <td colspan="5" style="background: yellow;">All Stadiums</td>
-      <td style="background: yellow;">17.62</td>
-      <td style="background: yellow;">1.97</td>
+      <td style="background: yellow;"><%= result[:total_avg_2] %></td>
+      <td style="background: yellow;"><%= result[:home_runs_avg] %></td>
       <td class="blue"></td>
       <td style="background: sandybrown;"><%= result[:home_total_runs1_avg] %></td>
       <td style="background: sandybrown;"><%= result[:home_total_runs2_avg] %></td>

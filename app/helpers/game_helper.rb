@@ -404,6 +404,14 @@ module GameHelper
   def total_data(name)
     search_string = table_type(name)
     result = {}
+
+    query = Workbook.where(search_string.join(" AND "))
+
+    result[:total_avg_1] = query.average(:R).to_f.round(2)
+    result[:total_avg_2] = query.average(:Total_Hits).to_f.round(2)
+    result[:total_hits_avg] = query.average(:Total_Walks).to_f.round(2)
+    result[:home_runs_avg] = query.average(:home_runs).to_f.round(2)
+
     search_string_dup = search_string.dup
 
     if name != ""
@@ -656,6 +664,13 @@ module GameHelper
 
   def prev_data(name)
     result = {}
+    query = Prevgame.all
+
+    result[:total_avg_1] = query.average(:total).to_f.round(2)
+    result[:total_avg_2] = ''
+    result[:total_hits_avg] = query.average(:total_hits_both_team).to_f.round(2)
+    result[:home_runs_avg] = query.average(:total_home_runs_both_team).to_f.round(2)
+
     query = Prevgame.where('"Home_Team" = ' + "'#{name}'")
     temp_count = query.count
 
