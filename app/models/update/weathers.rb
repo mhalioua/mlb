@@ -82,8 +82,8 @@ module Update
       block_number = block_number + 1
 
       weathers.each_with_index do |weather, index|
-        temp_min = weather.temp_num - 4
-        temp_max = weather.temp_num + 4
+        temp_min = (weather.temp_num - 4).round(1)
+        temp_max = (weather.temp_num + 4).round(1)
         dew_min = weather.dew_num-2
         dew_max = weather.dew_num+2
         hum_min = weather.humid_num-3
@@ -110,8 +110,8 @@ module Update
           temp_max = weather_one.temp_num
         end
         temp_diff = ((16 + temp_min - temp_max)/2).to_i
-        temp_min = temp_min - temp_diff
-        temp_max = temp_max + temp_diff
+        temp_min = (temp_min - temp_diff).round(1)
+        temp_max = (temp_max + temp_diff).round(1)
 
         dew_min = weather_one.dew_num
         dew_max = weather_two.dew_num
@@ -173,8 +173,8 @@ module Update
           temp_max = weather_one.temp_num
         end
         temp_diff = ((9 + temp_min - temp_max)/2).to_i
-        temp_min = temp_min - temp_diff
-        temp_max = temp_max + temp_diff
+        temp_min = (temp_min - temp_diff).round(1)
+        temp_max = (temp_max + temp_diff).round(1)
 
         dew_min = weather_one.dew_num
         dew_max = weather_two.dew_num

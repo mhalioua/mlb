@@ -18,15 +18,15 @@
     <td><%= "#{(pressure_min*100).round%100}-#{(pressure_max*100).round%100}" %></td>
     <td><%= "#{wind_min}-#{wind_max}" %> , <%= weather_one_dir == weather_two_dir ? weather_one_dir : "#{weather_one_dir}, #{weather_two_dir}" %></td>
     <td class="blue"></td>
-    <td><%= result[:total_avg_1] %></td>
-    <td><%= result[:total_avg_2] %></td>
-    <td><%= result[:total_hits_avg] %></td>
-    <td><%= result[:home_runs_avg] %></td>
-    <td><%= result[:total_count] %></td>
+    <td><%= result[:home_total_runs1_avg_dup] %></td>
+    <td><%= result[:home_total_runs2_avg_dup] %></td>
+    <td><%= result[:total_hits_park_avg_dup] %></td>
+    <td><%= result[:total_hr_park_dup] %></td>
+    <td><%= result[:home_count_dup] %></td>
     <td class="blue"></td>
-    <td><%= result[:lower_one] %></td>
-    <td><%= result[:lower_one_count] %></td>
-    <td style="background: gray; color: sandybrown;"><%= result[:total_lines_avg] %></td>
+    <td><%= result[:home_one_dup] %></td>
+    <td><%= result[:home_one_count_dup] %></td>
+    <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg_dup] %></td>
     <td class="blue"></td>
     <td bgcolor="<%= caption == "Before" || caption == "After" ? "" : ( caption == "With wind" ? "" : "sandybrown") %>"><%= result[:home_total_runs1_avg] %></td>
     <td bgcolor="<%= caption == "Before" || caption == "After" ? "" : ( caption == "With wind" ? "" : "sandybrown") %>"><%= result[:home_total_runs2_avg] %></td>
@@ -47,13 +47,13 @@
     <td bgcolor="<%= caption == "Before" || caption == "After" ? "" : ( caption == "With wind" ? "" : "lightgray") %>"><%= result[:home_one_wind] %></td>
     <td bgcolor="<%= caption == "Before" || caption == "After" ? "" : ( caption == "With wind" ? "" : "lightgray") %>"><%= result[:home_one_count_wind] %></td>
     <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg_wind] %></td>
-    <td><%= result[:home_total_runs1_avg_dup] %></td>
-    <td><%= result[:home_total_runs2_avg_dup] %></td>
-    <td><%= result[:total_hits_park_avg_dup] %></td>
-    <td><%= result[:total_hr_park_dup] %></td>
-    <td><%= result[:home_count_dup] %></td>
+    <td><%= result[:total_avg_1] %></td>
+    <td><%= result[:total_avg_2] %></td>
+    <td><%= result[:total_hits_avg] %></td>
+    <td><%= result[:home_runs_avg] %></td>
+    <td><%= result[:total_count] %></td>
     <td class="blue"></td>
-    <td><%= result[:home_one_dup] %></td>
-    <td><%= result[:home_one_count_dup] %></td>
-    <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg_dup] %></td>
+    <td><%= result[:lower_one] %></td>
+    <td><%= result[:lower_one_count] %></td>
+    <td style="background: gray; color: sandybrown;"><%= result[:total_lines_avg] %></td>
 </tr>
