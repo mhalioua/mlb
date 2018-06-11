@@ -60,7 +60,7 @@ class GameController < ApplicationController
 		@additional = params[:option].to_i
 		@weather_forecasts = @game.weathersources.where(table_number: 0, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
 		@weather_previous = @game.weathersources.where(table_number: 1, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
-		@weather_actual = @game.weathersources.where(table_number: 2, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
+		@weather_actual = @game.weathersources.where(table_number: 2).order(:row_number)
 	end
 
 	def weather
@@ -93,7 +93,7 @@ class GameController < ApplicationController
 		@additional = params[:option].to_i
 		@weather_forecasts = @game.weathersources.where(table_number: 0, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
 		@weather_previous = @game.weathersources.where(table_number: 1, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
-		@weather_actual = @game.weathersources.where(table_number: 2, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
+		@weather_actual = @game.weathersources.where(table_number: 2).order(:row_number)
 	end
 
 	def stats
