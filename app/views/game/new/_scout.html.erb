@@ -3,7 +3,7 @@
   <caption>Scouting Table</caption>
   <tbody>
     <tr>
-      <td bgcolor="#FFF8DC"><%= team.name %>'s STARTER</td>
+      <td bgcolor="yellow"><%= team.name %>'s STARTER</td>
       <td>Year</td>
       <td>IP</td>
       <td>FA%</td>
@@ -42,7 +42,7 @@
         <% end %>
       </tr>
     <% end %>
-    <tr bgcolor="#FF7F00">
+    <tr bgcolor="orange">
       <td><%= "vs #{predicted} Batters" %></td>
       <td></td>
       <td></td>
@@ -54,7 +54,7 @@
       <td></td>
       <td></td>
     </tr>
-    <tr bgcolor="#FF7F00">
+    <tr bgcolor="orange">
       <td>Name</td>
       <td>W/</td>
       <td>PA</td>
@@ -80,23 +80,24 @@
           <td bgcolor="#EA8DFE"><%= batter_scouting.FC %></td>
           <td><%= batter_scouting.FS %></td>
           <td bgcolor="#EA8DFE"><%= batter_scouting.SI %></td>
-          <td bgcolor="#FFF8DC"><%= batter_scouting.CH %></td>
+          <td bgcolor="yellow"><%= batter_scouting.CH %></td>
           <td bgcolor="#EA8DFE"><%= batter_scouting.SL %></td>
-          <td bgcolor="#FFF8DC"><%= batter_scouting.CU %></td>
+          <td bgcolor="yellow"><%= batter_scouting.CU %></td>
           <% else %>
+          <td bgcolor="#EA8DFE"></td>
           <td></td>
+          <td bgcolor="#EA8DFE"></td>
           <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td bgcolor="#EA8DFE"></td>
+          <td bgcolor="yellow"></td>
+          <td bgcolor="#EA8DFE"></td>
+          <td bgcolor="yellow"></td>
           <% end %>
         </tr>
       <% end %>
     <% end %>
-    <tr bgcolor="#FF7F00">
+    <tr bgcolor="orange">
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
