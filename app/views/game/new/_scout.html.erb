@@ -20,7 +20,7 @@
         <td rowspan="3"><%= pitcher.name %> (<%= pitcher.throwhand %>)</td>
         <% end %>
         <td><%= season.year %></td>
-        <% pitcher_scouting = pitcher.player.pitcher_scoutings.where(season: season) %>
+        <% pitcher_scouting = pitcher.player.pitcher_scoutings.where(season: season).first %>
         <td><%= pitcher_scouting.IP %></td>
         <td><%= pitcher_scouting.FA %></td>
         <td><%= pitcher_scouting.FC %></td>
@@ -62,7 +62,7 @@
             <td rowspan="3"><%= "#{batter.lineup}. #{batter.player.name} (#{batter.player.bathand})"%></td>
           <% end %>
           <td><%= season.year %></td>
-          <% batter_scouting = batter.player.batter_scoutings.where(season: season) %>
+          <% batter_scouting = batter.player.batter_scoutings.where(season: season).first %>
           <td><%= batter_scouting.PA %></td>
           <td><%= batter_scouting.FA %></td>
           <td><%= batter_scouting.FC %></td>
