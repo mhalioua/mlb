@@ -1,6 +1,6 @@
 <% seasons = Season.greater_than(2016).reverse_order %>
 <table class="table-bordered" style="display: inline-table">
-  <caption>Scouting Table</caption>
+  <caption><%= team.name %>'s Scouting Table</caption>
   <tbody>
     <tr>
       <td bgcolor="yellow"><%= team.name %>'s STARTER</td>
