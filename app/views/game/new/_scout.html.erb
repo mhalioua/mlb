@@ -1,5 +1,5 @@
 <% seasons = Season.greater_than(2016).reverse_order %>
-<table class="table-bordered">
+<table class="table-bordered" style="display: inline-table">
   <caption>Scouting Table</caption>
   <tbody>
     <tr>
@@ -84,8 +84,8 @@
           <td bgcolor="#EA8DFE"><%= batter_scouting.SL %></td>
           <td bgcolor="yellow"><%= batter_scouting.CU %></td>
           <% else %>
-          <td bgcolor="#EA8DFE"></td>
           <td></td>
+          <td bgcolor="#EA8DFE"></td>
           <td bgcolor="#EA8DFE"></td>
           <td></td>
           <td bgcolor="#EA8DFE"></td>
