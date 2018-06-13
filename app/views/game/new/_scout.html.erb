@@ -1,9 +1,9 @@
-<% seasons = Season.greater_than(2016) %>
+<% seasons = Season.greater_than(2016).reverse_order %>
 <table class="table-bordered">
   <caption>Scouting Table</caption>
   <tbody>
     <tr>
-      <td><%= team.name %>'s STARTER</td>
+      <td bgcolor="#FFF8DC"><%= team.name %>'s STARTER</td>
       <td>Year</td>
       <td>IP</td>
       <td>FA%</td>
@@ -17,7 +17,7 @@
     <% seasons.each_with_index do |season, index| %>
       <tr>
         <% if index == 0 %>
-        <td rowspan="3"><%= pitcher.name %> (<%= pitcher.throwhand %>)</td>
+        <td rowspan="3" bgcolor="#7FFFD4"><%= pitcher.name %> (<%= pitcher.throwhand %>)</td>
         <% end %>
         <td><%= season.year %></td>
         <% pitcher_scouting = pitcher.player.pitcher_scoutings.where(season: season).first %>
@@ -42,8 +42,8 @@
         <% end %>
       </tr>
     <% end %>
-    <tr>
-      <td><%= "vs #{predicted}#{team.name} Batters" %></td>
+    <tr bgcolor="#FF7F00">
+      <td><%= "vs #{predicted} Batters" %></td>
       <td></td>
       <td></td>
       <td></td>
@@ -54,7 +54,7 @@
       <td></td>
       <td></td>
     </tr>
-    <tr>
+    <tr bgcolor="#FF7F00">
       <td>Name</td>
       <td>W/</td>
       <td>PA</td>
@@ -76,13 +76,13 @@
           <% batter_scouting = batter.player.batter_scoutings.where(season: season).first %>
           <% if batter_scouting %>
           <td><%= batter_scouting.PA %></td>
-          <td><%= batter_scouting.FA %></td>
-          <td><%= batter_scouting.FC %></td>
+          <td bgcolor="#EA8DFE"><%= batter_scouting.FA %></td>
+          <td bgcolor="#EA8DFE"><%= batter_scouting.FC %></td>
           <td><%= batter_scouting.FS %></td>
-          <td><%= batter_scouting.SI %></td>
-          <td><%= batter_scouting.CH %></td>
-          <td><%= batter_scouting.SL %></td>
-          <td><%= batter_scouting.CU %></td>
+          <td bgcolor="#EA8DFE"><%= batter_scouting.SI %></td>
+          <td bgcolor="#FFF8DC"><%= batter_scouting.CH %></td>
+          <td bgcolor="#EA8DFE"><%= batter_scouting.SL %></td>
+          <td bgcolor="#FFF8DC"><%= batter_scouting.CU %></td>
           <% else %>
           <td></td>
           <td></td>
@@ -96,5 +96,16 @@
         </tr>
       <% end %>
     <% end %>
+    <tr bgcolor="#FF7F00">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    <tr>
   </tbody>
 </table>
