@@ -66,11 +66,11 @@ namespace :mlb do
     GameDay.today.update_forecast_check
   end
 
-  task update_batters: :environment do
+  task update_batters_scout: :environment do
     Season.where("year = 2018").map { |season| season.update_batters_scout }
   end
 
-  task update_pitchers: :environment do
+  task update_pitchers_scout: :environment do
     Season.where("year = 2018").map { |season| season.update_pitchers_scout }
   end
 
