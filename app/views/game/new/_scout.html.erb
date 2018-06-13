@@ -21,14 +21,25 @@
         <% end %>
         <td><%= season.year %></td>
         <% pitcher_scouting = pitcher.player.pitcher_scoutings.where(season: season).first %>
-        <td><%= pitcher_scouting.IP %></td>
-        <td><%= pitcher_scouting.FA %></td>
-        <td><%= pitcher_scouting.FC %></td>
-        <td><%= pitcher_scouting.FS %></td>
-        <td><%= pitcher_scouting.SI %></td>
-        <td><%= pitcher_scouting.CH %></td>
-        <td><%= pitcher_scouting.SL %></td>
-        <td><%= pitcher_scouting.CU %></td>
+        <% if pitcher_scouting %>
+          <td><%= pitcher_scouting.IP %></td>
+          <td><%= pitcher_scouting.FA %></td>
+          <td><%= pitcher_scouting.FC %></td>
+          <td><%= pitcher_scouting.FS %></td>
+          <td><%= pitcher_scouting.SI %></td>
+          <td><%= pitcher_scouting.CH %></td>
+          <td><%= pitcher_scouting.SL %></td>
+          <td><%= pitcher_scouting.CU %></td>
+        <% else %>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        <% end %>
       </tr>
     <% end %>
     <tr>
@@ -63,6 +74,7 @@
           <% end %>
           <td><%= season.year %></td>
           <% batter_scouting = batter.player.batter_scoutings.where(season: season).first %>
+          <% if batter_scouting %>
           <td><%= batter_scouting.PA %></td>
           <td><%= batter_scouting.FA %></td>
           <td><%= batter_scouting.FC %></td>
@@ -71,6 +83,16 @@
           <td><%= batter_scouting.CH %></td>
           <td><%= batter_scouting.SL %></td>
           <td><%= batter_scouting.CU %></td>
+          <% else %>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <% end %>
         </tr>
       <% end %>
     <% end %>
