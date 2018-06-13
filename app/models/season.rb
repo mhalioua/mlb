@@ -2,6 +2,8 @@ class Season < ApplicationRecord
   has_many :game_days, dependent: :destroy
   has_many :lancers, dependent: :destroy
   has_many :batters, dependent: :destroy
+  has_many :pitcher_scoutings, dependent: :destroy
+  has_many :batter_scoutings, dependent: :destroy
 
   scope :greater_than, -> (year) { where("year >= ?", year).order("year DESC") }
   scope :less_than,    -> (year) { where("year <= ?", year).order("year DESC") }

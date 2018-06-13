@@ -1,0 +1,78 @@
+<% seasons = Season.greater_than(2016) %>
+<table class="table-bordered">
+  <caption>Scouting Table</caption>
+  <tbody>
+    <tr>
+      <td><%= team.name %>'s STARTER</td>
+      <td>Year</td>
+      <td>IP</td>
+      <td>FA%</td>
+      <td>FC%</td>
+      <td>FS%</td>
+      <td>SI%</td>
+      <td>CH%</td>
+      <td>SL%</td>
+      <td>CU%</td>
+    </tr>
+    <% seasons.each_with_index do |season, index| %>
+      <tr>
+        <% if index == 0 %>
+        <td rowspan="3"><%= pitcher.name %> (<%= pitcher.throwhand %>)</td>
+        <% end %>
+        <td><%= season.year %></td>
+        <% pitcher_scouting = pitcher.player.pitcher_scoutings.where(season: season) %>
+        <td><%= pitcher_scouting.IP %></td>
+        <td><%= pitcher_scouting.FA %></td>
+        <td><%= pitcher_scouting.FC %></td>
+        <td><%= pitcher_scouting.FS %></td>
+        <td><%= pitcher_scouting.SI %></td>
+        <td><%= pitcher_scouting.CH %></td>
+        <td><%= pitcher_scouting.SL %></td>
+        <td><%= pitcher_scouting.CU %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td><%= "vs #{predicted}#{team.name} Batters" %></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Name</td>
+      <td>W/</td>
+      <td>PA</td>
+      <td>FA/C</td>
+      <td>FC/C</td>
+      <td>FS/C</td>
+      <td>SI/C</td>
+      <td>CH/C</td>
+      <td>SL/C</td>
+      <td>CU/C</td>
+    </tr>
+    <% batters.each do |batter| %>
+      <% seasons.each_with_index do |season, index| %>
+        <tr>
+          <% if index == 0 %>
+            <td rowspan="3"><%= "#{batter.lineup}. #{batter.player.name} (#{batter.player.bathand})"%></td>
+          <% end %>
+          <td><%= season.year %></td>
+          <% batter_scouting = batter.player.batter_scoutings.where(season: season) %>
+          <td><%= batter_scouting.PA %></td>
+          <td><%= batter_scouting.FA %></td>
+          <td><%= batter_scouting.FC %></td>
+          <td><%= batter_scouting.FS %></td>
+          <td><%= batter_scouting.SI %></td>
+          <td><%= batter_scouting.CH %></td>
+          <td><%= batter_scouting.SL %></td>
+          <td><%= batter_scouting.CU %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

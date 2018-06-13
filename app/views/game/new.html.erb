@@ -50,6 +50,9 @@
 		<%= render partial: "game/new/batter", locals: { caption: "#{@away_predicted}#{@away_team.name} Batters", predicted: @away_predicted, batters: @away_batters, left: @away_left } %>
 		<%= render partial: "game/new/batter", locals: { caption: "#{@home_predicted}#{@home_team.name} Batters", predicted: @home_predicted, batters: @home_batters, left: @home_left } %>
 
+		<%= render partial: "game/new/scout", locals: { predicted: @away_predicted, batters: @home_batters, pitcher: @away_starting_lancer.first } %>
+		<%= render partial: "game/new/scout", locals: { predicted: @home_predicted, batters: @away_batters, pitcher: @home_starting_lancer.first } %>
+
 		<%= render partial: "game/new/bullpen", locals: { caption: "#{@away_team.name} Bullpen", lancers: @away_bullpen_lancers }%>
 		<%= render partial: "game/new/bullpen", locals: { caption: "#{@home_team.name} Bullpen", lancers: @home_bullpen_lancers }%>
 

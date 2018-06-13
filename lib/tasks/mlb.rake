@@ -74,16 +74,6 @@ namespace :mlb do
     Season.where("year = 2018").map { |season| season.update_pitchers_scout }
   end
 
-  task update_batters_scout_previous: :environment do
-    Season.where("year = 2017").map { |season| season.update_batters_scout }
-    Season.where("year = 2016").map { |season| season.update_batters_scout }
-  end
-
-  task update_pitchers_scout_previous: :environment do
-    Season.where("year = 2017").map { |season| season.update_pitchers_scout }
-    Season.where("year = 2016").map { |season| season.update_pitchers_scout }
-  end
-
   task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs, :update_game_status]
 
   task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout]

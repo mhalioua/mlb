@@ -2,6 +2,8 @@ class Player < ApplicationRecord
   belongs_to :team
   has_many :lancers, dependent: :destroy
   has_many :batters, dependent: :destroy
+  has_many :pitcher_scoutings, dependent: :destroy
+  has_many :batter_scoutings, dependent: :destroy
 
   def self.search(name, identity=nil, fangraph_id=0)
     if identity && player = Player.find_by_identity(identity)
