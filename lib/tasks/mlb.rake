@@ -31,11 +31,7 @@ namespace :mlb do
   end
 
   task update_batters: :environment do
-    Season.where("year = 2018").order("year DESC").each { |season| season.update_batters }
-  end
-
-  task update_batter_prev: :environment do
-    Season.where("year = 2017").order("year DESC").each { |season| season.update_batters }
+    Season.where("year = 2018").map { |season| season.update_batters }
   end
 
   task update_pitchers: :environment do
@@ -68,6 +64,14 @@ namespace :mlb do
 
   task update_forecast_check: :environment do
     GameDay.today.update_forecast_check
+  end
+
+  task update_batters: :environment do
+    Season.where("year = 2018").map { |season| season.update_batters_scout }
+  end
+
+  task update_pitchers: :environment do
+    Season.where("year = 2018").map { |season| season.update_pitchers_scout }
   end
 
   task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs, :update_game_status]

@@ -68,6 +68,41 @@ module Update
       end
     end
 
+    def scout(season, team)
+      year = season.year
+      puts "Update #{team.name} #{year} Batters Scout"
+
+      (1..1).each do |rost|
+        url = "http://www.fangraphs.com/leaders.aspx?pos=all&stats=bat&lg=all&qual=0&type=21&season=#{year}&month=0&season1=#{year}&ind=0&team=#{team.fangraph_id}&rost=#{rost}&age=0&filter=&players=0&page=1_50"
+        doc = download_document(url)
+        puts url
+        next unless doc
+        index = { name: 1, pa: 2+rost, fa: 3+rost, fc: 4+rost, fs: 5+rost, si: 6+rost, ch: 7+rost, sl: 8+rost, cu: 9+rost }
+        doc.css(".grid_line_regular, .grid_line_break").each_slice(14+rost) do |slice|
+          name = slice[index[:name]].text
+          fangraph_id = parse_fangraph_id(slice[index[:name]])
+          player = Player.search(name, nil, fangraph_id)
+          unless player
+            puts "Player " + name + " not found" 
+            next
+          end
+          if player
+            scout = BatterScouting.find_or_create_by(player_id: player.id, team: team, season: season)
+            scout.update(
+              PA: slice[index[:ip]].text,
+              FA: slice[index[:fa]].text,
+              FC: slice[index[:fc]].text,
+              FS: slice[index[:fs]].text,
+              SI: slice[index[:si]].text,
+              CH: slice[index[:ch]].text,
+              SL: slice[index[:sl]].text,
+              CU: slice[index[:cu]].text
+            )
+          end
+        end
+      end
+    end
+
     private
 
       def parse_identity(element)

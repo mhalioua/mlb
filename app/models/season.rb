@@ -27,4 +27,16 @@ class Season < ApplicationRecord
     teams = Team.all
     teams.each { |team| pitcher_updater.update(self, team) }
   end
+
+  def update_batters_scout
+    batter_updater = Update::Batters.new
+    teams = Team.all
+    teams.each { |team| batter_updater.scout(self, team) }
+  end
+
+  def update_pitchers_scout
+    pitcher_updater = Update::Pitchers.new
+    teams = Team.all
+    teams.each { |team| pitcher_updater.scout(self, team) }
+  end
 end
