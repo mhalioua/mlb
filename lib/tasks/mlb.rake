@@ -76,7 +76,7 @@ namespace :mlb do
 
   task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs, :update_game_status]
 
-  task daily: [:create_player, :update_batters, :update_pitchers]
+  task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout]
 
   task hourly: [:update_weather, :update_forecast, :update_games, :pitcher_box_score]
 

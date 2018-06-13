@@ -89,7 +89,7 @@ module Update
           if player
             scout = BatterScouting.find_or_create_by(player_id: player.id, team: team, season: season)
             scout.update(
-              PA: slice[index[:ip]].text,
+              PA: slice[index[:pa]].text,
               FA: slice[index[:fa]].text,
               FC: slice[index[:fc]].text,
               FS: slice[index[:fs]].text,
