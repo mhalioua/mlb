@@ -125,18 +125,18 @@ module Create
           scouts.each_with_index do |scout, index|
             player_scout.scouts.create(
               row_index: index,
-              season: scout.children[0].text,
-              pitches: scout.children[1].text,
-              batted_balls: scout.children[2].text,
-              barrels: scout.children[3].text,
-              barrel: scout.children[4].text,
-              exit_velocity: scout.children[5].text,
-              launch_angle: scout.children[6].text,
-              xba: scout.children[7].text,
-              xslg: scout.children[8].text,
-              xwoba: scout.children[9].text,
-              woba: scout.children[10].text,
-              hard_hit: scout.children[11].text)
+              season: scout.children[1].text,
+              pitches: scout.children[3].text,
+              batted_balls: scout.children[5].text,
+              barrels: scout.children[7].text,
+              barrel: scout.children[8].text,
+              exit_velocity: scout.children[11].text,
+              launch_angle: scout.children[13].text,
+              xba: scout.children[15].text,
+              xslg: scout.children[17].text,
+              xwoba: scout.children[19].text,
+              woba: scout.children[21].text,
+              hard_hit: scout.children[23].text)
           end
         end
       end
