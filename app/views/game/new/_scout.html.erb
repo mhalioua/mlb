@@ -96,7 +96,7 @@
       <td bgcolor="<%= main_pitcher_scouting_CU %>">CU%</td>
     </tr>
     <% seasons.each_with_index do |season, index| %>
-      <tr style="font-weight: <%= (season.year == 2018 ? 900 : 400 %>">
+      <tr style="font-weight: <%= (season.year == 2018 ? 900 : 400) %>">
         <% if index == 0 %>
         <td rowspan="3" bgcolor="#7FFFD4"><%= pitcher.name %> (<%= pitcher.throwhand %>)</td>
         <% end %>
@@ -149,7 +149,7 @@
     </tr>
     <% batters.each do |batter| %>
       <% seasons.each_with_index do |season, index| %>
-        <tr style="font-weight: <%= (season.year == 2018 ? 900 : 400 %>">
+        <tr style="font-weight: <%= (season.year == 2018 ? 900 : 400) %>">
           <% if index == 0 %>
             <td rowspan="3"><%= "#{batter.lineup}. #{batter.player.name} (#{batter.player.bathand})"%></td>
           <% end %>
