@@ -10,7 +10,6 @@ module Create
       doc = download_document(url)
       rows = doc.css("tr.oddrow, tr.evenrow")
 
-      is_pitcher = true
       rows.each_with_index do |element, index|
         next if element.children.size == 1
         name = element.children[1].child.text
@@ -91,6 +90,21 @@ module Create
       @@additional_fangraph_id.each do |key, index|
         player = Player.find_by(name: key, fangraph_id: nil)
         player.update(fangraph_id: index) if player
+      end
+    end
+
+    def getMlbId(team)
+      puts "Get #{team.name} MLB IDs"
+      url = "http://m.#{team.mlb_abbr}.mlb.com/roster"
+      puts url
+
+      doc = download_document(url)
+      rows = doc.css('td.dg-name_display_first_last a')
+      rows.each_with_index do |element, index|
+        indexes = element['href'].split('/')
+        next if indexes.length < 2
+        player = Player.find_by(name: element.text)
+        player.update(mlb_id: indexes[indexes.length-1] + '-' + indexes[indexes.length-2]) if player
       end
     end
 
