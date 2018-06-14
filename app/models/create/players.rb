@@ -108,9 +108,9 @@ module Create
           mlb_id = indexes[indexes.length-1] + '-' + indexes[indexes.length-2]
           player.update(mlb_id: mlb_id)
           player_mlb_url = "https://baseballsavant.mlb.com/savant-player/#{mlb_id}?stats=career-r-pitching-mlb"
-          puts url
+          puts player_mlb_url
 
-          doc = download_document(url)
+          doc = download_document(player_mlb_url)
           relies = doc.css('#player-award-items').first.text
           descriptions = doc.css('#div_career p')
           description = ''
