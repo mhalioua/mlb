@@ -120,13 +120,11 @@ module Create
           end
           player_scout = PlayerScout.find_or_create_by(player: player)
           player_scout.update(relies: relies, description: description)
-          player_scout.scouts.delete_all
 
           scouts = doc.css("#statcast_pitching tbody tr")
           scouts.each_with_index do |scout, index|
-            player_scout.scouts.create(
-              row_index: index,
-              season: scout.children[1].text,
+            element = player_scout.scouts.find_or_create_by(row_index: index)
+            element.update(season: scout.children[1].text,
               pitches: scout.children[3].text,
               batted_balls: scout.children[5].text,
               barrels: scout.children[7].text,
