@@ -111,6 +111,7 @@ module Create
           puts player_mlb_url
 
           doc = download_document(player_mlb_url)
+          next unless doc
           relies = doc.css('#player-award-items').first.text
           descriptions = doc.css('#div_career p')
           description = ''
