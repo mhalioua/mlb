@@ -2,6 +2,7 @@ class Player < ApplicationRecord
   belongs_to :team
   has_many :lancers, dependent: :destroy
   has_many :batters, dependent: :destroy
+  has_many :player_scouts, dependent: :destroy
   has_many :pitcher_scoutings, dependent: :destroy
   has_many :batter_scoutings, dependent: :destroy
 

@@ -104,7 +104,41 @@ module Create
         indexes = element['href'].split('/')
         next if indexes.length < 2
         player = Player.find_by(name: element.text)
-        player.update(mlb_id: indexes[indexes.length-1] + '-' + indexes[indexes.length-2]) if player
+        if player
+          mlb_id = indexes[indexes.length-1] + '-' + indexes[indexes.length-2]
+          player.update(mlb_id: mlb_id)
+          player_mlb_url = "https://baseballsavant.mlb.com/savant-player/#{mlb_id}?stats=career-r-pitching-mlb"
+          puts url
+
+          doc = download_document(url)
+          relies = doc.css('#player-award-items').first.text
+          descriptions = doc.css('#div_career p')
+          description = ''
+          descriptions.each do |description_element|
+            description = description + description_element.text
+          end
+          player_scout = PlayerScout.find_or_create_by(player: player)
+          player_scout.update(relies: relies, description: description)
+          player_scout.scouts.delete_all
+
+          scouts = doc.css("#statcast_pitching tbody tr")
+          scouts.each_with_index do |scout, index|
+            player_scout.scouts.create(
+              row_index: index,
+              season: scout.children[0].text,
+              pitches: scout.children[1].text,
+              batted_balls: scout.children[2].text,
+              barrels: scout.children[3].text,
+              barrel: scout.children[4].text,
+              exit_velocity: scout.children[5].text,
+              launch_angle: scout.children[6].text,
+              xba: scout.children[7].text,
+              xslg: scout.children[8].text,
+              xwoba: scout.children[9].text,
+              woba: scout.children[10].text,
+              hard_hit: scout.children[11].text)
+          end
+        end
       end
     end
 
