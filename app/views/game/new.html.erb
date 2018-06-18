@@ -57,10 +57,10 @@
 				<%= render partial: "game/new/scout", locals: { predicted: @home_predicted, batters: @away_batters, pitcher: @home_starting_lancer.first, team: @home_team } %>
 			<% end %>
 		</div>
-		<% unless @away_starting_lancer.empty? %>
+		<% unless @home_starting_lancer.empty? %>
 			<%= render partial: "game/new/scout_information", locals: { pitcher: @home_starting_lancer.first } %>
 		<% end %>
-		<% unless @home_starting_lancer.empty? %>
+		<% unless @away_starting_lancer.empty? %>
 			<%= render partial: "game/new/scout_information", locals: { pitcher: @away_starting_lancer.first } %>
 		<% end %>
 
