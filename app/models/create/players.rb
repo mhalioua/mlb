@@ -131,10 +131,10 @@ module Create
               barrel: scout.children[9].text,
               exit_velocity: scout.children[11].text,
               launch_angle: scout.children[13].text,
-              xba: scout.children[15].text.to_i,
-              xslg: scout.children[17].text.to_i,
-              xwoba: scout.children[19].text.to_i,
-              woba: scout.children[21].text.to_i,
+              xba: scout.children[15].text,
+              xslg: scout.children[17].text,
+              xwoba: scout.children[19].text,
+              woba: scout.children[21].text,
               hard_hit: scout.children[23].text)
           end
         end
