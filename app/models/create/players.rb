@@ -128,7 +128,7 @@ module Create
               pitches: scout.children[3].text,
               batted_balls: scout.children[5].text,
               barrels: scout.children[7].text,
-              barrel: scout.children[8].text,
+              barrel: scout.children[9].text,
               exit_velocity: scout.children[11].text,
               launch_angle: scout.children[13].text,
               xba: scout.children[15].text.to_i,
