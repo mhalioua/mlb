@@ -1,6 +1,6 @@
 <% player_scout = pitcher.player.player_scouts.first %>
 <% if player_scout
-    scouts = player_scout.scouts
+    scouts = player_scout.scouts.order(:row_index)
 %>
 <div>
   <p><%= pitcher.name %></p>
