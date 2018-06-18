@@ -2,11 +2,11 @@
 <% if player_scout
     scouts = player_scout.scouts.order(:row_index)
 %>
-<div>
+<div style="clear:both; text-align: left">
   <p><%= pitcher.name %></p>
   <p><%= player_scout.relies %></p>
   <p><%= player_scout.description %></p>
-  <table>
+  <table class="table-bordered">
     <tr>
       <td>Season</td>
       <td>Pitches</td>
