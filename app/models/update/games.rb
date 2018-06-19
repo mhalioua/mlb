@@ -103,15 +103,16 @@ module Update
           puts url
           doc = Nokogiri::HTML(open(url))
           elements = doc.css("table.linescore__table tr")
-          next if elements.size != 6
+          next if elements.size != 3
           elements[1].children.each_with_index do |element, index|
-            game_stat = game.game_stats.find_or_create_by(row_number: index + 1)
-            game_stat.update(home_score: elements[1].children[index], away_score: elements[2].children[index])
+            next if index % 2 == 0 || index == 1
+            game_stat = game.game_stats.find_or_create_by(row_number: index/2)
+            game_stat.update(home_score: elements[1].children[index].text.squish, away_score: elements[2].children[index].text.squish)
           end
           element_length = doc.css("#allPlaysContainer section").size / 2
-          (0..element_length).each do |index|
-            top = doc.css("#allPlaysContainer section #allPlaysTop" + (index + 1) + " ul .accordion-item .left")
-            bottom = doc.css("#allPlaysContainer section #allPlaysBottom" + (index + 1) + " ul .accordion-item .left")
+          (0..element_length-1).each do |index|
+            top = doc.css("#allPlaysContainer section#allPlaysTop" + (index + 1).to_s + " ul .accordion-item .left")
+            bottom = doc.css("#allPlaysContainer section#allPlaysBottom" + (index + 1).to_s + " ul .accordion-item .left")
             home_runs = 0
             top.each do |element|
               string = element.text
@@ -121,13 +122,13 @@ module Update
               string = element.text
               home_runs = home_runs + 1 if string.include?("homered")
             end
-            top_hits_string = doc.css("#allPlaysContainer section #allPlaysTop" + (index + 1) + " ul .info-row--footer")
-            bottom_hits_string = doc.css("#allPlaysContainer section #allPlaysBottom" + (index + 1) + " ul .info-row--footer")
-            top_hits_string_end = top_hits_string.rindex("HITS")
+            top_hits_string = doc.css("#allPlaysContainer section#allPlaysTop" + (index + 1).to_s + " ul .info-row--footer")[0].text.squish
+            bottom_hits_string = doc.css("#allPlaysContainer section#allPlaysBottom" + (index + 1).to_s + " ul .info-row--footer")[0].text.squish
+            top_hits_string_end = top_hits_string.rindex("Hit")
             top_hits_string_start = top_hits_string.rindex(",", top_hits_string_end)
-            bottom_hits_string_end = bottom_hits_string.rindex("HITS")
+            bottom_hits_string_end = bottom_hits_string.rindex("Hit")
             bottom_hits_string_start = bottom_hits_string.rindex(",", bottom_hits_string_end)
-            hits = top_hits_string[top_hits_string_start..top_hits_string_end].to_i + bottom_hits_string[bottom_hits_string_start..bottom_hits_string_end].to_i
+            hits = top_hits_string[top_hits_string_start+1..top_hits_string_end-1].to_i + bottom_hits_string[bottom_hits_string_start+1..bottom_hits_string_end-1].to_i
             game_stat = game.game_stats.find_or_create_by(row_number: index + 1)
             game_stat.update(hits: hits, home_runs: home_runs)
           end

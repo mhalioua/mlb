@@ -10,6 +10,45 @@ namespace :job do
     end
   end
 
+  task :test => :environment do
+    url="http://www.espn.com/mlb/playbyplay?gameId=380618122"
+    puts url
+    doc = Nokogiri::HTML(open(url))
+    elements = doc.css("table.linescore__table tr")
+    puts elements.size
+    elements[1].children.each_with_index do |element, index|
+      next if index % 2 == 0 || index == 1
+      puts index/2
+      puts elements[1].children[index].text.squish
+      puts elements[2].children[index].text.squish
+    end
+    element_length = doc.css("#allPlaysContainer section").size / 2
+    (0..element_length-1).each do |index|
+      top = doc.css("#allPlaysContainer section#allPlaysTop" + (index + 1).to_s + " ul .accordion-item .left")
+      bottom = doc.css("#allPlaysContainer section#allPlaysBottom" + (index + 1).to_s + " ul .accordion-item .left")
+      home_runs = 0
+      top.each do |element|
+        string = element.text
+        home_runs = home_runs + 1 if string.include?("homered")
+      end
+      bottom.each do |element|
+        string = element.text
+        home_runs = home_runs + 1 if string.include?("homered")
+      end
+      top_hits_string = doc.css("#allPlaysContainer section#allPlaysTop" + (index + 1).to_s + " ul .info-row--footer")[0].text.squish
+      bottom_hits_string = doc.css("#allPlaysContainer section#allPlaysBottom" + (index + 1).to_s + " ul .info-row--footer")[0].text.squish
+      top_hits_string_end = top_hits_string.rindex("Hit")
+      top_hits_string_start = top_hits_string.rindex(",", top_hits_string_end)
+      bottom_hits_string_end = bottom_hits_string.rindex("Hit")
+      bottom_hits_string_start = bottom_hits_string.rindex(",", bottom_hits_string_end)
+      hits = top_hits_string[top_hits_string_start+1..top_hits_string_end-1].to_i + bottom_hits_string[bottom_hits_string_start+1..bottom_hits_string_end-1].to_i
+      puts top_hits_string[top_hits_string_start+1..top_hits_string_end-1]
+      puts bottom_hits_string[bottom_hits_string_start+1..bottom_hits_string_end-1]
+      puts hits
+      puts home_runs
+    end
+  end
+
   task :prevgame => :environment do
     require 'csv'
     filename = File.join Rails.root, 'csv' , "prev_game.csv"
