@@ -7,6 +7,7 @@ module Update
       closingline(game_day)
       if game_day == GameDay.search(Time.now)
         umpire(game_day)
+        scores(game_day)
       end
     end
 
@@ -91,6 +92,45 @@ module Update
               game.update(ump: ump)
               puts "#{game.game_id} #{ump}"
             end
+          end
+        end
+      end
+
+      def scores(game_day)
+        day_games = game_day.games
+        game_size = day_games.size
+        games.each do |game|
+          url="http://www.espn.com/mlb/playbyplay?gameId=#{game.game_id}"
+          puts url
+          doc = Nokogiri::HTML(open(url))
+          elements = doc.css("table.linescore__table tr")
+          next if elements.size !== 6
+          elements[1].children.each_with_index do |element, index|
+            game_stat = game.game_stats.find_or_create_by(row_number: index + 1)
+            game_stat.update(home_score: elements[1].children[index], away_score: elements[2].children[index])
+          end
+          element_length = doc.css("#allPlaysContainer section").size / 2
+          (0..element_length).each do |index|
+            top = doc.css("#allPlaysContainer section #allPlaysTop" + (index + 1) + " ul .accordion-item .left")
+            bottom = doc.css("#allPlaysContainer section #allPlaysBottom" + (index + 1) + " ul .accordion-item .left")
+            home_runs = 0
+            top.each do |element|
+              string = element.text
+              home_runs = home_runs + 1 if string.include?("homered")
+            end
+            bottom.each do |element|
+              string = element.text
+              home_runs = home_runs + 1 if string.include?("homered")
+            end
+            top_hits_string = doc.css("#allPlaysContainer section #allPlaysTop" + (index + 1) + " ul .info-row--footer")
+            bottom_hits_string = doc.css("#allPlaysContainer section #allPlaysBottom" + (index + 1) + " ul .info-row--footer")
+            top_hits_string_end = top_hits_string.rindex("HITS")
+            top_hits_string_start = top_hits_string.rindex(",", top_hits_string_end)
+            bottom_hits_string_end = bottom_hits_string.rindex("HITS")
+            bottom_hits_string_start = bottom_hits_string.rindex(",", bottom_hits_string_end)
+            hits = top_hits_string[top_hits_string_start..top_hits_string_end].to_i + bottom_hits_string[bottom_hits_string_start..bottom_hits_string_end].to_i
+            game_stat = game.game_stats.find_or_create_by(row_number: index + 1)
+            game_stat.update(hits: hits, home_runs: home_runs)
           end
         end
       end

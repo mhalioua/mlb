@@ -11,6 +11,7 @@ class Game < ApplicationRecord
   has_many :hitter_box_scores, dependent: :destroy
 
   has_many :weathersources, dependent: :destroy
+  has_many :game_stats, dependent: :destroy
 
   def update_weather
     Update::Weathers.new.update(self)
