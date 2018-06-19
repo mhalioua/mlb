@@ -104,7 +104,7 @@ module Update
           puts url
           doc = Nokogiri::HTML(open(url))
           elements = doc.css("table.linescore__table tr")
-          next if elements.size !== 6
+          next if elements.size != 6
           elements[1].children.each_with_index do |element, index|
             game_stat = game.game_stats.find_or_create_by(row_number: index + 1)
             game_stat.update(home_score: elements[1].children[index], away_score: elements[2].children[index])
