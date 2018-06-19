@@ -97,8 +97,7 @@ module Update
       end
 
       def scores(game_day)
-        day_games = game_day.games
-        game_size = day_games.size
+        games = game_day.games
         games.each do |game|
           url="http://www.espn.com/mlb/playbyplay?gameId=#{game.game_id}"
           puts url
