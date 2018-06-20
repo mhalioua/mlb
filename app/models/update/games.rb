@@ -124,13 +124,23 @@ module Update
               string = element.text
               home_runs = home_runs + 1 if string.include?("homered")
             end
-            top_hits_string = doc.css("#allPlaysContainer section#allPlaysTop" + (index + 1).to_s + " ul .info-row--footer")[0].text.squish
-            bottom_hits_string = doc.css("#allPlaysContainer section#allPlaysBottom" + (index + 1).to_s + " ul .info-row--footer")[0].text.squish
-            top_hits_string_end = top_hits_string.rindex("Hit")
-            top_hits_string_start = top_hits_string.rindex(",", top_hits_string_end)
-            bottom_hits_string_end = bottom_hits_string.rindex("Hit")
-            bottom_hits_string_start = bottom_hits_string.rindex(",", bottom_hits_string_end)
-            hits = top_hits_string[top_hits_string_start+1..top_hits_string_end-1].to_i + bottom_hits_string[bottom_hits_string_start+1..bottom_hits_string_end-1].to_i
+            top_hits_string = doc.css("#allPlaysContainer section#allPlaysTop" + (index + 1).to_s + " ul .info-row--footer")
+            top_hits_count = 0
+            if top_hits_string.length != 0
+              top_hits_string.length = top_hits_string.length[0].text.squish
+              top_hits_string_end = top_hits_string.rindex("Hit")
+              top_hits_string_start = top_hits_string.rindex(",", top_hits_string_end)
+              top_hits_count = top_hits_string[top_hits_string_start+1..top_hits_string_end-1].to_i
+            end
+            bottom_hits_string = doc.css("#allPlaysContainer section#allPlaysBottom" + (index + 1).to_s + " ul .info-row--footer")
+            bottom_hits_count = 0
+            if bottom_hits_string.length != 0
+              bottom_hits_string = bottom_hits_string[0].text.squish
+              bottom_hits_string_end = bottom_hits_string.rindex("Hit")
+              bottom_hits_string_start = bottom_hits_string.rindex(",", bottom_hits_string_end)
+              bottom_hits_count = bottom_hits_string[bottom_hits_string_start+1..bottom_hits_string_end-1].to_i
+            end
+            hits = top_hits_count + bottom_hits_count
             game_stat = game.game_stats.find_or_create_by(row_number: (index + 1))
             game_stat.update(hits: hits, home_runs: home_runs)
           end
