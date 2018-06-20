@@ -112,7 +112,7 @@ module Update
             game_stat.update(home_score: elements[1].children[index].text.squish, away_score: elements[2].children[index].text.squish)
           end
           element_length = doc.css("#allPlaysContainer section").size / 2
-          (0..element_length-1).each do |index|
+          (0..element_length).each do |index|
             top = doc.css("#allPlaysContainer section#allPlaysTop" + (index + 1).to_s + " ul .accordion-item .left")
             bottom = doc.css("#allPlaysContainer section#allPlaysBottom" + (index + 1).to_s + " ul .accordion-item .left")
             home_runs = 0
