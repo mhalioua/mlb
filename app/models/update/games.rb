@@ -7,6 +7,8 @@ module Update
       closingline(game_day)
       if game_day == GameDay.search(Time.now)
         umpire(game_day)
+      end
+      if game_day == GameDay.today || game_day == GameDay.yesterday
         scores(game_day)
       end
     end
