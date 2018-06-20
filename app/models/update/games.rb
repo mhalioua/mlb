@@ -128,7 +128,7 @@ module Update
             top_hits_count = 0
             puts index + 1
             if top_hits_string.length != 0
-              top_hits_string.length = top_hits_string.length[0].text.squish
+              top_hits_string = top_hits_string.length[0].text.squish
               top_hits_string_end = top_hits_string.rindex("Hit")
               top_hits_string_start = top_hits_string.rindex(",", top_hits_string_end)
               top_hits_count = top_hits_string[top_hits_string_start+1..top_hits_string_end-1].to_i
