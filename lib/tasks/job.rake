@@ -11,7 +11,7 @@ namespace :job do
   end
 
   task :test => :environment do
-    url="http://www.espn.com/mlb/playbyplay?gameId=380618122"
+    url="http://www.espn.com/mlb/playbyplay?gameId=380619110"
     puts url
     doc = Nokogiri::HTML(open(url))
     elements = doc.css("table.linescore__table tr")
@@ -42,6 +42,7 @@ namespace :job do
       bottom_hits_string_end = bottom_hits_string.rindex("Hit")
       bottom_hits_string_start = bottom_hits_string.rindex(",", bottom_hits_string_end)
       hits = top_hits_string[top_hits_string_start+1..top_hits_string_end-1].to_i + bottom_hits_string[bottom_hits_string_start+1..bottom_hits_string_end-1].to_i
+      puts index + 1
       puts top_hits_string[top_hits_string_start+1..top_hits_string_end-1]
       puts bottom_hits_string[bottom_hits_string_start+1..bottom_hits_string_end-1]
       puts hits

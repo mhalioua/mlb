@@ -129,7 +129,7 @@ module Update
             bottom_hits_string_end = bottom_hits_string.rindex("Hit")
             bottom_hits_string_start = bottom_hits_string.rindex(",", bottom_hits_string_end)
             hits = top_hits_string[top_hits_string_start+1..top_hits_string_end-1].to_i + bottom_hits_string[bottom_hits_string_start+1..bottom_hits_string_end-1].to_i
-            game_stat = game.game_stats.find_or_create_by(row_number: index + 1)
+            game_stat = game.game_stats.find_or_create_by(row_number: (index + 1))
             game_stat.update(hits: hits, home_runs: home_runs)
           end
         end
