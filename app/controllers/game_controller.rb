@@ -3,7 +3,7 @@ class GameController < ApplicationController
 
 	def new
 		@game = Game.find_by_id(params[:id])
-		@game_stats = @game.stats
+		@game_stats = @game.game_stats
 		@game_day = @game.game_day
 		@season = @game_day.season
 
