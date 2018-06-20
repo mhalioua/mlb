@@ -109,7 +109,7 @@ module Update
           elements[1].children.each_with_index do |element, index|
             next if index % 2 == 0 || index == 1
             game_stat = game.game_stats.find_or_create_by(row_number: index/2)
-            game_stat.update(home_score: elements[1].children[index].text.squish, away_score: elements[2].children[index].text.squish)
+            game_stat.update(away_score: elements[1].children[index].text.squish, home_score: elements[2].children[index].text.squish)
           end
           element_length = doc.css("#allPlaysContainer section").size / 2
           (0..element_length).each do |index|
@@ -126,7 +126,6 @@ module Update
             end
             top_hits_string = doc.css("#allPlaysContainer section#allPlaysTop" + (index + 1).to_s + " ul .info-row--footer")
             top_hits_count = 0
-            puts index + 1
             if top_hits_string.length != 0
               top_hits_string = top_hits_string[0].text.squish
               top_hits_string_end = top_hits_string.rindex("Hit")
