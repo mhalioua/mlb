@@ -85,7 +85,7 @@
         wind_max = weather['wind_speed'].to_f + 5
         wind_min = 3 if wind_min < 3
         %>
-        <% result = true_data_prev(weather['temp_num'] - 5, weather['temp_num'] + 5, weather['dew_num']-2, weather['dew_num']+2, weather['humid_num']-3, weather['humid_num']+3, (weather['pressure_num']-0.04).round(2), (weather['pressure_num']+0.04).round(2), wind_min, wind_max, weather['wind_dir'], weather['wind_dir'], name) %>
+        <% result = true_data_prev((weather['temp_num'] - 5).round(1), (weather['temp_num'] + 5).round(1), (weather['dew_num']-2).round(1), (weather['dew_num']+2).round(1), (weather['humid_num']-3).round, (weather['humid_num']+3).round, (weather['pressure_num']-0.04).round(2), (weather['pressure_num']+0.04).round(2), wind_min, wind_max, weather['wind_dir'], weather['wind_dir'], name) %>
       	<tr>
       		<td class="lightgray"><%= "#{index + 1} hour" %></td>
           <td><%= weather['temp'] %></td>
@@ -138,7 +138,7 @@
       <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
 
       <% weathers.each_with_index do |weather, index| %>
-        <%= render partial: "game/new/prev_weather_value", locals: { caption: "#{index + 1} hour", temp_min: weather['temp_num'] - 4, temp_max: weather['temp_num'] + 4, dew_min: weather['dew_num']-2, dew_max: weather['dew_num']+2, hum_min: weather['humid_num']-3, hum_max: weather['humid_num']+3, pressure_min: (weather['pressure_num']-0.04).round(2), pressure_max: (weather['pressure_num']+0.04).round(2), name: name, wind: weather['wind_speed'].to_s + ' ' + weather['wind_dir'], color: "", weather_one_speed: weather['wind_speed'], weather_two_speed: weather['wind_speed'], weather_one_dir: weather['wind_dir'], weather_two_dir: weather['wind_dir'] } %>
+        <%= render partial: "game/new/prev_weather_value", locals: { caption: "#{index + 1} hour", temp_min: (weather['temp_num'] - 4).round(1), temp_max: (weather['temp_num'] + 4).round(1), dew_min: (weather['dew_num']-2).round(1), dew_max: (weather['dew_num']+2).round(1), hum_min: (weather['humid_num']-3).round, hum_max: (weather['humid_num']+3).round, pressure_min: (weather['pressure_num']-0.04).round(2), pressure_max: (weather['pressure_num']+0.04).round(2), name: name, wind: weather['wind_speed'].to_s + ' ' + weather['wind_dir'], color: "", weather_one_speed: weather['wind_speed'], weather_two_speed: weather['wind_speed'], weather_one_dir: weather['wind_dir'], weather_two_dir: weather['wind_dir'] } %>
       <% end %>
 
       <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
@@ -154,8 +154,8 @@
             temp_max = weather_one['temp_num']
           end
           temp_diff = ((16 + temp_min - temp_max)/2).to_i
-          temp_min = temp_min - temp_diff
-          temp_max = temp_max + temp_diff
+          temp_min = (temp_min - temp_diff).round(1)
+          temp_max = (temp_max + temp_diff).round(1)
 
           dew_min = weather_one['dew_num']
           dew_max = weather_two['dew_num']
@@ -164,8 +164,8 @@
             dew_max = weather_one['dew_num']
           end
           dew_diff = ((7 + dew_min - dew_max)/2).to_i
-          dew_min = dew_min - dew_diff
-          dew_max = dew_max + dew_diff
+          dew_min = (dew_min - dew_diff).round(1)
+          dew_max = (dew_max + dew_diff).round(1)
 
           hum_min = weather_one['humid_num']
           hum_max = weather_two['humid_num']
@@ -175,8 +175,8 @@
           end
           if (hum_max - hum_min) < 9
             hum_diff = ((8 + hum_min - hum_max)/2).to_i
-            hum_min = hum_min - hum_diff
-            hum_max = hum_max + hum_diff
+            hum_min = (hum_min - hum_diff).round
+            hum_max = (hum_max + hum_diff).round
           end
 
           pressure_min = (weather_one['pressure_num'] * 100).round
@@ -206,8 +206,8 @@
             temp_max = weather_one['temp_num']
           end
           temp_diff = ((9 + temp_min - temp_max)/2).to_i
-          temp_min = temp_min - temp_diff
-          temp_max = temp_max + temp_diff
+          temp_min = (temp_min - temp_diff).round(1)
+          temp_max = (temp_max + temp_diff).round(1)
 
           dew_min = weather_one['dew_num']
           dew_max = weather_two['dew_num']
@@ -216,8 +216,8 @@
             dew_max = weather_one['dew_num']
           end
           dew_diff = ((5 + dew_min - dew_max)/2).to_i
-          dew_min = dew_min - dew_diff
-          dew_max = dew_max + dew_diff
+          dew_min = (dew_min - dew_diff).round(1)
+          dew_max = (dew_max + dew_diff).round(1)
 
           pressure_min = (weather_one['pressure_num'] * 100).round
           pressure_max = (weather_two['pressure_num'] * 100).round
