@@ -126,6 +126,7 @@ module Update
             end
             top_hits_string = doc.css("#allPlaysContainer section#allPlaysTop" + (index + 1).to_s + " ul .info-row--footer")
             top_hits_count = 0
+            puts index + 1
             if top_hits_string.length != 0
               top_hits_string.length = top_hits_string.length[0].text.squish
               top_hits_string_end = top_hits_string.rindex("Hit")
