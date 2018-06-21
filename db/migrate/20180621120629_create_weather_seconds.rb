@@ -41,6 +41,7 @@ class CreateWeatherSeconds < ActiveRecord::Migration[5.1]
     	t.float :home_pitcher_game_opp_first_blue
     	t.float :home_pitcher_game_second_blue
     	t.float :home_pitcher_game_opp_second_blue
+    	t.integer :game_id
       t.timestamps
     end
   end
