@@ -67,6 +67,7 @@ class GameController < ApplicationController
 	def weather
 		@game = Game.find_by_id(params[:id])
 		@game_day = @game.game_day
+		@game_stats = @game.game_stats
 
 		@away_team = @game.away_team
 		@home_team = @game.home_team
@@ -101,6 +102,7 @@ class GameController < ApplicationController
 		@game = Game.find_by_id(params[:id])
 		@game_day = @game.game_day
 		@season = @game_day.season
+		@game_stats = @game.game_stats
 
 		@away_team = @game.away_team
 		@home_team = @game.home_team
@@ -143,6 +145,7 @@ class GameController < ApplicationController
 		@game = Game.find_by_id(params[:id])
 		@game_day = @game.game_day
 		@season = @game_day.season
+		@game_stats = @game.game_stats
 
 		@away_team = @game.away_team
 		@home_team = @game.home_team
