@@ -78,8 +78,8 @@ namespace :job do
         end
 
         url = "http://www.espn.com/mlb/game?gameId=#{game_id}"
-        break
       end
+      break
     end
   end
 
