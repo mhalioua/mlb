@@ -43,7 +43,8 @@ namespace :job do
   task :weather_first_game => :environment do
     weather_firsts = WeatherFirst.where('game_id is null')
     weather_firsts.each do |weather_first|
-      game_day = GameDay.find_by(date: weather_first.Date)
+      game_date = weather_first.Date.to_datetime
+      game_day = GameDay.find_by(date: game_date)
       away_team = Team.find_by(name: weather_first.Away_Team)
       home_team = Team.find_by(name: weather_first.Home_Team)
       puts game_day
