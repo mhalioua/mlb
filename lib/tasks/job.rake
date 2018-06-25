@@ -44,15 +44,42 @@ namespace :job do
     weather_firsts = WeatherFirst.where('game_id is null')
     weather_firsts.each do |weather_first|
       game_date = Date.strptime(weather_first.Date, "%m/%d/%Y")
-      away_team = Team.find_by(name: weather_first.Away_Team)
-      home_team = Team.find_by(name: weather_first.Home_Team)
-      game = Game.where("game_date between ? and ?", game_date.beginning_of_day, game_date.end_of_day).find_by(away_team: away_team, home_team: home_team)
-      puts game
-      if game
-        puts game.game_id
-        weather_first.update(game_id: game.game_id)
+      away_team_data = Team.find_by(name: weather_first.Away_Team).name
+      home_team_data = Team.find_by(name: weather_first.Home_Team).name
+      game_date = game_date.strftime("%Y%m%d")
+      url = "http://www.espn.com/mlb/schedule/_/date/#{game_date}"
+      doc = download_document(url)
+      elements = doc.css("tr")
+      index = { away_team: 0, home_team: 1, result: 2 }
+      elements.each do |slice|
+        next if slice.children.size < 5
+        away_team = slice.children[index[:away_team]].text
+        next if away_team == "matchup"
+        next if slice.children[index[:result]].text == 'Canceled'
+        href = slice.children[index[:result]].child['href']
+        game_id = href[-9..-1]
+        if slice.children[index[:home_team]].children[0].children.size == 2
+          home_team = slice.children[index[:home_team]].children[0].children[1].children[0].text
+          home_abbr = slice.children[index[:home_team]].children[0].children[1].children[2].text
+        elsif slice.children[index[:home_team]].children[0].children.size == 1
+          home_team = slice.children[index[:home_team]].children[0].children[0].children[0].text
+          home_abbr = slice.children[index[:home_team]].children[0].children[0].children[2].text
+        end
+
+        if slice.children[index[:away_team]].children.size == 2
+          away_abbr = slice.children[index[:away_team]].children[1].children[2].text
+          away_team = slice.children[index[:away_team]].children[1].children[0].text
+        elsif slice.children[index[:away_team]].children.size == 1
+          away_abbr = slice.children[index[:away_team]].children[0].children[2].text
+          away_team = slice.children[index[:away_team]].children[0].children[0].text
+        end
+        if away_team_data == away_team && home_team_data = home_team
+          puts game_id
+        end
+
+        url = "http://www.espn.com/mlb/game?gameId=#{game_id}"
+        break
       end
-      break
     end
   end
 
