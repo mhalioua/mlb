@@ -38,7 +38,22 @@ namespace :job do
     CSV.foreach(filename, headers: true) do |row|
       WeatherSecond.create(row.to_h)
     end
-  end 
+  end
+
+  task :weather_first_game => :environment do
+    weather_firsts = WeatherFirst.where('game_id is null')
+    weather_firsts.each do |weather_first|
+      game_day = GameDay.find_by(date: weather_first.Date)
+      away_team = Team.find_by(name: weather_first.Away_Team)
+      home_team = Team.find_by(name: weather_first.Home_Team)
+      game = Game.find_by(game_day: game_day, away_team: away_team, home_team: home_team)
+      if game
+        puts game.game_id
+      else
+        puts "Not Found"
+      end
+    end
+  end
 
   task :cleanPrevgame => :environment do
     prevGames = Prevgame.where('"Home_Team" is null')
