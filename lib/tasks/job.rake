@@ -45,8 +45,12 @@ namespace :job do
     weather_firsts = WeatherFirst.where('game_id is null')
     weather_firsts.each do |weather_first|
       game_date = Date.strptime(weather_first.Date, "%m/%d/%Y")
-      away_team_data = Team.find_by(name: weather_first.Away_Team).city
-      home_team_data = Team.find_by(name: weather_first.Home_Team).city
+      away_team_data = Team.find_by(name: weather_first.Away_Team)
+      next unless away_team_data
+      away_team_data = away_team_data.city
+      home_team_data = Team.find_by(name: weather_first.Home_Team)
+      next unless home_team_data
+      home_team_data = home_team_data.city
       game_date = game_date.strftime("%Y%m%d")
       url = "http://www.espn.com/mlb/schedule/_/date/#{game_date}"
       doc = download_document(url)
