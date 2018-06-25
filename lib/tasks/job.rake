@@ -54,6 +54,7 @@ namespace :job do
       game_date = game_date.strftime("%Y%m%d")
       url = "http://www.espn.com/mlb/schedule/_/date/#{game_date}"
       doc = download_document(url)
+      next unless doc
       trs = doc.css("tr")
       index = { away_team: 0, home_team: 1, result: 2 }
       trs.each do |slice|
@@ -81,8 +82,8 @@ namespace :job do
         if away_team_data == away_team && home_team_data = home_team
           weather_first.update(game_id: game_id)
           url="http://www.espn.com/mlb/playbyplay?gameId=#{game_id}"
-          puts url
           doc = download_document(url)
+           next unless doc
           element_length = doc.css("#allPlaysContainer section").size / 2
           (0..element_length).each do |index|
             home_runs = 0
