@@ -110,7 +110,27 @@ namespace :job do
               bottom_hits_count = bottom_hits_string[bottom_hits_string_start+1..bottom_hits_string_end-1].to_i
             end
             hits = top_hits_count + bottom_hits_count
-            weather_first.update(("hits"+row_number): hits, ("home_runs"+row_number): home_runs)
+            if row_number === 1
+              weather_first.update(hits1: hits, home_runs1: home_runs)
+            elsif row_number === 2
+              weather_first.update(hits2: hits, home_runs2: home_runs)
+            elsif row_number === 3
+              weather_first.update(hits3: hits, home_runs3: home_runs)
+            elsif row_number === 4
+              weather_first.update(hits4: hits, home_runs4: home_runs)
+            elsif row_number === 5
+              weather_first.update(hits5: hits, home_runs5: home_runs)
+            elsif row_number === 6
+              weather_first.update(hits6: hits, home_runs6: home_runs)
+            elsif row_number === 7
+              weather_first.update(hits7: hits, home_runs7: home_runs)
+            elsif row_number === 8
+              weather_first.update(hits8: hits, home_runs8: home_runs)
+            elsif row_number === 9
+              weather_first.update(hits9: hits, home_runs9: home_runs)
+            elsif row_number === 10
+              weather_first.update(hits10: hits, home_runs10: home_runs)
+            end
           end
           break
         end
