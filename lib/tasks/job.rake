@@ -82,7 +82,7 @@ namespace :job do
           weather_first.update(game_id: game_id)
           url="http://www.espn.com/mlb/playbyplay?gameId=#{game_id}"
           puts url
-          doc = Nokogiri::HTML(open(url))
+          doc = download_document(url)
           element_length = doc.css("#allPlaysContainer section").size / 2
           (0..element_length).each do |index|
             home_runs = 0
