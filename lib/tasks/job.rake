@@ -50,9 +50,9 @@ namespace :job do
       game_date = game_date.strftime("%Y%m%d")
       url = "http://www.espn.com/mlb/schedule/_/date/#{game_date}"
       doc = download_document(url)
-      elements = doc.css("tr")
+      trs = doc.css("tr")
       index = { away_team: 0, home_team: 1, result: 2 }
-      elements.each do |slice|
+      trs.each do |slice|
         next if slice.children.size < 5
         away_team = slice.children[index[:away_team]].text
         next if away_team == "matchup"
@@ -75,12 +75,46 @@ namespace :job do
           away_team = slice.children[index[:away_team]].children[0].children[0].text
         end
         if away_team_data == away_team && home_team_data = home_team
-          puts game_id
+          weather_first.update(game_id: game_id)
+          url="http://www.espn.com/mlb/playbyplay?gameId=#{game_id}"
+          puts url
+          doc = Nokogiri::HTML(open(url))
+          element_length = doc.css("#allPlaysContainer section").size / 2
+          (0..element_length).each do |index|
+            home_runs = 0
+            row_number = index + 1
+            top = doc.css("#allPlaysContainer section#allPlaysTop" + row_number.to_s + " ul .accordion-item .left")
+            bottom = doc.css("#allPlaysContainer section#allPlaysBottom" + row_number.to_s + " ul .accordion-item .left")
+            top.each do |element|
+              string = element.text
+              home_runs = home_runs + 1 if string.include?("homered")
+            end
+            bottom.each do |element|
+              string = element.text
+              home_runs = home_runs + 1 if string.include?("homered")
+            end
+            top_hits_string = doc.css("#allPlaysContainer section#allPlaysTop" + row_number.to_s + " ul .info-row--footer")
+            top_hits_count = 0
+            if top_hits_string.length != 0
+              top_hits_string = top_hits_string[0].text.squish
+              top_hits_string_end = top_hits_string.rindex("Hit")
+              top_hits_string_start = top_hits_string.rindex(",", top_hits_string_end)
+              top_hits_count = top_hits_string[top_hits_string_start+1..top_hits_string_end-1].to_i
+            end
+            bottom_hits_string = doc.css("#allPlaysContainer section#allPlaysBottom" + row_number.to_s + " ul .info-row--footer")
+            bottom_hits_count = 0
+            if bottom_hits_string.length != 0
+              bottom_hits_string = bottom_hits_string[0].text.squish
+              bottom_hits_string_end = bottom_hits_string.rindex("Hit")
+              bottom_hits_string_start = bottom_hits_string.rindex(",", bottom_hits_string_end)
+              bottom_hits_count = bottom_hits_string[bottom_hits_string_start+1..bottom_hits_string_end-1].to_i
+            end
+            hits = top_hits_count + bottom_hits_count
+            weather_first.update(("hits"+row_number): hits, ("home_runs"+row_number): home_runs)
+          end
+          break
         end
-
-        url = "http://www.espn.com/mlb/game?gameId=#{game_id}"
       end
-      break
     end
   end
 
