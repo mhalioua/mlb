@@ -44,11 +44,11 @@ namespace :job do
     weather_firsts = WeatherFirst.where('game_id is null')
     weather_firsts.each do |weather_first|
       game_date = Date.strptime(weather_first.Date, "%m/%d/%Y")
-      game_day = GameDay.find_by(date: game_date)
       away_team = Team.find_by(name: weather_first.Away_Team)
       home_team = Team.find_by(name: weather_first.Home_Team)
-      game = Game.find_by(game_day: game_day, away_team: away_team, home_team: home_team)
+      game = Game.where("game_date between ? and ?", game_date.beginning_of_day, game_date.end_of_day).find_by(away_team: away_team, home_team: home_team)
       if game
+        puts game.game_id
         weather_first.update(game_id: game.game_id)
       end
     end
