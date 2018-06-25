@@ -47,10 +47,12 @@ namespace :job do
       away_team = Team.find_by(name: weather_first.Away_Team)
       home_team = Team.find_by(name: weather_first.Home_Team)
       game = Game.where("game_date between ? and ?", game_date.beginning_of_day, game_date.end_of_day).find_by(away_team: away_team, home_team: home_team)
+      puts game
       if game
         puts game.game_id
         weather_first.update(game_id: game.game_id)
       end
+      break
     end
   end
 
