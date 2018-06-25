@@ -46,12 +46,16 @@ namespace :job do
       game_day = GameDay.find_by(date: weather_first.Date)
       away_team = Team.find_by(name: weather_first.Away_Team)
       home_team = Team.find_by(name: weather_first.Home_Team)
+      puts game_day
+      puts away_team
+      puts home_team
       game = Game.find_by(game_day: game_day, away_team: away_team, home_team: home_team)
       if game
         puts game.game_id
       else
         puts "Not Found"
       end
+      break
     end
   end
 
