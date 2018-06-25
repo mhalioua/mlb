@@ -17,7 +17,7 @@
       <% hits = 0 %>
       <% game_stats.order(:row_number).limit(game_stats.length - 3).each do |game_stat| %>
         <td><%= game_stat.hits %></td>
-        <% hits = hits + game_stat.hits %>
+        <% hits = hits + game_stat.hits.to_i %>
       <% end %>
       <td colspan="3"><%= hits %> hits</td>
     </tr>
@@ -26,7 +26,7 @@
       <% home_runs = 0 %>
       <% game_stats.order(:row_number).limit(game_stats.length - 3).each do |game_stat| %>
         <td><%= game_stat.home_runs %></td>
-        <% home_runs = home_runs + game_stat.home_runs %>
+        <% home_runs = home_runs + game_stat.home_runs.to_i %>
       <% end %>
       <td colspan="3"><%= home_runs %> hr's</td>
     </tr>
