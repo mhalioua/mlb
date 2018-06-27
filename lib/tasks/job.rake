@@ -63,6 +63,8 @@ namespace :job do
         away_team_data = 'Montreal'
       elsif weather_first.Away_Team === 'Marlins'
         away_team_data = 'Florida'
+      elsif weather_first.Away_Team === 'Angels'
+        away_team_data = 'Anaheim'
       elsif weather_first.Away_Team === 'Devil Rays'
         away_team_data = 'Tampa Bay'
       elsif away_team_data
@@ -75,6 +77,8 @@ namespace :job do
         home_team_data = 'Montreal'
       elsif weather_first.Home_Team === 'Marlins'
         home_team_data = 'Florida'
+      elsif weather_first.Home_Team === 'Angels'
+        home_team_data = 'Anaheim'
       elsif weather_first.Home_Team === 'Devil Rays'
         home_team_data = 'Tampa Bay'
       elsif home_team_data
