@@ -40,9 +40,22 @@ namespace :job do
     end
   end
 
+  task :weather_first_game_duplicate => :environment do
+    include GetHtml
+    weather_firsts = WeatherFirst.where('game_id is not null')
+    weather_firsts.each do |weather_first|
+      sameItems = WeatherFirst.where('game_id = ?', weather_first.game_id)
+      if sameItems.length > 0
+        puts weather_first.game_id
+        sameItems.update(game_id: nil)
+      end
+    end
+  end
+
+
   task :weather_first_game => :environment do
     include GetHtml
-    weather_firsts = WeatherFirst.where('hits8 is null')
+    weather_firsts = WeatherFirst.where('game_id is null')
     weather_firsts.each do |weather_first|
       game_date = Date.strptime(weather_first.Date, "%m/%d/%Y")
       away_team_data = Team.find_by(name: weather_first.Away_Team)
@@ -105,7 +118,7 @@ namespace :job do
           away_abbr = slice.children[index[:away_team]].children[0].children[2].text
           away_team = slice.children[index[:away_team]].children[0].children[0].text
         end
-        if away_team_data == away_team && home_team_data = home_team
+        if away_team_data == away_team && home_team_data == home_team
           weather_first.update(game_id: game_id)
           url="http://www.espn.com/mlb/playbyplay?gameId=#{game_id}"
           doc = download_document(url)
