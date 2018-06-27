@@ -45,7 +45,7 @@ namespace :job do
     weather_firsts = WeatherFirst.where('game_id is not null')
     weather_firsts.each do |weather_first|
       sameItems = WeatherFirst.where('game_id = ?', weather_first.game_id)
-      if sameItems.length > 0
+      if sameItems.length > 1
         puts weather_first.game_id
         sameItems.update(game_id: nil)
       end
