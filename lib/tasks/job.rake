@@ -96,6 +96,8 @@ namespace :job do
       next unless doc
       trs = doc.css("tr")
       index = { away_team: 0, home_team: 1, result: 2 }
+      puts away_team_data
+      puts home_team_data
       trs.each do |slice|
         next if slice.children.size < 5
         away_team = slice.children[index[:away_team]].text
