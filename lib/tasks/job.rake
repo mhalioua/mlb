@@ -59,32 +59,32 @@ namespace :job do
     weather_firsts.each do |weather_first|
       game_date = Date.strptime(weather_first.Date, "%m/%d/%Y")
       away_team_data = Team.find_by(name: weather_first.Away_Team)
-      if weather_first.Away_Team === 'Expos'
-        away_team_data = 'Montreal'
-      elsif weather_first.Away_Team === 'Marlins'
-        away_team_data = 'Florida'
-      elsif weather_first.Away_Team === 'Angels'
-        away_team_data = 'Anaheim'
-      elsif weather_first.Away_Team === 'Devil Rays'
-        away_team_data = 'Tampa Bay'
-      elsif away_team_data
+      if away_team_data
         away_team_data = away_team_data.city
       else
-        next
+        if weather_first.Away_Team === 'Expos'
+          away_team_data = 'Montreal'
+        elsif weather_first.Away_Team === 'Marlins'
+          away_team_data = 'Florida'
+        elsif weather_first.Away_Team === 'Devil Rays'
+          away_team_data = 'Tampa Bay'
+        else
+          next
+        end
       end
       home_team_data = Team.find_by(name: weather_first.Home_Team)
-      if weather_first.Home_Team === 'Expos'
-        home_team_data = 'Montreal'
-      elsif weather_first.Home_Team === 'Marlins'
-        home_team_data = 'Florida'
-      elsif weather_first.Home_Team === 'Angels'
-        home_team_data = 'Anaheim'
-      elsif weather_first.Home_Team === 'Devil Rays'
-        home_team_data = 'Tampa Bay'
-      elsif home_team_data
+      if home_team_data
         home_team_data = home_team_data.city
       else
-        next
+        if weather_first.Home_Team === 'Expos'
+          home_team_data = 'Montreal'
+        elsif weather_first.Home_Team === 'Marlins'
+          home_team_data = 'Florida'
+        elsif weather_first.Home_Team === 'Devil Rays'
+          home_team_data = 'Tampa Bay'
+        else
+          next
+        end
       end
       game_date = game_date.strftime("%Y%m%d")
       url = "http://www.espn.com/mlb/schedule/_/date/#{game_date}"
@@ -116,8 +116,6 @@ namespace :job do
           away_abbr = slice.children[index[:away_team]].children[0].children[2].text
           away_team = slice.children[index[:away_team]].children[0].children[0].text
         end
-        puts away_team
-        puts home_team
         if away_team_data == away_team && home_team_data == home_team
           weather_first.update(game_id: game_id)
           url="http://www.espn.com/mlb/playbyplay?gameId=#{game_id}"
