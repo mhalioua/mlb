@@ -59,32 +59,28 @@ namespace :job do
     weather_firsts.each do |weather_first|
       game_date = Date.strptime(weather_first.Date, "%m/%d/%Y")
       away_team_data = Team.find_by(name: weather_first.Away_Team)
-      if away_team_data
+      if weather_first.Away_Team === 'Expos'
+        away_team_data = 'Montreal'
+      elsif weather_first.Away_Team === 'Marlins'
+        away_team_data = 'Florida'
+      elsif weather_first.Away_Team === 'Devil Rays'
+        away_team_data = 'Tampa Bay'
+      elsif away_team_data
         away_team_data = away_team_data.city
       else
-        if weather_first.Away_Team === 'Expos'
-          away_team_data = 'Montreal'
-        elsif weather_first.Away_Team === 'Marlins'
-          away_team_data = 'Florida'
-        elsif weather_first.Away_Team === 'Devil Rays'
-          away_team_data = 'Tampa Bay'
-        else
-          next
-        end
+        next
       end
       home_team_data = Team.find_by(name: weather_first.Home_Team)
-      if home_team_data
+      if weather_first.Home_Team === 'Expos'
+        home_team_data = 'Montreal'
+      elsif weather_first.Home_Team === 'Marlins'
+        home_team_data = 'Florida'
+      elsif weather_first.Home_Team === 'Devil Rays'
+        home_team_data = 'Tampa Bay'
+      elsif home_team_data
         home_team_data = home_team_data.city
       else
-        if weather_first.Home_Team === 'Expos'
-          home_team_data = 'Montreal'
-        elsif weather_first.Home_Team === 'Marlins'
-          home_team_data = 'Florida'
-        elsif weather_first.Home_Team === 'Devil Rays'
-          home_team_data = 'Tampa Bay'
-        else
-          next
-        end
+        next
       end
       game_date = game_date.strftime("%Y%m%d")
       url = "http://www.espn.com/mlb/schedule/_/date/#{game_date}"
