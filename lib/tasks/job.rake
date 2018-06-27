@@ -116,6 +116,8 @@ namespace :job do
           away_abbr = slice.children[index[:away_team]].children[0].children[2].text
           away_team = slice.children[index[:away_team]].children[0].children[0].text
         end
+        puts away_team
+        puts home_team
         if away_team_data == away_team && home_team_data == home_team
           weather_first.update(game_id: game_id)
           url="http://www.espn.com/mlb/playbyplay?gameId=#{game_id}"
