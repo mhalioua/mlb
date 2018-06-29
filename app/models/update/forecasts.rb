@@ -403,7 +403,7 @@ module Update
         "https://www.wunderground.com/hourly/us/ca/anaheim/92806/date/year-month-day?cm_ven=localwx_hour",
         "https://www.wunderground.com/hourly/us/tx/houston/77002/date/year-month-day?cm_ven=localwx_hour",
         "https://www.wunderground.com/hourly/us/ca/oakland/94621/date/year-month-day?cm_ven=localwx_hour",
-        "https://www.wunderground.com/hourly/ca/toronto/43.65000153,-79.38330078/date/year-month-day?cm_ven=localwx_hour",
+        "https://www.wunderground.com/hourly/ca/toronto/date/year-month-day?cm_ven=localwx_hour",
         "https://www.wunderground.com/hourly/us/ga/atlanta/30315/date/year-month-day?cm_ven=localwx_hour",
         "https://www.wunderground.com/hourly/us/wi/milwaukee/53214/date/year-month-day?cm_ven=localwx_hour",
         "https://www.wunderground.com/hourly/us/mo/saint-louis/63102/date/year-month-day?cm_ven=localwx_hour",

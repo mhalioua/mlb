@@ -12,7 +12,7 @@ class GameDay < ApplicationRecord
   end
 
   def month
-    date.month
+    date.strftime("%m")
   end
 
   def day
