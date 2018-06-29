@@ -71,6 +71,7 @@ module Update
       forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC")
       forecast_three = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC")
       forecast_four = game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC")
+      return if forecast_one.length == 0
       forecasts = [forecast_one.first, forecast_two.first, forecast_three.first, forecast_four.first]
       row_number = 0
       block_number = 0
