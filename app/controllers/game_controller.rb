@@ -12,7 +12,7 @@ class GameController < ApplicationController
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
 		@image_url = @home_team.id.to_s + ".png"
 
-		month = Date::MONTHNAMES[@game_day.month]
+		month = Date::MONTHNAMES[@game_day.month.to_i]
 		day = @game_day.day.to_s
 		@date = "#{month} #{day}"
 
@@ -74,7 +74,7 @@ class GameController < ApplicationController
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
 		@image_url = @home_team.id.to_s + ".png"
 
-		month = Date::MONTHNAMES[@game_day.month]
+		month = Date::MONTHNAMES[@game_day.month.to_i]
 		day = @game_day.day.to_s
 		@date = "#{month} #{day}"
 
@@ -108,7 +108,7 @@ class GameController < ApplicationController
 		@home_team = @game.home_team
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
 
-		month = Date::MONTHNAMES[@game_day.month]
+		month = Date::MONTHNAMES[@game_day.month.to_i]
 		day = @game_day.day.to_s
 		@date = "#{month} #{day}"
 
@@ -151,7 +151,7 @@ class GameController < ApplicationController
 		@home_team = @game.home_team
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
 
-		month = Date::MONTHNAMES[@game_day.month]
+		month = Date::MONTHNAMES[@game_day.month.to_i]
 		day = @game_day.day.to_s
 		@date = "#{month} #{day}"
 
