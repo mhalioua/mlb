@@ -346,8 +346,9 @@ module Update
 
       def get_url(home_team, game_day)
         url = @@urls[home_team.id-1]
-        find = "year-month-day"
-        replace = "#{game_day.year}-#{game_day.month}-#{game_day.day}"
+        find = "/date/year-month-day"
+        replace = "/date/#{game_day.year}-#{game_day.month}-#{game_day.day}"
+        replace = "" if game_day.day == Date.today.day
         url.gsub(/#{find}/, replace)
       end
 
