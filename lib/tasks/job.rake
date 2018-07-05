@@ -100,8 +100,8 @@ namespace :job do
       trs = doc.css(".game_summary table:first-child tbody")
       away_team_data = weather_first.Away_Team
       home_team_data = weather_first.Home_Team
-      away_score_data = weather_first.A1 + weather_first.A2 + weather_first.A3 + weather_first.a4 + weather_first.a5 + weather_first.a6 + weather_first.a7 + weather_first.a8 + weather_first.a9
-      home_score_data = weather_first.h1 + weather_first.h2 + weather_first.h3 + weather_first.h4 + weather_first.h5 + weather_first.h6 + weather_first.h7 + weather_first.h8 + weather_first.h9
+      away_score_data = weather_first.A1.to_i + weather_first.A2.to_i + weather_first.A3.to_i + weather_first.a4.to_i + weather_first.a5.to_i + weather_first.a6.to_i + weather_first.a7.to_i + weather_first.a8.to_i + weather_first.a9.to_i
+      home_score_data = weather_first.h1.to_i + weather_first.h2.to_i + weather_first.h3.to_i + weather_first.h4.to_i + weather_first.h5.to_i + weather_first.h6.to_i + weather_first.h7.to_i + weather_first.h8.to_i + weather_first.h9.to_i
       trs.each do |slice|
         away_team = slice.children[0].children[0].children[0].text
         home_team = slice.children[1].children[0].children[0].text
