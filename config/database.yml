@@ -23,10 +23,10 @@ default: &default
 
 development:
   <<: *default
-  database: mlb_development
-  username: user
-  password: password
-  host: localhost
+  database: dfaq3flide2rsv
+  username: u1b37r28s5terh
+  password: pce422e71cc0d8cd1b128ca2f06d0604da84d7428fd5607f13bf04a3f1525500c
+  host: ec2-35-172-241-18.compute-1.amazonaws.com
   timeout: 5000
 
   # The specified database role being used to connect to postgres.

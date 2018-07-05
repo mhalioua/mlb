@@ -58,100 +58,48 @@ namespace :job do
     weather_firsts = WeatherFirst.where('game_id is null')
     weather_firsts.each do |weather_first|
       game_date = Date.strptime(weather_first.Date, "%m/%d/%Y")
-      away_team_data = Team.find_by(name: weather_first.Away_Team)
-      if weather_first.Away_Team === 'Expos'
-        away_team_data = 'Montreal'
-      elsif weather_first.Away_Team === 'Marlins'
-        away_team_data = 'Florida'
-      elsif weather_first.Away_Team === 'Angels'
-        away_team_data = 'Anaheim'
-      elsif weather_first.Away_Team === 'Devil Rays'
-        away_team_data = 'Tampa Bay'
-      elsif away_team_data
-        away_team_data = away_team_data.city
-      else
-        next
-      end
-      home_team_data = Team.find_by(name: weather_first.Home_Team)
-      if weather_first.Home_Team === 'Expos'
-        home_team_data = 'Montreal'
-      elsif weather_first.Home_Team === 'Marlins'
-        home_team_data = 'Florida'
-      elsif weather_first.Home_Team === 'Angels'
-        home_team_data = 'Anaheim'
-      elsif weather_first.Home_Team === 'Devil Rays'
-        home_team_data = 'Tampa Bay'
-      elsif home_team_data
-        home_team_data = home_team_data.city
-      else
-        next
-      end
-      game_date = game_date.strftime("%Y%m%d")
-      url = "http://www.espn.com/mlb/schedule/_/date/#{game_date}"
+      game_date = game_date.strftime("%F")
+      url = "https://www.baseball-reference.com/boxes/?date=#{game_date}"
       doc = download_document(url)
       next unless doc
-      trs = doc.css("tr")
-      index = { away_team: 0, home_team: 1, result: 2 }
-      puts away_team_data
-      puts home_team_data
+      trs = doc.css(".game_summary table:first-child tbody")
+      away_team_data = weather_first.Away_Team
+      home_team_data = weather_first.Home_Team
+      away_score_data = weather_first.A1 + weather_first.A2 + weather_first.A3 + weather_first.a4 + weather_first.a5 + weather_first.a6 + weather_first.a7 + weather_first.a8 + weather_first.a9
+      home_score_data = weather_first.h1 + weather_first.h2 + weather_first.h3 + weather_first.h4 + weather_first.h5 + weather_first.h6 + weather_first.h7 + weather_first.h8 + weather_first.h9
       trs.each do |slice|
-        next if slice.children.size < 5
-        away_team = slice.children[index[:away_team]].text
-        next if away_team == "matchup"
-        next if slice.children[index[:result]].text == 'Canceled'
-        href = slice.children[index[:result]].child['href']
-        game_id = href[-9..-1]
-        if slice.children[index[:home_team]].children[0].children.size == 2
-          home_team = slice.children[index[:home_team]].children[0].children[1].children[0].text
-          home_abbr = slice.children[index[:home_team]].children[0].children[1].children[2].text
-        elsif slice.children[index[:home_team]].children[0].children.size == 1
-          home_team = slice.children[index[:home_team]].children[0].children[0].children[0].text
-          home_abbr = slice.children[index[:home_team]].children[0].children[0].children[2].text
-        end
-
-        if slice.children[index[:away_team]].children.size == 2
-          away_abbr = slice.children[index[:away_team]].children[1].children[2].text
-          away_team = slice.children[index[:away_team]].children[1].children[0].text
-        elsif slice.children[index[:away_team]].children.size == 1
-          away_abbr = slice.children[index[:away_team]].children[0].children[2].text
-          away_team = slice.children[index[:away_team]].children[0].children[0].text
-        end
-        if away_team_data == away_team && home_team_data == home_team
+        away_team = slice.children[0].children[0].children[0].text
+        home_team = slice.children[1].children[0].children[0].text
+        away_score = slice.children[0].children[1]].text.to_i
+        home_score = slice.children[1].children[1]].text.to_i
+        if away_team.include?(away_team_data) && home_team.include?(home_team_data) && away_score_data == away_score && home_score_data == home_score
+          game_id = slice.children[0].children[2].children[0]['href']
           weather_first.update(game_id: game_id)
-          url="http://www.espn.com/mlb/playbyplay?gameId=#{game_id}"
+          url="https://www.baseball-reference.com#{game_id}"
           doc = download_document(url)
           next unless doc
-          element_length = doc.css("#allPlaysContainer section").size / 2
-          (0..element_length).each do |index|
-            home_runs = 0
-            row_number = index + 1
-            top = doc.css("#allPlaysContainer section#allPlaysTop" + row_number.to_s + " ul .accordion-item .left")
-            bottom = doc.css("#allPlaysContainer section#allPlaysBottom" + row_number.to_s + " ul .accordion-item .left")
-            top.each do |element|
-              string = element.text
-              home_runs = home_runs + 1 if string.include?("homered")
+          elements = doc.css("#all_play_by_play tbody tr")
+          index = 0
+          home_runs = 0
+          row_number = 0
+          hits = 0
+          elements.each do |element|
+            if element.children.length == 12
+              if element.children[11].include?("Home Run")
+                home_runs += 1
+              end
             end
-            bottom.each do |element|
-              string = element.text
-              home_runs = home_runs + 1 if string.include?("homered")
+            if element['class'].include?("pbp_summary_bottom")
+              row_number = ((index + 2) / 2).to_i
+              score_string = element.children[9].text
+              score_string_end = score_string.rindex("hit")
+              score_string_start = score_string.rindex(",", score_string_end)
+              hits += score_string[score_string_start+1..score_string_end-1].to_i
+              if index % 2 == 0
+                hits = 0
+                home_runs = 0
+              end
             end
-            top_hits_string = doc.css("#allPlaysContainer section#allPlaysTop" + row_number.to_s + " ul .info-row--footer")
-            top_hits_count = 0
-            if top_hits_string.length != 0
-              top_hits_string = top_hits_string[0].text.squish
-              top_hits_string_end = top_hits_string.rindex("Hit")
-              top_hits_string_start = top_hits_string.rindex(",", top_hits_string_end)
-              top_hits_count = top_hits_string[top_hits_string_start+1..top_hits_string_end-1].to_i
-            end
-            bottom_hits_string = doc.css("#allPlaysContainer section#allPlaysBottom" + row_number.to_s + " ul .info-row--footer")
-            bottom_hits_count = 0
-            if bottom_hits_string.length != 0
-              bottom_hits_string = bottom_hits_string[0].text.squish
-              bottom_hits_string_end = bottom_hits_string.rindex("Hit")
-              bottom_hits_string_start = bottom_hits_string.rindex(",", bottom_hits_string_end)
-              bottom_hits_count = bottom_hits_string[bottom_hits_string_start+1..bottom_hits_string_end-1].to_i
-            end
-            hits = top_hits_count + bottom_hits_count
             if row_number === 1
               weather_first.update(hits1: hits, home_runs1: home_runs)
             elsif row_number === 2
