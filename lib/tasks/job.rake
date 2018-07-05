@@ -130,6 +130,7 @@ namespace :job do
           url="https://www.baseball-reference.com#{game_id}"
           doc = download_document(url)
           next unless doc
+          doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
           elements = doc.css("#all_play_by_play tbody tr")
           index = 0
           home_runs = 0
