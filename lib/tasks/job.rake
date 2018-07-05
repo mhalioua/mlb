@@ -141,6 +141,7 @@ namespace :job do
                 home_runs += 1
               end
             end
+            next unless element['class']
             if element['class'].include?("pbp_summary_bottom")
               row_number = ((index + 2) / 2).to_i
               score_string = element.children[9].text
