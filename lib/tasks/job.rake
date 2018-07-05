@@ -54,6 +54,23 @@ namespace :job do
 
   task :basketball_game => :environment do
     include GetHtml
+    url = "https://www.baseball-reference.com/boxes/?date=2016-05-20"
+    doc = download_document(url)
+    doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
+    next unless doc
+    trs = doc.css(".game_summary table:first-child tbody")
+    trs.each do |slice|
+      away_team = slice.children[1].children[1].children[0].text
+      home_team = slice.children[3].children[1].children[0].text
+      away_score = slice.children[1].children[3].text.to_i
+      home_score = slice.children[3].children[3].text.to_i
+      game_id = slice.children[1].children[5].children[1]['href']
+      puts away_team
+      puts home_team
+      puts away_score
+      puts home_score
+      puts game_id
+    end
     url="https://www.baseball-reference.com/boxes/ATL/ATL200409240.shtml"
     doc = download_document(url)
     doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
@@ -103,12 +120,12 @@ namespace :job do
       away_score_data = weather_first.A1.to_i + weather_first.A2.to_i + weather_first.A3.to_i + weather_first.a4.to_i + weather_first.a5.to_i + weather_first.a6.to_i + weather_first.a7.to_i + weather_first.a8.to_i + weather_first.a9.to_i
       home_score_data = weather_first.h1.to_i + weather_first.h2.to_i + weather_first.h3.to_i + weather_first.h4.to_i + weather_first.h5.to_i + weather_first.h6.to_i + weather_first.h7.to_i + weather_first.h8.to_i + weather_first.h9.to_i
       trs.each do |slice|
-        away_team = slice.children[0].children[0].children[0].text
-        home_team = slice.children[1].children[0].children[0].text
-        away_score = slice.children[0].children[1].text.to_i
-        home_score = slice.children[1].children[1].text.to_i
+        away_team = slice.children[1].children[1].children[0].text
+        home_team = slice.children[3].children[1].children[0].text
+        away_score = slice.children[1].children[3].text.to_i
+        home_score = slice.children[3].children[3].text.to_i
         if away_team.include?(away_team_data) && home_team.include?(home_team_data) && away_score_data == away_score && home_score_data == home_score
-          game_id = slice.children[0].children[2].children[0]['href']
+          game_id = slice.children[1].children[5].children[1]['href']
           weather_first.update(game_id: game_id)
           url="https://www.baseball-reference.com#{game_id}"
           doc = download_document(url)
