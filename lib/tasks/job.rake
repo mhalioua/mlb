@@ -70,8 +70,8 @@ namespace :job do
       trs.each do |slice|
         away_team = slice.children[0].children[0].children[0].text
         home_team = slice.children[1].children[0].children[0].text
-        away_score = slice.children[0].children[1]].text.to_i
-        home_score = slice.children[1].children[1]].text.to_i
+        away_score = slice.children[0].children[1].text.to_i
+        home_score = slice.children[1].children[1].text.to_i
         if away_team.include?(away_team_data) && home_team.include?(home_team_data) && away_score_data == away_score && home_score_data == home_score
           game_id = slice.children[0].children[2].children[0]['href']
           weather_first.update(game_id: game_id)
