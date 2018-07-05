@@ -52,6 +52,40 @@ namespace :job do
     end
   end
 
+  task :basketball_game => :environment do
+    include GetHtml
+    url="https://www.baseball-reference.com/boxes/ATL/ATL200409240.shtml"
+    doc = download_document(url)
+    doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
+    next unless doc
+    elements = doc.css("#all_play_by_play tbody tr")
+    index = 0
+    home_runs = 0
+    hits = 0
+    elements.each do |element|
+      if element.children.length == 12
+        if element.children[11].text.include?("Home Run")
+          home_runs += 1
+        end
+      end
+      if element['class'].include?("pbp_summary_bottom")
+        row_number = ((index + 2) / 2).to_i
+        score_string = element.children[9].text
+        score_string_end = score_string.rindex("hit")
+        score_string_start = score_string.rindex(",", score_string_end)
+        hits += score_string[score_string_start+1..score_string_end-1].to_i
+        index = index + 1
+        if index % 2 == 0
+          puts row_number
+          puts hits
+          puts home_runs
+          hits = 0
+          home_runs = 0
+        end
+      end
+    end
+  end
+
 
   task :weather_first_game => :environment do
     include GetHtml
@@ -61,6 +95,7 @@ namespace :job do
       game_date = game_date.strftime("%F")
       url = "https://www.baseball-reference.com/boxes/?date=#{game_date}"
       doc = download_document(url)
+      doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
       next unless doc
       trs = doc.css(".game_summary table:first-child tbody")
       away_team_data = weather_first.Away_Team
@@ -81,11 +116,10 @@ namespace :job do
           elements = doc.css("#all_play_by_play tbody tr")
           index = 0
           home_runs = 0
-          row_number = 0
           hits = 0
           elements.each do |element|
             if element.children.length == 12
-              if element.children[11].include?("Home Run")
+              if element.children[11].text.include?("Home Run")
                 home_runs += 1
               end
             end
@@ -95,31 +129,32 @@ namespace :job do
               score_string_end = score_string.rindex("hit")
               score_string_start = score_string.rindex(",", score_string_end)
               hits += score_string[score_string_start+1..score_string_end-1].to_i
+              index = index + 1
               if index % 2 == 0
+                if row_number === 1
+                  weather_first.update(hits1: hits, home_runs1: home_runs)
+                elsif row_number === 2
+                  weather_first.update(hits2: hits, home_runs2: home_runs)
+                elsif row_number === 3
+                  weather_first.update(hits3: hits, home_runs3: home_runs)
+                elsif row_number === 4
+                  weather_first.update(hits4: hits, home_runs4: home_runs)
+                elsif row_number === 5
+                  weather_first.update(hits5: hits, home_runs5: home_runs)
+                elsif row_number === 6
+                  weather_first.update(hits6: hits, home_runs6: home_runs)
+                elsif row_number === 7
+                  weather_first.update(hits7: hits, home_runs7: home_runs)
+                elsif row_number === 8
+                  weather_first.update(hits8: hits, home_runs8: home_runs)
+                elsif row_number === 9
+                  weather_first.update(hits9: hits, home_runs9: home_runs)
+                elsif row_number === 10
+                  weather_first.update(hits10: hits, home_runs10: home_runs)
+                end
                 hits = 0
                 home_runs = 0
               end
-            end
-            if row_number === 1
-              weather_first.update(hits1: hits, home_runs1: home_runs)
-            elsif row_number === 2
-              weather_first.update(hits2: hits, home_runs2: home_runs)
-            elsif row_number === 3
-              weather_first.update(hits3: hits, home_runs3: home_runs)
-            elsif row_number === 4
-              weather_first.update(hits4: hits, home_runs4: home_runs)
-            elsif row_number === 5
-              weather_first.update(hits5: hits, home_runs5: home_runs)
-            elsif row_number === 6
-              weather_first.update(hits6: hits, home_runs6: home_runs)
-            elsif row_number === 7
-              weather_first.update(hits7: hits, home_runs7: home_runs)
-            elsif row_number === 8
-              weather_first.update(hits8: hits, home_runs8: home_runs)
-            elsif row_number === 9
-              weather_first.update(hits9: hits, home_runs9: home_runs)
-            elsif row_number === 10
-              weather_first.update(hits10: hits, home_runs10: home_runs)
             end
           end
           break
