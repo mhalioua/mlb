@@ -112,8 +112,8 @@ namespace :job do
       game_date = game_date.strftime("%F")
       url = "https://www.baseball-reference.com/boxes/?date=#{game_date}"
       doc = download_document(url)
-      doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
       next unless doc
+      doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
       trs = doc.css(".game_summary table:first-child tbody")
       away_team_data = weather_first.Away_Team
       home_team_data = weather_first.Home_Team
