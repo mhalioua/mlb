@@ -2,6 +2,12 @@ require "#{Rails.root}/app/helpers/game_helper"
 include GameHelper
 namespace :job do
 
+  task :test => :environment do
+    puts DateTime.now
+    puts DateTime.now.to_date
+    puts Date.today
+  end
+
   task :totalData => :environment do
     require 'csv'
     filename = Rails.root.join('csv', 'totals.csv')
@@ -124,7 +130,7 @@ namespace :job do
         home_team = slice.children[3].children[1].children[0].text
         away_score = slice.children[1].children[3].text.to_i
         home_score = slice.children[3].children[3].text.to_i
-        if away_team.include?(away_team_data) && home_team.include?(home_team_data) && away_score_data == away_score && home_score_data == home_score
+        if away_team.include?(away_team_data) && home_team.include?(home_team_data)
           game_id = slice.children[1].children[5].children[1]['href']
           weather_first.update(game_id: game_id)
           url="https://www.baseball-reference.com#{game_id}"
