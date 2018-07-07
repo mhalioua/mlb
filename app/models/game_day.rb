@@ -20,15 +20,15 @@ class GameDay < ApplicationRecord
   end
 
   def self.yesterday
-    GameDay.search(DateTime.now.yesterday.to_date)
+    GameDay.search(DateTime.now.in_time_zone('Eastern Time (US & Canada)').yesterday.to_date)
   end
 
   def self.today
-    GameDay.search(DateTime.now.to_date)
+    GameDay.search(DateTime.now.in_time_zone('Eastern Time (US & Canada)').to_date)
   end
 
   def self.tomorrow
-    GameDay.search(DateTime.now.tomorrow.to_date)
+    GameDay.search(DateTime.now.in_time_zone('Eastern Time (US & Canada)').tomorrow.to_date)
   end
 
   def create_matchups

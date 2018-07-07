@@ -3,6 +3,9 @@ include GameHelper
 namespace :job do
 
   task :test => :environment do
+    puts DateTime.now.in_time_zone('Eastern Time (US & Canada)').yesterday.to_date
+    puts DateTime.now.in_time_zone('Eastern Time (US & Canada)').to_date
+    puts DateTime.now.in_time_zone('Eastern Time (US & Canada)').tomorrow.to_date
     puts DateTime.now
     puts DateTime.now.to_date
     puts Date.today
