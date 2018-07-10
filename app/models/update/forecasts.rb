@@ -6,6 +6,7 @@ module Update
     def update(game)
       game_day = game.game_day
       home_team = game.home_team
+      return if DateTime.parse(game.game_date) < DateTime.now
       time = DateTime.parse(game.game_date).strftime("%I:%M%p").to_time
 
       url = get_url(home_team, game_day)
