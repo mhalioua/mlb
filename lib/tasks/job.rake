@@ -97,7 +97,7 @@ namespace :job do
       if element['class'].include?("pbp_summary_bottom")
         row_number = ((index + 2) / 2).to_i
         score_string = element.children[9].text
-        score_string_end = score_string.rindex("hit")
+        score_string_end = score_string.rindex(" hit")
         score_string_start = score_string.rindex(",", score_string_end)
         hits += score_string[score_string_start+1..score_string_end-1].to_i
         index = index + 1
@@ -154,7 +154,7 @@ namespace :job do
             if element['class'].include?("pbp_summary_bottom")
               row_number = ((index + 2) / 2).to_i
               score_string = element.children[9].text
-              score_string_end = score_string.rindex("hit")
+              score_string_end = score_string.rindex(" hit")
               score_string_start = score_string.rindex(",", score_string_end)
               hits += score_string[score_string_start+1..score_string_end-1].to_i
               index = index + 1
