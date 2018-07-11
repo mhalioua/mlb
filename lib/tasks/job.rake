@@ -115,7 +115,7 @@ namespace :job do
 
   task :weather_first_game => :environment do
     include GetHtml
-    weather_firsts = WeatherFirst.where('game_id like ?', '%CHA%')
+    weather_firsts = WeatherFirst.where('game_id is null')
     weather_firsts.each do |weather_first|
       game_date = Date.strptime(weather_first.Date, "%m/%d/%Y")
       game_date = game_date.strftime("%F")
