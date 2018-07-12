@@ -6,59 +6,31 @@ module Update
     def update(game)
       game_day = game.game_day
       home_team = game.home_team
-      time = DateTime.parse(game.game_date).strftime("%I:%M%p").to_time
+      time = DateTime.parse(game.game_date) + 4.hours - home_team.timezone.hours
+      return if time > DateTime.now
 
       url = get_url(home_team, game_day)
-      doc = download_document(url)
       puts url
 
-      return unless doc
-      header = doc.css(".obs-table tr").first
-      return unless header
-      headers = {
-        'Temp.' => 0,
-        'Dew Point' => 0,
-        'Humidity' => 0,
-        'Pressure' => 0,
-        'Wind Dir' => 0,
-        'Wind Speed' => 0,
-        'Precip' => 0
-      }
-
-      header.children.each_with_index do |header_element, index|
-        key = header_element.text.squish
-        headers[key] = index if key == 'Temp.'
-        headers[key] = index if key == 'Dew Point'
-        headers[key] = index if key == 'Humidity'
-        headers[key] = index if key == 'Pressure'
-        headers[key] = index if key == 'Wind Dir'
-        headers[key] = index if key == 'Wind Speed' 
-        headers[key] = index if key == 'Precip'
-      end
-
-      hourlyweathers = doc.css(".obs-table tbody tr")
-      start_index = hourlyweathers.size - 1
-      return if hourlyweathers[start_index].children[1].text.to_time < time
-      hourlyweathers.each_with_index do |weather, index|
-        date = weather.children[1].text.to_time
-        if date > time
-          break
+      open(url) do |f|
+        json_string = f.read
+        parsed_json = JSON.parse(json_string)
+        forecast_data = parsed_json['history']['observations']
+        count = 1
+        forecast_data.each do |hour_data|
+          break if count == 5
+          hour_date_time = DateTime.parse(hour_date['utcdate']['pretty'])
+          next if hour_date_time < time
+          temp = hour_data['tempi']
+          hum = hour_data['hum']
+          dp = hour_data['dewpti']
+          pressure = hour_data['pressurei']
+          wind_dir = hour_data['wdire']
+          wind_speed = hour_data['wspdi'].to_f
+          weather = game.weathers.find_or_create_by(station: "Actual", hour: i)
+          weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed)
+          count = count + 1
         end
-        start_index = index
-      end
-
-      (1..4).each do |i|
-        temp = hourlyweathers[start_index].children[headers['Temp.']].text.squish
-        dp = hourlyweathers[start_index].children[headers['Dew Point']].text.squish
-        hum = hourlyweathers[start_index].children[headers['Humidity']].text.squish
-        pressure = hourlyweathers[start_index].children[headers['Pressure']].text.squish
-        precip = hourlyweathers[start_index].children[headers['Precip']].text.squish
-        wind_dir = hourlyweathers[start_index].children[headers['Wind Dir']].text.squish
-        wind_speed = hourlyweathers[start_index].children[headers['Wind Speed']].text.squish
-        weather = game.weathers.find_or_create_by(station: "Actual", hour: i)
-        weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed, precip: precip)
-
-        start_index = start_index + 1 if start_index < hourlyweathers.size - 1
       end
     end
 
@@ -255,9 +227,10 @@ module Update
 
     private
       def get_url(home_team, game_day)
-        url = @@urls[home_team.id-1]
-        find = "year-month-day"
-        replace = "#{game_day.year}-#{game_day.month}-#{game_day.day}"
+        url = "http://api.wunderground.com/api/65bd4b6d02af0c3b/history_YYYYMMDD/q/#{home_team.zipcode}.json"
+        url = "http://api.wunderground.com/api/65bd4b6d02af0c3b/history_YYYYMMDD/q/zmw:00000.233.71508.json" if home_team.zipcode == 'M5V 1J1'
+        find = "YYYYMMDD"
+        replace = "#{game_day.year}#{game_day.month}#{game_day.day}"
         url.gsub(/#{find}/, replace)
       end
 
