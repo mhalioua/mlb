@@ -27,6 +27,7 @@ module Update
           pressure = hour_data['pressurei']
           wind_dir = hour_data['wdire']
           wind_speed = hour_data['wspdi'].to_f
+          wind_speed = 0 if wind_speed < 0
           weather = game.weathers.find_or_create_by(station: "Actual", hour: count)
           weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed)
           count = count + 1
