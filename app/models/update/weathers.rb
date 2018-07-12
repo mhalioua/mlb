@@ -19,7 +19,7 @@ module Update
         count = 1
         forecast_data.each do |hour_data|
           break if count == 5
-          hour_date_time = DateTime.parse(hour_date['utcdate']['pretty'])
+          hour_date_time = DateTime.parse(hour_data['utcdate']['pretty'])
           next if hour_date_time < time
           temp = hour_data['tempi']
           hum = hour_data['hum']
