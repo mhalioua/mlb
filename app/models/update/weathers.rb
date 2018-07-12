@@ -45,8 +45,8 @@ module Update
 
       Weathersource.where(game_id: game.id, date: date, table_number: 2).destroy_all
       weathers.each do |weather|
-        wind_min = weather.wind_speed.to_f - 5
-        wind_max = weather.wind_speed.to_f + 5
+        wind_min = (weather.wind_speed.to_f - 5).round(1)
+        wind_max = (weather.wind_speed.to_f + 5).round(1)
         wind_min = 3 if wind_min < 3
         result = true_data(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, weather.humid_num-3, weather.humid_num+3, (weather.pressure_num-0.04).round(2), (weather.pressure_num+0.04).round(2), wind_min, wind_max, weather.wind_dir, weather.wind_dir, name)
         create_weathersource(game.id, date, 2, block_number, row_number, weather_time(weather.game.game_date, weather.hour), weather.temp, weather.dp, weather.hum, weather.pressure, weather.wind, result)
@@ -63,8 +63,8 @@ module Update
         hum_max = weather.humid_num+3
         pressure_min = (weather.pressure_num-0.04).round(2)
         pressure_max = (weather.pressure_num+0.04).round(2)
-        wind_min = weather.wind_speed.to_f - 5
-        wind_max = weather.wind_speed.to_f + 5
+        wind_min = (weather.wind_speed.to_f - 5).round(1)
+        wind_max = (weather.wind_speed.to_f + 5).round(1)
         wind_min = 3 if wind_min < 3
         result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_min, wind_max, weather.wind_dir, weather.wind_dir, name)
         create_weathersource(game.id, date, 2, block_number, row_number, "#{index + 1} hour", "#{temp_min}-#{temp_max}", "#{dew_min.round}-#{dew_max.round} #{(dew_min+1).round}-#{(dew_max-1).round}", hum_min === hum_max ? hum_min : "#{hum_min}-#{hum_max}", "#{(pressure_min*100).round%100}-#{(pressure_max*100).round%100}", "#{wind_min}-#{wind_max} ,#{weather.wind_dir}", result)
@@ -125,8 +125,8 @@ module Update
           wind_max = weather_one.wind_speed.to_f
         end
         wind_speed_diff = ((11 + wind_min - wind_max)/2).to_i
-        wind_min = wind_min - wind_speed_diff
-        wind_max = wind_max + wind_speed_diff
+        wind_min = (wind_min - wind_speed_diff).round(1)
+        wind_max = (wind_max + wind_speed_diff).round(1)
         wind_min = 3 if wind_min < 3
         result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_min, wind_max, weather_one.wind_dir, weather_two.wind_dir, name)
         create_weathersource(game.id, date, 2, block_number, row_number, "With wind", "#{temp_min}-#{temp_max}", "#{dew_min.round}-#{dew_max.round} #{(dew_min+1).round}-#{(dew_max-1).round}", hum_min === hum_max ? hum_min : "#{hum_min}-#{hum_max}", "#{(pressure_min*100).round%100}-#{(pressure_max*100).round%100}", "#{wind_min}-#{wind_max} ," + (weather_one.wind_dir == weather_two.wind_dir ? weather_one.wind_dir : "#{weather_one.wind_dir}, #{weather_two.wind_dir}"), result)
@@ -176,8 +176,8 @@ module Update
           wind_max = weather_one.wind_speed.to_f
         end
         wind_speed_diff = ((11 + wind_min - wind_max)/2).to_i
-        wind_min = wind_min - wind_speed_diff
-        wind_max = wind_max + wind_speed_diff
+        wind_min = (wind_min - wind_speed_diff).round(1)
+        wind_max = (wind_max + wind_speed_diff).round(1)
         wind_min = 3 if wind_min < 3
       
         if one_sec == 1
