@@ -35,7 +35,7 @@ namespace :job do
 
   task :weather_first => :environment do
     require 'csv'
-    filename = Rails.root.join('csv', 'weather_first.csv')
+    filename = Rails.root.join('csv', 'new_weather_first.csv')
     CSV.foreach(filename, headers: true) do |row|
       WeatherFirst.create(row.to_h)
     end
