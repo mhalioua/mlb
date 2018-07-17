@@ -39,7 +39,7 @@ namespace :job do
     CSV.foreach(filename, headers: true) do |row|
       WeatherFirst.create(row.to_h)
     end
-  end 
+  end
 
   task :weather_second => :environment do
     require 'csv'
