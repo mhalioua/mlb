@@ -62,6 +62,7 @@
 				@forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC")
 				@forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC")
 				@forecast_three = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC")
+				next unless @forecast_one.first
 				first_speed, first_dir = split_wind(@forecast_one.first.wind)
 				second_speed, second_dir = split_wind(@forecast_two.first.wind)
 				third_speed, third_dir = split_wind(@forecast_three.first.wind)
