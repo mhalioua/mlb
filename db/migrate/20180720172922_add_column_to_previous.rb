@@ -1,0 +1,63 @@
+class AddColumnToPrevious < ActiveRecord::Migration[5.1]
+  def change
+    add_column :prevgames, :a5, :integer
+    add_column :prevgames, :a6, :integer
+    add_column :prevgames, :a7, :integer
+    add_column :prevgames, :a8, :integer
+    add_column :prevgames, :a9, :integer
+    add_column :prevgames, :a10, :integer
+    add_column :prevgames, :h5, :integer
+    add_column :prevgames, :h6, :integer
+    add_column :prevgames, :h7, :integer
+    add_column :prevgames, :h8, :integer
+    add_column :prevgames, :h9, :integer
+    add_column :prevgames, :h10, :integer
+    add_column :prevgames, :total, :float
+    add_column :prevgames, :total_walks_both_team, :integer
+    add_column :prevgames, :total_doubles_both_team, :integer
+    add_column :prevgames, :total_triples_both_team, :integer
+    add_column :prevgames, :total_bases_both_team, :integer
+
+    add_column :prevgames, :away_pitcher_ip, :float
+    add_column :prevgames, :away_pitcher_h, :integer
+    add_column :prevgames, :away_pitcher_r, :integer
+    add_column :prevgames, :away_pitcher_bb, :integer
+    add_column :prevgames, :away_pitcher_game_first_ip, :float
+    add_column :prevgames, :away_pitcher_game_first_bb, :integer
+    add_column :prevgames, :away_pitcher_game_first_h, :integer
+    add_column :prevgames, :away_pitcher_game_first_r, :integer
+    add_column :prevgames, :away_pitcher_game_opp_first_ip, :float
+    add_column :prevgames, :away_pitcher_game_opp_first_bb, :integer
+    add_column :prevgames, :away_pitcher_game_opp_first_h, :integer
+    add_column :prevgames, :away_pitcher_game_opp_first_r, :integer
+    add_column :prevgames, :away_pitcher_game_second_ip, :float
+    add_column :prevgames, :away_pitcher_game_second_bb, :integer
+    add_column :prevgames, :away_pitcher_game_second_h, :integer
+    add_column :prevgames, :away_pitcher_game_second_r, :integer
+    add_column :prevgames, :away_pitcher_game_opp_second_ip, :float
+    add_column :prevgames, :away_pitcher_game_opp_second_bb, :integer
+    add_column :prevgames, :away_pitcher_game_opp_second_h, :integer
+    add_column :prevgames, :away_pitcher_game_opp_second_r, :integer
+
+    add_column :prevgames, :home_pitcher_ip, :float
+    add_column :prevgames, :home_pitcher_h, :integer
+    add_column :prevgames, :home_pitcher_r, :integer
+    add_column :prevgames, :home_pitcher_bb, :integer
+    add_column :prevgames, :home_pitcher_game_first_ip, :float
+    add_column :prevgames, :home_pitcher_game_first_bb, :integer
+    add_column :prevgames, :home_pitcher_game_first_h, :integer
+    add_column :prevgames, :home_pitcher_game_first_r, :integer
+    add_column :prevgames, :home_pitcher_game_opp_first_ip, :float
+    add_column :prevgames, :home_pitcher_game_opp_first_bb, :integer
+    add_column :prevgames, :home_pitcher_game_opp_first_h, :integer
+    add_column :prevgames, :home_pitcher_game_opp_first_r, :integer
+    add_column :prevgames, :home_pitcher_game_second_ip, :float
+    add_column :prevgames, :home_pitcher_game_second_bb, :integer
+    add_column :prevgames, :home_pitcher_game_second_h, :integer
+    add_column :prevgames, :home_pitcher_game_second_r, :integer
+    add_column :prevgames, :home_pitcher_game_opp_second_ip, :float
+    add_column :prevgames, :home_pitcher_game_opp_second_bb, :integer
+    add_column :prevgames, :home_pitcher_game_opp_second_h, :integer
+    add_column :prevgames, :home_pitcher_game_opp_second_r, :integer
+  end
+end

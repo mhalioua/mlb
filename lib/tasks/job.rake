@@ -21,7 +21,7 @@ namespace :job do
 
   task :prevgame => :environment do
     require 'csv'
-    filename = File.join Rails.root, 'csv' , "prev_game.csv"
+    filename = File.join Rails.root, 'csv' , "new_weather_second.csv"
     CSV.foreach(filename, headers: true) do |row|
       game = row.to_h
       if game['away_total']
