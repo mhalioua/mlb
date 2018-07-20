@@ -28,7 +28,8 @@ namespace :job do
         line_index = row['away_total'].index('-')
         line_index = row['away_total'].index('+') unless line_index
         game['total_line'] = line_index ? row['away_total'][0..line_index-1] : ''
-        game['Home_Team'] = game['home_team']
+        home_team_index = game['home_team'].index(' ')
+        game['Home_Team'] = game['home_team'][0..home_team_index-1]
         game['N'] = game['speed'].to_i
         game['M'] = game['wind']
       end
