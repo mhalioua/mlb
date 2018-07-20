@@ -44,11 +44,9 @@ namespace :job do
   task :fix_first =>  :environment do
     games = Workbook.all
     games.each do |game|
-      if game['away_total']
-        line_index = game['away_total'].index('-')
-        line_index = game['away_total'].index('+') unless line_index
-        game.update(total_line: line_index ? game['away_total'][0..line_index-1] : '')
-      end
+      line_index = game['away_total'].index('-')
+      line_index = game['away_total'].index('+') unless line_index
+      game.update(total_line: line_index ? game['away_total'][0..line_index-1] : '')
     end
   end
 
