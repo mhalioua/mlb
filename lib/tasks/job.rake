@@ -42,7 +42,7 @@ namespace :job do
   end
 
   task :fix_first =>  :environment do
-    games = Workbook.all
+    games = Workbook.where('total_line is null')
     games.each do |game|
       if game['Away_Total']
         line_index = game['Away_Total'].index('-')
