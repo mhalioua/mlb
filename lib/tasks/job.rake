@@ -37,7 +37,7 @@ namespace :job do
     require 'csv'
     filename = Rails.root.join('csv', 'new_weather_first.csv')
     CSV.foreach(filename, headers: true) do |row|
-      WeatherFirst.create(row.to_h)
+      Workbook.create(row.to_h)
     end
   end
 
