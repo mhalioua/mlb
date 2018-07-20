@@ -67,6 +67,11 @@ module GameHelper
 
     search_string = []
     winds = []
+    if name == 'Rockies'
+      search_string.push('"table" = ' + "'colowind'")
+    else
+      search_string.push('"table" = ' + "'wind'")
+    end
 
     search_string.push('"Home_Team" = ' + "'#{name}'")
     wind = get_wind('average runs in this stadium', search_string, 0)
@@ -131,6 +136,11 @@ module GameHelper
     currect_directions = currect_directions.uniq
 
     search_string = []
+    if name == 'Rockies'
+      search_string.push('"table" = ' + "'colowind'")
+    else
+      search_string.push('"table" = ' + "'wind'")
+    end
     search_string.push('"Home_Team" = ' + "'#{name}'")
     search_string.push('"N" >= ' + "#{filter_min}" + ' AND "N" <= ' + "#{filter_max}")
 
@@ -272,6 +282,11 @@ module GameHelper
 
     search_string = []
     winds = []
+    if name == 'Rockies'
+      search_string.push('"table" = ' + "'colowind'")
+    else
+      search_string.push('"table" = ' + "'wind'")
+    end
 
     search_string.push('"Home_Team" = ' + "'#{name}'")
 
@@ -372,8 +387,22 @@ module GameHelper
     ]
   end
 
-  def total_data(name)
+  def table_type(name)
     search_string = []
+    if name == 'Astros'
+      search_string.push('"table" = ' + "'houston'")
+    elsif name == 'Rays'
+      search_string.push('"table" = ' + "'tampa'")
+    elsif name == 'Rockies'
+      search_string.push('"table" = ' + "'colo'")
+    else
+      search_string.push('"table" = ' + "'Workbook'")
+    end
+    return search_string
+  end
+
+  def total_data(name)
+    search_string = table_type(name)
     result = {}
 
     query = Workbook.where(search_string.join(" AND "))
@@ -408,8 +437,8 @@ module GameHelper
   end
 
   def true_data(temp_min, temp_max, dew_min, dew_max, humid_min, humid_max, baro_min, baro_max, wind_min, wind_max, wind_dir1, wind_dir2, name)
-    search_string = []
-    search_string_low = []
+    search_string = table_type(name)
+    search_string_low = table_type(name)
     result = {}
     if temp_max != -1
       search_string.push('"TEMP" >= ' + "'#{temp_min}'" + ' AND "TEMP" <= ' + "'#{temp_max}'")
