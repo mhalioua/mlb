@@ -12,7 +12,6 @@ class AddColumnToPrevious < ActiveRecord::Migration[5.1]
     add_column :prevgames, :h8, :integer
     add_column :prevgames, :h9, :integer
     add_column :prevgames, :h10, :integer
-    add_column :prevgames, :total_walks_both_team, :integer
     add_column :prevgames, :total_doubles_both_team, :integer
     add_column :prevgames, :total_triples_both_team, :integer
     add_column :prevgames, :total_bases_both_team, :integer
