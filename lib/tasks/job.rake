@@ -130,7 +130,7 @@ namespace :job do
 
   task :weather_first_game => :environment do
     include GetHtml
-    weather_firsts = WeatherFirst.where('game_id is null')
+    weather_firsts = Newworkbook.where('hits1 is null')
     weather_firsts.each do |weather_first|
       game_date = Date.strptime(weather_first.Date, "%m/%d/%Y")
       game_date = game_date.strftime("%F")
@@ -150,7 +150,6 @@ namespace :job do
         home_score = slice.children[3].children[3].text.to_i
         if away_team.include?(away_team_data) && home_team.include?(home_team_data)
           game_id = slice.children[1].children[5].children[1]['href']
-          weather_first.update(game_id: game_id)
           url="https://www.baseball-reference.com#{game_id}"
           doc = download_document(url)
           next unless doc
@@ -192,8 +191,6 @@ namespace :job do
                   weather_first.update(hits8: hits, home_runs8: home_runs)
                 elsif row_number === 9
                   weather_first.update(hits9: hits, home_runs9: home_runs)
-                elsif row_number === 10
-                  weather_first.update(hits10: hits, home_runs10: home_runs)
                 end
                 hits = 0
                 home_runs = 0
