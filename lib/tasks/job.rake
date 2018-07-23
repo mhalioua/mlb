@@ -132,9 +132,10 @@ namespace :job do
     include GetHtml
     weather_firsts = Newworkbook.where('hits1 is null')
     weather_firsts.each do |weather_first|
-      game_date = Date.strptime(weather_first.Date, "%m/%d/%Y")
+      game_date = Date.strptime(weather_first.Date, "%m/%d/%y")
       game_date = game_date.strftime("%F")
       url = "https://www.baseball-reference.com/boxes/?date=#{game_date}"
+      puts url
       doc = download_document(url)
       next unless doc
       doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
