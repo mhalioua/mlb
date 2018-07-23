@@ -1,0 +1,2 @@
+class Newworkbook < ApplicationRecord
+end

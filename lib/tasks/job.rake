@@ -13,9 +13,9 @@ namespace :job do
 
   task :totalData => :environment do
     require 'csv'
-    filename = Rails.root.join('csv', 'totals.csv')
+    filename = Rails.root.join('csv', 'newworkbook.csv')
     CSV.foreach(filename, headers: true) do |row|
-      Total.create(row.to_h)
+      Newworkbook.create(row.to_h)
     end
   end
 
