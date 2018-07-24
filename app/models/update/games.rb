@@ -28,8 +28,8 @@ module Update
           if index == game_size
             break
           end
-          home_abbr = element.children[0].children[0].children[1].children[0].text[0...3].squish
-          away_abbr = element.children[1].children[0].children[1].children[0].text[0...3].squish
+          home_abbr = element.children[1].children[0].children[1].children[0].text[0...3].squish
+          away_abbr = element.children[0].children[0].children[1].children[0].text[0...3].squish
           home_abbr = 'CHW' if home_abbr == 'CWS'
           away_abbr = 'CHW' if away_abbr == 'CWS'
           home_team = Team.find_by(espn_abbr: home_abbr)
@@ -43,8 +43,8 @@ module Update
           if index == game_size
             break
           end
-          home_line = element.children[0].text.squish
-          away_line = element.children[1].text.squish
+          home_line = element.children[1].text.squish
+          away_line = element.children[0].text.squish
           away_money_line << away_line
           home_money_line << home_line
         end
@@ -57,8 +57,8 @@ module Update
           if index == game_size
             break
           end
-          home_line = element.children[0].text.squish
-          away_line = element.children[1].text.squish
+          home_line = element.children[1].text.squish
+          away_line = element.children[0].text.squish
           away_totals << away_line
           home_totals << home_line
         end
