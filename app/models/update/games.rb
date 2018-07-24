@@ -39,7 +39,7 @@ module Update
 
         away_money_line = Array.new
         home_money_line = Array.new
-        doc.css(".slick-track ._2NFWr").each_with_index do |element, index|
+        doc.css("._2-YDr ._2NFWr:nth-child(2)").each_with_index do |element, index|
           if index == game_size
             break
           end
@@ -53,7 +53,7 @@ module Update
         home_totals = Array.new
         url = "https://www.sportsbookreview.com/betting-odds/mlb-baseball/totals/" + date_url
         doc = Nokogiri::HTML(open(url))
-        doc.css(".slick-track ._2NFWr").each_with_index do |element, index|
+        doc.css("._2NFWr").each_with_index do |element, index|
           if index == game_size
             break
           end
