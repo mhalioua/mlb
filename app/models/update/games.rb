@@ -21,15 +21,15 @@ module Update
         url = "https://www.sportsbookreview.com/betting-odds/mlb-baseball/#{date_url}"
         puts url
         doc = Nokogiri::HTML(open(url))
-        elements = doc.css("._2nxl1")
+        elements = doc.css("._1MtUn")
         game_array = Array.new
         elements.each_with_index do |element, index|
           # Break once we find the all teams playing today
           if index == game_size
             break
           end
-          home_abbr = element.children[0].text[0...3].squish
-          away_abbr = element.children[0].text[0...3].squish
+          home_abbr = element.children[0].children[0].children[1].children[0].text[0...3].squish
+          away_abbr = element.children[1].children[0].children[1].children[0].text[0...3].squish
           home_abbr = 'CHW' if home_abbr == 'CWS'
           away_abbr = 'CHW' if away_abbr == 'CWS'
           home_team = Team.find_by(espn_abbr: home_abbr)
@@ -39,12 +39,12 @@ module Update
 
         away_money_line = Array.new
         home_money_line = Array.new
-        doc.css("._2cc9d").each_with_index do |element, index|
+        doc.css("._2NFWr").each_with_index do |element, index|
           if index == game_size
             break
           end
-          home_line = element.text.squish
-          away_line = element.text.squish
+          home_line = element.children[0].text.squish
+          away_line = element.children[1].text.squish
           away_money_line << away_line
           home_money_line << home_line
         end
@@ -53,12 +53,12 @@ module Update
         home_totals = Array.new
         url = "https://www.sportsbookreview.com/betting-odds/mlb-baseball/totals/" + date_url
         doc = Nokogiri::HTML(open(url))
-        doc.css("._2cc9d").each_with_index do |element, index|
+        doc.css("._2NFWr").each_with_index do |element, index|
           if index == game_size
             break
           end
-          home_line = element.text.squish
-          away_line = element.text.squish
+          home_line = element.children[0].text.squish
+          away_line = element.children[1].text.squish
           away_totals << away_line
           home_totals << home_line
         end
