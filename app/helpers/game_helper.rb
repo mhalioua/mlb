@@ -374,6 +374,7 @@ module GameHelper
   def get_wind(header_string, search_string, flag)
     query = Workbook.where(search_string.join(" AND ")).to_a
     count = Workbook.where(search_string.join(" AND ")).count(:R)
+    line_count = Workbook.where(search_string.join(" AND ")).count(:total_line)
 
     return [
       header_string,
@@ -383,7 +384,7 @@ module GameHelper
       (query.map {|stat| stat.Total_Walks.to_f }.sum / (count == 0 ? 1 : count)).round(2),
       (query.map {|stat| stat.home_runs.to_f }.sum / (count == 0 ? 1 : count)).round(2),
       flag,
-      (query.map {|stat| stat.total_line.to_f }.sum / (count == 0 ? 1 : count)).round(2)
+      (query.map {|stat| stat.total_line.to_f }.sum / (line_count == 0 ? 1 : line_count)).round(2)
     ]
   end
 
