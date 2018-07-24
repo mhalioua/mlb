@@ -149,7 +149,7 @@ namespace :job do
         home_team = slice.children[3].children[1].children[0].text
         away_score = slice.children[1].children[3].text.to_i
         home_score = slice.children[3].children[3].text.to_i
-        if away_team.include?(away_team_data) && home_team.include?(home_team_data) && away_score_data == away_score && home_score_data == home_score
+        if away_team.include?(away_team_data) && home_team.include?(home_team_data)
           game_id = slice.children[1].children[5].children[1]['href']
           url="https://www.baseball-reference.com#{game_id}"
           doc = download_document(url)
