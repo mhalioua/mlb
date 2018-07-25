@@ -38,15 +38,6 @@
       <th width="50" style="background: red;">Home +/- 1</th>
       <th width="50" style="background: red;">Home Total Count +/- 1</th>
       <th width="50" style="background: red;">Total Lines Average</th>
-      <th width="50">Total Average 1</th>
-      <th width="50">Total Average 2</th>
-      <th width="50">Total Hits Average</th>
-      <th width="50">Home Runs Average</th>
-      <th width="50">Total Count</th>
-      <th width="10" class="blue"></th>
-      <th width="50">+/-1</th>
-      <th width="50">Total Count +/-1</th>
-      <th width="50">Total Lines Average</th>
   	</tr>
   </thead>
   <tbody>
@@ -72,11 +63,6 @@
       <td colspan="5" >Only <%= stadium %> with wind</td>
       <td><%= result[:total_hits_park_avg] %></td>
       <td><%= result[:total_hr_park] %></td>
-      <td style="background: yellow;">8.93</td>
-      <td style="background: yellow;">8.84</td>
-      <td colspan="5" style="background: yellow;">All Stadiums</td>
-      <td style="background: yellow;">17.62</td>
-      <td style="background: yellow;">1.97</td>
     </tr>
 
     <% weathers.each do |weather|
@@ -122,15 +108,6 @@
         <td bgcolor="lightgray"><%= result[:home_one_wind] %></td>
         <td bgcolor="lightgray"><%= result[:home_one_count_wind] %></td>
         <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg_wind] %></td>
-        <td><%= result[:total_avg_1] %></td>
-        <td><%= result[:total_avg_2] %></td>
-        <td><%= result[:total_hits_avg] %></td>
-        <td><%= result[:home_runs_avg] %></td>
-        <td><%= result[:total_count] %></td>
-        <td class="blue"></td>
-        <td><%= result[:lower_one] %></td>
-        <td><%= result[:lower_one_count] %></td>
-        <td style="background: gray; color: sandybrown;"><%= result[:total_lines_avg] %></td>
     	</tr>
     <% end %>
 
@@ -232,27 +209,27 @@
       <% if one_sec == 1 %>
         <% 
           if weathers[0].humid_num > weathers[3].humid_num
-            hum_min = weathers[0].humid_num + 1
-            hum_max = weathers[0].humid_num + 6
+            hum_min = weathers[0].humid_num + 4
+            hum_max = weathers[0].humid_num + 9
           else
-            hum_min = weathers[0].humid_num - 6
-            hum_max = weathers[0].humid_num - 1
+            hum_min = weathers[0].humid_num - 9
+            hum_max = weathers[0].humid_num - 4
           end
         %>
-        <%= render partial: "game/new/weather_value", locals: { caption: "Before", temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_min, hum_max: hum_max, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "", color: "gray", weather_one_speed: weather_one.wind_speed, weather_two_speed: weather_two.wind_speed, weather_one_dir: weather_one.wind_dir, weather_two_dir: weather_two.wind_dir } %>
+        <%= render partial: "game/new/weather_value", locals: { caption: "Minus 5", temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_min, hum_max: hum_max, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "", color: "gray", weather_one_speed: weather_one.wind_speed, weather_two_speed: weather_two.wind_speed, weather_one_dir: weather_one.wind_dir, weather_two_dir: weather_two.wind_dir } %>
       <% end %>
 
       <% if one_sec == 3 %>
         <% 
           if weathers[0].humid_num < weathers[3].humid_num
-            hum_min = weathers[3].humid_num + 1
-            hum_max = weathers[3].humid_num + 6
+            hum_min = weathers[3].humid_num + 4
+            hum_max = weathers[3].humid_num + 9
           else
             hum_min = weathers[3].humid_num - 6
             hum_max = weathers[3].humid_num - 1
           end
         %>
-        <%= render partial: "game/new/weather_value", locals: { caption: "After", temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_min, hum_max: hum_max, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "", color: "gray", weather_one_speed: weather_one.wind_speed, weather_two_speed: weather_two.wind_speed, weather_one_dir: weather_one.wind_dir, weather_two_dir: weather_two.wind_dir } %>
+        <%= render partial: "game/new/weather_value", locals: { caption: "Plus 5", temp_min: temp_min, temp_max: temp_max, dew_min: dew_min, dew_max: dew_max, hum_min: hum_min, hum_max: hum_max, pressure_min: (pressure_min/100.0).round(2), pressure_max: (pressure_max/100.0).round(2), name: name, wind: "", color: "gray", weather_one_speed: weather_one.wind_speed, weather_two_speed: weather_two.wind_speed, weather_one_dir: weather_one.wind_dir, weather_two_dir: weather_two.wind_dir } %>
       <% end %>
 
       <%

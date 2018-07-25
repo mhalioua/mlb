@@ -182,27 +182,27 @@ module Update
       
         if one_sec == 1
           if weathers[0].humid_num > weathers[3].humid_num
-            hum_min = weathers[0].humid_num + 1
-            hum_max = weathers[0].humid_num + 6
+            hum_min = weathers[0].humid_num + 4
+            hum_max = weathers[0].humid_num + 9
           else
-            hum_min = weathers[0].humid_num - 6
-            hum_max = weathers[0].humid_num - 1
+            hum_min = weathers[0].humid_num - 9
+            hum_max = weathers[0].humid_num - 4
           end
           result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_min, wind_max, weather_one.wind_dir, weather_two.wind_dir, name)
-          create_weathersource(game.id, date, 2, block_number, row_number, "Before", "#{temp_min}-#{temp_max}", "#{dew_min.round}-#{dew_max.round} #{(dew_min+1).round}-#{(dew_max-1).round}", hum_min === hum_max ? hum_min : "#{hum_min}-#{hum_max}", "#{(pressure_min*100).round%100}-#{(pressure_max*100).round%100}", "#{wind_min}-#{wind_max} ," + (weather_one.wind_dir == weather_two.wind_dir ? weather_one.wind_dir : "#{weather_one.wind_dir}, #{weather_two.wind_dir}"), result)
+          create_weathersource(game.id, date, 2, block_number, row_number, "Minus 5", "#{temp_min}-#{temp_max}", "#{dew_min.round}-#{dew_max.round} #{(dew_min+1).round}-#{(dew_max-1).round}", hum_min === hum_max ? hum_min : "#{hum_min}-#{hum_max}", "#{(pressure_min*100).round%100}-#{(pressure_max*100).round%100}", "#{wind_min}-#{wind_max} ," + (weather_one.wind_dir == weather_two.wind_dir ? weather_one.wind_dir : "#{weather_one.wind_dir}, #{weather_two.wind_dir}"), result)
           row_number = row_number + 1
         end
 
         if one_sec == 3
           if weathers[0].humid_num < weathers[3].humid_num
-            hum_min = weathers[3].humid_num + 1
-            hum_max = weathers[3].humid_num + 6
+            hum_min = weathers[3].humid_num + 4
+            hum_max = weathers[3].humid_num + 9
           else
-            hum_min = weathers[3].humid_num - 6
-            hum_max = weathers[3].humid_num - 1
+            hum_min = weathers[3].humid_num - 9
+            hum_max = weathers[3].humid_num - 4
           end
           result = true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_min, wind_max, weather_one.wind_dir, weather_two.wind_dir, name)
-          create_weathersource(game.id, date, 2, block_number, row_number, "After", "#{temp_min}-#{temp_max}", "#{dew_min.round}-#{dew_max.round} #{(dew_min+1).round}-#{(dew_max-1).round}", hum_min === hum_max ? hum_min : "#{hum_min}-#{hum_max}", "#{(pressure_min*100).round%100}-#{(pressure_max*100).round%100}", "#{wind_min}-#{wind_max} ," + (weather_one.wind_dir == weather_two.wind_dir ? weather_one.wind_dir : "#{weather_one.wind_dir}, #{weather_two.wind_dir}"), result)
+          create_weathersource(game.id, date, 2, block_number, row_number, "Plus 5", "#{temp_min}-#{temp_max}", "#{dew_min.round}-#{dew_max.round} #{(dew_min+1).round}-#{(dew_max-1).round}", hum_min === hum_max ? hum_min : "#{hum_min}-#{hum_max}", "#{(pressure_min*100).round%100}-#{(pressure_max*100).round%100}", "#{wind_min}-#{wind_max} ," + (weather_one.wind_dir == weather_two.wind_dir ? weather_one.wind_dir : "#{weather_one.wind_dir}, #{weather_two.wind_dir}"), result)
           row_number = row_number + 1
         end
         
@@ -249,14 +249,6 @@ module Update
           humid: hum,
           pressure: pressure,
           wind: wind,
-          all_stadium_total_average_one: result[:total_avg_1],
-          all_stadium_total_average_two: result[:total_avg_2],
-          all_stadium_total_hits_average: result[:total_hits_avg],
-          all_stadium_home_runs_average: result[:home_runs_avg],
-          all_stadium_total_count: result[:total_count],
-          all_stadium_min_total_average: result[:lower_one],
-          all_stadium_min_total_count: result[:lower_one_count],
-          all_stadium_total_lines_average: result[:total_lines_avg],
           only_total_average_one: result[:home_total_runs1_avg],
           only_total_average_two: result[:home_total_runs2_avg],
           only_total_hits_average: result[:total_hits_park_avg],

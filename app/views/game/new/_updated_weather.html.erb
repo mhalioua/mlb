@@ -38,15 +38,6 @@
       <th width="50" style="background: red;">Home +/- 1</th>
       <th width="50" style="background: red;">Home Total Count +/- 1</th>
       <th width="50" style="background: red;">Total Lines Average</th>
-      <th width="50">Total Average 1</th>
-      <th width="50">Total Average 2</th>
-      <th width="50">Total Hits Average</th>
-      <th width="50">Home Runs Average</th>
-      <th width="50">Total Count</th>
-      <th width="10" class="blue"></th>
-      <th width="50">+/-1</th>
-      <th width="50">Total Count +/-1</th>
-      <th width="50">Total Lines Average</th>
   	</tr>
   </thead>
   <tbody>
@@ -72,11 +63,6 @@
       <td colspan="5" >Only <%= stadium %> with wind</td>
       <td><%= result[:total_hits_park_avg] %></td>
       <td><%= result[:total_hr_park] %></td>
-      <td style="background: yellow;"><%= result[:total_avg_1] %></td>
-      <td style="background: yellow;"><%= result[:total_avg_2] %></td>
-      <td colspan="5" style="background: yellow;">All Stadiums</td>
-      <td style="background: yellow;"><%= result[:total_hits_avg] %></td>
-      <td style="background: yellow;"><%= result[:home_runs_avg] %></td>
     </tr>
     <% block_number = 0 %>
 
@@ -86,7 +72,7 @@
       bgcolor = "lightgreen" if weather.caption == "With wind"
       color = ""
       color = "#6495ED" if weather.caption == "With wind"
-      color = "gray" if weather.caption == "Before" || weather.caption == "After"
+      color = "gray" if weather.caption == "Minus 5" || weather.caption == "Plus 5"
     %>
       <% if block_number != weather.block_number %>
           <% if weather.block_number == 1 || weather.block_number == 2 || weather.block_number == 3 %>
