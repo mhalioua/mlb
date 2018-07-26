@@ -38,6 +38,15 @@
       <th width="50" style="background: red;">Home +/- 1</th>
       <th width="50" style="background: red;">Home Total Count +/- 1</th>
       <th width="50" style="background: red;">Total Lines Average</th>
+      <th width="50">Total Average 1</th>
+      <th width="50">Total Average 2</th>
+      <th width="50">Total Hits Average</th>
+      <th width="50">Home Runs Average</th>
+      <th width="50">Total Count</th>
+      <th width="10" class="blue"></th>
+      <th width="50">+/-1</th>
+      <th width="50">Total Count +/-1</th>
+      <th width="50">Total Lines Average</th>
   	</tr>
   </thead>
   <tbody>
@@ -64,6 +73,11 @@
         <td colspan="5" >Only <%= stadium %> with wind</td>
         <td><%= result[:total_hits_park_avg] %></td>
         <td><%= result[:total_hr_park] %></td>
+        <td style="background: yellow;">9.12</td>
+        <td style="background: yellow;"></td>
+        <td colspan="5" style="background: yellow;">All Stadiums</td>
+        <td style="background: yellow;">17.63</td>
+        <td style="background: yellow;">2.05</td>
       </tr>
 
       <% weathers.each_with_index do |weather, index|
@@ -109,6 +123,15 @@
           <td bgcolor="lightgray"><%= result[:home_one_wind] %></td>
           <td bgcolor="lightgray"><%= result[:home_one_count_wind] %></td>
           <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg_wind] %></td>
+          <td><%= result[:total_avg_1] %></td>
+          <td><%= result[:total_avg_2] %></td>
+          <td><%= result[:total_hits_avg] %></td>
+          <td><%= result[:home_runs_avg] %></td>
+          <td><%= result[:total_count] %></td>
+          <td class="blue"></td>
+          <td><%= result[:lower_one] %></td>
+          <td><%= result[:lower_one_count] %></td>
+          <td style="background: gray; color: sandybrown;"><%= result[:total_lines_avg] %></td>
       	</tr>
       <% end %>
 
