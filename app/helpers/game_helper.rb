@@ -465,14 +465,13 @@ module GameHelper
 
     query = Workbook.where(search_string_all.join(" AND ")).to_a
     temp_count = query.count
-    lines_count = query.count{|x| x.total_line != nil}
 
     result[:total_count] = temp_count
     result[:total_avg_1] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:total_avg_2] = (query.map {|stat| stat.Total_Hits.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:total_hits_avg] = (query.map {|stat| stat.Total_Walks.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_runs_avg] = (query.map {|stat| stat.home_runs.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
-    result[:total_lines_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count == 0 ? 1 : lines_count)).round(2)
+    result[:total_lines_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
 
     search_string_low_all = search_string_low.dup
     search_string_low_all.push('"total_line" is not null ')
@@ -582,14 +581,13 @@ module GameHelper
 
     query = Prevgame.where(search_string_all.join(" AND ")).to_a
     temp_count = query.count
-    lines_count = query.count{|x| x.total_line != nil}
 
     result[:total_count] = temp_count
     result[:total_avg_1] = (query.map {|stat| stat.total.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:total_avg_2] = ''
     result[:total_hits_avg] = (query.map {|stat| stat.total_hits_both_team.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_runs_avg] = (query.map {|stat| stat.total_home_runs_both_team.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
-    result[:total_lines_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count == 0 ? 1 : lines_count)).round(2)
+    result[:total_lines_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
 
     search_string_low_all = search_string_low.dup
     search_string_low_all.push('"total_line" is not null ')
