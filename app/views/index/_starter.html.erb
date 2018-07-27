@@ -149,10 +149,10 @@
 	if opposite
 		batters = opposite.opposing_lineup
 		batters = opposite.predict_opposing_lineup if batters.empty?
+    handedness_value = handedness(opposite.throwhand == "L")
 	end
 	season_one = Season.find_by(year: 2016)
 	season_two = Season.find_by(year: 2017)
-  handedness_value = handedness(opposite.throwhand == "L")
 	stats_one = batters.map { |batter| batter.player.create_batter(season_one).stats(handedness_value) }
 	stats_two = batters.map { |batter| batter.player.create_batter(season_two).stats(handedness_value) }
 	stats_three = batters.map { |batter| batter.stats(handedness_value) }
