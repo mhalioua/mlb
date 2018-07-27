@@ -13,7 +13,6 @@
 <td rowspan="2" style="background: rgb(0, 233, 208);"><%= left_stat.fip %></th>
 <% left_stat = stats[0].where(handedness: "L").first %>
 <td rowspan="2" style="background: rgb(0, 233, 208);"><%= left_stat.fip %></th>
-<td rowspan="2"><span style="display: none"> <%= stats[1].first.inspect %> <%= stats[1].second.inspect %> </span><%= mixed_statistic(stats[1].first.tld, stats[1].second.tld, lefty, righty) %></th>
 <td rowspan="2"><%= mixed_statistic(stats[0].first.tld, stats[0].second.tld, lefty, righty) %></th>
 <%
 	prev_pitchers = pitcher.prev_pitchers
@@ -151,15 +150,12 @@
 		batters = opposite.opposing_lineup
 		batters = opposite.predict_opposing_lineup if batters.empty?
 	end
-%>
-<%
 	season_one = Season.find_by(year: 2016)
 	season_two = Season.find_by(year: 2017)
-	season_three = Season.find_by(year: 2018)
-	batter_id = batters.map { |batter| batter.id }
-	stats_one = batters.map { |batter| batter.player.create_batter(season_one).stats(handedness(opposite.throwhand == "L")) }
-	stats_two = batters.map { |batter| batter.player.create_batter(season_two).stats(handedness(opposite.throwhand == "L")) }
-	stats_three = batters.map { |batter| batter.stats(handedness(opposite.throwhand == "L")) }
+  handedness_value = handedness(opposite.throwhand == "L")
+	stats_one = batters.map { |batter| batter.player.create_batter(season_one).stats(handedness_value) }
+	stats_two = batters.map { |batter| batter.player.create_batter(season_two).stats(handedness_value) }
+	stats_three = batters.map { |batter| batter.stats(handedness_value) }
 	sb_two = stats_two.map {|stat| stat.sb }.sum
 	ab_two = stats_two.map {|stat| stat.ab }.sum
 	sb_three = stats_three.map {|stat| stat.sb }.sum
