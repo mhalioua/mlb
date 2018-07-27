@@ -51,6 +51,7 @@ class Lancer < ApplicationRecord
     i = 1
     while true
       prev_game_day = game_day.previous_days(i)
+      break if i == 100
       unless prev_game_day
         i += 1
         next

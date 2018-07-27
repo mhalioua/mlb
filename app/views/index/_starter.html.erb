@@ -3,17 +3,17 @@
 <% lefty, righty = pitcher.opposing_batters_handedness %>
 <td rowspan="2" style="background: darkorange;"><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
 <td rowspan="2"><%= pitcher.player.age %></td>
-<td rowspan="2"><%= mixed_statistic_ip(stats[1].first.ip, stats[1].second.ip) %></th>
-<td rowspan="2"><%= mixed_statistic_ip(stats[0].first.ip, stats[0].second.ip) %></th>
-<td rowspan="2" style="background: rgb(54,155,148);"><%= mixed_statistic(stats[1].first.gb, stats[1].second.gb, lefty, righty) %></th>
-<td rowspan="2" style="background: rgb(54,155,148);"><%= mixed_statistic(stats[0].first.gb, stats[0].second.gb, lefty, righty) %></th>
-<td rowspan="2"><%= mixed_statistic(stats[1].first.woba, stats[1].second.woba, lefty, righty).to_i %></th>
-<td rowspan="2"><%= mixed_statistic(stats[0].first.woba, stats[0].second.woba, lefty, righty).to_i %></th>
+<td rowspan="2"><%= mixed_statistic_ip(stats[1].first.ip, stats[1].second.ip) %></td>
+<td rowspan="2"><%= mixed_statistic_ip(stats[0].first.ip, stats[0].second.ip) %></td>
+<td rowspan="2" style="background: rgb(54,155,148);"><%= mixed_statistic(stats[1].first.gb, stats[1].second.gb, lefty, righty) %></td>
+<td rowspan="2" style="background: rgb(54,155,148);"><%= mixed_statistic(stats[0].first.gb, stats[0].second.gb, lefty, righty) %></td>
+<td rowspan="2"><%= mixed_statistic(stats[1].first.woba, stats[1].second.woba, lefty, righty).to_i %></td>
+<td rowspan="2"><%= mixed_statistic(stats[0].first.woba, stats[0].second.woba, lefty, righty).to_i %></td>
 <% left_stat = stats[1].where(handedness: "L").first %>
-<td rowspan="2" style="background: rgb(0, 233, 208);"><%= left_stat.fip %></th>
+<td rowspan="2" style="background: rgb(0, 233, 208);"><%= left_stat.fip %></td>
 <% left_stat = stats[0].where(handedness: "L").first %>
-<td rowspan="2" style="background: rgb(0, 233, 208);"><%= left_stat.fip %></th>
-<td rowspan="2"><%= mixed_statistic(stats[0].first.tld, stats[0].second.tld, lefty, righty) %></th>
+<td rowspan="2" style="background: rgb(0, 233, 208);"><%= left_stat.fip %></td>
+<td rowspan="2"><%= mixed_statistic(stats[0].first.tld, stats[0].second.tld, lefty, righty) %></td>
 <%
 	prev_pitchers = pitcher.prev_pitchers
 	game_one_ip = []
@@ -129,20 +129,20 @@
 		end
 	end
 %>
-<td rowspan="2" style="background: rgb(54,155,148);"><%= ((game_one_bb + game_one_h) / add_innings(game_one_ip).to_f).round(2) %></th>
-<td rowspan="2" style="background: rgb(0,124,119);"><%= ((game_one_opp_bb + game_one_opp_h) / add_innings(game_one_opp_ip).to_f).round(2) %></th>
-<td rowspan="2" style="background: rgb(54,155,148);"><%= ((game_two_bb + game_two_h) / add_innings(game_two_ip).to_f).round(2) %></th>
-<td rowspan="2" style="background: rgb(0,124,119);"><%= ((game_two_opp_bb + game_two_opp_h) / add_innings(game_two_opp_ip).to_f).round(2) %></th>
-<td rowspan="2" style="background: hotpink;"><%= ((game_six_bb + game_six_h) / add_innings(game_six_ip).to_f).round(2) %></th>
-<td rowspan="2" style="background: hotpink;"><%= ((game_six_opp_bb + game_six_opp_h) / add_innings(game_six_opp_ip).to_f).round(2) %></th>
-<td rowspan="2"><%= ((game_three_bb + game_three_h) / add_innings(game_three_ip).to_f).round(2) %></th>
-<td rowspan="2" style="background: gray;"><%= ((game_three_opp_bb + game_three_opp_h) / add_innings(game_three_opp_ip).to_f).round(2) %></th>
-<td rowspan="2"><%= ((game_four_bb + game_four_h) / add_innings(game_four_ip).to_f).round(2) %></th>
-<td rowspan="2" style="background: gray;"><%= ((game_four_opp_bb + game_four_opp_h) / add_innings(game_four_opp_ip).to_f).round(2) %></th>
-<td rowspan="2"><%= ((game_five_bb + game_five_h) / add_innings(game_five_ip).to_f).round(2) %></th>
-<td rowspan="2" style="background: gray;"><%= ((game_five_opp_bb + game_five_opp_h) / add_innings(game_five_opp_ip).to_f).round(2) %></th>
-<td rowspan="2" style="background: hotpink;"><%= ((game_seven_bb + game_seven_h) / add_innings(game_seven_ip).to_f).round(2) %></th>
-<td rowspan="2" style="background: hotpink;"><%= ((game_seven_opp_bb + game_seven_opp_h) / add_innings(game_seven_opp_ip).to_f).round(2) %></th>
+<td rowspan="2" style="background: rgb(54,155,148);"><%= ((game_one_bb + game_one_h) / add_innings(game_one_ip).to_f).round(2) %></td>
+<td rowspan="2" style="background: rgb(0,124,119);"><%= ((game_one_opp_bb + game_one_opp_h) / add_innings(game_one_opp_ip).to_f).round(2) %></td>
+<td rowspan="2" style="background: rgb(54,155,148);"><%= ((game_two_bb + game_two_h) / add_innings(game_two_ip).to_f).round(2) %></td>
+<td rowspan="2" style="background: rgb(0,124,119);"><%= ((game_two_opp_bb + game_two_opp_h) / add_innings(game_two_opp_ip).to_f).round(2) %></td>
+<td rowspan="2" style="background: hotpink;"><%= ((game_six_bb + game_six_h) / add_innings(game_six_ip).to_f).round(2) %></td>
+<td rowspan="2" style="background: hotpink;"><%= ((game_six_opp_bb + game_six_opp_h) / add_innings(game_six_opp_ip).to_f).round(2) %></td>
+<td rowspan="2"><%= ((game_three_bb + game_three_h) / add_innings(game_three_ip).to_f).round(2) %></td>
+<td rowspan="2" style="background: gray;"><%= ((game_three_opp_bb + game_three_opp_h) / add_innings(game_three_opp_ip).to_f).round(2) %></td>
+<td rowspan="2"><%= ((game_four_bb + game_four_h) / add_innings(game_four_ip).to_f).round(2) %></td>
+<td rowspan="2" style="background: gray;"><%= ((game_four_opp_bb + game_four_opp_h) / add_innings(game_four_opp_ip).to_f).round(2) %></td>
+<td rowspan="2"><%= ((game_five_bb + game_five_h) / add_innings(game_five_ip).to_f).round(2) %></td>
+<td rowspan="2" style="background: gray;"><%= ((game_five_opp_bb + game_five_opp_h) / add_innings(game_five_opp_ip).to_f).round(2) %></td>
+<td rowspan="2" style="background: hotpink;"><%= ((game_seven_bb + game_seven_h) / add_innings(game_seven_ip).to_f).round(2) %></td>
+<td rowspan="2" style="background: hotpink;"><%= ((game_seven_opp_bb + game_seven_opp_h) / add_innings(game_seven_opp_ip).to_f).round(2) %></td>
 <%
 	opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id)
 	batters = Batter.none
