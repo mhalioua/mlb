@@ -289,7 +289,6 @@ module GameHelper
     end
 
     search_string.push('"Home_Team" = ' + "'#{name}'")
-    search_string.push('"Home_Team" = ' + "'#{name}'")
 
     query = Workbook.where(search_string.join(" AND ")).to_a
     count = Workbook.where(search_string.join(" AND ")).count(:R)
