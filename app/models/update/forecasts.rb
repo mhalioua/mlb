@@ -58,6 +58,15 @@ module Update
         feel = hourlyweathers[start_index].children[headers['Feels Like']].text.squish
         wind_index = wind.rindex(' ')
         wind_dir = wind[wind_index+1..-1]
+        if wind_dir == "W"
+          wind_dir = "West"
+        elsif wind_dir == "S"
+          wind_dir = "South"
+        elsif wind_dir == "N"
+          wind_dir = "North"
+        elsif wind_dir == "E"
+          wind_dir = "East"
+        end
         wind_speed = wind[0..wind_index-1]
         weather = game.weathers.create(station: "Forecast", hour: index)
         weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed, precip: precip, feel: feel)
@@ -332,12 +341,23 @@ module Update
         precip = hourlyweathers[start_index].children[headers['Amount']].text.squish
         wind = hourlyweathers[start_index].children[headers['Wind']].text.squish
         feel = hourlyweathers[start_index].children[headers['Feels Like']].text.squish
+        wind_index = wind.rindex(' ')
+        wind_dir = wind[wind_index+1..-1]
+        if wind_dir == "W"
+          wind_dir = "West"
+        elsif wind_dir == "S"
+          wind_dir = "South"
+        elsif wind_dir == "N"
+          wind_dir = "North"
+        elsif wind_dir == "E"
+          wind_dir = "East"
+        end
         puts temp
         puts dp
         puts hum
         puts pressure
         puts precip
-        puts wind
+        puts wind_dir
         puts feel
 
         start_index = start_index + 1 if start_index < hourlyweathers.size - 1
