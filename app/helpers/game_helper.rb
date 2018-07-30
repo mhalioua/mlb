@@ -77,8 +77,8 @@ module GameHelper
     wind = get_wind('average runs in this stadium', search_string, 0)
     winds.push(wind)
 
-    search_string.push('"N" >= 0 AND "N" <= 5')
-    wind = get_wind('average runs in this stadium with 0-5mph winds', search_string, 0)
+    search_string.push('"N" >= 1 AND "N" <= 5')
+    wind = get_wind('average runs in this stadium with 1-5mph winds', search_string, 0)
     winds.push(wind)
 
     first_wind_speed, second_wind_speed = swap(first_wind_speed, second_wind_speed) if first_wind_speed > second_wind_speed
@@ -186,8 +186,8 @@ module GameHelper
     wind = get_wind('average runs in this stadium', search_string, 0)
     winds.push(wind)
 
-    search_string.push('"N" >= 0 AND "N" <= 5')
-    wind = get_wind('average runs in this stadium with 0-5mph winds', search_string, 0)
+    search_string.push('"N" >= 1 AND "N" <= 5')
+    wind = get_wind('average runs in this stadium with 1-5mph winds', search_string, 0)
     winds.push(wind)
 
     first_wind_speed, second_wind_speed = swap(first_wind_speed, second_wind_speed) if first_wind_speed > second_wind_speed
