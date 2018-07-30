@@ -2,10 +2,10 @@
   <caption>
     <%= caption %>
     <% if caption === 'Forecast Wind' %>
+      <input type="number" id="additional">
       <button class="btn-primary addWind">+</button>
       <button class="btn-danger subWind">-</button>
-      <button class="btn-primary addFiveWind">+5</button>
-      <button class="btn-danger subFiveWind">-5</button>
+      <input type="number" id="additional">
     <% end %>
   </caption>
   <thead>
@@ -44,23 +44,15 @@
   $(document).ready(function(){
     $(".addWind").click(function(){
       var a = window.location.href.split("/");
-      a[7] = parseInt(a[7]) + 1;
+      var value = $("#additional").value;
+      a[7] = parseInt(a[7]) + value;
       window.location.href = a.join("/")
     });
     $(".subWind").click(function(){
       var a = window.location.href.split("/");
-      a[7] = parseInt(a[7]) - 1;
+        var value = $("#additional").value;
+      a[7] = parseInt(a[7]) - value;
       window.location.href = a.join("/")
     });
-      $(".addFiveWind").click(function(){
-          var a = window.location.href.split("/");
-          a[7] = parseInt(a[7]) + 5;
-          window.location.href = a.join("/")
-      });
-      $(".subFiveWind").click(function(){
-          var a = window.location.href.split("/");
-          a[7] = parseInt(a[7]) - 5;
-          window.location.href = a.join("/")
-      });
   });
 </script>
