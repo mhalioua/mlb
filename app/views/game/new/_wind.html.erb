@@ -4,6 +4,8 @@
     <% if caption === 'Forecast Wind' %>
       <button class="btn-primary addWind">+</button>
       <button class="btn-danger subWind">-</button>
+      <button class="btn-primary addFiveWind">+5</button>
+      <button class="btn-danger subFiveWind">-5</button>
     <% end %>
   </caption>
   <thead>
@@ -50,5 +52,15 @@
       a[7] = parseInt(a[7]) - 1;
       window.location.href = a.join("/")
     });
+      $(".addFiveWind").click(function(){
+          var a = window.location.href.split("/");
+          a[7] = parseInt(a[7]) + 5;
+          window.location.href = a.join("/")
+      });
+      $(".subFiveWind").click(function(){
+          var a = window.location.href.split("/");
+          a[7] = parseInt(a[7]) - 5;
+          window.location.href = a.join("/")
+      });
   });
 </script>
