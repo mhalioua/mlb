@@ -43,13 +43,13 @@
   $(document).ready(function(){
     $(".addWind").click(function(){
       var a = window.location.href.split("/");
-      var value = $("#additional").value;
+      var value = parseInt($("#additional")[0].value);
       a[7] = parseInt(a[7]) + value;
       window.location.href = a.join("/")
     });
     $(".subWind").click(function(){
       var a = window.location.href.split("/");
-        var value = $("#additional").value;
+        var value = parseInt($("#additional")[0].value);
       a[7] = parseInt(a[7]) - value;
       window.location.href = a.join("/")
     });
