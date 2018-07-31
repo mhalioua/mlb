@@ -133,7 +133,7 @@
 		</tr>
 		<tr style="background: lightgray;">
 			<% pitcher = game.home_pitcher %>
-			<% if pitcher %>
+			<% if pitcher && false %>
 			<%= render partial: "starter", locals: { pitcher: pitcher } %>
 			<% else %>
 			<%= render partial: "not_found", locals: {colspan: 32} %>
