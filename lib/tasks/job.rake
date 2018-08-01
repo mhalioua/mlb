@@ -317,8 +317,7 @@ namespace :job do
                     home_runs6: newworkbook.home_runs6,
                     home_runs7: newworkbook.home_runs7,
                     home_runs8: newworkbook.home_runs8,
-                    home_runs9: newworkbook.home_runs9,
-                    game_id: newworkbook.game_id)
+                    home_runs9: newworkbook.home_runs9)
       end
     end
   end
