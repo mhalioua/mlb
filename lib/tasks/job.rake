@@ -293,6 +293,34 @@ namespace :job do
     end
   end
 
+  task :workbookUpdate => :environment do
+    games = Workbook.where("hits1 is null")
+    games.each do |game|
+      newworkbook = Newworkbook.where(Away_Team: game.Away_Team, Home_Team: game.Home_Team, Date: game.Date, Time: game.Time).first
+      if newworkbook
+        game.update(hits1: newworkbook.hits1,
+                    hits2: newworkbook.hits2,
+                    hits3: newworkbook.hits3,
+                    hits4: newworkbook.hits4,
+                    hits5: newworkbook.hits5,
+                    hits6: newworkbook.hits6,
+                    hits7: newworkbook.hits7,
+                    hits8: newworkbook.hits8,
+                    hits9: newworkbook.hits9,
+                    home_runs1: newworkbook.home_runs1,
+                    home_runs2: newworkbook.home_runs2,
+                    home_runs3: newworkbook.home_runs3,
+                    home_runs4: newworkbook.home_runs4,
+                    home_runs5: newworkbook.home_runs5,
+                    home_runs6: newworkbook.home_runs6,
+                    home_runs7: newworkbook.home_runs7,
+                    home_runs8: newworkbook.home_runs8,
+                    home_runs9: newworkbook.home_runs9,
+                    game_id: newworkbook.game_id)
+      end
+    end
+  end
+
   task :import => :environment do
     require 'csv'
     CSV.foreach(Rails.root.join('csv', 'results.csv'), headers: true) do |row|
