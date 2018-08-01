@@ -35,7 +35,7 @@
 	<% else %>
 		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20), start: 0, throwhand: pitcher.throwhand } %>
 		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20).offset(20), start: 20, throwhand: pitcher.throwhand } %>
-		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20).offset(40), start: 40, throwhand: pitcher.throwhand } %>
+		<%= # render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20).offset(40), start: 40, throwhand: pitcher.throwhand } %>
 		<% limit_number = 60 %>
 	<% end %>
 	<%
