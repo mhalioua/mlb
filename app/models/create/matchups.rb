@@ -18,7 +18,7 @@ module Create
       end
 
       def create_games(game_day)
-        url = "http://www.espn.com/mlb/schedule/_/date/%d%02d%02d" % [game_day.year, game_day.month, game_day.day]
+        url = "http://www.espn.com/mlb/schedule/_/date/%d%s%02d" % [game_day.year, game_day.month, game_day.day]
         doc = download_document(url)
         puts url
         index = { away_team: 0, home_team: 1, result: 2 }
