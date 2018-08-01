@@ -125,7 +125,7 @@ module Create
       end
 
       def create_game_stats(game_day)
-        url = "http://www.baseballpress.com/lineups/%d-%02d-%02d" % [game_day.year, game_day.month, game_day.day]
+        url = "http://www.baseballpress.com/lineups/%d-%s-%02d" % [game_day.year, game_day.month, game_day.day]
         doc = download_document(url)
         puts url
         games = game_day.games
