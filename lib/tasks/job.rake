@@ -296,7 +296,9 @@ namespace :job do
   task :workbookUpdate => :environment do
     games = Workbook.where("hits1 is null")
     games.each do |game|
-      newworkbook = Newworkbook.where(Away_Team: game.Away_Team, Home_Team: game.Home_Team, Date: game.Date, Time: game.Time).first
+      Date = game.Date
+      Date = Date[0..-5] + Date[-2..-1]
+      newworkbook = Newworkbook.where(Away_Team: game.Away_Team, Home_Team: game.Home_Team, Date: Date, Time: game.Time).first
       if newworkbook
         game.update(hits1: newworkbook.hits1,
                     hits2: newworkbook.hits2,
