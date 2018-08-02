@@ -326,7 +326,7 @@ namespace :job do
     include GetHtml
     weather_firsts = Workbook.where('hits1 is null')
     weather_firsts.each do |weather_first|
-      game_date = Date.strptime(weather_first.Date, "%m/%d/%y")
+      game_date = Date.strptime(weather_first.Date, "%m/%d/%Y")
       game_date = game_date.strftime("%F")
       url = "https://www.baseball-reference.com/boxes/?date=#{game_date}"
       puts url
