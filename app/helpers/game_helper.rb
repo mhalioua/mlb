@@ -664,7 +664,7 @@ module GameHelper
     result[:total_hits_park_avg_dup] = (query.map {|stat| stat.total_hits_both_team.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
     result[:total_hr_park_dup] = (query.map {|stat| stat.total_home_runs_both_team.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
     result[:home_count_dup] = temp_count_dup
-    result[:total_lines_park_avg_dup] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count_dup == 0 ? 1 : temp_count_dup)).round(2)
+    result[:total_lines_park_avg_dup] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count_dup == 0 ? 1 : lines_count_dup)).round(2)
 
     query = Prevgame.where(search_string_low_dup.join(" AND ")).to_a
     temp_count_dup = query.count
