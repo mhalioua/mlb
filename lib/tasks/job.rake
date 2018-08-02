@@ -322,6 +322,82 @@ namespace :job do
     end
   end
 
+  task :workbookGame => :environment do
+    include GetHtml
+    weather_firsts = Workbook.where('hits1 is null')
+    weather_firsts.each do |weather_first|
+      game_date = Date.strptime(weather_first.Date, "%m/%d/%y")
+      game_date = game_date.strftime("%F")
+      url = "https://www.baseball-reference.com/boxes/?date=#{game_date}"
+      puts url
+      doc = download_document(url)
+      next unless doc
+      doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
+      trs = doc.css(".game_summary table:first-child tbody")
+      away_team_data = weather_first.Away_Team
+      home_team_data = weather_first.Home_Team
+      away_score_data = weather_first.A1.to_i + weather_first.A2.to_i + weather_first.A3.to_i + weather_first.a4.to_i + weather_first.a5.to_i + weather_first.a6.to_i + weather_first.a7.to_i + weather_first.a8.to_i + weather_first.a9.to_i
+      home_score_data = weather_first.h1.to_i + weather_first.h2.to_i + weather_first.h3.to_i + weather_first.h4.to_i + weather_first.h5.to_i + weather_first.h6.to_i + weather_first.h7.to_i + weather_first.h8.to_i + weather_first.h9.to_i
+      trs.each do |slice|
+        away_team = slice.children[1].children[1].children[0].text
+        home_team = slice.children[3].children[1].children[0].text
+        away_score = slice.children[1].children[3].text.to_i
+        home_score = slice.children[3].children[3].text.to_i
+        if away_team.include?(away_team_data) && home_team.include?(home_team_data) && away_score_data == away_score && home_score == home_score_data
+          game_id = slice.children[1].children[5].children[1]['href']
+          url="https://www.baseball-reference.com#{game_id}"
+          doc = download_document(url)
+          next unless doc
+          doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
+          elements = doc.css("#all_play_by_play tbody tr")
+          index = 0
+          home_runs = 0
+          hits = 0
+          elements.each do |element|
+            if element.children.length == 12
+              if element.children[11].text.include?("Home Run")
+                home_runs += 1
+              end
+            end
+            next unless element['class']
+            if element['class'].include?("pbp_summary_bottom")
+              row_number = ((index + 2) / 2).to_i
+              score_string = element.children[9].text
+              score_string_end = score_string.rindex(" hit")
+              score_string_start = score_string.rindex(",", score_string_end)
+              hits += score_string[score_string_start+1..score_string_end-1].to_i
+              index = index + 1
+              if index % 2 == 0
+                if row_number === 1
+                  weather_first.update(hits1: hits, home_runs1: home_runs)
+                elsif row_number === 2
+                  weather_first.update(hits2: hits, home_runs2: home_runs)
+                elsif row_number === 3
+                  weather_first.update(hits3: hits, home_runs3: home_runs)
+                elsif row_number === 4
+                  weather_first.update(hits4: hits, home_runs4: home_runs)
+                elsif row_number === 5
+                  weather_first.update(hits5: hits, home_runs5: home_runs)
+                elsif row_number === 6
+                  weather_first.update(hits6: hits, home_runs6: home_runs)
+                elsif row_number === 7
+                  weather_first.update(hits7: hits, home_runs7: home_runs)
+                elsif row_number === 8
+                  weather_first.update(hits8: hits, home_runs8: home_runs)
+                elsif row_number === 9
+                  weather_first.update(hits9: hits, home_runs9: home_runs)
+                end
+                hits = 0
+                home_runs = 0
+              end
+            end
+          end
+          break
+        end
+      end
+    end
+  end
+
   task :import => :environment do
     require 'csv'
     CSV.foreach(Rails.root.join('csv', 'results.csv'), headers: true) do |row|
