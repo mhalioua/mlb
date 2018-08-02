@@ -717,23 +717,9 @@ module GameHelper
     result[:lower_one] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:lower_one_count] = temp_count
 
-    search_string_dup = search_string.dup
-    search_string_low_dup = search_string_low.dup
-    search_string_wind = search_string.dup
-    search_string_low_wind = search_string_low.dup
-
     if name != ""
-      search_string_wind.push('"M" IN ' + "('#{wind_dir1}', '#{wind_dir2}')")
-      search_string_low_wind.push('"M" IN ' + "('#{wind_dir1}', '#{wind_dir2}')")
-      search_string_wind.push('"N" >= ' + "#{wind_min}" + ' AND "N" <= ' + "#{wind_max}")
-      search_string_low_wind.push('"N" >= ' + "#{wind_min}" + ' AND "N" <= ' + "#{wind_max}")
-
       search_string.push('"Home_Team" = ' + "'#{name}'")
       search_string_low.push('"Home_Team" = ' + "'#{name}'")
-      search_string_wind.push('"Home_Team" = ' + "'#{name}'")
-      search_string_low_wind.push('"Home_Team" = ' + "'#{name}'")
-      search_string_dup.push('"Home_Team" != ' + "'#{name}'")
-      search_string_low_dup.push('"Home_Team" != ' + "'#{name}'")
     end
 
     query = Workbook.where(search_string.join(" AND ")).to_a
