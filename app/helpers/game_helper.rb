@@ -675,7 +675,7 @@ module GameHelper
     return result
   end
 
-  def true_data_pitcher(temp_min, temp_max, dew_min, dew_max, humid_min, humid_max, baro_min, baro_max, wind_min, wind_max, wind_dir1, wind_dir2, name)
+  def true_data_pitcher(temp_min, temp_max, dew_min, dew_max, humid_min, humid_max, baro_min, baro_max, name)
     search_string = table_type(name)
     search_string_low = table_type(name)
     result = {}

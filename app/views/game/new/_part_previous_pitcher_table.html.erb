@@ -51,7 +51,7 @@
 					humid_min = humid_min + 2
 					humid_max = humid_max + 2
 				end
-				result = true_data_pitcher((weather.temp_num - 5).round(1), (weather.temp_num + 5).round(1), (weather.dew_num-2).round, (weather.dew_num+2).round, humid_min.round, humid_max.round, (weather.pressure_num-0.04).round(2), (weather.pressure_num+0.04).round(2), weather.wind_speed.to_f, weather.wind_speed.to_f, weather.wind_dir, weather.wind_dir, pitcher.game.home_team.name)
+				result = true_data_pitcher((weather.temp_num - 5).round(1), (weather.temp_num + 5).round(1), (weather.dew_num-2).round, (weather.dew_num+2).round, humid_min.round, humid_max.round, (weather.pressure_num-0.04).round(2), (weather.pressure_num+0.04).round(2), pitcher.game.home_team.name)
 				%>
 				<td class="blue"><%= result[:total_count] %></td>
 				<td style="background-color: royalblue;"><%= result[:total_avg_1] %></td>
@@ -76,7 +76,7 @@
 					opposite_h_sum = opposite_h_sum + opposite.h.to_i
 					opposite_r_sum = opposite_r_sum + opposite.r.to_i
 			%>
-				<td> (<%= "#{opposite.throwhand}" %>) <%= opposite.name %> </td>
+				<td> (<%= opposite.throwhand %>) <%= opposite.name %> </td>
 				<td> <%= opposite.ip %> </td>
 				<td> <%= opposite.bb %> </td>
 				<td> <%= opposite.h %> </td>
