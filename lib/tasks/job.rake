@@ -401,6 +401,7 @@ namespace :job do
   task :workbookHits => :environment do
     include GetHtml
     games = Workbook.where('"t_HRS" is null')
+    puts games.count
     games.each do |game|
       t_HITS_SUM = game.hits5.to_i
       t_HRS_SUM = game.home_runs5.to_i
@@ -422,8 +423,8 @@ namespace :job do
         t_HITS_SUM += game.hits6.to_i + game.hits7.to_i + game.hits8.to_i
         t_HRS_SUM += game.home_runs6.to_i + game.home_runs7.to_i + game.home_runs8.to_i
       end
-      t_HITS = t_HITS_SUM / 4 * 9
-      t_HRS = t_HRS_SUM / 4 * 9
+      t_HITS = t_HITS_SUM.to_f / 4 * 9
+      t_HRS = t_HRS_SUM.to_f / 4 * 9
       game.update(t_HITS_SUM: t_HITS_SUM, t_HRS_SUM: t_HRS_SUM, t_HITS: t_HITS, t_HRS: t_HRS)
     end
   end
