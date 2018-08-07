@@ -21,15 +21,15 @@ namespace :job do
 
   task :prevgame => :environment do
     require 'csv'
-    filename = File.join Rails.root, 'csv' , "new_weather_second.csv"
+    filename = File.join Rails.root, 'csv', "new_weather_second.csv"
     CSV.foreach(filename, headers: true) do |row|
       game = row.to_h
       if game['away_total']
         line_index = row['away_total'].index('-')
         line_index = row['away_total'].index('+') unless line_index
-        game['total_line'] = line_index ? row['away_total'][0..line_index-1] : ''
+        game['total_line'] = line_index ? row['away_total'][0..line_index - 1] : ''
         home_team_index = game['home_team'].rindex(' ')
-        game['Home_Team'] = game['home_team'][0..home_team_index-1]
+        game['Home_Team'] = game['home_team'][0..home_team_index - 1]
         game['N'] = game['speed'].to_i
         game['M'] = game['wind']
       end
@@ -45,13 +45,13 @@ namespace :job do
     end
   end
 
-  task :fix_first =>  :environment do
+  task :fix_first => :environment do
     games = Workbook.where('total_line is null')
     games.each do |game|
       if game['Away_Total']
         line_index = game['Away_Total'].index('-')
         line_index = game['Away_Total'].index('+') unless line_index
-        game.update(total_line: line_index ? game['Away_Total'][0..line_index-1] : '')
+        game.update(total_line: line_index ? game['Away_Total'][0..line_index - 1] : '')
       end
     end
   end
@@ -80,7 +80,7 @@ namespace :job do
     include GetHtml
     url = "https://www.baseball-reference.com/boxes/?date=2016-05-20"
     doc = download_document(url)
-    doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
+    doc.xpath('//comment()').each {|comment| comment.replace(comment.text)}
     next unless doc
     trs = doc.css(".game_summary table:first-child tbody")
     trs.each do |slice|
@@ -95,9 +95,9 @@ namespace :job do
       puts home_score
       puts game_id
     end
-    url="https://www.baseball-reference.com/boxes/ATL/ATL200409240.shtml"
+    url = "https://www.baseball-reference.com/boxes/ATL/ATL200409240.shtml"
     doc = download_document(url)
-    doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
+    doc.xpath('//comment()').each {|comment| comment.replace(comment.text)}
     next unless doc
     elements = doc.css("#all_play_by_play tbody tr")
     index = 0
@@ -114,7 +114,7 @@ namespace :job do
         score_string = element.children[9].text
         score_string_end = score_string.rindex(" hit")
         score_string_start = score_string.rindex(",", score_string_end)
-        hits += score_string[score_string_start+1..score_string_end-1].to_i
+        hits += score_string[score_string_start + 1..score_string_end - 1].to_i
         index = index + 1
         if index % 2 == 0
           puts row_number
@@ -138,7 +138,7 @@ namespace :job do
       puts url
       doc = download_document(url)
       next unless doc
-      doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
+      doc.xpath('//comment()').each {|comment| comment.replace(comment.text)}
       trs = doc.css(".game_summary table:first-child tbody")
       away_team_data = weather_first.Away_Team
       home_team_data = weather_first.Home_Team
@@ -151,10 +151,10 @@ namespace :job do
         home_score = slice.children[3].children[3].text.to_i
         if away_team.include?(away_team_data) && home_team.include?(home_team_data)
           game_id = slice.children[1].children[5].children[1]['href']
-          url="https://www.baseball-reference.com#{game_id}"
+          url = "https://www.baseball-reference.com#{game_id}"
           doc = download_document(url)
           next unless doc
-          doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
+          doc.xpath('//comment()').each {|comment| comment.replace(comment.text)}
           elements = doc.css("#all_play_by_play tbody tr")
           index = 0
           home_runs = 0
@@ -171,7 +171,7 @@ namespace :job do
               score_string = element.children[9].text
               score_string_end = score_string.rindex(" hit")
               score_string_start = score_string.rindex(",", score_string_end)
-              hits += score_string[score_string_start+1..score_string_end-1].to_i
+              hits += score_string[score_string_start + 1..score_string_end - 1].to_i
               index = index + 1
               if index % 2 == 0
                 if row_number === 1
@@ -208,14 +208,14 @@ namespace :job do
     prevGames = Prevgame.where('"Home_Team" is null')
     prevGames.each do |prevGame|
       prevGame.update(Home_Team: @clean[prevGame.home_team],
-        M: prevGame.wind,
-        N: prevGame.speed.to_f)
+                      M: prevGame.wind,
+                      N: prevGame.speed.to_f)
     end
   end
 
   task :addingprevgame => :environment do
     require 'csv'
-    filename = File.join Rails.root, 'csv' , "prev_game.csv"
+    filename = File.join Rails.root, 'csv', "prev_game.csv"
     CSV.foreach(filename, headers: true) do |row|
       game = row.to_h
       prev = Prevgame.where('id = ?', game['id'])
@@ -226,68 +226,68 @@ namespace :job do
   task add: :environment do
     require 'csv'
 
-    filename = File.join Rails.root, 'csv' , "Workbook.csv"
-    CSV.foreach(filename, headers:true) do |row|
+    filename = File.join Rails.root, 'csv', "Workbook.csv"
+    CSV.foreach(filename, headers: true) do |row|
       workbook = row.to_h
       workbook['table'] = 'Workbook'
       if row['Away_Total']
         line_index = row['Away_Total'].index(' ')
-        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index - 1] : ''
       end
       Workbook.create(workbook)
     end
 
     filename = File.join Rails.root, 'csv', "colo.csv"
-    CSV.foreach(filename, headers:true) do |row|
+    CSV.foreach(filename, headers: true) do |row|
       workbook = row.to_h
       workbook['table'] = "colo"
       if row['Away_Total']
         line_index = row['Away_Total'].index(' ')
-        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index - 1] : ''
       end
       Workbook.create(workbook)
     end
 
     filename = File.join Rails.root, 'csv', "houston.csv"
-    CSV.foreach(filename, headers:true) do |row|
+    CSV.foreach(filename, headers: true) do |row|
       workbook = row.to_h
       workbook['table'] = "houston"
       if row['Away_Total']
         line_index = row['Away_Total'].index(' ')
-        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index - 1] : ''
       end
       Workbook.create(workbook)
     end
 
     filename = File.join Rails.root, 'csv', "tampa.csv"
-    CSV.foreach(filename, headers:true) do |row|
+    CSV.foreach(filename, headers: true) do |row|
       workbook = row.to_h
       workbook['table'] = "tampa"
       if row['Away_Total']
         line_index = row['Away_Total'].index(' ')
-        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index - 1] : ''
       end
       Workbook.create(workbook)
     end
 
-    filename = File.join Rails.root, 'csv' , "colowind.csv"
-    CSV.foreach(filename, headers:true) do |row|
+    filename = File.join Rails.root, 'csv', "colowind.csv"
+    CSV.foreach(filename, headers: true) do |row|
       workbook = row.to_h
       workbook['table'] = "colowind"
       if row['Away_Total']
         line_index = row['Away_Total'].index(' ')
-        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index - 1] : ''
       end
       Workbook.create(workbook)
     end
 
     filename = File.join Rails.root, 'csv', "wind.csv"
-    CSV.foreach(filename, headers:true) do |row|
+    CSV.foreach(filename, headers: true) do |row|
       workbook = row.to_h
       workbook['table'] = "wind"
       if row['Away_Total']
         line_index = row['Away_Total'].index(' ')
-        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index-1] : ''
+        workbook['total_line'] = line_index ? row['Away_Total'][0..line_index - 1] : ''
       end
       Workbook.create(workbook)
     end
@@ -332,7 +332,7 @@ namespace :job do
       puts url
       doc = download_document(url)
       next unless doc
-      doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
+      doc.xpath('//comment()').each {|comment| comment.replace(comment.text)}
       trs = doc.css(".game_summary table:first-child tbody")
       away_team_data = weather_first.Away_Team
       home_team_data = weather_first.Home_Team
@@ -345,10 +345,10 @@ namespace :job do
         home_score = slice.children[3].children[3].text.to_i
         if away_team.include?(away_team_data) && home_team.include?(home_team_data)
           game_id = slice.children[1].children[5].children[1]['href']
-          url="https://www.baseball-reference.com#{game_id}"
+          url = "https://www.baseball-reference.com#{game_id}"
           doc = download_document(url)
           next unless doc
-          doc.xpath('//comment()').each { |comment| comment.replace(comment.text) }
+          doc.xpath('//comment()').each {|comment| comment.replace(comment.text)}
           elements = doc.css("#all_play_by_play tbody tr")
           index = 0
           home_runs = 0
@@ -365,7 +365,7 @@ namespace :job do
               score_string = element.children[9].text
               score_string_end = score_string.rindex(" hit")
               score_string_start = score_string.rindex(",", score_string_end)
-              hits += score_string[score_string_start+1..score_string_end-1].to_i
+              hits += score_string[score_string_start + 1..score_string_end - 1].to_i
               index = index + 1
               if index % 2 == 0
                 if row_number === 1
@@ -398,6 +398,36 @@ namespace :job do
     end
   end
 
+  task :workbookHits => :environment do
+    include GetHtml
+    games = Workbook.where('hits1 is null')
+    games.each do |game|
+      t_HITS_SUM = game.hits5.to_i
+      t_HRS_SUM = game.home_runs5.to_i
+      if ((game.id >= 311826 && game.id <= 337437) ||
+          (game.id >= 363736 && game.id <= 364883) ||
+          (game.id >= 366037 && game.id <= 367266) ||
+          (game.id >= 368491 && game.id <= 369606) ||
+          (game.id >= 370722 && game.id <= 371869) ||
+          (game.id >= 373023 && game.id <= 400400))
+        t_HITS_SUM += game.hits2.to_i + game.hits3.to_i + game.hits4.to_i
+        t_HRS_SUM += game.home_runs2.to_i + game.home_runs3.to_i + game.home_runs4.to_i
+      end
+      if ((game.id >= 337438 && game.id <= 363735) ||
+          (game.id >= 364884 && game.id <= 366036) ||
+          (game.id >= 367267 && game.id <= 368490) ||
+          (game.id >= 369607 && game.id <= 370721) ||
+          (game.id >= 371870 && game.id <= 373022) ||
+          (game.id >= 400401))
+        t_HITS_SUM += game.hits6.to_i + game.hits7.to_i + game.hits8.to_i
+        t_HRS_SUM += game.home_runs6.to_i + game.home_runs7.to_i + game.home_runs8.to_i
+      end
+      t_HITS = t_HITS_SUM / 4 * 9
+      t_HRS = t_HRS_SUM / 4 * 9
+      game.update(t_HITS_SUM: t_HITS_SUM, t_HRS_SUM: t_HRS_SUM, t_HITS: t_HITS, t_HRS: t_HRS)
+    end
+  end
+
   task :import => :environment do
     require 'csv'
     CSV.foreach(Rails.root.join('csv', 'results.csv'), headers: true) do |row|
@@ -409,7 +439,7 @@ namespace :job do
     include GetHtml
     index_date = Date.new(2011, 3, 31)
     year = 2011
-    index = { away_team: 0, home_team: 1, result: 2 }
+    index = {away_team: 0, home_team: 1, result: 2}
     while index_date <= Date.new(2011, 10, 28)
       game_date = index_date.strftime("%Y%m%d")
       url = "http://www.espn.com/mlb/schedule/_/date/#{game_date}"
@@ -468,75 +498,75 @@ namespace :job do
   task byteam: :environment do
     include GetHtml
     team_abbrs = @team.keys
-      year = 2018
-      team_abbrs.each do |home_team_abbr|
-        (1..1).each do |type|
-          url = "http://www.espn.com/mlb/team/schedule/_/name/#{home_team_abbr}/year/#{year}/seasontype/2/half/#{type}"
-          doc = download_document(url)
-          elements = doc.css("tr")
-          elements.each do |element|
-            if element.children.size < 8
-              next
-            end
-            if element.children[3].text == 'OPPONENT'
-              next
-            end
-            status = element.children[2].children[0].children[0].text
-            if element.children[2].children[0].children.size == 3
-              opposite_team_link = element.children[2].children[0].children[2].children[0]['href']
-              opposite_team_name_start = opposite_team_link.index('name/')
-              opposite_team_name_end = opposite_team_link.index('/', opposite_team_name_start+5)
-              opposite_team_name = opposite_team_link[opposite_team_name_start+5..opposite_team_name_end-1]
+    year = 2018
+    team_abbrs.each do |home_team_abbr|
+      (1..1).each do |type|
+        url = "http://www.espn.com/mlb/team/schedule/_/name/#{home_team_abbr}/year/#{year}/seasontype/2/half/#{type}"
+        doc = download_document(url)
+        elements = doc.css("tr")
+        elements.each do |element|
+          if element.children.size < 8
+            next
+          end
+          if element.children[3].text == 'OPPONENT'
+            next
+          end
+          status = element.children[2].children[0].children[0].text
+          if element.children[2].children[0].children.size == 3
+            opposite_team_link = element.children[2].children[0].children[2].children[0]['href']
+            opposite_team_name_start = opposite_team_link.index('name/')
+            opposite_team_name_end = opposite_team_link.index('/', opposite_team_name_start + 5)
+            opposite_team_name = opposite_team_link[opposite_team_name_start + 5..opposite_team_name_end - 1]
+          else
+            opposite_team_name = element.children[2].children[0].children[1].text.squish
+          end
+
+          if status == 'vs'
+            away_abbr = opposite_team_name
+            home_abbr = home_team_abbr
+          else
+            home_abbr = opposite_team_name
+            away_abbr = home_team_abbr
+          end
+
+          away_abbr = @abbr[away_abbr] if @abbr[away_abbr]
+          home_abbr = @abbr[home_abbr] if @abbr[home_abbr]
+
+          away_team = away_abbr
+          home_team = home_abbr
+          away_team = @team[away_team] if @team[away_team]
+          home_team = @team[home_team] if @team[home_team]
+          puts away_team
+          puts home_team
+
+          next unless element.children[4].children[0].children.size == 2
+          game_link = element.children[4].children[0].children[1].children[0]['href']
+          if game_link && game_link != ''
+
+            game_index_start = game_link.rindex('/')
+            game_id = game_link[game_index_start + 1..-1]
+
+            url = "http://www.espn.com/mlb/game?gameId=#{game_id}"
+            doc = download_document(url)
+            element = doc.css(".game-date-time").first
+            game_date = element.children[1]['data-date']
+            date = DateTime.parse(game_date)
+            puts date
+            element = doc.css(".location-details ul li").first
+            if element
+              stadium = element.text.squish
             else
-              opposite_team_name = element.children[2].children[0].children[1].text.squish
+              stadium = home_team
             end
-
-            if status == 'vs'
-              away_abbr = opposite_team_name
-              home_abbr = home_team_abbr
-            else
-              home_abbr = opposite_team_name
-              away_abbr = home_team_abbr
-            end
-
-            away_abbr = @abbr[away_abbr] if @abbr[away_abbr]
-            home_abbr = @abbr[home_abbr] if @abbr[home_abbr]
-
-            away_team = away_abbr
-            home_team = home_abbr
-            away_team = @team[away_team] if @team[away_team]
-            home_team = @team[home_team] if @team[home_team]
-            puts away_team
-            puts home_team
-
-            next unless element.children[4].children[0].children.size == 2
-            game_link = element.children[4].children[0].children[1].children[0]['href']
-            if game_link && game_link != ''
-
-              game_index_start = game_link.rindex('/')
-              game_id = game_link[game_index_start+1..-1]
-
-              url = "http://www.espn.com/mlb/game?gameId=#{game_id}"
-              doc = download_document(url)
-              element = doc.css(".game-date-time").first
-              game_date = element.children[1]['data-date']
-              date = DateTime.parse(game_date)
-              puts date
-              element = doc.css(".location-details ul li").first
-              if element
-                stadium = element.text.squish
-              else
-                stadium = home_team
-              end
-              game = Result.find_or_create_by(game_id: game_id)
-              game.update(year: year, away_team: away_team, away_abbr: away_abbr, home_team: home_team, home_abbr: home_abbr, game_id: game_id, game_date: date, stadium: stadium)
-            else
-              date = element.children[0].text.squish + " " + year.to_s
-              game = Result.find_or_create_by(year: year, away_team: away_team, away_abbr: away_abbr, home_team: home_team, home_abbr: home_abbr, game_date: date)
-            end
+            game = Result.find_or_create_by(game_id: game_id)
+            game.update(year: year, away_team: away_team, away_abbr: away_abbr, home_team: home_team, home_abbr: home_abbr, game_id: game_id, game_date: date, stadium: stadium)
+          else
+            date = element.children[0].text.squish + " " + year.to_s
+            game = Result.find_or_create_by(year: year, away_team: away_team, away_abbr: away_abbr, home_team: home_team, home_abbr: home_abbr, game_date: date)
           end
         end
       end
+    end
   end
 
   task getTimes: :environment do
@@ -557,51 +587,51 @@ namespace :job do
       puts url
       doc = download_document(url)
       element = doc.css(".linescore__table tr")
-      size = element[1].children.size/2
+      size = element[1].children.size / 2
 
-      away_score_first =    element[1].children[3].text.squish
-      away_score_second =   element[1].children[5].text.squish
-      away_score_third =    element[1].children[7].text.squish
-      away_score_forth =    element[1].children[9].text.squish
-      away_score_fifth =    element[1].children[11].text.squish
-      away_score_sixth =    element[1].children[13].text.squish
-      away_score_seventh =  element[1].children[15].text.squish
-      away_score_eighth =   element[1].children[17].text.squish
-      away_score_nineth =   element[1].children[19].text.squish
-      away_score_tenth =    element[1].children[size*2-5].text.squish
+      away_score_first = element[1].children[3].text.squish
+      away_score_second = element[1].children[5].text.squish
+      away_score_third = element[1].children[7].text.squish
+      away_score_forth = element[1].children[9].text.squish
+      away_score_fifth = element[1].children[11].text.squish
+      away_score_sixth = element[1].children[13].text.squish
+      away_score_seventh = element[1].children[15].text.squish
+      away_score_eighth = element[1].children[17].text.squish
+      away_score_nineth = element[1].children[19].text.squish
+      away_score_tenth = element[1].children[size * 2 - 5].text.squish
 
-      home_score_first =    element[2].children[3].text.squish
-      home_score_second =   element[2].children[5].text.squish
-      home_score_third =    element[2].children[7].text.squish
-      home_score_forth =    element[2].children[9].text.squish
-      home_score_fifth =    element[2].children[11].text.squish
-      home_score_sixth =    element[2].children[13].text.squish
-      home_score_seventh =  element[2].children[15].text.squish
-      home_score_eighth =   element[2].children[17].text.squish
-      home_score_nineth =   element[2].children[19].text.squish
-      home_score_tenth =    element[2].children[size*2-5].text.squish
+      home_score_first = element[2].children[3].text.squish
+      home_score_second = element[2].children[5].text.squish
+      home_score_third = element[2].children[7].text.squish
+      home_score_forth = element[2].children[9].text.squish
+      home_score_fifth = element[2].children[11].text.squish
+      home_score_sixth = element[2].children[13].text.squish
+      home_score_seventh = element[2].children[15].text.squish
+      home_score_eighth = element[2].children[17].text.squish
+      home_score_nineth = element[2].children[19].text.squish
+      home_score_tenth = element[2].children[size * 2 - 5].text.squish
 
       game.update(
-        away_score_first: away_score_first,
-        away_score_second: away_score_second,
-        away_score_third: away_score_third,
-        away_score_forth: away_score_forth,
-        away_score_fifth: away_score_fifth,
-        away_score_sixth: away_score_sixth,
-        away_score_seventh: away_score_seventh,
-        away_score_eighth: away_score_eighth,
-        away_score_nineth: away_score_nineth,
-        away_score_tenth: away_score_tenth,
-        home_score_first: home_score_first,
-        home_score_second: home_score_second,
-        home_score_third: home_score_third,
-        home_score_forth: home_score_forth,
-        home_score_fifth: home_score_fifth,
-        home_score_sixth: home_score_sixth,
-        home_score_seventh: home_score_seventh,
-        home_score_eighth: home_score_eighth,
-        home_score_nineth: home_score_nineth,
-        home_score_tenth: home_score_tenth
+          away_score_first: away_score_first,
+          away_score_second: away_score_second,
+          away_score_third: away_score_third,
+          away_score_forth: away_score_forth,
+          away_score_fifth: away_score_fifth,
+          away_score_sixth: away_score_sixth,
+          away_score_seventh: away_score_seventh,
+          away_score_eighth: away_score_eighth,
+          away_score_nineth: away_score_nineth,
+          away_score_tenth: away_score_tenth,
+          home_score_first: home_score_first,
+          home_score_second: home_score_second,
+          home_score_third: home_score_third,
+          home_score_forth: home_score_forth,
+          home_score_fifth: home_score_fifth,
+          home_score_sixth: home_score_sixth,
+          home_score_seventh: home_score_seventh,
+          home_score_eighth: home_score_eighth,
+          home_score_nineth: home_score_nineth,
+          home_score_tenth: home_score_tenth
       )
     end
   end
@@ -623,10 +653,10 @@ namespace :job do
         away_name = element.children[0].children[5].children[0].text.squish
 
         home_name_index = home_name.index(' -')
-        home_name = home_name_index ? home_name[0..home_name_index-1].downcase : home_name.downcase
+        home_name = home_name_index ? home_name[0..home_name_index - 1].downcase : home_name.downcase
 
         away_name_index = away_name.index(' -')
-        away_name = away_name_index ? away_name[0..away_name_index-1].downcase : away_name.downcase
+        away_name = away_name_index ? away_name[0..away_name_index - 1].downcase : away_name.downcase
 
         if @team[home_name]
           home_name = @team[home_name]
@@ -684,10 +714,10 @@ namespace :job do
         away_name = element.children[0].children[5].children[0].text.squish
 
         home_name_index = home_name.index(' -')
-        home_name = home_name_index ? home_name[0..home_name_index-1].downcase : home_name.downcase
+        home_name = home_name_index ? home_name[0..home_name_index - 1].downcase : home_name.downcase
 
         away_name_index = away_name.index(' -')
-        away_name = away_name_index ? away_name[0..away_name_index-1].downcase : away_name.downcase
+        away_name = away_name_index ? away_name[0..away_name_index - 1].downcase : away_name.downcase
 
         if @team[home_name]
           home_name = @team[home_name]
@@ -745,8 +775,8 @@ namespace :job do
       home_pitcher_size = home_pitcher.children.size
       next if away_pitcher_size == 3 && away_pitcher.children[1].children[0].children.size == 1
       next if home_pitcher_size == 3 && home_pitcher.children[1].children[0].children.size == 1
-      away_total = away_pitcher.children[away_pitcher_size-1].children[0]
-      home_total = home_pitcher.children[home_pitcher_size-1].children[0]
+      away_total = away_pitcher.children[away_pitcher_size - 1].children[0]
+      home_total = home_pitcher.children[home_pitcher_size - 1].children[0]
       hr_total = away_total.children[7].text.to_i + home_total.children[7].text.to_i
       h_total = away_total.children[2].text.to_i + home_total.children[2].text.to_i
       bb_total = away_total.children[5].text.to_i + home_total.children[5].text.to_i
@@ -765,7 +795,7 @@ namespace :job do
           b = batter.children[1].text.split(';')
           b.each do |eachb|
             eachb_index = eachb.index(' (')
-            eachb_index = eachb[eachb_index-1].to_i
+            eachb_index = eachb[eachb_index - 1].to_i
             eachb_index = 1 if eachb_index == 0
             away_twob_total = away_twob_total + eachb_index
           end
@@ -774,7 +804,7 @@ namespace :job do
           b = batter.children[1].text.split(';')
           b.each do |eachb|
             eachb_index = eachb.index(' (')
-            eachb_index = eachb[eachb_index-1].to_i
+            eachb_index = eachb[eachb_index - 1].to_i
             eachb_index = 1 if eachb_index == 0
             away_threeb_total = away_threeb_total + eachb_index
           end
@@ -787,7 +817,7 @@ namespace :job do
           b = batter.children[1].text.split(';')
           b.each do |eachb|
             eachb_index = eachb.index(' (')
-            eachb_index = eachb[eachb_index-1].to_i
+            eachb_index = eachb[eachb_index - 1].to_i
             eachb_index = 1 if eachb_index == 0
             home_twob_total = home_twob_total + eachb_index
           end
@@ -796,7 +826,7 @@ namespace :job do
           b = batter.children[1].text.split(';')
           b.each do |eachb|
             eachb_index = eachb.index(' (')
-            eachb_index = eachb[eachb_index-1].to_i
+            eachb_index = eachb[eachb_index - 1].to_i
             eachb_index = 1 if eachb_index == 0
             home_threeb_total = home_threeb_total + eachb_index
           end
@@ -811,40 +841,40 @@ namespace :job do
       doc = download_document(away_starter)
       away_full_name = doc.css('h1').first.text
       away_name_index = away_full_name.rindex(' ')
-      away_first_name = away_full_name[0..away_name_index-1]
-      away_last_name = away_full_name[away_name_index+1..-1]
+      away_first_name = away_full_name[0..away_name_index - 1]
+      away_last_name = away_full_name[away_name_index + 1..-1]
       away_starter_info = doc.css('.general-info')
       away_starter_hand = ''
       if away_starter_info.children.size > 2
         away_starter_info = away_starter_info.children[1].text
         away_starter_info_index = away_starter_info.index('Throws: ')
-        away_starter_hand = away_starter_info[away_starter_info_index+8]
+        away_starter_hand = away_starter_info[away_starter_info_index + 8]
       end
 
       home_starter = home_pitcher.children[1].children[0].children[0].children[0]['href']
       doc = download_document(home_starter)
       home_full_name = doc.css('h1').first.text
       home_name_index = home_full_name.rindex(' ')
-      home_first_name = home_full_name[0..home_name_index-1]
-      home_last_name = home_full_name[home_name_index+1..-1]
+      home_first_name = home_full_name[0..home_name_index - 1]
+      home_last_name = home_full_name[home_name_index + 1..-1]
       home_starter_info = doc.css('.general-info')
       home_starter_hand = ''
       if home_starter_info.children.size > 2
         home_starter_info = home_starter_info.children[1].text
         home_starter_info_index = home_starter_info.index('Throws: ')
-        home_starter_hand = home_starter_info[home_starter_info_index+8]
+        home_starter_hand = home_starter_info[home_starter_info_index + 8]
       end
       game.update(total_hits_both_team: h_total,
-        total_walks_both_team: bb_total,
-        total_doubles_both_team: twob_total,
-        total_triples_both_team: threeb_total,
-        total_bases_both_team: hr_total,
-        away_starter_last_game: away_last_name,
-        away_starter_first_name: away_first_name,
-        away_starter_handedness: away_starter_hand,
-        home_starter_last_name: home_last_name,
-        home_starter_first_name: home_first_name,
-        home_starter_handedness: home_starter_hand)
+                  total_walks_both_team: bb_total,
+                  total_doubles_both_team: twob_total,
+                  total_triples_both_team: threeb_total,
+                  total_bases_both_team: hr_total,
+                  away_starter_last_game: away_last_name,
+                  away_starter_first_name: away_first_name,
+                  away_starter_handedness: away_starter_hand,
+                  home_starter_last_name: home_last_name,
+                  home_starter_first_name: home_first_name,
+                  home_starter_handedness: home_starter_hand)
     end
   end
 
@@ -862,12 +892,12 @@ namespace :job do
       header = doc.css(".obs-table tr").first
       next unless header
       headers = {
-        'Temp.' => 0,
-        'Dew Point' => 0,
-        'Humidity' => 0,
-        'Pressure' => 0,
-        'Wind Dir' => 0,
-        'Wind Speed' => 0
+          'Temp.' => 0,
+          'Dew Point' => 0,
+          'Humidity' => 0,
+          'Pressure' => 0,
+          'Wind Dir' => 0,
+          'Wind Speed' => 0
       }
       header.children.each_with_index do |header_element, index|
         key = header_element.text.squish
@@ -876,7 +906,7 @@ namespace :job do
         headers[key] = index if key == 'Humidity'
         headers[key] = index if key == 'Pressure'
         headers[key] = index if key == 'Wind Dir'
-        headers[key] = index if key == 'Wind Speed' 
+        headers[key] = index if key == 'Wind Speed'
       end
 
       hourlyweathers = doc.css(".no-metars")
@@ -911,23 +941,23 @@ namespace :job do
       third_wind_direction = hourlyweathers[start_index].children[headers['Wind Dir']].text
       third_wind_speed = hourlyweathers[start_index].children[headers['Wind Speed']].text
       game.update(first_temp: first_temp,
-        second_temp: second_temp,
-        third_temp: third_temp,
-        first_dp: first_dp,
-        second_dp: second_dp,
-        third_dp: third_dp,
-        first_humid: first_humid,
-        second_humid: second_humid,
-        third_humid: third_humid,
-        first_baro: first_baro,
-        second_baro: second_baro,
-        third_baro: third_baro,
-        first_wind_direction: first_wind_direction,
-        second_wind_direction: second_wind_direction,
-        third_wind_direction: third_wind_direction,
-        first_wind_speed: first_wind_speed,
-        second_wind_speed: second_wind_speed,
-        third_wind_speed: third_wind_speed)
+                  second_temp: second_temp,
+                  third_temp: third_temp,
+                  first_dp: first_dp,
+                  second_dp: second_dp,
+                  third_dp: third_dp,
+                  first_humid: first_humid,
+                  second_humid: second_humid,
+                  third_humid: third_humid,
+                  first_baro: first_baro,
+                  second_baro: second_baro,
+                  third_baro: third_baro,
+                  first_wind_direction: first_wind_direction,
+                  second_wind_direction: second_wind_direction,
+                  third_wind_direction: third_wind_direction,
+                  first_wind_speed: first_wind_speed,
+                  second_wind_speed: second_wind_speed,
+                  third_wind_speed: third_wind_speed)
     end
   end
 
@@ -964,17 +994,17 @@ namespace :job do
       home_pitcher_bb = home_pitcher.children[1].children[0].children[5].text.squish
 
       game.update(away_pitcher_link: away_pitcher_link,
-        away_pitcher_name: away_pitcher_name,
-        away_pitcher_ip: away_pitcher_ip,
-        away_pitcher_h: away_pitcher_h,
-        away_pitcher_r: away_pitcher_r,
-        away_pitcher_bb: away_pitcher_bb,
-        home_pitcher_link: home_pitcher_link,
-        home_pitcher_name: home_pitcher_name,
-        home_pitcher_ip: home_pitcher_ip,
-        home_pitcher_h: home_pitcher_h,
-        home_pitcher_r: home_pitcher_r,
-        home_pitcher_bb: home_pitcher_bb)
+                  away_pitcher_name: away_pitcher_name,
+                  away_pitcher_ip: away_pitcher_ip,
+                  away_pitcher_h: away_pitcher_h,
+                  away_pitcher_r: away_pitcher_r,
+                  away_pitcher_bb: away_pitcher_bb,
+                  home_pitcher_link: home_pitcher_link,
+                  home_pitcher_name: home_pitcher_name,
+                  home_pitcher_ip: home_pitcher_ip,
+                  home_pitcher_h: home_pitcher_h,
+                  home_pitcher_r: home_pitcher_r,
+                  home_pitcher_bb: home_pitcher_bb)
     end
   end
 
@@ -1112,40 +1142,40 @@ namespace :job do
         end
       end
       game.update(
-        home_pitcher_game_first_ip: add_innings(home_pitcher_game_first_ip),
-        home_pitcher_game_first_bb: home_pitcher_game_first_bb,
-        home_pitcher_game_first_h: home_pitcher_game_first_h,
-        home_pitcher_game_first_r: home_pitcher_game_first_r,
-        home_pitcher_game_second_ip: add_innings(home_pitcher_game_second_ip),
-        home_pitcher_game_second_bb: home_pitcher_game_second_bb,
-        home_pitcher_game_second_h: home_pitcher_game_second_h,
-        home_pitcher_game_second_r: home_pitcher_game_second_r,
-        home_pitcher_game_opp_first_ip: add_innings(home_pitcher_game_opp_first_ip),
-        home_pitcher_game_opp_first_bb: home_pitcher_game_opp_first_bb,
-        home_pitcher_game_opp_first_h: home_pitcher_game_opp_first_h,
-        home_pitcher_game_opp_first_r: home_pitcher_game_opp_first_r,
-        home_pitcher_game_opp_second_ip: add_innings(home_pitcher_game_opp_second_ip),
-        home_pitcher_game_opp_second_bb: home_pitcher_game_opp_second_bb,
-        home_pitcher_game_opp_second_h: home_pitcher_game_opp_second_h,
-        home_pitcher_game_opp_second_r: home_pitcher_game_opp_second_r,
+          home_pitcher_game_first_ip: add_innings(home_pitcher_game_first_ip),
+          home_pitcher_game_first_bb: home_pitcher_game_first_bb,
+          home_pitcher_game_first_h: home_pitcher_game_first_h,
+          home_pitcher_game_first_r: home_pitcher_game_first_r,
+          home_pitcher_game_second_ip: add_innings(home_pitcher_game_second_ip),
+          home_pitcher_game_second_bb: home_pitcher_game_second_bb,
+          home_pitcher_game_second_h: home_pitcher_game_second_h,
+          home_pitcher_game_second_r: home_pitcher_game_second_r,
+          home_pitcher_game_opp_first_ip: add_innings(home_pitcher_game_opp_first_ip),
+          home_pitcher_game_opp_first_bb: home_pitcher_game_opp_first_bb,
+          home_pitcher_game_opp_first_h: home_pitcher_game_opp_first_h,
+          home_pitcher_game_opp_first_r: home_pitcher_game_opp_first_r,
+          home_pitcher_game_opp_second_ip: add_innings(home_pitcher_game_opp_second_ip),
+          home_pitcher_game_opp_second_bb: home_pitcher_game_opp_second_bb,
+          home_pitcher_game_opp_second_h: home_pitcher_game_opp_second_h,
+          home_pitcher_game_opp_second_r: home_pitcher_game_opp_second_r,
 
-        away_pitcher_game_first_ip: add_innings(away_pitcher_game_first_ip),
-        away_pitcher_game_first_bb: away_pitcher_game_first_bb,
-        away_pitcher_game_first_h: away_pitcher_game_first_h,
-        away_pitcher_game_first_r: away_pitcher_game_first_r,
-        away_pitcher_game_second_ip: add_innings(away_pitcher_game_second_ip),
-        away_pitcher_game_second_bb: away_pitcher_game_second_bb,
-        away_pitcher_game_second_h: away_pitcher_game_second_h,
-        away_pitcher_game_second_r: away_pitcher_game_second_r,
-        away_pitcher_game_opp_first_ip: add_innings(away_pitcher_game_opp_first_ip),
-        away_pitcher_game_opp_first_bb: away_pitcher_game_opp_first_bb,
-        away_pitcher_game_opp_first_h: away_pitcher_game_opp_first_h,
-        away_pitcher_game_opp_first_r: away_pitcher_game_opp_first_r,
-        away_pitcher_game_opp_second_ip: add_innings(away_pitcher_game_opp_second_ip),
-        away_pitcher_game_opp_second_bb: away_pitcher_game_opp_second_bb,
-        away_pitcher_game_opp_second_h: away_pitcher_game_opp_second_h,
-        away_pitcher_game_opp_second_r: away_pitcher_game_opp_second_r
-        )
+          away_pitcher_game_first_ip: add_innings(away_pitcher_game_first_ip),
+          away_pitcher_game_first_bb: away_pitcher_game_first_bb,
+          away_pitcher_game_first_h: away_pitcher_game_first_h,
+          away_pitcher_game_first_r: away_pitcher_game_first_r,
+          away_pitcher_game_second_ip: add_innings(away_pitcher_game_second_ip),
+          away_pitcher_game_second_bb: away_pitcher_game_second_bb,
+          away_pitcher_game_second_h: away_pitcher_game_second_h,
+          away_pitcher_game_second_r: away_pitcher_game_second_r,
+          away_pitcher_game_opp_first_ip: add_innings(away_pitcher_game_opp_first_ip),
+          away_pitcher_game_opp_first_bb: away_pitcher_game_opp_first_bb,
+          away_pitcher_game_opp_first_h: away_pitcher_game_opp_first_h,
+          away_pitcher_game_opp_first_r: away_pitcher_game_opp_first_r,
+          away_pitcher_game_opp_second_ip: add_innings(away_pitcher_game_opp_second_ip),
+          away_pitcher_game_opp_second_bb: away_pitcher_game_opp_second_bb,
+          away_pitcher_game_opp_second_h: away_pitcher_game_opp_second_h,
+          away_pitcher_game_opp_second_r: away_pitcher_game_opp_second_r
+      )
     end
   end
 
@@ -1233,172 +1263,172 @@ namespace :job do
   end
 
   @clean = {
-    'Los Angeles Angels' => 'Angels',
-    'Houston Astros' => 'Astros',
-    'Oakland Athletics' => 'Athletics',
-    'Toronto Blue Jays' => 'Blue Jays',
-    'Atlanta Braves' => 'Braves',
-    'Milwaukee Brewers' => 'Brewers',
-    'St. Louis Cardinals' => 'Cardinals',
-    'Chicago Cubs' => 'Cubs',
-    'Arizona Diamondbacks' => 'Diamondbacks',
-    'Los Angeles Dodgers' => 'Dodgers',
-    'San Francisco Giants' => 'Giants',
-    'Cleveland Indians' => 'Indians',
-    'Seattle Mariners' => 'Mariners',
-    'Miami Marlins' => 'Marlins',
-    'New York Mets' => 'Mets',
-    'Washington Nationals' => 'Nationals',
-    'Baltimore Orioles' => 'Orioles',
-    'San Diego Padres' => 'Padres',
-    'Philadelphia Phillies' => 'Phillies',
-    'Pittsburgh Pirates' => 'Pirates',
-    'Texas Rangers' => 'Rangers',
-    'Tampa Bay Rays' => 'Rays',
-    'Boston Red Sox' => 'Red Sox',
-    'Cincinnati Reds' => 'Reds',
-    'Colorado Rockies' => 'Rockies',
-    'Kansas City Royals' => 'Royals',
-    'Detroit Tigers' => 'Tigers',
-    'Minnesota Twins' => 'Twins',
-    'Chicago White Sox' => 'White Sox',
-    'New York Yankees' => 'Yankees'
+      'Los Angeles Angels' => 'Angels',
+      'Houston Astros' => 'Astros',
+      'Oakland Athletics' => 'Athletics',
+      'Toronto Blue Jays' => 'Blue Jays',
+      'Atlanta Braves' => 'Braves',
+      'Milwaukee Brewers' => 'Brewers',
+      'St. Louis Cardinals' => 'Cardinals',
+      'Chicago Cubs' => 'Cubs',
+      'Arizona Diamondbacks' => 'Diamondbacks',
+      'Los Angeles Dodgers' => 'Dodgers',
+      'San Francisco Giants' => 'Giants',
+      'Cleveland Indians' => 'Indians',
+      'Seattle Mariners' => 'Mariners',
+      'Miami Marlins' => 'Marlins',
+      'New York Mets' => 'Mets',
+      'Washington Nationals' => 'Nationals',
+      'Baltimore Orioles' => 'Orioles',
+      'San Diego Padres' => 'Padres',
+      'Philadelphia Phillies' => 'Phillies',
+      'Pittsburgh Pirates' => 'Pirates',
+      'Texas Rangers' => 'Rangers',
+      'Tampa Bay Rays' => 'Rays',
+      'Boston Red Sox' => 'Red Sox',
+      'Cincinnati Reds' => 'Reds',
+      'Colorado Rockies' => 'Rockies',
+      'Kansas City Royals' => 'Royals',
+      'Detroit Tigers' => 'Tigers',
+      'Minnesota Twins' => 'Twins',
+      'Chicago White Sox' => 'White Sox',
+      'New York Yankees' => 'Yankees'
   }
 
   @team_uppercase = {
-    'Angels' => 'LA ANGELS',
-    'Astros' => 'HOUSTON',
-    'Athletics' => 'OAKLAND',
-    'Blue Jays' => 'TORONTO',
-    'Braves' => 'ATLANTA',
-    'Brewers' => 'MILWAUKEE',
-    'Cardinals' => 'ST LOUIS',
-    'Cubs' => 'CHI CUBS',
-    'Diamondbacks' => 'ARIZONA',
-    'Dodgers' => 'LOS ANGELES',
-    'Giants' => 'SAN FRANCISCO',
-    'Indians' => 'CLEVELAND',
-    'Mariners' => 'SEATTLE',
-    'Marlins' => 'MIAMI',
-    'Mets' => 'NY METS',
-    'Nationals' => 'WASHINGTON',
-    'Orioles' => 'BALTIMORE',
-    'Padres' => 'SAN DIEGO',
-    'Phillies' => 'PHILADELPHIA',
-    'Pirates' => 'PITTSBURGH',
-    'Rangers' => 'TEXAS',
-    'Rays' => 'TAMPA BAY',
-    'Red Sox' => 'BOSTON',
-    'Reds' => 'CINCINNATI',
-    'Rockies' => 'COLORADO',
-    'Royals' => 'KANSAS CITY',
-    'Tigers' => 'DETROIT',
-    'Twins' => 'MINNESOTA',
-    'White Sox' => 'CHI WHITE SOX',
-    'Yankees' => 'NY YANKEES'
+      'Angels' => 'LA ANGELS',
+      'Astros' => 'HOUSTON',
+      'Athletics' => 'OAKLAND',
+      'Blue Jays' => 'TORONTO',
+      'Braves' => 'ATLANTA',
+      'Brewers' => 'MILWAUKEE',
+      'Cardinals' => 'ST LOUIS',
+      'Cubs' => 'CHI CUBS',
+      'Diamondbacks' => 'ARIZONA',
+      'Dodgers' => 'LOS ANGELES',
+      'Giants' => 'SAN FRANCISCO',
+      'Indians' => 'CLEVELAND',
+      'Mariners' => 'SEATTLE',
+      'Marlins' => 'MIAMI',
+      'Mets' => 'NY METS',
+      'Nationals' => 'WASHINGTON',
+      'Orioles' => 'BALTIMORE',
+      'Padres' => 'SAN DIEGO',
+      'Phillies' => 'PHILADELPHIA',
+      'Pirates' => 'PITTSBURGH',
+      'Rangers' => 'TEXAS',
+      'Rays' => 'TAMPA BAY',
+      'Red Sox' => 'BOSTON',
+      'Reds' => 'CINCINNATI',
+      'Rockies' => 'COLORADO',
+      'Royals' => 'KANSAS CITY',
+      'Tigers' => 'DETROIT',
+      'Twins' => 'MINNESOTA',
+      'White Sox' => 'CHI WHITE SOX',
+      'Yankees' => 'NY YANKEES'
   }
 
   @month = {
-    'Jan' => '1',
-    'Feb' => '2',
-    'Mar' => '3',
-    'Apr' => '4',
-    'May' => '5',
-    'Jun' => '6',
-    'Jul' => '7',
-    'Aug' => '8',
-    'Sep' => '9',
-    'Oct' => '10',
-    'Nov' => '11',
-    'Dec' => '12'
+      'Jan' => '1',
+      'Feb' => '2',
+      'Mar' => '3',
+      'Apr' => '4',
+      'May' => '5',
+      'Jun' => '6',
+      'Jul' => '7',
+      'Aug' => '8',
+      'Sep' => '9',
+      'Oct' => '10',
+      'Nov' => '11',
+      'Dec' => '12'
   }
 
   @abbr = {
-    'la' => 'lad',
-    'Florida' => 'mia',
-    'was' => 'wsh',
-    'cws' => 'chw',
-    'Montreal' => 'wsh',
-    'Anaheim' => 'laa',
-    'California' => 'laa'
+      'la' => 'lad',
+      'Florida' => 'mia',
+      'was' => 'wsh',
+      'cws' => 'chw',
+      'Montreal' => 'wsh',
+      'Anaheim' => 'laa',
+      'California' => 'laa'
   }
 
   @team = {
-    'bal' => 'Baltimore Orioles',
-    'bos' => 'Boston Red Sox',
-    'nyy' => 'New York Yankees',
-    'tb' => 'Tampa Bay Rays',
-    'tor' => 'Toronto Blue Jays',
-    'atl' => 'Atlanta Braves',
-    'mia' => 'Miami Marlins',
-    'nym' => 'New York Mets',
-    'phi' => 'Philadelphia Phillies',
-    'wsh' => 'Washington Nationals',
-    'cws' => 'Chicago White Sox',
-    'cle' => 'Cleveland Indians',
-    'det' => 'Detroit Tigers',
-    'kc' => 'Kansas City Royals',
-    'min' => 'Minnesota Twins',
-    'chc' => 'Chicago Cubs',
-    'cin' => 'Cincinnati Reds',
-    'mil' => 'Milwaukee Brewers',
-    'pit' => 'Pittsburgh Pirates',
-    'stl' => 'St. Louis Cardinals',
-    'hou' => 'Houston Astros',
-    'laa' => 'Los Angeles Angels',
-    'oak' => 'Oakland Athletics',
-    'sea' => 'Seattle Mariners',
-    'tex' => 'Texas Rangers',
-    'ari' => 'Arizona Diamondbacks',
-    'col' => 'Colorado Rockies',
-    'lad' => 'Los Angeles Dodgers',
-    'sd' => 'San Diego Padres',
-    'sf' => 'San Francisco Giants'
+      'bal' => 'Baltimore Orioles',
+      'bos' => 'Boston Red Sox',
+      'nyy' => 'New York Yankees',
+      'tb' => 'Tampa Bay Rays',
+      'tor' => 'Toronto Blue Jays',
+      'atl' => 'Atlanta Braves',
+      'mia' => 'Miami Marlins',
+      'nym' => 'New York Mets',
+      'phi' => 'Philadelphia Phillies',
+      'wsh' => 'Washington Nationals',
+      'cws' => 'Chicago White Sox',
+      'cle' => 'Cleveland Indians',
+      'det' => 'Detroit Tigers',
+      'kc' => 'Kansas City Royals',
+      'min' => 'Minnesota Twins',
+      'chc' => 'Chicago Cubs',
+      'cin' => 'Cincinnati Reds',
+      'mil' => 'Milwaukee Brewers',
+      'pit' => 'Pittsburgh Pirates',
+      'stl' => 'St. Louis Cardinals',
+      'hou' => 'Houston Astros',
+      'laa' => 'Los Angeles Angels',
+      'oak' => 'Oakland Athletics',
+      'sea' => 'Seattle Mariners',
+      'tex' => 'Texas Rangers',
+      'ari' => 'Arizona Diamondbacks',
+      'col' => 'Colorado Rockies',
+      'lad' => 'Los Angeles Dodgers',
+      'sd' => 'San Diego Padres',
+      'sf' => 'San Francisco Giants'
   }
 
 
   @weaterstation = {
-    'Flushing, New York 11390' => 'https://www.wunderground.com/history/airport/KLGA/year/month/day/DailyHistory.html?req_city=Flushing&req_state=&req_statename=New+York&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Minneapolis, Minnesota 55488' => 'https://www.wunderground.com/history/airport/KMIC/year/month/day/DailyHistory.html?req_city=Minneapolis&req_state=&req_statename=Minnesota&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'San Diego, California 92199' => 'https://www.wunderground.com/history/airport/KSAN/year/month/day/DailyHistory.html?req_city=San+Diego&req_state=CA&req_statename=California&reqdb.zip=92101&reqdb.magic=1&reqdb.wmo=99999',
-    'Kansas City, Missouri 64999' => 'https://www.wunderground.com/history/airport/KMKC/year/month/day/DailyHistory.html?req_city=Kansas+City&req_state=MO&req_statename=Missouri&reqdb.zip=64999&reqdb.magic=1&reqdb.wmo=99999',
-    'Anaheim, California 92899' => 'https://www.wunderground.com/history/airport/KFUL/year/month/day/DailyHistory.html?req_city=Anaheim&req_state=CA&req_statename=California&reqdb.zip=92801&reqdb.magic=1&reqdb.wmo=99999',
-    'Houston, Texas 77299' => 'https://www.wunderground.com/history/airport/KMCJ/year/month/day/DailyHistory.html?req_city=Houston&req_state=TX&req_statename=Texas&reqdb.zip=77299&reqdb.magic=1&reqdb.wmo=99999',
-    'Detroit, Michigan 48201' => 'https://www.wunderground.com/history/airport/KDET/year/month/day/DailyHistory.html?req_city=Detroit&req_state=&req_statename=Michigan&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Toronto, Ontario' => 'https://www.wunderground.com/history/airport/CXTO/year/month/day/DailyHistory.html?req_city=Toronto&req_state=&req_statename=Ontario&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Oakland, California 94666' => 'https://www.wunderground.com/history/airport/KOAK/year/month/day/DailyHistory.html?req_city=Oakland&req_state=&req_statename=California&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'San Juan, Puerto Rico' => 'https://www.wunderground.com/history/airport/TJSJ/year/month/day/DailyHistory.html?req_city=San+Juan&req_state=&req_statename=Puerto+Rico&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'St. Louis, Missouri 63012' => 'https://www.wunderground.com/history/airport/KCPS/year/month/day/DailyHistory.html?req_city=Barnhart&req_state=MO&req_statename=Missouri&reqdb.zip=63012&reqdb.magic=1&reqdb.wmo=99999',
-    'Chicago, Illinois 60616' => 'https://www.wunderground.com/history/airport/KORD/year/month/day/DailyHistory.html?req_city=Chicago&req_state=&req_statename=Illinois&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'St. Petersburg, Florida 33784' => 'https://www.wunderground.com/history/airport/KSPG/year/month/day/DailyHistory.html?req_city=Saint+Petersburg&req_state=FL&req_statename=Florida&reqdb.zip=33784&reqdb.magic=1&reqdb.wmo=99999',
-    'Miami, Florida 33299' => 'https://www.wunderground.com/history/airport/KMIA/year/month/day/DailyHistory.html?req_city=Miami&req_state=&req_statename=Florida&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Boston, Massachusetts 02297' => 'https://www.wunderground.com/history/airport/KBOS/year/month/day/DailyHistory.html?req_city=Boston&req_state=&req_statename=Massachusetts&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Los Angeles, California 90185' => 'https://www.wunderground.com/history/airport/KCQT/year/month/day/DailyHistory.html?req_city=Los+Angeles&req_state=&req_statename=California&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'New York, New York 10451' => 'https://www.wunderground.com/history/airport/KNYC/year/month/day/DailyHistory.html?req_city=New+York&req_state=&req_statename=New+York&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Arlington, Texas 76096' => 'https://www.wunderground.com/history/airport/KGPM/year/month/day/DailyHistory.html?req_city=Arlington&req_state=TX&req_statename=Texas&reqdb.zip=76096&reqdb.magic=1&reqdb.wmo=99999',
-    'Williamsport, PA' => 'https://www.wunderground.com/history/airport/KIPT/year/month/day/DailyHistory.html?req_city=Williamsport&req_state=&req_statename=Pennsylvania&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'San Francisco, California 94188' => 'https://www.wunderground.com/history/airport/KSFO/year/month/day/DailyHistory.html?req_city=San+Francisco&req_state=&req_statename=California&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Baltimore, Maryland 21298' => 'https://www.wunderground.com/history/airport/KDMH/year/month/day/DailyHistory.html?req_city=Baltimore&req_state=MD&req_statename=Maryland&reqdb.zip=21298&reqdb.magic=1&reqdb.wmo=99999',
-    'Washington, D.C.' => 'https://www.wunderground.com/history/airport/KDCA/year/month/day/DailyHistory.html?req_city=Washington&req_state=DC&req_statename=District+of+Columbia&reqdb.zip=20001&reqdb.magic=1&reqdb.wmo=99999',
-    'Cumberland, GA' => 'https://www.wunderground.com/history/airport/KAHN/year/month/day/DailyHistory.html?req_city=Cumberland&req_state=&req_statename=Georgia&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Washington, D.C. 20003' => 'https://www.wunderground.com/history/airport/KDCA/year/month/day/DailyHistory.html?req_city=Washington&req_state=DC&req_statename=District+of+Columbia&reqdb.zip=20001&reqdb.magic=1&reqdb.wmo=99999',
-    'Denver, Colorado 80299' => 'https://www.wunderground.com/history/airport/KBKF/year/month/day/DailyHistory.html?req_city=Denver&req_state=&req_statename=Colorado&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Kissimmee, Florida 34759' => 'https://www.wunderground.com/history/airport/KISM/year/month/day/DailyHistory.html?req_city=Kissimmee&req_state=&req_statename=Florida&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Seattle, Washington 98104' => 'https://www.wunderground.com/history/airport/KBFI/year/month/day/DailyHistory.html?req_city=Seattle&req_state=WA&req_statename=Washington&reqdb.zip=98104&reqdb.magic=1&reqdb.wmo=99999',
-    'Bronx, New York 10499' => 'https://www.wunderground.com/history/airport/KLGA/year/month/day/DailyHistory.html?req_city=Bronx&req_state=&req_statename=New+York&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'New York, New York 11368' => 'https://www.wunderground.com/history/airport/KLGA/year/month/day/DailyHistory.html?req_city=Corona&req_state=NY&req_statename=New+York&reqdb.zip=11368&reqdb.magic=1&reqdb.wmo=99999',
-    'Tokyo, Japan' => 'https://www.wunderground.com/history/airport/RJTD/year/month/day/DailyHistory.html?req_city=Tokyo&req_state=&req_statename=Japan&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Milwaukee, Wisconsin 53295' => 'https://www.wunderground.com/history/airport/KMKE/year/month/day/DailyHistory.html?req_city=Milwaukee&req_state=&req_statename=Wisconsin&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Cleveland, Ohio 44199' => 'https://www.wunderground.com/history/airport/KBKL/year/month/day/DailyHistory.html?req_city=Cleveland&req_state=&req_statename=Ohio&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Phoenix, Arizona 85099' => 'https://www.wunderground.com/history/airport/KPHX/year/month/day/DailyHistory.html?req_city=Phoenix&req_state=&req_statename=Arizona&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Cumberland, NC' => 'https://www.wunderground.com/history/airport/KFAY/year/month/day/DailyHistory.html?req_city=Cumberland&req_state=&req_statename=North+Carolina&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Sydney, New South' => 'https://www.wunderground.com/history/airport/YSSY/year/month/day/DailyHistory.html?req_city=Sydney&req_state=&req_statename=Australia&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Pittsburgh, Pennsylvania 15212' => 'https://www.wunderground.com/history/airport/KAGC/year/month/day/DailyHistory.html?req_city=Pittsburgh&req_state=PA&req_statename=Pennsylvania&reqdb.zip=15212&reqdb.magic=1&reqdb.wmo=99999',
-    'Cincinnati, Ohio 45999' => 'https://www.wunderground.com/history/airport/KLUK/year/month/day/DailyHistory.html?req_city=Cincinnati&req_state=OH&req_statename=Ohio&reqdb.zip=45999&reqdb.magic=1&reqdb.wmo=99999',
-    'Cumberland, Georgia 39901' => 'https://www.wunderground.com/history/airport/KAHN/year/month/day/DailyHistory.html?req_city=Cumberland&req_state=&req_statename=Georgia&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Philadelphia, Pennsylvania 19255' => 'https://www.wunderground.com/history/airport/KPHL/year/month/day/DailyHistory.html?req_city=Philadelphia&req_state=&req_statename=Pennsylvania&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Chicago, Illinois 60613' => 'https://www.wunderground.com/history/airport/KORD/year/month/day/DailyHistory.html?req_city=Chicago&req_state=&req_statename=Illinois&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
-    'Cumberland, GA 30339' => 'https://www.wunderground.com/history/airport/KMGE/year/month/day/DailyHistory.html?req_city=Atlanta&req_state=GA&req_statename=Georgia&reqdb.zip=30339&reqdb.magic=1&reqdb.wmo=99999'
+      'Flushing, New York 11390' => 'https://www.wunderground.com/history/airport/KLGA/year/month/day/DailyHistory.html?req_city=Flushing&req_state=&req_statename=New+York&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Minneapolis, Minnesota 55488' => 'https://www.wunderground.com/history/airport/KMIC/year/month/day/DailyHistory.html?req_city=Minneapolis&req_state=&req_statename=Minnesota&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'San Diego, California 92199' => 'https://www.wunderground.com/history/airport/KSAN/year/month/day/DailyHistory.html?req_city=San+Diego&req_state=CA&req_statename=California&reqdb.zip=92101&reqdb.magic=1&reqdb.wmo=99999',
+      'Kansas City, Missouri 64999' => 'https://www.wunderground.com/history/airport/KMKC/year/month/day/DailyHistory.html?req_city=Kansas+City&req_state=MO&req_statename=Missouri&reqdb.zip=64999&reqdb.magic=1&reqdb.wmo=99999',
+      'Anaheim, California 92899' => 'https://www.wunderground.com/history/airport/KFUL/year/month/day/DailyHistory.html?req_city=Anaheim&req_state=CA&req_statename=California&reqdb.zip=92801&reqdb.magic=1&reqdb.wmo=99999',
+      'Houston, Texas 77299' => 'https://www.wunderground.com/history/airport/KMCJ/year/month/day/DailyHistory.html?req_city=Houston&req_state=TX&req_statename=Texas&reqdb.zip=77299&reqdb.magic=1&reqdb.wmo=99999',
+      'Detroit, Michigan 48201' => 'https://www.wunderground.com/history/airport/KDET/year/month/day/DailyHistory.html?req_city=Detroit&req_state=&req_statename=Michigan&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Toronto, Ontario' => 'https://www.wunderground.com/history/airport/CXTO/year/month/day/DailyHistory.html?req_city=Toronto&req_state=&req_statename=Ontario&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Oakland, California 94666' => 'https://www.wunderground.com/history/airport/KOAK/year/month/day/DailyHistory.html?req_city=Oakland&req_state=&req_statename=California&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'San Juan, Puerto Rico' => 'https://www.wunderground.com/history/airport/TJSJ/year/month/day/DailyHistory.html?req_city=San+Juan&req_state=&req_statename=Puerto+Rico&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'St. Louis, Missouri 63012' => 'https://www.wunderground.com/history/airport/KCPS/year/month/day/DailyHistory.html?req_city=Barnhart&req_state=MO&req_statename=Missouri&reqdb.zip=63012&reqdb.magic=1&reqdb.wmo=99999',
+      'Chicago, Illinois 60616' => 'https://www.wunderground.com/history/airport/KORD/year/month/day/DailyHistory.html?req_city=Chicago&req_state=&req_statename=Illinois&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'St. Petersburg, Florida 33784' => 'https://www.wunderground.com/history/airport/KSPG/year/month/day/DailyHistory.html?req_city=Saint+Petersburg&req_state=FL&req_statename=Florida&reqdb.zip=33784&reqdb.magic=1&reqdb.wmo=99999',
+      'Miami, Florida 33299' => 'https://www.wunderground.com/history/airport/KMIA/year/month/day/DailyHistory.html?req_city=Miami&req_state=&req_statename=Florida&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Boston, Massachusetts 02297' => 'https://www.wunderground.com/history/airport/KBOS/year/month/day/DailyHistory.html?req_city=Boston&req_state=&req_statename=Massachusetts&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Los Angeles, California 90185' => 'https://www.wunderground.com/history/airport/KCQT/year/month/day/DailyHistory.html?req_city=Los+Angeles&req_state=&req_statename=California&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'New York, New York 10451' => 'https://www.wunderground.com/history/airport/KNYC/year/month/day/DailyHistory.html?req_city=New+York&req_state=&req_statename=New+York&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Arlington, Texas 76096' => 'https://www.wunderground.com/history/airport/KGPM/year/month/day/DailyHistory.html?req_city=Arlington&req_state=TX&req_statename=Texas&reqdb.zip=76096&reqdb.magic=1&reqdb.wmo=99999',
+      'Williamsport, PA' => 'https://www.wunderground.com/history/airport/KIPT/year/month/day/DailyHistory.html?req_city=Williamsport&req_state=&req_statename=Pennsylvania&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'San Francisco, California 94188' => 'https://www.wunderground.com/history/airport/KSFO/year/month/day/DailyHistory.html?req_city=San+Francisco&req_state=&req_statename=California&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Baltimore, Maryland 21298' => 'https://www.wunderground.com/history/airport/KDMH/year/month/day/DailyHistory.html?req_city=Baltimore&req_state=MD&req_statename=Maryland&reqdb.zip=21298&reqdb.magic=1&reqdb.wmo=99999',
+      'Washington, D.C.' => 'https://www.wunderground.com/history/airport/KDCA/year/month/day/DailyHistory.html?req_city=Washington&req_state=DC&req_statename=District+of+Columbia&reqdb.zip=20001&reqdb.magic=1&reqdb.wmo=99999',
+      'Cumberland, GA' => 'https://www.wunderground.com/history/airport/KAHN/year/month/day/DailyHistory.html?req_city=Cumberland&req_state=&req_statename=Georgia&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Washington, D.C. 20003' => 'https://www.wunderground.com/history/airport/KDCA/year/month/day/DailyHistory.html?req_city=Washington&req_state=DC&req_statename=District+of+Columbia&reqdb.zip=20001&reqdb.magic=1&reqdb.wmo=99999',
+      'Denver, Colorado 80299' => 'https://www.wunderground.com/history/airport/KBKF/year/month/day/DailyHistory.html?req_city=Denver&req_state=&req_statename=Colorado&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Kissimmee, Florida 34759' => 'https://www.wunderground.com/history/airport/KISM/year/month/day/DailyHistory.html?req_city=Kissimmee&req_state=&req_statename=Florida&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Seattle, Washington 98104' => 'https://www.wunderground.com/history/airport/KBFI/year/month/day/DailyHistory.html?req_city=Seattle&req_state=WA&req_statename=Washington&reqdb.zip=98104&reqdb.magic=1&reqdb.wmo=99999',
+      'Bronx, New York 10499' => 'https://www.wunderground.com/history/airport/KLGA/year/month/day/DailyHistory.html?req_city=Bronx&req_state=&req_statename=New+York&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'New York, New York 11368' => 'https://www.wunderground.com/history/airport/KLGA/year/month/day/DailyHistory.html?req_city=Corona&req_state=NY&req_statename=New+York&reqdb.zip=11368&reqdb.magic=1&reqdb.wmo=99999',
+      'Tokyo, Japan' => 'https://www.wunderground.com/history/airport/RJTD/year/month/day/DailyHistory.html?req_city=Tokyo&req_state=&req_statename=Japan&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Milwaukee, Wisconsin 53295' => 'https://www.wunderground.com/history/airport/KMKE/year/month/day/DailyHistory.html?req_city=Milwaukee&req_state=&req_statename=Wisconsin&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Cleveland, Ohio 44199' => 'https://www.wunderground.com/history/airport/KBKL/year/month/day/DailyHistory.html?req_city=Cleveland&req_state=&req_statename=Ohio&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Phoenix, Arizona 85099' => 'https://www.wunderground.com/history/airport/KPHX/year/month/day/DailyHistory.html?req_city=Phoenix&req_state=&req_statename=Arizona&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Cumberland, NC' => 'https://www.wunderground.com/history/airport/KFAY/year/month/day/DailyHistory.html?req_city=Cumberland&req_state=&req_statename=North+Carolina&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Sydney, New South' => 'https://www.wunderground.com/history/airport/YSSY/year/month/day/DailyHistory.html?req_city=Sydney&req_state=&req_statename=Australia&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Pittsburgh, Pennsylvania 15212' => 'https://www.wunderground.com/history/airport/KAGC/year/month/day/DailyHistory.html?req_city=Pittsburgh&req_state=PA&req_statename=Pennsylvania&reqdb.zip=15212&reqdb.magic=1&reqdb.wmo=99999',
+      'Cincinnati, Ohio 45999' => 'https://www.wunderground.com/history/airport/KLUK/year/month/day/DailyHistory.html?req_city=Cincinnati&req_state=OH&req_statename=Ohio&reqdb.zip=45999&reqdb.magic=1&reqdb.wmo=99999',
+      'Cumberland, Georgia 39901' => 'https://www.wunderground.com/history/airport/KAHN/year/month/day/DailyHistory.html?req_city=Cumberland&req_state=&req_statename=Georgia&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Philadelphia, Pennsylvania 19255' => 'https://www.wunderground.com/history/airport/KPHL/year/month/day/DailyHistory.html?req_city=Philadelphia&req_state=&req_statename=Pennsylvania&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Chicago, Illinois 60613' => 'https://www.wunderground.com/history/airport/KORD/year/month/day/DailyHistory.html?req_city=Chicago&req_state=&req_statename=Illinois&reqdb.zip=&reqdb.magic=&reqdb.wmo=',
+      'Cumberland, GA 30339' => 'https://www.wunderground.com/history/airport/KMGE/year/month/day/DailyHistory.html?req_city=Atlanta&req_state=GA&req_statename=Georgia&reqdb.zip=30339&reqdb.magic=1&reqdb.wmo=99999'
   }
 
 
