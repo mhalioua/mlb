@@ -400,7 +400,7 @@ namespace :job do
 
   task :workbookHits => :environment do
     include GetHtml
-    games = Workbook.where('hits1 is null')
+    games = Workbook.all
     games.each do |game|
       t_HITS_SUM = game.hits5.to_i
       t_HRS_SUM = game.home_runs5.to_i
