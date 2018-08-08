@@ -40,13 +40,16 @@
       <th width="50" style="background: red;">Total Lines Average</th>
       <th width="50">Total Average 1</th>
       <th width="50">Total Average 2</th>
+      <th width="50">Total t-Hits Average</th>
       <th width="50">Total Hits Average</th>
+      <th width="50">Total t-HRs Average</th>
       <th width="50">Home Runs Average</th>
       <th width="50">Total Count</th>
       <th width="10" class="blue"></th>
       <th width="50">+/-1</th>
       <th width="50">Total Count +/-1</th>
       <th width="50">Total Lines Average</th>
+      <th width="150" colspan="3" style="background: red">COUNT</th>
   	</tr>
   </thead>
   <tbody>
@@ -74,9 +77,13 @@
       <td><%= result[:total_hr_park] %></td>
       <td style="background: yellow;">8.93</td>
       <td style="background: yellow;">8.84</td>
-      <td colspan="5" style="background: yellow;">All Stadiums</td>
+      <td style="background: yellow;"></td>
+      <td colspan="6" style="background: yellow;">All Stadiums</td>
       <td style="background: yellow;">17.62</td>
       <td style="background: yellow;">1.97</td>
+      <td style="background: yellow;">0-6.75</td>
+      <td style="background: yellow;">9.00 =</td>
+      <td style="background: yellow;">Over 9</td>
     </tr>
 
     <% weathers.each do |weather|
@@ -124,13 +131,18 @@
         <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg_wind] %></td>
         <td><%= result[:total_avg_1] %></td>
         <td><%= result[:total_avg_2] %></td>
+        <td><%= result[:t_HITS_avg] %></td>
         <td><%= result[:total_hits_avg] %></td>
+        <td><%= result[:t_HRS_avg] %></td>
         <td><%= result[:home_runs_avg] %></td>
         <td><%= result[:total_count] %></td>
         <td class="blue"></td>
         <td><%= result[:lower_one] %></td>
         <td><%= result[:lower_one_count] %></td>
         <td style="background: gray; color: sandybrown;"><%= result[:total_lines_avg] %></td>
+        <td><%= result[:first_count] %></td>
+        <td><%= result[:second_count] %></td>
+        <td><%= result[:third_count] %></td>
     	</tr>
     <% end %>
 
