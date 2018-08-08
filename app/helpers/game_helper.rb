@@ -384,7 +384,9 @@ module GameHelper
       (query.map {|stat| stat.Total_Walks.to_f }.sum / (count == 0 ? 1 : count)).round(2),
       (query.map {|stat| stat.home_runs.to_f }.sum / (count == 0 ? 1 : count)).round(2),
       flag,
-      (query.map {|stat| stat.total_line.to_f }.sum / (line_count == 0 ? 1 : line_count)).round(2)
+      (query.map {|stat| stat.total_line.to_f }.sum / (line_count == 0 ? 1 : line_count)).round(2),
+      (query.map {|stat| stat.t_HITS.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+      (query.map {|stat| stat.t_HRS.to_f }.sum / (count == 0 ? 1 : count)).round(2)
     ]
   end
 
@@ -472,6 +474,11 @@ module GameHelper
     result[:total_hits_avg] = (query.map {|stat| stat.Total_Walks.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:home_runs_avg] = (query.map {|stat| stat.home_runs.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:total_lines_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:t_HITS_avg] = (query.map {|stat| stat.t_HITS.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:t_HRS_avg] = (query.map {|stat| stat.t_HRS.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:first_count] = query.select {|stat| stat.R.to_i < 9}.count
+    result[:second_count] = query.select {|stat| stat.R.to_i == 9}.count
+    result[:third_count] = query.select {|stat| stat.R.to_i > 9}.count
 
     search_string_low_all = search_string_low.dup
     search_string_low_all.push('"total_line" is not null ')
