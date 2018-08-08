@@ -419,7 +419,12 @@ module Update
           except_total_count: result[:home_count_dup],
           except_min_total_average: result[:home_one_dup],
           except_min_total_count: result[:home_one_count_dup],
-          except_total_lines_average: result[:total_lines_park_avg_dup]
+          except_total_lines_average: result[:total_lines_park_avg_dup],
+          t_HITS_avg: result[:t_HITS_avg],
+          t_HRS_avg: result[:t_HRS_avg],
+          first_count: result[:first_count],
+          second_count: result[:second_count],
+          third_count: result[:third_count]
         )
       end
 
