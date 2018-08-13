@@ -24,14 +24,14 @@
   <tbody>
     <%
       winds = wind_data(name, weathers[0].wind, weathers[1].wind, weathers[2].wind, additional)
-      one_value = winds.sort {|x, y| y[1] <=> x[1]} [6][1]
-      two_value = winds.sort {|x, y| y[2] <=> x[2]} [6][2]
-      four_value = winds.sort {|x, y| y[4] <=> x[4]} [6][4]
-      five_value = winds.sort {|x, y| y[5] <=> x[5]} [6][5]
-      eight_value = winds.sort {|x, y| y[8] <=> x[8]} [6][8]
-      nine_value = winds.sort {|x, y| y[9] <=> x[9]} [6][9]
+      one_value = winds[3..-1].sort {|x, y| y[1] <=> x[1]} [6][1]
+      two_value = winds[3..-1].sort {|x, y| y[2] <=> x[2]} [6][2]
+      four_value = winds[3..-1].sort {|x, y| y[4] <=> x[4]} [6][4]
+      five_value = winds[3..-1].sort {|x, y| y[5] <=> x[5]} [6][5]
+      eight_value = winds[3..-1].sort {|x, y| y[8] <=> x[8]} [6][8]
+      nine_value = winds[3..-1].sort {|x, y| y[9] <=> x[9]} [6][9]
     %>
-    <% winds.each do |wind| %>
+    <% winds.each_with_index do |wind, index| %>
       <% if wind[6].to_i == 1 %>
       <tr bgcolor="#DC143C">
       <% elsif wind[6].to_i == 0 %>
@@ -46,12 +46,12 @@
         five_style = ""
         eight_style = "background: cyan"
         nine_style = "background: cyan"
-        one_style = "background: #35a" if wind[1] >= one_value
-        two_style = "background: #35a" if wind[2] >= two_value
-        four_style = "background: #35a" if wind[4] >= four_value
-        five_style = "background: #35a" if wind[5] >= five_value
-        eight_style = "background: #35a" if wind[8] >= eight_value
-        nine_style = "background: #35a" if wind[9] >= nine_value
+        one_style = "background: #35a" if wind[1] >= one_value && index >= 3
+        two_style = "background: #35a" if wind[2] >= two_value && index >= 3
+        four_style = "background: #35a" if wind[4] >= four_value && index >= 3
+        five_style = "background: #35a" if wind[5] >= five_value && index >= 3
+        eight_style = "background: #35a" if wind[8] >= eight_value && index >= 3
+        nine_style = "background: #35a" if wind[9] >= nine_value && index >= 3
       %>
         <td> <%= wind[0] %> </td>
         <td style="<%= one_style %>"> <%= wind[1] %> </td>
