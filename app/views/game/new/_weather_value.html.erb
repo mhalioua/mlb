@@ -14,7 +14,7 @@
     <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "" : ( caption == "With wind" ? "lightgreen" : "") %>"><%= caption %></td>
     <td><%= "#{temp_min}-#{temp_max}" %></td>
     <td><%= "#{dew_min.round}-#{dew_max.round}" %><br><%= "#{(dew_min+1).round}-#{(dew_max-1).round}" %></td>
-    <td><%= hum_min === hum_max ? hum_min : "#{hum_min}-#{hum_max}" %></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "yellow" : "" %>"><%= hum_min === hum_max ? hum_min : "#{hum_min}-#{hum_max}" %></td>
     <td><%= "#{(pressure_min*100).round%100}-#{(pressure_max*100).round%100}" %></td>
     <td><%= "#{wind_min}-#{wind_max}" %> , <%= weather_one_dir == weather_two_dir ? weather_one_dir : "#{weather_one_dir}, #{weather_two_dir}" %></td>
     <td class="blue"></td>
