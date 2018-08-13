@@ -76,15 +76,15 @@
       <td colspan="5" >Only <%= stadium %> with wind</td>
       <td><%= result[:total_hits_park_avg] %></td>
       <td><%= result[:total_hr_park] %></td>
-      <td style="background: yellow;"><%= result[:total_avg_1] %></td>
-      <td style="background: yellow;"><%= result[:total_avg_2] %></td>
-      <td style="background: yellow;"></td>
-      <td colspan="6" style="background: yellow;">All Stadiums</td>
-      <td style="background: yellow;"><%= result[:total_hits_avg] %></td>
-      <td style="background: yellow;"><%= result[:home_runs_avg] %></td>
-      <td style="background: yellow;">0-6.75</td>
-      <td style="background: yellow;">9.00 =</td>
-      <td style="background: yellow;">Over 9</td>
+      <td style="background: #EA5;"><%= result[:total_avg_1] %></td>
+      <td style="background: #EA5;"><%= result[:total_avg_2] %></td>
+      <td style="background: #EA5;"></td>
+      <td colspan="6" style="background: #EA5;">All Stadiums</td>
+      <td style="background: #EA5;"><%= result[:total_hits_avg] %></td>
+      <td style="background: #EA5;"><%= result[:home_runs_avg] %></td>
+      <td style="background: #EA5;">0-6.75</td>
+      <td style="background: #EA5;">9.00 =</td>
+      <td style="background: #EA5;">Over 9</td>
     </tr>
     <% block_number = 0 %>
 
@@ -113,7 +113,7 @@
       block_number = weather.block_number
       end
     %>
-    <%= render partial: "game/new/weather_blank", locals: { color: "sandybrown" } %>
+    <%= render partial: "game/new/weather_blank", locals: { color: "##EA5" } %>
   </tbody>
 </table>
 <% end %>
