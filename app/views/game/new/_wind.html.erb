@@ -11,18 +11,26 @@
   <thead>
   	<tr bgcolor="gray">
   	  <th>Wind</th>
-      <th>TOTAL RUNS1</th>
-      <th>TOTAL RUNS2</th>
-      <th>TOTAL COUNT</th>
-      <th>TOTAL t-HITS</th>
-      <th>TOTAL HITS</th>
-      <th>TOTAL t-HRS</th>
-      <th>HR'S</th>
-      <th>Total Lines Average</th>
+      <th width="50">TOTAL RUNS1</th>
+      <th width="50">TOTAL RUNS2</th>
+      <th width="50">TOTAL COUNT</th>
+      <th width="50">TOTAL HITS</th>
+      <th width="50">HR'S</th>
+      <th width="50">Total Lines Average</th>
+      <th width="50">TOTAL t-HITS</th>
+      <th width="50">TOTAL t-HRS</th>
   	</tr>
   </thead>
   <tbody>
-    <% winds = wind_data(name, weathers[0].wind, weathers[1].wind, weathers[2].wind, additional) %>
+    <%
+      winds = wind_data(name, weathers[0].wind, weathers[1].wind, weathers[2].wind, additional)
+      one_value = winds.sort {|x, y| y[1] <=> x[1]} [-7][1]
+      two_value = winds.sort {|x, y| y[2] <=> x[2]} [-7][2]
+      four_value = winds.sort {|x, y| y[4] <=> x[4]} [-7][4]
+      five_value = winds.sort {|x, y| y[5] <=> x[5]} [-7][5]
+      eigth_value = winds.sort {|x, y| y[8] <=> x[8]} [-7][8]
+      nine_value = winds.sort {|x, y| y[9] <=> x[9]} [-7][9]
+    %>
     <% winds.each do |wind| %>
       <% if wind[6].to_i == 1 %>
       <tr bgcolor="#DC143C">
@@ -31,15 +39,30 @@
       <% else %>
       <tr class="blue">
       <% end %>
+      <%
+        one_style = ""
+        two_style = ""
+        four_style = ""
+        five_style = ""
+        eight_style = "background: cyan"
+        nine_style = "background: cyan"
+        one_style = "background: #35a" if wind[1] >= one_value
+        two_style = "background: #35a" if wind[2] >= two_value
+        four_style = "background: #35a" if wind[4] >= four_value
+        five_style = "background: #35a" if wind[5] >= five_value
+        eight_style = "background: #35a" if wind[8] >= eigth_value
+        nine_style = "background: #35a" if wind[9] >= nine_value
+      %>
+      %>
         <td> <%= wind[0] %> </td>
-        <td> <%= wind[1] %> </td>
-        <td> <%= wind[2] %> </td>
+        <td style="<%= one_style %>"> <%= wind[1] %> </td>
+        <td style="<%= two_style %>"> <%= wind[2] %> </td>
         <td> <%= wind[3] %> </td>
-        <td style="background: cyan"> <%= wind[8] %> </td>
-        <td> <%= wind[4] %> </td>
-        <td style="background: cyan"> <%= wind[9] %> </td>
-        <td> <%= wind[5] %> </td>
+        <td style="<%= four_style %>"> <%= wind[4] %> </td>
+        <td style="<%= five_style %>"> <%= wind[5] %> </td>
         <td> <%= wind[7] %> </td>
+        <td style="<%= eight_style %>"> <%= wind[8] %> </td>
+        <td style="<%= nine_style %>"> <%= wind[9] %> </td>
       </tr>
     <% end %>
   </tbody>
