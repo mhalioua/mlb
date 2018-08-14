@@ -66,15 +66,7 @@ module Update
       (0...game_size).each do |i|
         game = game_array[i]
         if game
-          # game.update(away_money_line: away_money_line[i], home_money_line: home_money_line[i], away_total: away_totals[i], home_total: home_totals[i])
-          puts game.away_money_line
-          puts away_money_line[i]
-          puts game.home_money_line
-          puts home_money_line[i]
-          puts game.away_total
-          puts away_totals[i]
-          puts game.home_total
-          puts home_totals[i]
+          game.update(away_money_line: away_money_line[i], home_money_line: home_money_line[i], away_total: away_totals[i], home_total: home_totals[i])
         end
       end
     end
