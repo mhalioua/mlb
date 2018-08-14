@@ -4,7 +4,7 @@ module Update
     include GetHtml
 
     def update(game_day)
-      closingline(game_day)
+      lines(game_day)
       if game_day == GameDay.search(Time.now)
         umpire(game_day)
       end
@@ -14,7 +14,7 @@ module Update
     end
 
     private
-    def closingline(game_day)
+    def lines(game_day)
       day_games = game_day.games
       game_size = day_games.size
       date_url = "?date=" + game_day.date.to_formatted_s(:number)
@@ -48,6 +48,19 @@ module Update
         end
       end
 
+      away_money_line_closer = Array.new
+      home_money_line_closer = Array.new
+      doc.css(".eventLine-consensus+ .eventLine-book b").each_with_index do |stat, index|
+        if index == game_size * 2
+          break
+        end
+        if index % 2 == 0
+          away_money_line_closer << stat.text
+        else
+          home_money_line_closer << stat.text
+        end
+      end
+
       away_totals = Array.new
       home_totals = Array.new
       url = "https://classic.sportsbookreview.com/betting-odds/mlb-baseball/totals/" + date_url
@@ -63,10 +76,24 @@ module Update
         end
       end
 
+      away_totals_closer = Array.new
+      home_totals_closer = Array.new
+      doc.css(".eventLine-consensus+ .eventLine-book b").each_with_index do |stat, index|
+        if index == game_size * 2
+          break
+        end
+        if index % 2 == 0
+          away_totals_closer << stat.text
+        else
+          home_totals_closer << stat.text
+        end
+      end
+
       (0...game_size).each do |i|
         game = game_array[i]
         if game
-          game.update(away_money_line: away_money_line[i], home_money_line: home_money_line[i], away_total: away_totals[i], home_total: home_totals[i])
+          game.update(away_money_line: away_money_line[i], home_money_line: home_money_line[i], away_total: away_totals[i], home_total: home_totals[i],
+                      away_money_line_closer: away_money_line_closer[i], home_money_line_closer: home_money_line_closer[i], away_total_closer: away_totals_closer[i], home_total_closer: home_totals_closer[i])
         end
       end
     end
