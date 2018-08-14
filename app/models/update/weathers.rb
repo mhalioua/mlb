@@ -48,7 +48,7 @@ module Update
         wind_min = (weather.wind_speed.to_f - 5).round(1)
         wind_max = (weather.wind_speed.to_f + 5).round(1)
         wind_min = 3 if wind_min < 3
-        result = true_data(weather.temp_num - 5, weather.temp_num + 5, weather.dew_num-2, weather.dew_num+2, weather.humid_num-3, weather.humid_num+3, (weather.pressure_num-0.04).round(2), (weather.pressure_num+0.04).round(2), wind_min, wind_max, weather.wind_dir, weather.wind_dir, name)
+        result = true_data((weather.temp_num - 5).round(1), (weather.temp_num + 5).round(1), (weather.dew_num-2).round(1), (weather.dew_num+2).round(1), weather.humid_num-3, weather.humid_num+3, (weather.pressure_num-0.04).round(2), (weather.pressure_num+0.04).round(2), wind_min, wind_max, weather.wind_dir, weather.wind_dir, name)
         create_weathersource(game.id, date, 2, block_number, row_number, weather_time(weather.game.game_date, weather.hour), weather.temp, weather.dp, weather.hum, weather.pressure, weather.wind, result)
         row_number = row_number + 1
       end
@@ -57,8 +57,8 @@ module Update
       weathers.each_with_index do |weather, index|
         temp_min = (weather.temp_num - 4).round(1)
         temp_max = (weather.temp_num + 4).round(1)
-        dew_min = weather.dew_num-2
-        dew_max = weather.dew_num+2
+        dew_min = (weather.dew_num-2).round(1)
+        dew_max = (weather.dew_num+2).round(1)
         hum_min = weather.humid_num-3
         hum_max = weather.humid_num+3
         pressure_min = (weather.pressure_num-0.04).round(2)
@@ -93,8 +93,8 @@ module Update
           dew_max = weather_one.dew_num
         end
         dew_diff = ((7 + dew_min - dew_max)/2).to_i
-        dew_min = dew_min - dew_diff
-        dew_max = dew_max + dew_diff
+        dew_min = (dew_min - dew_diff).round(1)
+        dew_max = (dew_max + dew_diff).round(1)
 
         hum_min = weather_one.humid_num
         hum_max = weather_two.humid_num
@@ -156,8 +156,8 @@ module Update
           dew_max = weather_one.dew_num
         end
         dew_diff = ((5 + dew_min - dew_max)/2).to_i
-        dew_min = dew_min - dew_diff
-        dew_max = dew_max + dew_diff
+        dew_min = (dew_min - dew_diff).round(1)
+        dew_max = (dew_max + dew_diff).round(1)
 
         pressure_min = (weather_one.pressure_num * 100).round
         pressure_max = (weather_two.pressure_num * 100).round
