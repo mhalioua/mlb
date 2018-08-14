@@ -698,6 +698,25 @@ namespace :job do
     end
   end
 
+  task old: :environment do
+    url = "https://classic.sportsbookreview.com/betting-odds/mlb-baseball/"
+    puts url
+    doc = Nokogiri::HTML(open(url))
+    doc.css(".team-name a").each_with_index do |stat, index|
+      if index%2 == 1
+        puts stat.child.text[0...-3].to_s
+      end
+    end
+    doc.css(".eventLine-opener div").each_with_index do |stat, index|
+      if index%2 == 0
+        puts stat.text
+      else
+        puts stat.text
+      end
+    end
+
+  end
+
   task getTotal: :environment do
     include GetHtml
     index_date = Date.new(2018, 3, 29)
