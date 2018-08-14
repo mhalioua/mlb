@@ -30,14 +30,14 @@ module Update
         if index % 2 == 1
           abbr = stat.child.text[0...-3].to_s
           abbr = fix_abbr(abbr)
-          team = Team.find_by_abbr(abbr)
+          team = Team.find_by(espn_abbr: abbr)
           add_game_to_array(game_array, day_games, team)
         end
       end
 
       away_money_line = Array.new
       home_money_line = Array.new
-      doc.css(".eventLine-consensus+ .eventLine-book b").each_with_index do |stat, index|
+      doc.css(".eventLine-opener div").each_with_index do |stat, index|
         if index == game_size * 2
           break
         end
@@ -52,7 +52,7 @@ module Update
       home_totals = Array.new
       url = "https://classic.sportsbookreview.com/betting-odds/mlb-baseball/totals/" + date_url
       doc = Nokogiri::HTML(open(url))
-      doc.css(".eventLine-consensus+ .eventLine-book b").each_with_index do |stat, index|
+      doc.css(".eventLine-opener div").each_with_index do |stat, index|
         if index == game_size * 2
           break
         end
@@ -72,9 +72,9 @@ module Update
           puts game.home_money_line
           puts home_money_line[i]
           puts game.away_total
-          puts away_total[i]
+          puts away_totals[i]
           puts game.home_total
-          puts home_total[i]
+          puts home_totals[i]
         end
       end
     end
@@ -101,6 +101,15 @@ module Update
             puts "#{game.game_id} #{ump}"
           end
         end
+      end
+    end
+
+    def fix_abbr(abbr)
+      case abbr
+        when "CWS"
+          "CHW"
+        else
+          abbr
       end
     end
 
@@ -153,12 +162,12 @@ module Update
       end
     end
 
-    def add_game_to_array(game_array, day_games, home_team, away_team)
-      unless home_team && away_team
+    def add_game_to_array(game_array, day_games, team)
+      unless team
         game_array << nil
         return
       end
-      games = day_games.where("home_team_id = ? AND away_team_id = ?", home_team.id, away_team.id)
+      games = day_games.where(home_team_id: team.id)
       if games.size == 2
         if game_array.include?(games.first)
           game_array << games.second
