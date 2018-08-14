@@ -2,8 +2,10 @@
 <div class="panel panel-primary text-center">
 	<div class="panel-heading">
 		<h1><%= @away_team.name + " @ " + @home_team.name %></h1>
-		<h2><%= "Odds: #{@game.away_money_line} @ #{@game.home_money_line}" %></h2>
-		<h2><%= "Totals: #{@game.away_total} @ #{@game.home_total}" %></h2>
+		<h2><%= "Odds Opener: #{@game.away_money_line} @ #{@game.home_money_line}" %></h2>
+		<h2><%= "Totals Opener: #{@game.away_total} @ #{@game.home_total}" %></h2>
+    <h2><%= "Odds Closer: #{@game.away_money_line_closer} @ #{@game.home_money_line_closer}" %></h2>
+    <h2><%= "Totals Closer: #{@game.away_total_closer} @ #{@game.home_total_closer}" %></h2>
 		<h3><%= "Gametime: #{DateTime.parse(@game.game_date).strftime("%I:%M%p")} Local Time" %></h3>
 		<h3><%= "Ump: #{@game.ump}" %></h3>
 		<% unless @game_stats.empty? %>
