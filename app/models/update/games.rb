@@ -18,7 +18,7 @@ module Update
       day_games = game_day.games
       game_size = day_games.size
       date_url = "?date=" + game_day.date.to_formatted_s(:number)
-      url = "https://www.sportsbookreview.com/betting-odds/mlb-baseball/#{date_url}"
+      url = "https://classic.sportsbookreview.com/betting-odds/mlb-baseball/#{date_url}"
       puts url
       doc = Nokogiri::HTML(open(url))
       game_array = Array.new
@@ -50,7 +50,7 @@ module Update
 
       away_totals = Array.new
       home_totals = Array.new
-      url = "https://www.sportsbookreview.com/betting-odds/mlb-baseball/totals/" + date_url
+      url = "https://classic.sportsbookreview.com/betting-odds/mlb-baseball/totals/" + date_url
       doc = Nokogiri::HTML(open(url))
       doc.css(".eventLine-consensus+ .eventLine-book b").each_with_index do |stat, index|
         if index == game_size * 2
