@@ -252,7 +252,7 @@ module Update
         Prevpitcher.create(
           game_id: game.id,
           away: away,
-          start_index: start_index + 1,
+          start_index: start_index,
           date: date,
           time: time,
           opp_team_abbr: opp_team_abbr,
