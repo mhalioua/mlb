@@ -212,6 +212,7 @@ module Update
         h = pitcher.h
         r = pitcher.r
         home_team_abbr = pitcher.game.home_team.baseball_abbr
+        result = {}
         if weather
           temp = weather.temp
           dp = weather.dp
