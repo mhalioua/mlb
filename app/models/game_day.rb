@@ -36,6 +36,10 @@ class GameDay < ApplicationRecord
     Create::Bullpen.new.create(self)
   end
 
+  def prev_pitchers
+    Update::Pitchers.new.prev(self)
+  end
+
   def update_games
     Update::Games.new.update(self)
   end
