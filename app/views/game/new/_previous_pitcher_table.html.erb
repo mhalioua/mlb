@@ -26,15 +26,14 @@
   </thead>
   <tbody>
 	<%
-		prev_pitchers = pitcher.prev_pitchers
 		limit_number = 30
 	%>
 	<% if flag === 1 %>
-		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15), start: 0, throwhand: pitcher.throwhand } %>
-		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15).offset(15), start: 15, throwhand: pitcher.throwhand } %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15), throwhand: pitcher.throwhand } %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(15).offset(15), throwhand: pitcher.throwhand } %>
 	<% else %>
-		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20), start: 0, throwhand: pitcher.throwhand } %>
-    <%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20).offset(20), start: 20, throwhand: pitcher.throwhand } %>
+		<%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20), throwhand: pitcher.throwhand } %>
+    <%= render partial: "game/new/part_previous_pitcher_table", locals: { prev_pitchers: prev_pitchers.limit(20).offset(20), throwhand: pitcher.throwhand } %>
 		<% limit_number = 40 %>
 	<% end %>
 	<%
@@ -51,13 +50,10 @@
 			bb_sum = bb_sum + prev_pitcher.bb
 			h_sum = h_sum + prev_pitcher.h
 			r_sum = r_sum + prev_pitcher.r
-			opposite = prev_pitcher.game.lancers.find_by(starter: true, team_id: prev_pitcher.opp_team.id)
-			if opposite
-				opposite_ip_sum.push(opposite.ip)
-				opposite_bb_sum = opposite_bb_sum + opposite.bb.to_i
-				opposite_h_sum = opposite_h_sum + opposite.h.to_i
-				opposite_r_sum = opposite_r_sum + opposite.r.to_i
-			end
+      opposite_ip_sum.push(prev_pitcher.opposite_ip)
+      opposite_bb_sum = opposite_bb_sum + prev_pitcher.opposite_bb.to_i
+      opposite_h_sum = opposite_h_sum + prev_pitcher.opposite_h.to_i
+      opposite_r_sum = opposite_r_sum + prev_pitcher.opposite_r.to_i
 		end
 		prev_pitchers_ip = add_innings(ip_sum)
 		opposite_ip = add_innings(opposite_ip_sum)

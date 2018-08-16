@@ -212,7 +212,7 @@ module Update
         h = pitcher.h
         r = pitcher.r
         home_team_abbr = pitcher.game.home_team.baseball_abbr
-        result = {}
+
         if weather
           temp = weather.temp
           dp = weather.dp
@@ -268,8 +268,8 @@ module Update
           d2: d2,
           pressure: pressure,
           hum: hum,
-          total_count: total_count,
-          total_avg_1: total_avg_1,
+          total_count_count: total_count,
+          total_avg_1_avg_1: total_avg_1,
           total_avg_2: total_avg_2,
           total_hits_avg: total_hits_avg,
           home_runs_avg: home_runs_avg,
