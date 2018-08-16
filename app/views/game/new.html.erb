@@ -73,10 +73,10 @@
 		<%= render partial: "game/new/bullpen", locals: { caption: "#{@home_team.name} Bullpen", lancers: @home_bullpen_lancers }%>
 
     <% unless @away_starting_lancer.empty? %>
-      <%= render partial: "game/new/previous_pitcher_table", locals: { pitcher: @away_starting_lancer, prev_pitchers: @away_starting_lancer_previous, flag: 1 } %>
+      <%= render partial: "game/new/previous_pitcher_table", locals: { pitcher: @away_starting_lancer.first, prev_pitchers: @away_starting_lancer_previous, flag: 1 } %>
     <% end %>
     <% unless @home_starting_lancer.empty? %>
-      <%= render partial: "game/new/previous_pitcher_table", locals: { pitcher: @home_starting_lancer, prev_pitchers: @home_starting_lancer_previous, flag: 1 } %>
+      <%= render partial: "game/new/previous_pitcher_table", locals: { pitcher: @home_starting_lancer.first, prev_pitchers: @home_starting_lancer_previous, flag: 1 } %>
     <% end %>
 	</div>
 </div>
