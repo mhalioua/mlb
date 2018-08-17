@@ -399,9 +399,9 @@ module Update
       so_ab_three = so_three.to_s + " / " + ab_three.to_s + " = " + (ab_three != 0 ? (100 * so_three.to_f / ab_three).round(1) : 0).to_s + "%"
       so_ab_three_opp = ab_three != 0 ? (100 * so_three.to_f / ab_three).round(1) : 0
 
-      ab_bb_two = bb_two.to_s + " / " + ab_bb_two.to_s + " = " + (ab_bb_two != 0 ? (100 * bb_two.to_f / ab_bb_two).round(1) : 0).to_s + "%"
+      ab_bb_two_db = bb_two.to_s + " / " + ab_bb_two.to_s + " = " + (ab_bb_two != 0 ? (100 * bb_two.to_f / ab_bb_two).round(1) : 0).to_s + "%"
       ab_bb_two_opp = ab_bb_two != 0 ? (100 * bb_two.to_f / ab_bb_two).round(1) : 0
-      ab_bb_three = bb_three.to_s + " / " + ab_bb_three.to_s + " = " + (ab_bb_three != 0 ? (100 * bb_three.to_f / ab_bb_three).round(1) : 0).to_s + "%"
+      ab_bb_three_db = bb_three.to_s + " / " + ab_bb_three.to_s + " = " + (ab_bb_three != 0 ? (100 * bb_three.to_f / ab_bb_three).round(1) : 0).to_s + "%"
       ab_bb_three_opp = ab_bb_three != 0 ? (100 * bb_three.to_f / ab_bb_three).round(1) : 0
 
       tld_hitter_one = qu_one != 0 ? (tld_qu_one.to_f / qu_one).round(1) : 0
@@ -448,9 +448,9 @@ module Update
         so_ab_two_opp: so_ab_two_opp,
         so_ab_three: so_ab_three,
         so_ab_three_opp: so_ab_three_opp,
-        ab_bb_two: ab_bb_two,
+        ab_bb_two: ab_bb_two_db,
         ab_bb_two_opp: ab_bb_two_opp,
-        ab_bb_three: ab_bb_three,
+        ab_bb_three: ab_bb_three_db,
         ab_bb_three_opp: ab_bb_three_opp,
         tld_hitter_one: tld_hitter_one,
         tld_hitter_two: tld_hitter_two,
