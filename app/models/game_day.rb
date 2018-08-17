@@ -40,6 +40,10 @@ class GameDay < ApplicationRecord
     Update::Pitchers.new.prev(self)
   end
 
+  def pitcher_informations
+    Update::Pitchers.new.information(self)
+  end
+
   def update_games
     Update::Games.new.update(self)
   end

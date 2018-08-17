@@ -50,6 +50,10 @@ namespace :mlb do
     [GameDay.today].each { |game_day| game_day.prev_pitchers }
   end
 
+  task pitcher_informations: :environment do
+    [GameDay.today].each { |game_day| game_day.pitcher_informations }
+  end
+
   task update_games: :environment do
     [GameDay.yesterday, GameDay.today, GameDay.tomorrow].each { |game_day| game_day.update_games }
   end
@@ -84,6 +88,6 @@ namespace :mlb do
 
   task hourly: [:update_forecast, :update_games, :pitcher_box_score, :update_weather]
 
-  task ten: [:create_matchups, :prev_pitchers]
+  task ten: [:create_matchups, :prev_pitchers, :pitcher_informations]
 
 end

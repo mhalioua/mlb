@@ -197,7 +197,266 @@ module Update
       end
     end
 
+    def information(game_day)
+      game_day.games.each do |game|
+        Pitcherinformation.where(game_id: game.id).destroy_all
+
+        if game.away_pitcher
+          get_pitcher_information(game, game.away_pitcher, true)
+        end
+
+        if game.home_pitcher
+          get_pitcher_information(game, game.home_pitcher, false)
+        end
+      end
+    end
+
     private
+
+    def get_pitcher_information(game, pitcher, away)
+      seasons = Season.greater_than(2017)
+      stats = pitcher.view_stats(seasons)
+      lefty, righty = pitcher.opposing_batters_handedness
+      ip_two = mixed_statistic_ip(stats[1].first.ip, stats[1].second.ip)
+      ip_three = mixed_statistic_ip(stats[0].first.ip, stats[0].second.ip)
+      gb_two = mixed_statistic(stats[1].first.gb, stats[1].second.gb, lefty, righty)
+      gb_three = mixed_statistic(stats[0].first.gb, stats[0].second.gb, lefty, righty)
+      woba_two = mixed_statistic(stats[1].first.woba, stats[1].second.woba, lefty, righty).to_i
+      woba_three = mixed_statistic(stats[0].first.woba, stats[0].second.woba, lefty, righty).to_i
+      left_stat = stats[1].where(handedness: "L").first
+      fip_two = left_stat.fip
+      left_stat = stats[0].where(handedness: "L").first
+      fip_three = left_stat.fip
+      tld_two = mixed_statistic(stats[1].first.tld, stats[1].second.tld, lefty, righty)
+      tld_three = mixed_statistic(stats[0].first.tld, stats[0].second.tld, lefty, righty)
+	    prev_pitchers = pitcher.prev_pitchers
+      game_one_ip = []
+      game_one_bb = 0
+      game_one_h = 0
+      game_one_opp_ip = []
+      game_one_opp_bb = 0
+      game_one_opp_h = 0
+      game_two_ip = []
+      game_two_bb = 0
+      game_two_h = 0
+      game_two_opp_ip = []
+      game_two_opp_bb = 0
+      game_two_opp_h = 0
+      game_three_ip = []
+      game_three_bb = 0
+      game_three_h = 0
+      game_three_opp_ip = []
+      game_three_opp_bb = 0
+      game_three_opp_h = 0
+      game_four_ip = []
+      game_four_bb = 0
+      game_four_h = 0
+      game_four_opp_ip = []
+      game_four_opp_bb = 0
+      game_four_opp_h = 0
+      game_five_ip = []
+      game_five_bb = 0
+      game_five_h = 0
+      game_five_opp_ip = []
+      game_five_opp_bb = 0
+      game_five_opp_h = 0
+      game_six_ip = []
+      game_six_bb = 0
+      game_six_h = 0
+      game_six_opp_ip = []
+      game_six_opp_bb = 0
+      game_six_opp_h = 0
+      game_seven_ip = []
+      game_seven_bb = 0
+      game_seven_h = 0
+      game_seven_opp_ip = []
+      game_seven_opp_bb = 0
+      game_seven_opp_h = 0
+      prev_pitchers.each_with_index do |prev_pitcher, index|
+        opposite = prev_pitcher.game.lancers.find_by(starter: true, team_id: prev_pitcher.opp_team.id)
+        if index < 15
+          game_one_ip.push(prev_pitcher.ip)
+          game_one_bb = game_one_bb + prev_pitcher.bb
+          game_one_h = game_one_h + prev_pitcher.h
+          if opposite
+            game_one_opp_ip.push(opposite.ip)
+            game_one_opp_bb = game_one_opp_bb + opposite.bb.to_i
+            game_one_opp_h = game_one_opp_h + opposite.h.to_i
+          end
+        elsif index < 30
+          game_two_ip.push(prev_pitcher.ip)
+          game_two_bb = game_two_bb + prev_pitcher.bb
+          game_two_h = game_two_h + prev_pitcher.h
+          if opposite
+            game_two_opp_ip.push(opposite.ip)
+            game_two_opp_bb = game_two_opp_bb + opposite.bb.to_i
+            game_two_opp_h = game_two_opp_h + opposite.h.to_i
+          end
+        end
+        if index < 20
+          game_three_ip.push(prev_pitcher.ip)
+          game_three_bb = game_three_bb + prev_pitcher.bb
+          game_three_h = game_three_h + prev_pitcher.h
+          if opposite
+            game_three_opp_ip.push(opposite.ip)
+            game_three_opp_bb = game_three_opp_bb + opposite.bb.to_i
+            game_three_opp_h = game_three_opp_h + opposite.h.to_i
+          end
+        elsif index < 40
+          game_four_ip.push(prev_pitcher.ip)
+          game_four_bb = game_four_bb + prev_pitcher.bb
+          game_four_h = game_four_h + prev_pitcher.h
+          if opposite
+            game_four_opp_ip.push(opposite.ip)
+            game_four_opp_bb = game_four_opp_bb + opposite.bb.to_i
+            game_four_opp_h = game_four_opp_h + opposite.h.to_i
+          end
+        elsif index < 60
+          game_five_ip.push(prev_pitcher.ip)
+          game_five_bb = game_five_bb + prev_pitcher.bb
+          game_five_h = game_five_h + prev_pitcher.h
+          if opposite
+            game_five_opp_ip.push(opposite.ip)
+            game_five_opp_bb = game_five_opp_bb + opposite.bb.to_i
+            game_five_opp_h = game_five_opp_h + opposite.h.to_i
+          end
+        end
+        if index < 30
+          game_six_ip.push(prev_pitcher.ip)
+          game_six_bb = game_six_bb + prev_pitcher.bb
+          game_six_h = game_six_h + prev_pitcher.h
+          if opposite
+            game_six_opp_ip.push(opposite.ip)
+            game_six_opp_bb = game_six_opp_bb + opposite.bb.to_i
+            game_six_opp_h = game_six_opp_h + opposite.h.to_i
+          end
+        end
+        if index < 60
+          game_seven_ip.push(prev_pitcher.ip)
+          game_seven_bb = game_seven_bb + prev_pitcher.bb
+          game_seven_h = game_seven_h + prev_pitcher.h
+          if opposite
+            game_seven_opp_ip.push(opposite.ip)
+            game_seven_opp_bb = game_seven_opp_bb + opposite.bb.to_i
+            game_seven_opp_h = game_seven_opp_h + opposite.h.to_i
+          end
+        end
+      end
+      game_one_blue = ((game_one_bb + game_one_h) / add_innings(game_one_ip).to_f).round(2)
+      game_one_blue_opp = ((game_one_opp_bb + game_one_opp_h) / add_innings(game_one_opp_ip).to_f).round(2)
+      game_two_blue = ((game_two_bb + game_two_h) / add_innings(game_two_ip).to_f).round(2)
+      game_two_blue_opp = ((game_two_opp_bb + game_two_opp_h) / add_innings(game_two_opp_ip).to_f).round(2)
+      game_six_blue = ((game_six_bb + game_six_h) / add_innings(game_six_ip).to_f).round(2)
+      game_six_blue_opp = ((game_six_opp_bb + game_six_opp_h) / add_innings(game_six_opp_ip).to_f).round(2)
+      game_three_blue = ((game_three_bb + game_three_h) / add_innings(game_three_ip).to_f).round(2)
+      game_three_blue_opp = ((game_three_opp_bb + game_three_opp_h) / add_innings(game_three_opp_ip).to_f).round(2)
+      game_four_blue = ((game_four_bb + game_four_h) / add_innings(game_four_ip).to_f).round(2)
+      game_four_blue_opp = ((game_four_opp_bb + game_four_opp_h) / add_innings(game_four_opp_ip).to_f).round(2)
+      game_five_blue = ((game_five_bb + game_five_h) / add_innings(game_five_ip).to_f).round(2)
+      game_five_blue_opp = ((game_five_opp_bb + game_five_opp_h) / add_innings(game_five_opp_ip).to_f).round(2)
+      game_seven_blue = ((game_seven_bb + game_seven_h) / add_innings(game_seven_ip).to_f).round(2)
+      game_seven_blue_opp = ((game_seven_opp_bb + game_seven_opp_h) / add_innings(game_seven_opp_ip).to_f).round(2)
+	    opposite = pitcher.game.lancers.find_by(starter: true, team_id: pitcher.opp_team.id)
+      batters = Batter.none
+      if opposite
+        batters = opposite.opposing_lineup
+        batters = opposite.predict_opposing_lineup if batters.empty?
+      end
+      season_one = Season.find_by(year: 2016)
+      season_two = Season.find_by(year: 2017)
+      stats_one = batters.map { |batter| batter.player.create_batter(season_one).stats(handedness(opposite.throwhand == "L")) }
+      stats_two = batters.map { |batter| batter.player.create_batter(season_two).stats(handedness(opposite.throwhand == "L")) }
+      stats_three = batters.map { |batter| batter.stats(handedness(opposite.throwhand == "L")) }
+      ab_two = stats_two.map {|stat| stat.ab }.sum
+      ab_three = stats_three.map {|stat| stat.ab }.sum
+      wrc_qu_one = stats_one.map {|stat| stat.ab > 70 ? stat.wrc : 0 }.sum
+      qu_one = stats_one.map {|stat| stat.ab > 70 ? 1 : 0 }.sum
+      wrc_qu_two = stats_two.map {|stat| stat.ab > 70 ? stat.wrc : 0 }.sum
+      qu_two = stats_two.map {|stat| stat.ab > 70 ? 1 : 0 }.sum
+      wrc_qu_three = stats_three.map {|stat| stat.ab > 70 ? stat.wrc : 0 }.sum
+      qu_three = stats_three.map {|stat| stat.ab > 70 ? 1 : 0 }.sum
+      so_two = stats_two.map {|stat| stat.so }.sum
+      so_three = stats_three.map {|stat| stat.so }.sum
+      bb_two = stats_two.map {|stat| stat.bb }.sum
+      bb_three = stats_three.map {|stat| stat.bb }.sum
+      ab_bb_two = stats_two.map {|stat| stat.ab + stat.bb }.sum
+      ab_bb_three = stats_three.map {|stat| stat.ab + stat.bb }.sum
+      tld_qu_one = stats_one.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
+      tld_qu_two = stats_two.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
+      tld_qu_three = stats_three.map {|stat| stat.ab > 70 ? stat.tld : 0 }.sum
+      sb_two = stats_two.map {|stat| stat.sb }.sum
+      sb_three = stats_three.map {|stat| stat.sb }.sum
+
+      game_wrc_qu_one = wrc_qu_one.to_s + " / " + qu_one.to_s + " = " + (qu_one != 0 ? (wrc_qu_one.to_f / qu_one).round(1) : 0).to_s
+      game_wrc_qu_one_opp = qu_one != 0 ? (wrc_qu_one.to_f / qu_one).round(1) : 0
+      game_wrc_qu_two = wrc_qu_two.to_s + " / " + qu_two.to_s + " = " + (qu_two != 0 ? (wrc_qu_two.to_f / qu_two).round(1) : 0).to_s
+      game_wrc_qu_two_opp = qu_two != 0 ? (wrc_qu_two.to_f / qu_two).round(1) : 0
+      game_wrc_qu_three = wrc_qu_three.to_s + " / " + qu_three.to_s + " = " + (qu_three != 0 ? (wrc_qu_three.to_f / qu_three).round(1) : 0).to_s
+      game_wrc_qu_three_opp = qu_three != 0 ? (wrc_qu_three.to_f / qu_three).round(1) : 0
+
+      so_ab_two = so_two.to_s + " / " + ab_two.to_s + " = " + (ab_two != 0 ? (100 * so_two.to_f / ab_two).round(1) : 0).to_s
+      so_ab_two_opp = ab_two != 0 ? (100 * so_two.to_f / ab_two).round(1) : 0
+      so_ab_three = so_three.to_s + " / " + ab_three.to_s + " = " + (ab_three != 0 ? (100 * so_three.to_f / ab_three).round(1) : 0).to_s + "%"
+      so_ab_three_opp = ab_three != 0 ? (100 * so_three.to_f / ab_three).round(1) : 0
+
+      ab_bb_two = bb_two.to_s + " / " + ab_bb_two.to_s + " = " + (ab_bb_two != 0 ? (100 * bb_two.to_f / ab_bb_two).round(1) : 0).to_s + "%"
+      ab_bb_two_opp = ab_bb_two != 0 ? (100 * bb_two.to_f / ab_bb_two).round(1) : 0
+      ab_bb_three = bb_three.to_s + " / " + ab_bb_three.to_s + " = " + (ab_bb_three != 0 ? (100 * bb_three.to_f / ab_bb_three).round(1) : 0).to_s + "%"
+      ab_bb_three_opp = ab_bb_three != 0 ? (100 * bb_three.to_f / ab_bb_three).round(1) : 0
+
+      tld_hitter_one = qu_one != 0 ? (tld_qu_one.to_f / qu_one).round(1) : 0
+      tld_hitter_two = qu_two != 0 ? (tld_qu_two.to_f / qu_two).round(1) : 0
+      tld_hitter_three = qu_three != 0 ? (tld_qu_three.to_f / qu_three).round(1) : 0
+      Pitcherinformation.create(
+        game_id: game.id,
+        away: away,
+        ip_two: ip_two,
+        ip_three: ip_three,
+        gb_two: gb_two,
+        gb_three: gb_three,
+        woba_two: woba_two,
+        woba_three: woba_three,
+        fip_two: fip_two,
+        fip_three: fip_three,
+        tld_two: tld_two,
+        tld_three: tld_three,
+        game_one_blue: game_one_blue,
+        game_one_blue_opp: game_one_blue_opp,
+        game_two_blue: game_two_blue,
+        game_two_blue_opp: game_two_blue_opp,
+        game_six_blue: game_six_blue,
+        game_six_blue_opp: game_six_blue_opp,
+        game_three_blue: game_three_blue,
+        game_three_blue_opp: game_three_blue_opp,
+        game_four_blue: game_four_blue,
+        game_four_blue_opp: game_four_blue_opp,
+        game_five_blue: game_five_blue,
+        game_five_blue_opp: game_five_blue_opp,
+        game_seven_blue: game_seven_blue,
+        game_seven_blue_opp: game_seven_blue_opp,
+        sb_two: sb_two,
+        ab_two: ab_two,
+        sb_three: sb_three,
+        ab_three: ab_three,
+        game_wrc_qu_one: game_wrc_qu_one,
+        game_wrc_qu_one_opp: game_wrc_qu_one_opp,
+        game_wrc_qu_two: game_wrc_qu_two,
+        game_wrc_qu_two_opp: game_wrc_qu_two_opp,
+        game_wrc_qu_three: game_wrc_qu_three,
+        game_wrc_qu_three_opp: game_wrc_qu_three_opp,
+        so_ab_two: so_ab_two,
+        so_ab_two_opp: so_ab_two_opp,
+        so_ab_three: so_ab_three,
+        so_ab_three_opp: so_ab_three_opp,
+        ab_bb_two: ab_bb_two,
+        ab_bb_two_opp: ab_bb_two_opp,
+        ab_bb_three: ab_bb_three,
+        ab_bb_three_opp: ab_bb_three_opp,
+        tld_hitter_one: tld_hitter_one,
+        tld_hitter_two: tld_hitter_two,
+        tld_hitter_three: tld_hitter_three
+      )
+    end
 
     def get_prev_pitchers(game, prev_pitchers, away)
       prev_pitchers.each_with_index do |pitcher, index|
