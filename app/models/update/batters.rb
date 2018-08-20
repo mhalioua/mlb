@@ -129,24 +129,22 @@ module Update
         hitters.children[1..-1].each_with_index do |hitter, index|
           row = hitter.children[0]
           name = row.children[0].children[0].text.squish
-          position = row.children[0].children[1].text.squish
-          hand = parse_hand(row.children[0].children[0])
+          return if name == "TEAM"
+          if name == 'a -' || name == 'b -' || name == 'c -'
+            name = row.children[0].children[1].text.squish
+            position = row.children[0].children[2].text.squish
+            hand = parse_hand(row.children[0].children[1])
+          else
+            position = row.children[0].children[1].text.squish
+            hand = parse_hand(row.children[0].children[0])
+          end
           ab = row.children[2].text.to_i
           r = row.children[3].text.to_i
           h = row.children[4].text.to_i
           rbi = row.children[5].text.to_i
           bb = row.children[6].text.to_i
-          avg = row.children[8].text.squish
+          avg = row.children[9].text
           hitter = game.hitters.find_or_create_by(index: index, team: team)
-          puts name
-          puts position
-          puts hand
-          puts ab
-          puts h
-          puts r
-          puts rbi
-          puts bb
-          puts avg
           hitter.update(name: name, position: position, hand: hand, ab: ab, h: h, r: r, rbi: rbi, bb: bb, avg: avg, hr: 0)
         end
       end
@@ -157,8 +155,9 @@ module Update
       end
 
       def parse_hand(element)
-        if element.child['href']
-          href = element.child['href']
+        if element['href']
+          href = element['href']
+          puts href
           doc = download_document(href)
           info = doc.css('.general-info')
           hand = ''
