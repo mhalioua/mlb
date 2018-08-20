@@ -11,6 +11,15 @@ namespace :job do
     puts Date.today
   end
 
+  task batter_box_score: :environment do
+    (1..700).each do |index|
+      game_day = GameDay.today.previous_days(index)
+      if game_day
+        game_day.batter_box_score
+      end
+    end
+  end
+
   task :totalData => :environment do
     require 'csv'
     filename = Rails.root.join('csv', 'newworkbook.csv')
