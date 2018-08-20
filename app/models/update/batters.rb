@@ -119,10 +119,39 @@ module Update
 
         team_batters(game, game.away_team, away_batter)
         team_batters(game, game.home_team, home_batter)
+
+        batters = doc.css('.team-stats-container')
+        next if batters.size < 4
+
+        away_batter = batters[0].children[0].children[0].children[1..-1]
+        home_batter = batters[2].children[0].children[0].children[1..-1]
+
+        team_batter_hr(game, game.away_team, away_batter)
+        team_batter_hr(game, game.home_team, home_batter)
       end
     end
 
     private
+
+      def team_batter_hr(game, team, hitters)
+        hitters.each do |hitter|
+          if hitter.children[0].text == 'HR:'
+            b = hitter.children[1].text
+            b = b.gsub(/\((.*?)\)/, '')
+            b = b.split('; ')
+            b.each do |eachb|
+              eachb_index = eachb.index(' ')
+              sub_name = eachb[0..eachb_index-1].squish
+              sub_name = sub_name.gsub('á', 'a')
+              sub_name = sub_name.gsub('í', 'i')
+              sub_name = sub_name.gsub(/(.*?)\'/, '')
+              hitter = game.hitters.where("team_id = ? AND name LIKE '%" + sub_name + "%'", team.id).first
+              hitter.update(hr: 1) if hitter
+            end
+            break
+          end
+        end
+      end
 
       def team_batters(game, team, hitters)
         return if hitters.children[1].children[0].children.size == 1
@@ -138,6 +167,7 @@ module Update
             position = row.children[0].children[1].text.squish
             hand = parse_hand(row.children[0].children[0])
           end
+          name = '  ' + name if row.children[0]['class'].include?('bench')
           ab = row.children[2].text.to_i
           r = row.children[3].text.to_i
           h = row.children[4].text.to_i
@@ -157,7 +187,6 @@ module Update
       def parse_hand(element)
         if element['href']
           href = element['href']
-          puts href
           doc = download_document(href)
           info = doc.css('.general-info')
           hand = ''
