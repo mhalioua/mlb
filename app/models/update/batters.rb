@@ -103,11 +103,72 @@ module Update
       end
     end
 
+    def box_scores(game_day)
+      game_day.games.each do |game|
+        url = "http://www.espn.com/mlb/boxscore?gameId=#{game.game_id}"
+        puts url
+
+        doc = download_document(url)
+        next unless doc
+
+        batters = doc.css('.stats-wrap')
+        next if batters.size < 4
+
+        away_batter = batters[0]
+        home_batter = batters[2]
+
+        team_batters(game, game.away_team, away_batter)
+        team_batters(game, game.home_team, home_batter)
+      end
+    end
+
     private
+
+      def team_batters(game, team, hitters)
+        return if hitters.children[1].children[0].children.size == 1
+        hitters.children[1..-1].each_with_index do |hitter, index|
+          row = hitter.children[0]
+          name = row.children[0].children[0].text.squish
+          position = row.children[0].children[1].text.squish
+          hand = parse_hand(row.children[0].children[0])
+          ab = row.children[2].text.to_i
+          r = row.children[3].text.to_i
+          h = row.children[4].text.to_i
+          rbi = row.children[5].text.to_i
+          bb = row.children[6].text.to_i
+          avg = row.children[8].text.squish
+          hitter = game.hitters.find_or_create_by(index: index, team: team)
+          puts name
+          puts position
+          puts hand
+          puts ab
+          puts h
+          puts r
+          puts rbi
+          puts bb
+          puts avg
+          hitter.update(name: name, position: position, hand: hand, ab: ab, h: h, r: r, rbi: rbi, bb: bb, avg: avg, hr: 0)
+        end
+      end
 
       def parse_identity(element)
         href = element.child['href']
         href[36..href.rindex("/")-1]
+      end
+
+      def parse_hand(element)
+        if element.child['href']
+          href = element.child['href']
+          doc = download_document(href)
+          info = doc.css('.general-info')
+          hand = ''
+          if info.children.size > 2
+            info = info.children[1].text
+            info_index = info.index('Bats: ')
+            hand = info[info_index + 6]
+          end
+          return hand
+        end
       end
 
       def parse_fangraph_id(element)

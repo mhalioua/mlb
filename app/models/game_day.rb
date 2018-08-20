@@ -52,6 +52,10 @@ class GameDay < ApplicationRecord
     Update::Pitchers.new.box_scores(self)
   end
 
+  def batter_box_score
+    Update::Batters.new.box_scores(self)
+  end
+
   def update_weather
     games.each { |game| game.update_weather }
   end
