@@ -69,6 +69,9 @@ class GameController < ApplicationController
 
 		@away_starting_lancer_previous = @game.prevpitchers.where(away: true).order(:start_index)
 		@home_starting_lancer_previous = @game.prevpitchers.where(away: false).order(:start_index)
+
+		@away_hitters = @game.hitters.where(team_id: @away_team.id).order(:index)
+		@home_hitters = @game.hitters.where(team_id: @home_team.id).order(:index)
 	end
 
 	def weather
@@ -107,9 +110,6 @@ class GameController < ApplicationController
       @weather_previous = @game.weathersources.where(table_number: 1, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
     end
 		@weather_actual = @game.weathersources.where(table_number: 2).order(:row_number)
-
-		@away_hitters = @game.hitters.where(team_id: @away_team.id).order(:index)
-		@home_hitters = @game.hitters.where(team_id: @home_team.id).order(:index)
 	end
 
 	def stats
