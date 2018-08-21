@@ -186,6 +186,7 @@ module Update
       end
 
       def parse_hand(element)
+        puts element.inspect
         if element['href']
           href = element['href']
           doc = download_document(href)
