@@ -186,11 +186,12 @@ module Update
       end
 
       def parse_hand(element)
-        puts element.inspect
         if element['href']
           href = element['href']
+          puts href
           doc = download_document(href)
           info = doc.css('.general-info')
+          puts info.inspect
           hand = ''
           if info.children.size > 2
             info = info.children[1].text
