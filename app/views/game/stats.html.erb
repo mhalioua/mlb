@@ -26,8 +26,14 @@
 	<%= render partial: "game/new/bullpen", locals: { caption: "#{@away_team.name} Bullpen", lancers: @away_bullpen_lancers }%>
 	<%= render partial: "game/new/bullpen", locals: { caption: "#{@home_team.name} Bullpen", lancers: @home_bullpen_lancers }%>
 
-  <%= render partial: "game/new/hitter", locals: { caption: "#{@away_team.name} Hitter", hitters: @away_hitters }%>
+  <% unless @away_hitters.empty? %>
+    <%= render partial: "game/new/hitter", locals: { caption: "#{@away_team.name} Hitter", hitters: @away_hitters }%>
+  <% end %>
+  <% unless @home_hitters.empty? %>
   <%= render partial: "game/new/hitter", locals: { caption: "#{@home_team.name} Hitter", hitters: @home_hitters }%>
+  <% end %>
 
+  <% unless @away_hitters.empty? %>
   <%= render partial: "game/new/hitter_sum", locals: { away_hitters: @away_hitters, home_hitters: @home_hitters }%>
+  <% end %>
 </div>

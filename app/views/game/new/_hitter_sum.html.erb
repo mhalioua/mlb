@@ -13,7 +13,27 @@
   both_hitter_h = 0
   both_hitter_bb = 0
   both_hitter_hr = 0
-  @away_hitters.each do |hitter|
+
+  away_hitters.each do |hitter|
+    if hitter.hand == "L"
+      left_hitter_ab += hitter.ab
+      left_hitter_h += hitter.h
+      left_hitter_bb += hitter.bb
+      left_hitter_hr += hitter.hr
+    elsif hitter.hand == "R"
+      right_hitter_ab += hitter.ab
+      right_hitter_h += hitter.h
+      right_hitter_bb += hitter.bb
+      right_hitter_hr += hitter.hr
+     else
+      both_hitter_ab += hitter.ab
+      both_hitter_h += hitter.h
+      both_hitter_bb += hitter.bb
+      both_hitter_hr += hitter.hr
+    end
+  end
+
+  home_hitters.each do |hitter|
     if hitter.hand == "L"
       left_hitter_ab += hitter.ab
       left_hitter_h += hitter.h
