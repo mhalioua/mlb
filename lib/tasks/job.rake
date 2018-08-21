@@ -12,12 +12,12 @@ namespace :job do
   end
 
   task getGameID: :environment do
-    game = Game.find(9255)
+    game = Game.find(7486)
     puts game.game_day.inspect
   end
 
   task batter_box_score: :environment do
-    (18..700).each do |index|
+    (140..700).each do |index|
       game_day = GameDay.today.previous_days(index)
       if game_day
         game_day.batter_box_score
