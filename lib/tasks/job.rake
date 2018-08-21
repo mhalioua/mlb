@@ -17,7 +17,7 @@ namespace :job do
   end
 
   task batter_box_score: :environment do
-    (15..700).each do |index|
+    (18..700).each do |index|
       game_day = GameDay.today.previous_days(index)
       if game_day
         game_day.batter_box_score

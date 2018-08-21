@@ -122,6 +122,7 @@ module Update
 
         batters = doc.css('.team-stats-container')
         next if batters.size < 4
+        next if batters[0].children[0].children.length == 0
 
         away_batter = batters[0].children[0].children[0].children[1..-1]
         home_batter = batters[2].children[0].children[0].children[1..-1]
