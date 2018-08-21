@@ -1,0 +1,58 @@
+<table class="table-bordered">
+  <caption><%= caption %></caption>
+  <thead>
+    <tr style="background: rgb(54,155,148);">
+      <td>Hitters</td>
+      <td>L/R</td>
+      <td>AB</td>
+      <td>R</td>
+      <td>H</td>
+      <td>RBI</td>
+      <td>BB</td>
+      <td></td>
+      <td>AVG</td>
+    </tr>
+  </thead>
+  <tbody>
+    <%
+      ab_sum = 0
+      r_sum = 0
+      h_sum = 0
+      rbi_sum = 0
+      bb_sum = 0
+      hr_sum = 0
+    %>
+    <% hitters.each do |hitter| %>
+      <tr>
+        <td><%= hitter.name %> <%= hitter.position %></td>
+        <td><%= hitter.hand %></td>
+        <td><%= hitter.ab %></td>
+        <td><%= hitter.r %></td>
+        <td><%= hitter.h %></td>
+        <td><%= hitter.rbi %></td>
+        <td><%= hitter.bb %></td>
+        <td><%= hitter.hr %></td>
+        <td><%= hitter.avg %></td>
+      </tr>
+      <%
+        ab_sum += hitter.ab
+        r_sum += hitter.r
+        h_sum += hitter.h
+        rbi_sum += hitter.rbi
+        bb_sum += hitter.bb
+        hr_sum += hitter.hr
+      %>
+    <% end %>
+  <tr style="background: rgb(0, 233, 208)">
+    <td style="background: rgb(54,155,148);">TEAM TOTALS</td>
+    <td></td>
+    <td><%= ab_sum %></td>
+    <td><%= r_sum %></td>
+    <td><%= h_sum %></td>
+    <td><%= rbi_sum %></td>
+    <td><%= bb_sum %></td>
+    <td><%= hr_sum %></td>
+    <td></td>
+  </tr>
+  </tbody>
+</table>

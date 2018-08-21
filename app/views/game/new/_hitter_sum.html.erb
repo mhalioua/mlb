@@ -1,0 +1,90 @@
+<%
+  left_hitter_ab = 0
+  left_hitter_h = 0
+  left_hitter_bb = 0
+  left_hitter_hr = 0
+
+  right_hitter_ab = 0
+  right_hitter_h = 0
+  right_hitter_bb = 0
+  right_hitter_hr = 0
+
+  both_hitter_ab = 0
+  both_hitter_h = 0
+  both_hitter_bb = 0
+  both_hitter_hr = 0
+  @away_hitters.each do |hitter|
+    if hitter.hand == "L"
+      left_hitter_ab += hitter.ab
+      left_hitter_h += hitter.h
+      left_hitter_bb += hitter.bb
+      left_hitter_hr += hitter.hr
+    elsif hitter.hand == "R"
+      right_hitter_ab += hitter.ab
+      right_hitter_h += hitter.h
+      right_hitter_bb += hitter.bb
+      right_hitter_hr += hitter.hr
+     else
+      both_hitter_ab += hitter.ab
+      both_hitter_h += hitter.h
+      both_hitter_bb += hitter.bb
+      both_hitter_hr += hitter.hr
+    end
+  end
+%>
+<table class="table-bordered">
+  <tbody>
+  <tr style="background: rgb(54,155,148);">
+    <td colspan="5">do not include starting pitchers 'P' data</td>
+  </tr>
+  <tr style="background: hotpink;">
+    <td>Full Game</td>
+    <td>AB</td>
+    <td>HITS</td>
+    <td>BB</td>
+    <td>HR</td>
+  </tr>
+  <tr>
+    <td>LEFT HITTERS</td>
+    <td><%= left_hitter_ab %></td>
+    <td><%= left_hitter_h %></td>
+    <td><%= left_hitter_bb %></td>
+    <td><%= left_hitter_hr %></td>
+  </tr>
+  <tr>
+    <td>RIGHT HITTERS</td>
+    <td><%= right_hitter_ab %></td>
+    <td><%= right_hitter_h %></td>
+    <td><%= right_hitter_bb %></td>
+    <td><%= right_hitter_hr %></td>
+  </tr>
+  <tr>
+    <td>SWITCH HITTERS</td>
+    <td><%= both_hitter_ab %></td>
+    <td><%= both_hitter_h %></td>
+    <td><%= both_hitter_bb %></td>
+    <td><%= both_hitter_hr %></td>
+  </tr>
+  <tr style="background: rgb(54,155,148);">
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr style="background: hotpink;">
+    <td></td>
+    <td>AB</td>
+    <td>HITS</td>
+    <td>BB</td>
+    <td>HR</td>
+  </tr>
+  <tr>
+    <td>TOTALS</td>
+    <td><%= left_hitter_ab + right_hitter_ab + both_hitter_ab %></td>
+    <td><%= left_hitter_h + right_hitter_h + both_hitter_h %></td>
+    <td><%= left_hitter_bb + right_hitter_bb + both_hitter_bb %></td>
+    <td><%= left_hitter_hr + right_hitter_hr + both_hitter_hr %></td>
+  </tr>
+  </tbody>
+</table>
