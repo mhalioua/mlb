@@ -111,7 +111,7 @@ module GameHelper
 
     if wind_directions.include?(first_wind_dir)
       index = wind_directions.index(first_wind_dir)
-      currect_directions.push(index-1)
+      currect_directions.push((index+15)%16)
       currect_directions.push(index)
       real_directions.push(index)
       currect_directions.push((index+1)%16)
@@ -119,7 +119,7 @@ module GameHelper
 
     if wind_directions.include?(second_wind_dir)
       index = wind_directions.index(second_wind_dir)
-      currect_directions.push(index-1)
+      currect_directions.push((index+15)%16)
       currect_directions.push(index)
       real_directions.push(index)
       currect_directions.push((index+1)%16)
@@ -127,7 +127,7 @@ module GameHelper
 
     if wind_directions.include?(third_wind_dir)
       index = wind_directions.index(third_wind_dir)
-      currect_directions.push(index-1)
+      currect_directions.push((index+15)%16)
       currect_directions.push(index)
       real_directions.push(index)
       currect_directions.push((index+1)%16)
