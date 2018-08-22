@@ -47,12 +47,11 @@
       if first_index == 0 && last_index == 15
         first_index = winds[3..-1].rindex {|x| x[6].to_i == 2 } + 1
       end
+      new_winds = winds
       if first_index < 6
         new_winds = winds[0..2] + winds[(first_index-6)..-1] + winds[3..(first_index-7)]
-      elsif first_index > 8
-        new_winds = winds[0..2] + winds[(8-first_index)..-1] + winds[3..(7-first_index)]
-      else
-        new_winds = winds[0..2] + winds[(first_index-21)..-1] + winds[3..(first_index-22)]
+      elsif first_index > 6
+        new_winds = winds[0..2] + winds[(first_index-22)..-1] + winds[3..(first_index-23)]
       end
     %>
     <% new_winds.each_with_index do |wind, index| %>
