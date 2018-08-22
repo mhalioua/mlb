@@ -42,8 +42,18 @@
       nine_array = winds[3..-1].sort {|x, y| y[9] <=> x[9]}
       nine_value = nine_array[6][9]
       nine_value_dup = nine_array[2][9]
+      first_index = winds[3..-1].index {|x| x[6].to_i == 0 || x[6].to_i == 1 }
+      last_index = winds[3..-1].rindex {|x| x[6].to_i == 0 || x[6].to_i == 1 }
+      if first_index == 0 && last_index == 15
+        first_index = winds[3..-1].rindex {|x| x[6].to_i == 2 } + 1
+      end
+      if first_index < 7
+        new_winds = winds[0..2] + winds[(first_index-8)..-1] + winds[3..(first_index-8)]
+      else
+        new_winds = winds[0..2] + winds[(first_index+7)..-1] + winds[3..(first_index+7)]
+      end
     %>
-    <% winds.each_with_index do |wind, index| %>
+    <% new_winds.each_with_index do |wind, index| %>
       <% if wind[6].to_i == 1 %>
       <tr bgcolor="#DC143C">
       <% elsif wind[6].to_i == 0 %>
