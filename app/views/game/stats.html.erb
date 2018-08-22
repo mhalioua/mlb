@@ -18,6 +18,17 @@
 			<li class="list-group-item"><%= link_to(@date + ' Matchups', { controller: 'index', action: 'game', id: @game_day.id }) %></li>
 		</ul>
 	</div>
+  <% unless @away_hitters.empty? %>
+    <%= render partial: "game/new/hitter", locals: { caption: "#{@away_team.name} Hitter", hitters: @away_hitters }%>
+  <% end %>
+  <% unless @home_hitters.empty? %>
+    <%= render partial: "game/new/hitter", locals: { caption: "#{@home_team.name} Hitter", hitters: @home_hitters }%>
+  <% end %>
+
+  <% unless @away_hitters.empty? %>
+    <%= render partial: "game/new/hitter_sum", locals: { away_hitters: @away_hitters, home_hitters: @home_hitters }%>
+  <% end %>
+
 	<%= render partial: "game/new/pitcher", locals: { caption: "Starting Pitchers", lancers: @away_starting_lancer + @home_starting_lancer  } %>
 
 	<%= render partial: "game/new/batter", locals: { caption: "#{@away_predicted}#{@away_team.name} Batters", predicted: @away_predicted, batters: @away_batters, left: @away_left } %>
@@ -25,15 +36,4 @@
 
 	<%= render partial: "game/new/bullpen", locals: { caption: "#{@away_team.name} Bullpen", lancers: @away_bullpen_lancers }%>
 	<%= render partial: "game/new/bullpen", locals: { caption: "#{@home_team.name} Bullpen", lancers: @home_bullpen_lancers }%>
-
-  <% unless @away_hitters.empty? %>
-    <%= render partial: "game/new/hitter", locals: { caption: "#{@away_team.name} Hitter", hitters: @away_hitters }%>
-  <% end %>
-  <% unless @home_hitters.empty? %>
-  <%= render partial: "game/new/hitter", locals: { caption: "#{@home_team.name} Hitter", hitters: @home_hitters }%>
-  <% end %>
-
-  <% unless @away_hitters.empty? %>
-  <%= render partial: "game/new/hitter_sum", locals: { away_hitters: @away_hitters, home_hitters: @home_hitters }%>
-  <% end %>
 </div>
