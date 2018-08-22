@@ -24,12 +24,24 @@
   <tbody>
     <%
       winds = wind_data(name, weathers[0].wind, weathers[1].wind, weathers[2].wind, additional)
-      one_value = winds[3..-1].sort {|x, y| y[1] <=> x[1]} [6][1]
-      two_value = winds[3..-1].sort {|x, y| y[2] <=> x[2]} [6][2]
-      four_value = winds[3..-1].sort {|x, y| y[4] <=> x[4]} [6][4]
-      five_value = winds[3..-1].sort {|x, y| y[5] <=> x[5]} [6][5]
-      eight_value = winds[3..-1].sort {|x, y| y[8] <=> x[8]} [6][8]
-      nine_value = winds[3..-1].sort {|x, y| y[9] <=> x[9]} [6][9]
+      one_array = winds[3..-1].sort {|x, y| y[1] <=> x[1]}
+      one_value = one_array[6][1]
+      one_value_dup = one_array[2][1]
+      two_array = winds[3..-1].sort {|x, y| y[2] <=> x[2]}
+      two_value = two_array[6][2]
+      two_value_dup = two_array[2][2]
+      four_array = winds[3..-1].sort {|x, y| y[4] <=> x[4]}
+      four_value = four_array[6][4]
+      four_value_dup = four_array[2][4]
+      five_array = winds[3..-1].sort {|x, y| y[5] <=> x[5]}
+      five_value = five_array[6][5]
+      five_value_dup = five_array[2][5]
+      eight_array = winds[3..-1].sort {|x, y| y[8] <=> x[8]}
+      eight_value = eight_array[6][8]
+      eight_value_dup = eight_array[2][8]
+      nine_array = winds[3..-1].sort {|x, y| y[9] <=> x[9]}
+      nine_value = nine_array[6][9]
+      nine_value_dup = nine_array[2][9]
     %>
     <% winds.each_with_index do |wind, index| %>
       <% if wind[6].to_i == 1 %>
@@ -46,12 +58,20 @@
         five_style = ""
         eight_style = "background: cyan"
         nine_style = "background: cyan"
+
         one_style = "background: #35a" if wind[1] >= one_value && index >= 3
         two_style = "background: #35a" if wind[2] >= two_value && index >= 3
         four_style = "background: #35a" if wind[4] >= four_value && index >= 3
         five_style = "background: #35a" if wind[5] >= five_value && index >= 3
         eight_style = "background: #35a" if wind[8] >= eight_value && index >= 3
         nine_style = "background: #35a" if wind[9] >= nine_value && index >= 3
+
+        one_style = "background: royalblue" if wind[1] >= one_value_dup && index >= 3
+        two_style = "background: royalblue" if wind[2] >= two_value_dup && index >= 3
+        four_style = "background: royalblue" if wind[4] >= four_value_dup && index >= 3
+        five_style = "background: royalblue" if wind[5] >= five_value_dup && index >= 3
+        eight_style = "background: royalblue" if wind[8] >= eight_value_dup && index >= 3
+        nine_style = "background: royalblue" if wind[9] >= nine_value_dup && index >= 3
       %>
         <td> <%= wind[0] %> </td>
         <td style="<%= one_style %>"> <%= wind[1] %> </td>
