@@ -174,9 +174,10 @@ module Update
           h = row.children[4].text.to_i
           rbi = row.children[5].text.to_i
           bb = row.children[6].text.to_i
+          k = row.children[7].text.to_i
           avg = row.children[9].text
           hitter = game.hitters.find_or_create_by(index: index, team: team)
-          hitter.update(name: name, position: position, hand: hand, ab: ab, h: h, r: r, rbi: rbi, bb: bb, avg: avg, hr: 0)
+          hitter.update(name: name, position: position, hand: hand, ab: ab, h: h, r: r, rbi: rbi, bb: bb, avg: avg, hr: 0, k: k)
         end
       end
 
