@@ -50,7 +50,7 @@
       if first_index < 7
         new_winds = winds[0..2] + winds[(first_index-8)..-1] + winds[3..(first_index-8)]
       else
-        new_winds = winds[0..2] + winds[(first_index-)..-1] + winds[3..(first_index-7)]
+        new_winds = winds[0..2] + winds[(first_index-7)..-1] + winds[3..(first_index-7)]
       end
     %>
     <% new_winds.each_with_index do |wind, index| %>
