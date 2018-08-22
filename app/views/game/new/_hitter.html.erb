@@ -25,7 +25,7 @@
     <% hitters.each do |hitter| %>
       <tr>
         <td><%= hitter.name %> <%= hitter.position %></td>
-        <td><%= hitter.hand %></td>
+        <td><%= hitter.hand == 'B' ? (pitcher.throwhand == 'L' ? 'B(R)' : 'B(L)') : hitter.hand %></td>
         <td><%= hitter.ab %></td>
         <td><%= hitter.r %></td>
         <td><%= hitter.h %></td>

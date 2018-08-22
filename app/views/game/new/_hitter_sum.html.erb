@@ -9,11 +9,6 @@
   right_hitter_bb = 0
   right_hitter_hr = 0
 
-  both_hitter_ab = 0
-  both_hitter_h = 0
-  both_hitter_bb = 0
-  both_hitter_hr = 0
-
   away_hitters.each do |hitter|
     next if hitter.position == 'P'
     if hitter.hand == "L"
@@ -26,11 +21,16 @@
       right_hitter_h += hitter.h
       right_hitter_bb += hitter.bb
       right_hitter_hr += hitter.hr
+     elsif home_pitcher.throw == 'L'
+      right_hitter_ab += hitter.ab
+      right_hitter_h += hitter.h
+      right_hitter_bb += hitter.bb
+      right_hitter_hr += hitter.hr
      else
-      both_hitter_ab += hitter.ab
-      both_hitter_h += hitter.h
-      both_hitter_bb += hitter.bb
-      both_hitter_hr += hitter.hr
+      left_hitter_ab += hitter.ab
+      left_hitter_h += hitter.h
+      left_hitter_bb += hitter.bb
+      left_hitter_hr += hitter.hr
     end
   end
 
@@ -46,11 +46,16 @@
       right_hitter_h += hitter.h
       right_hitter_bb += hitter.bb
       right_hitter_hr += hitter.hr
+     elsif away_pitcher.throw == 'L'
+      right_hitter_ab += hitter.ab
+      right_hitter_h += hitter.h
+      right_hitter_bb += hitter.bb
+      right_hitter_hr += hitter.hr
      else
-      both_hitter_ab += hitter.ab
-      both_hitter_h += hitter.h
-      both_hitter_bb += hitter.bb
-      both_hitter_hr += hitter.hr
+      left_hitter_ab += hitter.ab
+      left_hitter_h += hitter.h
+      left_hitter_bb += hitter.bb
+      left_hitter_hr += hitter.hr
     end
   end
 %>
@@ -89,16 +94,6 @@
     <td>AVE</td>
     <td>OBP</td>
   </tr>
-  <tr>
-    <td>SWITCH HITTERS</td>
-    <td><%= both_hitter_ab %></td>
-    <td><%= both_hitter_h %></td>
-    <td><%= both_hitter_bb %></td>
-    <td><%= both_hitter_hr %></td>
-    <td>K</td>
-    <td>AVE</td>
-    <td>OBP</td>
-  </tr>
   <tr style="background: rgb(54,155,148);">
     <td></td>
     <td></td>
@@ -121,10 +116,10 @@
   </tr>
   <tr>
     <td>TOTALS</td>
-    <td><%= left_hitter_ab + right_hitter_ab + both_hitter_ab %></td>
-    <td><%= left_hitter_h + right_hitter_h + both_hitter_h %></td>
-    <td><%= left_hitter_bb + right_hitter_bb + both_hitter_bb %></td>
-    <td><%= left_hitter_hr + right_hitter_hr + both_hitter_hr %></td>
+    <td><%= left_hitter_ab + right_hitter_ab  %></td>
+    <td><%= left_hitter_h + right_hitter_h %></td>
+    <td><%= left_hitter_bb + right_hitter_bb %></td>
+    <td><%= left_hitter_hr + right_hitter_hr %></td>
     <td>K</td>
     <td>AVE</td>
     <td>OBP</td>
