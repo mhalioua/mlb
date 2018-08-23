@@ -7,6 +7,7 @@ class Game < ApplicationRecord
   has_many :lancers, dependent: :destroy
   has_many :batters, dependent: :destroy
   has_many :hitters, dependent: :destroy
+  has_many :pitchers, dependent: :destroy
   has_many :innings, dependent: :destroy
   has_many :pitcher_box_scores, dependent: :destroy
   has_many :hitter_box_scores, dependent: :destroy

@@ -562,27 +562,52 @@ module Update
       end
     end
 
-    def team_pitchers(game, team, pitcher)
-      pitcher_size = pitcher.children.size
-      return if pitcher_size == 3 && pitcher.children[1].children[0].children.size == 1
-      row = pitcher.children[1].children[0]
-      name = parse_name(row.children[0])
-      identity = parse_identity(row.children[0])
-      ip = row.children[1].text.to_f
-      h = row.children[2].text.to_i
-      r = row.children[3].text.to_i
-      bb = row.children[5].text.to_i
-      player = Player.search(name, identity)
-      unless player
-        puts "Player #{name} not found"
-        return
+    def parse_hand(element)
+      if element.child['href']
+        href = element.child['href']
+        doc = download_document(href)
+        return unless doc
+        info = doc.css('.general-info')
+        hand = ''
+        if info.children.size > 2
+          info = info.children[1].text
+          info_index = info.index('Throws: ')
+          hand = info[info_index + 8]
+        end
+        return hand
       end
-      lancer = game.lancers.where(starter: true).find_by(player: player)
-      unless lancer
-        lancer = player.create_lancer(game.game_day.season, team, game)
-        lancer.update(starter: true)
+    end
+
+    def team_pitchers(game, team, pitchers)
+      pitcher_size = pitchers.children.size
+      return if pitcher_size == 3 && pitchers.children[1].children[0].children.size == 1
+      pitchers[1..-2].children.each_with_index do |pitcher, index|
+        row = pitcher.children[0]
+        hand = parse_hand(row.children[0])
+        name = parse_name(row.children[0])
+        identity = parse_identity(row.children[0])
+        ip = row.children[1].text.to_f
+        h = row.children[2].text.to_i
+        r = row.children[3].text.to_i
+        er = row.children[4].text.to_i
+        bb = row.children[5].text.to_i
+        k = row.children[6].text.to_i
+        if index == 0
+          player = Player.search(name, identity)
+          unless player
+            puts "Player #{name} not found"
+            return
+          end
+          lancer = game.lancers.where(starter: true).find_by(player: player)
+          unless lancer
+            lancer = player.create_lancer(game.game_day.season, team, game)
+            lancer.update(starter: true)
+          end
+          lancer.update(ip: ip, h: h, r: r, bb: bb)
+        end
+        pitcher = game.pitchers.find_or_create_by(index: index, team: team)
+        pitcher.update(name: name, hand: hand, identity: identity, ip: ip, h: h, r: r, bb: bb, er: er, k: k)
       end
-      lancer.update(ip: ip, h: h, r: r, bb: bb)
     end
 
     def parse_fangraph_id(element)
