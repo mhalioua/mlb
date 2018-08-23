@@ -146,6 +146,9 @@ module Update
               sub_name = sub_name.gsub('á', 'a')
               sub_name = sub_name.gsub('í', 'i')
               sub_name = sub_name.gsub('é', 'e')
+              sub_name = sub_name.gsub('ñ', 'n')
+              sub_name = sub_name.gsub('ó', 'o')
+              sub_name = sub_name.gsub('ú', 'u')
               sub_name = sub_name.gsub(/(.*?)\'/, '')
               hitter = game.hitters.where("team_id = ? AND name LIKE '%" + sub_name + "%'", team.id).first
               hitter.update(hr: 1) if hitter

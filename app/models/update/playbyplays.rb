@@ -46,8 +46,12 @@ module Update
           line_string = line_string.gsub('á', 'a')
           line_string = line_string.gsub('í', 'i')
           line_string = line_string.gsub('é', 'e')
+          line_string = line_string.gsub('ñ', 'n')
+          line_string = line_string.gsub('ó', 'o')
+          line_string = line_string.gsub('ú', 'u')
           next if line_string.length == 0
           name = line_string.split(' ')[0]
+          name = line_string.split(' ')[1] if name[-1] == '.'
           check_pitcher = pitchers.select {|player| player.name.include?(name)}
           check_batter = batters.select {|player| player.name.include?(name)}
           if check_pitcher.length != 0
