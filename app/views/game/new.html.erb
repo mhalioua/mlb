@@ -58,7 +58,7 @@
     <% end %>
 
     <% unless @away_hitters.empty? %>
-      <%= render partial: "game/new/hitter_sum", locals: { away_hitters: @away_hitters, home_hitters: @home_hitters, away_pitcher: @away_starting_lancer.first, home_pitcher: @home_starting_lancer.first }%>
+      <%= render partial: "game/new/hitter_sum", locals: { away_hitters: @away_hitters, home_hitters: @home_hitters, away_pitcher: @away_starting_lancer.first, home_pitcher: @home_starting_lancer.first, playbyplay: @playbyplay }%>
     <% end %>
 
 		<%= render partial: "game/new/pitcher", locals: { caption: "Starting Pitchers", lancers: @away_starting_lancer + @home_starting_lancer  } %>

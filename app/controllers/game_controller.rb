@@ -72,6 +72,8 @@ class GameController < ApplicationController
 
 		@away_hitters = @game.hitters.where(team_id: @away_team.id).order(:index)
 		@home_hitters = @game.hitters.where(team_id: @home_team.id).order(:index)
+
+		@playbyplay = @game.playbyplay.first
 	end
 
 	def weather
@@ -156,6 +158,8 @@ class GameController < ApplicationController
 
 		@away_hitters = @game.hitters.where(team_id: @away_team.id).order(:index)
 		@home_hitters = @game.hitters.where(team_id: @home_team.id).order(:index)
+
+		@playbyplay = @game.playbyplay.first
 	end
 
 	def previous
