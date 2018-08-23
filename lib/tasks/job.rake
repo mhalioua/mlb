@@ -16,11 +16,11 @@ namespace :job do
     puts game.game_day.inspect
   end
 
-  task batter_box_score: :environment do
-    (700..900).each do |index|
+  task pitcher_box_score: :environment do
+    (1..5).each do |index|
       game_day = GameDay.today.previous_days(index)
       if game_day
-        game_day.batter_box_score
+        game_day.pitcher_box_score
       end
     end
   end

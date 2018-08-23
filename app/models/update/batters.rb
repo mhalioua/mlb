@@ -145,6 +145,7 @@ module Update
               sub_name = eachb[0..eachb_index-1].squish
               sub_name = sub_name.gsub('á', 'a')
               sub_name = sub_name.gsub('í', 'i')
+              sub_name = sub_name.gsub('é', 'e')
               sub_name = sub_name.gsub(/(.*?)\'/, '')
               hitter = game.hitters.where("team_id = ? AND name LIKE '%" + sub_name + "%'", team.id).first
               hitter.update(hr: 1) if hitter

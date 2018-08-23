@@ -86,12 +86,16 @@ namespace :mlb do
     Season.where("year = 2018").map { |season| season.update_pitchers_scout }
   end
 
+  task play_by_play: :environment do
+    GameDay.yesterday.play_by_play
+  end
+
   task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs, :update_game_status]
 
   task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout]
 
   task hourly: [:update_forecast, :update_games, :pitcher_box_score, :batter_box_score, :update_weather]
 
-  task ten: [:create_matchups, :prev_pitchers, :pitcher_informations]
+  task ten: [:create_matchups, :prev_pitchers, :pitcher_informations, :play_by_play]
 
 end
