@@ -5,6 +5,7 @@ module Update
 
     def update(game_day)
       games = game_day.games
+      games = Game.where(game_id: 380822111)
       games.each do |game|
         pitchers = game.pitchers.all.to_a
         batters = game.hitters.all.to_a
@@ -76,6 +77,8 @@ module Update
               result[flag + '_ab'] += 1
             elsif line_string.include?("walked")
               result[flag + '_bb'] += 1
+            else
+              puts line_string
             end
           else
             puts name + " does not exist"
