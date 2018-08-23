@@ -91,8 +91,8 @@
     <td><%= left_hitter_bb %></td>
     <td><%= left_hitter_hr %></td>
     <td><%= left_hitter_k %></td>
-    <td><%= (left_hitter_h / left_hitter_ab).round(3).to_s[1..-1] %></td>
-    <td><%= ((left_hitter_h + left_hitter_bb) / (left_hitter_ab + left_hitter_bb)).round(3).to_s[1..-1] %></td>
+    <td><%= (left_hitter_h.to_f / left_hitter_ab).round(3).to_s[1..-1] %></td>
+    <td><%= ((left_hitter_h + left_hitter_bb).to_f / (left_hitter_ab + left_hitter_bb)).round(3).to_s[1..-1] %></td>
   </tr>
   <tr>
     <td>RIGHT HITTERS</td>
@@ -101,8 +101,8 @@
     <td><%= right_hitter_bb %></td>
     <td><%= right_hitter_hr %></td>
     <td><%= right_hitter_k %></td>
-    <td><%= (right_hitter_h / right_hitter_ab).round(3).to_s[1..-1] %></td>
-    <td><%= ((right_hitter_h + right_hitter_bb)/ (right_hitter_ab + right_hitter_bb)).round(3).to_s[1..-1] %></td>
+    <td><%= (right_hitter_h.to_f / right_hitter_ab).round(3).to_s[1..-1] %></td>
+    <td><%= ((right_hitter_h + right_hitter_bb).to_f / (right_hitter_ab + right_hitter_bb)).round(3).to_s[1..-1] %></td>
   </tr>
   <tr style="background: rgb(54,155,148);">
     <td></td>
@@ -126,113 +126,113 @@
   </tr>
   <tr>
     <td>TOTALS</td>
-    <td><%= left_hitter_ab + right_hitter_ab  %></td>
+    <td><%= left_hitter_ab + right_hitter_ab %></td>
     <td><%= left_hitter_h + right_hitter_h %></td>
     <td><%= left_hitter_bb + right_hitter_bb %></td>
     <td><%= left_hitter_hr + right_hitter_hr %></td>
     <td><%= left_hitter_k + right_hitter_k %></td>
-    <td><%= ((left_hitter_h + right_hitter_h) / (left_hitter_ab + right_hitter_ab)).round(3).to_s[1..-1] %></td>
-    <td><%= ((left_hitter_h + right_hitter_h + left_hitter_bb + right_hitter_bb) / (left_hitter_ab + right_hitter_ab + left_hitter_bb + right_hitter_bb)).round(3).to_s[1..-1] %></td>
+    <td><%= ((left_hitter_h + right_hitter_h).to_f / (left_hitter_ab + right_hitter_ab)).round(3).to_s[1..-1] %></td>
+    <td><%= ((left_hitter_h + right_hitter_h + left_hitter_bb + right_hitter_bb).to_f / (left_hitter_ab + right_hitter_ab + left_hitter_bb + right_hitter_bb)).round(3).to_s[1..-1] %></td>
   </tr>
   </tbody>
 </table>
 
 <% if playbyplay %>
-<table class="table-bordered" style="display: inline">
-  <tbody>
-  <tr style="background: rgb(54,155,148);">
-    <td colspan="8">do not include starting pitchers 'P' data</td>
-  </tr>
-  <tr style="background: hotpink;">
-    <td>Full Game</td>
-    <td>AB</td>
-    <td>HITS</td>
-    <td>BB</td>
-    <td>HR</td>
-    <td>K</td>
-    <td>AVE</td>
-    <td>OBP</td>
-  </tr>
-  <tr>
-    <td>LB VS LP</td>
-    <td><%= playbyplay.ll_ab %></td>
-    <td><%= playbyplay.ll_h %></td>
-    <td><%= playbyplay.ll_bb %></td>
-    <td><%= playbyplay.ll_hr %></td>
-    <td><%= playbyplay.ll_k %></td>
-    <td><%= (playbyplay.ll_h / playbyplay.ll_ab).round(3).to_s[1..-1] %></td>
-    <td><%= ((playbyplay.ll_h + playbyplay.ll_bb) / (playbyplay.ll_ab + playbyplay.ll_bb)).round(3).to_s[1..-1] %></td>
-  </tr>
-  <tr>
-    <td>LB VS RP</td>
-    <td><%= playbyplay.lr_ab %></td>
-    <td><%= playbyplay.lr_h %></td>
-    <td><%= playbyplay.lr_bb %></td>
-    <td><%= playbyplay.lr_hr %></td>
-    <td><%= playbyplay.lr_k %></td>
-    <td><%= (playbyplay.lr_h / playbyplay.lr_ab).round(3).to_s[1..-1] %></td>
-    <td><%= ((playbyplay.lr_h + playbyplay.lr_bb) / (playbyplay.lr_ab + playbyplay.lr_bb)).round(3).to_s[1..-1] %></td>
-  </tr>
-  <tr style="background: rgb(54,155,148);">
-    <td></td>
-    <td><%= playbyplay.ll_ab + playbyplay.lr_ab %></td>
-    <td><%= playbyplay.ll_h + playbyplay.lr_h %></td>
-    <td><%= playbyplay.ll_bb + playbyplay.lr_bb %></td>
-    <td><%= playbyplay.ll_hr + playbyplay.lr_hr %></td>
-    <td><%= playbyplay.ll_k + playbyplay.lr_k %></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr style="background: hotpink;">
-    <td>Full Game</td>
-    <td>AB</td>
-    <td>HITS</td>
-    <td>BB</td>
-    <td>HR</td>
-    <td>K</td>
-    <td>AVE</td>
-    <td>OBP</td>
-  </tr>
-  <tr>
-    <td>RB VS LP</td>
-    <td><%= playbyplay.rl_ab %></td>
-    <td><%= playbyplay.rl_h %></td>
-    <td><%= playbyplay.rl_bb %></td>
-    <td><%= playbyplay.rl_hr %></td>
-    <td><%= playbyplay.rl_k %></td>
-    <td><%= (playbyplay.rl_h / playbyplay.rl_ab).round(3).to_s[1..-1] %></td>
-    <td><%= ((playbyplay.rl_h + playbyplay.rl_bb) / (playbyplay.rl_ab + playbyplay.rl_bb)).round(3).to_s[1..-1] %></td>
-  </tr>
-  <tr>
-    <td>RR VS RP</td>
-    <td><%= playbyplay.rr_ab %></td>
-    <td><%= playbyplay.rr_h %></td>
-    <td><%= playbyplay.rr_bb %></td>
-    <td><%= playbyplay.rr_hr %></td>
-    <td><%= playbyplay.rr_k %></td>
-    <td><%= (playbyplay.rr_h / playbyplay.rr_ab).round(3).to_s[1..-1] %></td>
-    <td><%= ((playbyplay.rr_h + playbyplay.rr_bb) / (playbyplay.rr_ab + playbyplay.rr_bb)).round(3).to_s[1..-1] %></td>
-  </tr>
-  <tr style="background: rgb(54,155,148);">
-    <td></td>
-    <td><%= playbyplay.rl_ab + playbyplay.rr_ab %></td>
-    <td><%= playbyplay.rl_h + playbyplay.rr_h %></td>
-    <td><%= playbyplay.rl_bb + playbyplay.rr_bb %></td>
-    <td><%= playbyplay.rl_hr + playbyplay.rr_hr %></td>
-    <td><%= playbyplay.rl_k + playbyplay.rr_k %></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>TOTALS</td>
-    <td><%= playbyplay.ll_ab + playbyplay.lr_ab + playbyplay.rl_ab + playbyplay.rr_ab %></td>
-    <td><%= playbyplay.ll_h + playbyplay.lr_h + playbyplay.rl_h + playbyplay.rr_h %></td>
-    <td><%= playbyplay.ll_bb + playbyplay.lr_bb + playbyplay.rl_bb + playbyplay.rr_bb %></td>
-    <td><%= playbyplay.ll_hr + playbyplay.lr_hr + playbyplay.rl_hr + playbyplay.rr_hr %></td>
-    <td><%= playbyplay.ll_k + playbyplay.lr_k + playbyplay.rl_k + playbyplay.rr_k %></td>
-    <td><%= ((playbyplay.ll_h + playbyplay.lr_h + playbyplay.rl_h + playbyplay.rr_h) / (playbyplay.ll_ab + playbyplay.lr_ab + playbyplay.rl_ab + playbyplay.rr_ab)).round(3).to_s[1..-1] %></td>
-    <td><%= ((playbyplay.ll_h + playbyplay.lr_h + playbyplay.rl_h + playbyplay.rr_h + playbyplay.ll_bb + playbyplay.lr_bb + playbyplay.rl_bb + playbyplay.rr_bb) / (playbyplay.ll_bb + playbyplay.lr_bb + playbyplay.rl_bb + playbyplay.rr_bb + playbyplay.ll_ab + playbyplay.lr_ab + playbyplay.rl_ab + playbyplay.rr_ab)).round(3).to_s[1..-1] %></td>
-  </tr>
-  </tbody>
-</table>
+  <table class="table-bordered" style="display: inline">
+    <tbody>
+    <tr style="background: rgb(54,155,148);">
+      <td colspan="8">do not include starting pitchers 'P' data</td>
+    </tr>
+    <tr style="background: hotpink;">
+      <td>Full Game</td>
+      <td>AB</td>
+      <td>HITS</td>
+      <td>BB</td>
+      <td>HR</td>
+      <td>K</td>
+      <td>AVE</td>
+      <td>OBP</td>
+    </tr>
+    <tr>
+      <td>LB VS LP</td>
+      <td><%= playbyplay.ll_ab %></td>
+      <td><%= playbyplay.ll_h %></td>
+      <td><%= playbyplay.ll_bb %></td>
+      <td><%= playbyplay.ll_hr %></td>
+      <td><%= playbyplay.ll_k %></td>
+      <td><%= (playbyplay.ll_h.to_f / playbyplay.ll_ab).round(3).to_s[1..-1] %></td>
+      <td><%= ((playbyplay.ll_h + playbyplay.ll_bb).to_f / (playbyplay.ll_ab + playbyplay.ll_bb)).round(3).to_s[1..-1] %></td>
+    </tr>
+    <tr>
+      <td>LB VS RP</td>
+      <td><%= playbyplay.lr_ab %></td>
+      <td><%= playbyplay.lr_h %></td>
+      <td><%= playbyplay.lr_bb %></td>
+      <td><%= playbyplay.lr_hr %></td>
+      <td><%= playbyplay.lr_k %></td>
+      <td><%= (playbyplay.lr_h.to_f / playbyplay.lr_ab).round(3).to_s[1..-1] %></td>
+      <td><%= ((playbyplay.lr_h + playbyplay.lr_bb).to_f / (playbyplay.lr_ab + playbyplay.lr_bb)).round(3).to_s[1..-1] %></td>
+    </tr>
+    <tr style="background: rgb(54,155,148);">
+      <td></td>
+      <td><%= playbyplay.ll_ab + playbyplay.lr_ab %></td>
+      <td><%= playbyplay.ll_h + playbyplay.lr_h %></td>
+      <td><%= playbyplay.ll_bb + playbyplay.lr_bb %></td>
+      <td><%= playbyplay.ll_hr + playbyplay.lr_hr %></td>
+      <td><%= playbyplay.ll_k + playbyplay.lr_k %></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr style="background: hotpink;">
+      <td>Full Game</td>
+      <td>AB</td>
+      <td>HITS</td>
+      <td>BB</td>
+      <td>HR</td>
+      <td>K</td>
+      <td>AVE</td>
+      <td>OBP</td>
+    </tr>
+    <tr>
+      <td>RB VS LP</td>
+      <td><%= playbyplay.rl_ab %></td>
+      <td><%= playbyplay.rl_h %></td>
+      <td><%= playbyplay.rl_bb %></td>
+      <td><%= playbyplay.rl_hr %></td>
+      <td><%= playbyplay.rl_k %></td>
+      <td><%= (playbyplay.rl_h.to_f / playbyplay.rl_ab).round(3).to_s[1..-1] %></td>
+      <td><%= ((playbyplay.rl_h + playbyplay.rl_bb).to_f / (playbyplay.rl_ab + playbyplay.rl_bb)).round(3).to_s[1..-1] %></td>
+    </tr>
+    <tr>
+      <td>RR VS RP</td>
+      <td><%= playbyplay.rr_ab %></td>
+      <td><%= playbyplay.rr_h %></td>
+      <td><%= playbyplay.rr_bb %></td>
+      <td><%= playbyplay.rr_hr %></td>
+      <td><%= playbyplay.rr_k %></td>
+      <td><%= (playbyplay.rr_h.to_f / playbyplay.rr_ab).round(3).to_s[1..-1] %></td>
+      <td><%= ((playbyplay.rr_h + playbyplay.rr_bb).to_f / (playbyplay.rr_ab + playbyplay.rr_bb)).round(3).to_s[1..-1] %></td>
+    </tr>
+    <tr style="background: rgb(54,155,148);">
+      <td></td>
+      <td><%= playbyplay.rl_ab + playbyplay.rr_ab %></td>
+      <td><%= playbyplay.rl_h + playbyplay.rr_h %></td>
+      <td><%= playbyplay.rl_bb + playbyplay.rr_bb %></td>
+      <td><%= playbyplay.rl_hr + playbyplay.rr_hr %></td>
+      <td><%= playbyplay.rl_k + playbyplay.rr_k %></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>TOTALS</td>
+      <td><%= playbyplay.ll_ab + playbyplay.lr_ab + playbyplay.rl_ab + playbyplay.rr_ab %></td>
+      <td><%= playbyplay.ll_h + playbyplay.lr_h + playbyplay.rl_h + playbyplay.rr_h %></td>
+      <td><%= playbyplay.ll_bb + playbyplay.lr_bb + playbyplay.rl_bb + playbyplay.rr_bb %></td>
+      <td><%= playbyplay.ll_hr + playbyplay.lr_hr + playbyplay.rl_hr + playbyplay.rr_hr %></td>
+      <td><%= playbyplay.ll_k + playbyplay.lr_k + playbyplay.rl_k + playbyplay.rr_k %></td>
+      <td><%= ((playbyplay.ll_h + playbyplay.lr_h + playbyplay.rl_h + playbyplay.rr_h).to_f / (playbyplay.ll_ab + playbyplay.lr_ab + playbyplay.rl_ab + playbyplay.rr_ab)).round(3).to_s[1..-1] %></td>
+      <td><%= ((playbyplay.ll_h + playbyplay.lr_h + playbyplay.rl_h + playbyplay.rr_h + playbyplay.ll_bb + playbyplay.lr_bb + playbyplay.rl_bb + playbyplay.rr_bb).to_f / (playbyplay.ll_bb + playbyplay.lr_bb + playbyplay.rl_bb + playbyplay.rr_bb + playbyplay.ll_ab + playbyplay.lr_ab + playbyplay.rl_ab + playbyplay.rr_ab)).round(3).to_s[1..-1] %></td>
+    </tr>
+    </tbody>
+  </table>
 <% end %>
