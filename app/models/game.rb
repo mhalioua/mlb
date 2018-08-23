@@ -17,6 +17,8 @@ class Game < ApplicationRecord
   has_many :prevpitchers, dependent: :destroy
   has_many :pitcherinformations, dependent: :destroy
 
+  has_many :playbyplays, dependent: :destroy
+
   def update_weather
     Update::Weathers.new.update(self)
     Update::Weathers.new.update_table(self)
