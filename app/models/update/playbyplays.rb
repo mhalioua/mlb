@@ -4,7 +4,7 @@ module Update
     include GetHtml
 
     def update(game_day)
-      games = Game.where(game_id: 380822111)
+      games = game_day.games
       games.each do |game|
         pitchers = game.pitchers.all.to_a
         batters = game.hitters.all.to_a
