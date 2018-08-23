@@ -581,7 +581,7 @@ module Update
     def team_pitchers(game, team, pitchers)
       pitcher_size = pitchers.children.size
       return if pitcher_size == 3 && pitchers.children[1].children[0].children.size == 1
-      pitchers[1..-2].children.each_with_index do |pitcher, index|
+      pitchers.children[1..-2].each_with_index do |pitcher, index|
         row = pitcher.children[0]
         hand = parse_hand(row.children[0])
         name = parse_name(row.children[0])

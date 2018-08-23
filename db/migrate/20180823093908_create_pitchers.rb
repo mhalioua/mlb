@@ -12,7 +12,7 @@ class CreatePitchers < ActiveRecord::Migration[5.1]
       t.integer     :h
       t.integer     :r
       t.integer     :bb
-      t.string      :er
+      t.integer      :er
       t.integer     :k
 
       t.timestamps
