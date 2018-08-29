@@ -138,39 +138,37 @@ namespace :job do
       next unless doc
 
       elements = doc.css("tr")
-      elements.each do |slice|
+      elements[1..-1].each do |slice|
         if slice.children.size < 5
           next
         end
         away_team = slice.children[0].text
         if away_team == "matchup"
-          next
+          break
         end
         href = slice.children[2].child['href']
         game_id = href[-9..-1]
 
-        if slice.children[index[:result]].text == 'Canceled' || slice.children[index[:result]].text == 'Suspended'
-          next
-        end
+        doc = download_document(href)
+        next unless doc
 
-        if slice.children[index[:home_team]].children[0].children.size == 2
-          home_team = slice.children[index[:home_team]].children[0].children[1].children[0].text
-          home_abbr = slice.children[index[:home_team]].children[0].children[1].children[2].text
-        elsif slice.children[index[:home_team]].children[0].children.size == 1
-          home_team = slice.children[index[:home_team]].children[0].children[0].children[0].text
-          home_abbr = slice.children[index[:home_team]].children[0].children[0].children[2].text
-        end
+        names = doc.css(".short-name")
+        away_team = names[0].text.squish
+        home_team = names[1].text.squish
 
-        if slice.children[index[:away_team]].children.size == 2
-          away_abbr = slice.children[index[:away_team]].children[1].children[2].text
-          away_team = slice.children[index[:away_team]].children[1].children[0].text
-        elsif slice.children[index[:away_team]].children.size == 1
-          away_abbr = slice.children[index[:away_team]].children[0].children[2].text
-          away_team = slice.children[index[:away_team]].children[0].children[0].text
+        scores = doc.css(".score-container")
+        away_score = scores[0].text.squish
+        home_score = scores[1].text.squish
+
+        away_score_data = game.A1.to_i + game.A2.to_i + game.A3.to_i + game.a4.to_i + game.a5.to_i + game.a6.to_i +
+            game.a7.to_i + game.a8.to_i + game.a9.to_i
+        home_score_data = game.h1.to_i + game.h2.to_i + game.h3.to_i + game.h4.to_i + game.h5.to_i + game.h6.to_i +
+            game.h7.to_i + game.h8.to_i + game.h9.to_i
+
+        if away_team == game.away_team && home_team == game.home_team && away_score == away_score_data && home_score == home_score_data
+          game.update(game_id: game_id)
+          break
         end
-        puts away_team
-        puts home_team
-        break
       end
     end
   end
