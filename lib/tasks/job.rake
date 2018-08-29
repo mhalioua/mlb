@@ -147,7 +147,6 @@ namespace :job do
           break
         end
         href = 'http://www.espn.com' + slice.children[2].child['href']
-        puts href
         game_id = href[-9..-1]
 
         doc = download_document(href)
