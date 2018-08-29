@@ -166,16 +166,6 @@ namespace :job do
         home_score_data = game.h1.to_i + game.h2.to_i + game.h3.to_i + game.h4.to_i + game.h5.to_i + game.h6.to_i +
             game.h7.to_i + game.h8.to_i + game.h9.to_i
 
-        puts away_team
-        puts game.Away_Team
-        puts home_team
-        puts game.Home_Team
-
-        puts away_score
-        puts away_score_data
-        puts home_score
-        puts home_score_data
-
         if away_team == game.Away_Team && home_team == game.Home_Team && away_score == away_score_data && home_score == home_score_data
           game.update(game_id: game_id)
           break
