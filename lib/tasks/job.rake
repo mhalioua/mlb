@@ -124,6 +124,57 @@ namespace :job do
     end
   end
 
+  task :newworkbook_id => :environment do
+    include GetHtml
+    games = Newworkbook.where('game_id is null')
+    games.each do |game|
+      game_date = Date.strptime(game.Date, "%m/%d/%y")
+      game_date = game_date.strftime("%Y%m%d")
+      url = "http://www.espn.com/mlb/schedule/_/date/#{game_date}"
+      puts url
+
+      doc = download_document(url)
+      next unless doc
+
+      elements = doc.css("tr")
+      elements.each do |slice|
+        if slice.children.size < 5
+          next
+        end
+        away_team = slice.children[0].text
+        if away_team == "matchup"
+          next
+        end
+        href = slice.children[2].child['href']
+        game_id = href[-9..-1]
+        home_team = slice.children[1].text
+
+        if slice.children[index[:result]].text == 'Canceled' || slice.children[index[:result]].text == 'Suspended'
+          next
+        end
+
+        if slice.children[index[:home_team]].children[0].children.size == 2
+          home_team = slice.children[index[:home_team]].children[0].children[1].children[0].text
+          home_abbr = slice.children[index[:home_team]].children[0].children[1].children[2].text
+        elsif slice.children[index[:home_team]].children[0].children.size == 1
+          home_team = slice.children[index[:home_team]].children[0].children[0].children[0].text
+          home_abbr = slice.children[index[:home_team]].children[0].children[0].children[2].text
+        end
+
+        if slice.children[index[:away_team]].children.size == 2
+          away_abbr = slice.children[index[:away_team]].children[1].children[2].text
+          away_team = slice.children[index[:away_team]].children[1].children[0].text
+        elsif slice.children[index[:away_team]].children.size == 1
+          away_abbr = slice.children[index[:away_team]].children[0].children[2].text
+          away_team = slice.children[index[:away_team]].children[0].children[0].text
+        end
+        puts away_team
+        puts home_team
+        break
+      end
+    end
+  end
+
   task :play_by_play => :environment do
     include GetHtml
     games = Newworkbook.where('ll_ab is null')
