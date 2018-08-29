@@ -132,6 +132,7 @@ namespace :job do
       game_date = game_date.strftime("%Y%m%d")
       url = "http://www.espn.com/mlb/schedule/_/date/#{game_date}"
       puts url
+      index = {away_team: 0, home_team: 1, result: 2}
 
       doc = download_document(url)
       next unless doc
@@ -147,7 +148,6 @@ namespace :job do
         end
         href = slice.children[2].child['href']
         game_id = href[-9..-1]
-        home_team = slice.children[1].text
 
         if slice.children[index[:result]].text == 'Canceled' || slice.children[index[:result]].text == 'Suspended'
           next
