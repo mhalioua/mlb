@@ -146,7 +146,7 @@ namespace :job do
         if away_team == "matchup"
           break
         end
-        href = slice.children[2].child['href']
+        href = 'http://www.espn.com' + slice.children[2].child['href']
         puts href
         game_id = href[-9..-1]
 
