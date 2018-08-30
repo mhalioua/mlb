@@ -124,6 +124,14 @@ namespace :job do
     end
   end
 
+
+
+
+  task :count => :environment do
+    games = Newworkbook.where('game_id is null')
+    puts games.count
+  end
+
   task :newworkbook_id => :environment do
     include GetHtml
     games = Newworkbook.where('game_id is null')
