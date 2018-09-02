@@ -130,12 +130,14 @@ namespace :job do
   task :count => :environment do
     games = Newworkbook.where('game_id is null')
     puts games.count
+    puts Newworkbook.all.count
   end
 
   task :newworkbook_id => :environment do
     include GetHtml
     games = Newworkbook.where('game_id is null')
-    games.each do |game|
+    games.each_with_index do |game, index|
+      puts index
       game_date = Date.strptime(game.Date, "%m/%d/%y")
       game_date = game_date.strftime("%Y%m%d")
       url = "http://www.espn.com/mlb/schedule/_/date/#{game_date}"
