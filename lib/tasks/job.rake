@@ -296,13 +296,13 @@ namespace :job do
         if check_pitcher.length != 0
           pitcher_flag = check_pitcher[0]['hand'].downcase
           if pitcher_flag == ''
-            player = Player.search(check_pitcher[0].name)
+            player = Player.search(check_pitcher[0]['name'])
             pitcher_flag = player.throwhand
           end
         elsif check_batter.length != 0
           batter_flag = check_batter[0]['hand'].downcase
           if batter_flag == ''
-            player = Player.search(check_batter[0].name)
+            player = Player.search(check_batter[0]['name'])
             batter_flag = player.bathand
           end
           flag = batter_flag + pitcher_flag
