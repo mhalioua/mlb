@@ -128,7 +128,7 @@ namespace :job do
 
 
   task :count => :environment do
-    games = Newworkbook.where('game_id is null')
+    games = Newworkbook.where('game_id is not null and ll_ab is null')
     puts games.count
     puts Newworkbook.all.count
   end
@@ -184,7 +184,7 @@ namespace :job do
 
   task :play_by_play => :environment do
     include GetHtml
-    games = Newworkbook.where('ll_ab is null')
+    games = Newworkbook.where('game_id is not null and ll_ab is null')
     games.each do |game|
       url = "http://www.espn.com/mlb/boxscore?gameId=#{game.game_id}"
       puts url
