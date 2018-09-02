@@ -280,7 +280,7 @@ namespace :job do
         'rr_k' => 0
       }
 
-      lines.each_with_index do |line, index|
+      lines.each do |line|
         line_string = line.text.squish
         line_string = line_string.gsub('á', 'a')
         line_string = line_string.gsub('í', 'i')
@@ -301,6 +301,7 @@ namespace :job do
           if batter_flag == 'b'
             flag = (pitcher_flag == 'l' ? 'rl' : 'lr')
           end
+          puts flag
           if line_string.include?("homered to")
             result[flag + '_hr'] += 1
             result[flag + '_ab'] += 1
