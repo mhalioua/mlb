@@ -194,10 +194,12 @@ namespace :job do
       next unless doc
       doc.xpath('//comment()').each {|comment| comment.replace(comment.text)}
       trs = doc.css(".game_summary table:first-child tbody")
-      away_team_data = weather_first.Away_Team
-      home_team_data = weather_first.Home_Team
-      away_score_data = weather_first.A1.to_i + weather_first.A2.to_i + weather_first.A3.to_i + weather_first.a4.to_i + weather_first.a5.to_i + weather_first.a6.to_i + weather_first.a7.to_i + weather_first.a8.to_i + weather_first.a9.to_i
-      home_score_data = weather_first.h1.to_i + weather_first.h2.to_i + weather_first.h3.to_i + weather_first.h4.to_i + weather_first.h5.to_i + weather_first.h6.to_i + weather_first.h7.to_i + weather_first.h8.to_i + weather_first.h9.to_i
+      away_team_data = game.Away_Team
+      home_team_data = game.Home_Team
+      away_score_data = game.A1.to_i + game.A2.to_i + game.A3.to_i + game.a4.to_i + game.a5.to_i + game.a6.to_i +
+          game.a7.to_i + game.a8.to_i + game.a9.to_i
+      home_score_data = game.h1.to_i + game.h2.to_i + game.h3.to_i + game.h4.to_i + game.h5.to_i + game.h6.to_i +
+          game.h7.to_i + game.h8.to_i + game.h9.to_i
       trs.each do |slice|
         away_team = slice.children[1].children[1].children[0].text
         home_team = slice.children[3].children[1].children[0].text
