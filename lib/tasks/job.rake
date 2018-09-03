@@ -214,11 +214,18 @@ namespace :job do
               info_index = info.index('Throws: ')
               hand = info[info_index + 8]
             else
-              info = doc.css('.player-metadata')
-              info.children.each do |element|
-                if element.children[0].text.squish == 'Position'
-                  hand = element.children[1].text.squish[0]
-                  break
+              player = Player.where(name: name).first
+              if player
+                if player.throwhand
+                  hand = player.throwhand
+                elsif player.fangraph_id
+                  player_url = "https://www.fangraphs.com/statss.aspx?playerid=#{player.fangraph_id}"
+                  doc = download_document(player_url)
+                  return unless doc
+                  info = doc.css(".player-info-box-header")
+                  info = info.children[2].text
+                  info_index = info.index('Bats/Throws: ')
+                  hand = info[info_index + 15]
                 end
               end
             end
@@ -250,11 +257,18 @@ namespace :job do
               info_index = info.index('Bats: ')
               hand = info[info_index + 6]
             else
-              info = doc.css('.player-metadata')
-              info.children.each do |element|
-                if element.children[0].text.squish == 'Position'
-                  hand = element.children[1].text.squish[0]
-                  break
+              player = Player.where(name: name).first
+              if player
+                if player.bathand
+                  hand = player.bathand
+                elsif player.fangraph_id
+                  player_url = "https://www.fangraphs.com/statss.aspx?playerid=#{player.fangraph_id}"
+                  doc = download_document(player_url)
+                  return unless doc
+                  info = doc.css(".player-info-box-header")
+                  info = info.children[2].text
+                  info_index = info.index('Bats/Throws: ')
+                  hand = info[info_index + 13]
                 end
               end
             end
@@ -311,16 +325,8 @@ namespace :job do
         check_batter = batters.select {|player| player['name'].include?(name)}
         if check_pitcher.length != 0
           pitcher_flag = check_pitcher[0]['hand'].downcase
-          if pitcher_flag == ''
-            player = Player.find(name: check_pitcher[0]['name'])
-            pitcher_flag = player.throwhand
-          end
         elsif check_batter.length != 0
           batter_flag = check_batter[0]['hand'].downcase
-          if batter_flag == ''
-            player = Player.find(name: check_batter[0]['name'])
-            batter_flag = player.bathand
-          end
           flag = batter_flag + pitcher_flag
           if batter_flag == 'b'
             flag = (pitcher_flag == 'l' ? 'rl' : 'lr')
