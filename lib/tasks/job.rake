@@ -182,6 +182,36 @@ namespace :job do
     end
   end
 
+  task :newworkbook_link => :environment do
+    include GetHtml
+    games = Newworkbook.where('link is null')
+    games.each_with_index do |game, index|
+      game_date = Date.strptime(weather_first.Date, "%m/%d/%y")
+      game_date = game_date.strftime("%F")
+      url = "https://www.baseball-reference.com/boxes/?date=#{game_date}"
+      puts url
+      doc = download_document(url)
+      next unless doc
+      doc.xpath('//comment()').each {|comment| comment.replace(comment.text)}
+      trs = doc.css(".game_summary table:first-child tbody")
+      away_team_data = weather_first.Away_Team
+      home_team_data = weather_first.Home_Team
+      away_score_data = weather_first.A1.to_i + weather_first.A2.to_i + weather_first.A3.to_i + weather_first.a4.to_i + weather_first.a5.to_i + weather_first.a6.to_i + weather_first.a7.to_i + weather_first.a8.to_i + weather_first.a9.to_i
+      home_score_data = weather_first.h1.to_i + weather_first.h2.to_i + weather_first.h3.to_i + weather_first.h4.to_i + weather_first.h5.to_i + weather_first.h6.to_i + weather_first.h7.to_i + weather_first.h8.to_i + weather_first.h9.to_i
+      trs.each do |slice|
+        away_team = slice.children[1].children[1].children[0].text
+        home_team = slice.children[3].children[1].children[0].text
+        away_score = slice.children[1].children[3].text.to_i
+        home_score = slice.children[3].children[3].text.to_i
+        if away_team.include?(away_team_data) && home_team.include?(home_team_data) && away_score_data == away_score && home_score_data == home_score
+          link = slice.children[1].children[5].children[1]['href']
+          game.update(link: link)
+          break
+        end
+      end
+    end
+  end
+
   task :play_by_play => :environment do
     include GetHtml
     games = Newworkbook.where('game_id is not null and ll_ab is null')
