@@ -250,6 +250,7 @@ namespace :job do
             href = element['href']
             doc = download_document(href)
             return unless doc
+            name = doc.css("h1").first.text
             info = doc.css('.general-info')
             hand = ''
             if info.children.size > 2
