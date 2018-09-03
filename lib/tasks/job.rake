@@ -320,6 +320,7 @@ namespace :job do
         line_string = line_string.gsub('ó', 'o')
         line_string = line_string.gsub('ú', 'u')
         next if line_string.length == 0
+        puts line_string
         name = line_string.split(' ')[0]
         name = line_string.split(' ')[1] if name[-1] == '.'
         check_pitcher = pitchers.select {|player| player['name'].include?(name)}
