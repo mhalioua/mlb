@@ -186,7 +186,7 @@ namespace :job do
     include GetHtml
     games = Newworkbook.where('link is null')
     games.each_with_index do |game, index|
-      game_date = Date.strptime(weather_first.Date, "%m/%d/%y")
+      game_date = Date.strptime(game.Date, "%m/%d/%y")
       game_date = game_date.strftime("%F")
       url = "https://www.baseball-reference.com/boxes/?date=#{game_date}"
       puts url
