@@ -213,6 +213,14 @@ namespace :job do
               info = info.children[1].text
               info_index = info.index('Throws: ')
               hand = info[info_index + 8]
+            else
+              info = doc.css('.player-metadata')
+              info.children.each do |element|
+                if element.children[0].text.squish == 'Position'
+                  hand = element.children[1].text.squish[0]
+                  break
+                end
+              end
             end
             pitchers.push({'name' => name, 'hand' => hand})
           end
@@ -241,6 +249,14 @@ namespace :job do
               info = info.children[1].text
               info_index = info.index('Bats: ')
               hand = info[info_index + 6]
+            else
+              info = doc.css('.player-metadata')
+              info.children.each do |element|
+                if element.children[0].text.squish == 'Position'
+                  hand = element.children[1].text.squish[0]
+                  break
+                end
+              end
             end
             batters.push({'name' => name, 'hand' => hand})
           end
@@ -296,13 +312,13 @@ namespace :job do
         if check_pitcher.length != 0
           pitcher_flag = check_pitcher[0]['hand'].downcase
           if pitcher_flag == ''
-            player = Player.search(check_pitcher[0]['name'])
+            player = Player.find(name: check_pitcher[0]['name'])
             pitcher_flag = player.throwhand
           end
         elsif check_batter.length != 0
           batter_flag = check_batter[0]['hand'].downcase
           if batter_flag == ''
-            player = Player.search(check_batter[0]['name'])
+            player = Player.find(name: check_batter[0]['name'])
             batter_flag = player.bathand
           end
           flag = batter_flag + pitcher_flag
