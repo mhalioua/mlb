@@ -227,6 +227,8 @@ namespace :job do
                   info_index = info.index('Bats/Throws: ')
                   hand = info[info_index + 15]
                 end
+              else
+                hand = 'L'
               end
             end
             pitchers.push({'name' => name, 'hand' => hand})
@@ -271,6 +273,8 @@ namespace :job do
                   info_index = info.index('Bats/Throws: ')
                   hand = info[info_index + 13]
                 end
+              else
+                hand = 'B'
               end
             end
             batters.push({'name' => name, 'hand' => hand})
@@ -320,7 +324,6 @@ namespace :job do
         line_string = line_string.gsub('ó', 'o')
         line_string = line_string.gsub('ú', 'u')
         next if line_string.length == 0
-        puts line_string
         name = line_string.split(' ')[0]
         name = line_string.split(' ')[1] if name[-1] == '.'
         check_pitcher = pitchers.select {|player| player['name'].include?(name)}
@@ -333,7 +336,6 @@ namespace :job do
           if batter_flag == 'b'
             flag = (pitcher_flag == 'l' ? 'rl' : 'lr')
           end
-          puts flag
           if line_string.include?("homered to")
             result[flag + '_hr'] += 1
             result[flag + '_ab'] += 1
