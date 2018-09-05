@@ -356,11 +356,7 @@ namespace :job do
           player_info = download_document(player_link)
           next unless player_info
           player_data = player_info.css('#meta')
-          if player_data.children[3] != nil
-            player_data = player_data.children[3].text.squish
-          else
-            player_data = player_data.children[2].text.squish
-          end
+          player_data = player_data.text.squish
           if flag < 2
             index = player_data.index('Bats: ')
             batters.push({'name' => player_name.text, 'hand' => player_data[index + 6]})
