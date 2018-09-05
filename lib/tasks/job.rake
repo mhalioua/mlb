@@ -348,6 +348,7 @@ namespace :job do
         element.children[6].children.each_with_index do |tr, index|
           next if index % 2 == 0
           name = tr.children[0]
+          next if name.children.length == 0
           name_link = name.children[0]
           name_link = name.children[1] if name.children.length == 3
           player_name = name_link.children[0]
