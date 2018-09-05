@@ -3,12 +3,17 @@ include GameHelper
 namespace :job do
 
   task :test => :environment do
-    puts DateTime.now.in_time_zone('Eastern Time (US & Canada)').yesterday.to_date
-    puts DateTime.now.in_time_zone('Eastern Time (US & Canada)').to_date
-    puts DateTime.now.in_time_zone('Eastern Time (US & Canada)').tomorrow.to_date
-    puts DateTime.now
-    puts DateTime.now.to_date
-    puts Date.today
+    include GetHtml
+    url = "https://www.baseball-reference.com/boxes/ARI/ARI201030628"
+    puts url
+
+    doc = download_document(url)
+    next unless doc
+    doc.xpath('//comment()').each {|comment| comment.replace(comment.text)}
+    elements = doc.css('.table_outer_container table')
+    elements.each do |element|
+      puts element.children[3].inspect
+    end
   end
 
   task getGameID: :environment do
@@ -309,14 +314,12 @@ namespace :job do
     include GetHtml
     games = Newworkbook.where('game_id is not null and ll_ab is null')
     games.each do |game|
-      url = "http://www.espn.com/mlb/boxscore?gameId=#{game.game_id}"
+      url = "https://www.baseball-reference.com/#{game.link}"
       puts url
 
       doc = download_document(url)
       next unless doc
 
-      stats = doc.css('.stats-wrap')
-      next if stats.size < 4
       pitchers = []
       batters = []
 
