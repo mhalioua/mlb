@@ -366,8 +366,6 @@ namespace :job do
           end
         end
       end
-      puts batters.inspect
-      puts pitchers.inspect
 
       url = "http://www.espn.com/mlb/playbyplay?gameId=#{game.game_id}"
       puts url
@@ -411,7 +409,6 @@ namespace :job do
         line_string = line_string.gsub('ó', 'o')
         line_string = line_string.gsub('ú', 'u')
         next if line_string.length == 0
-        puts line_string
         name = line_string.split(' ')[0]
         name = line_string.split(' ')[1] if name[-1] == '.'
         check_pitcher = pitchers.select {|player| player['name'].include?(name)}
@@ -423,6 +420,8 @@ namespace :job do
           flag = batter_flag + pitcher_flag
           if batter_flag == 'b'
             flag = (pitcher_flag == 'l' ? 'rl' : 'lr')
+          elsif pitcher_flag == 'b'
+            flag = (batter_flag == 'r' ? 'rl' : 'lr')
           end
           if line_string.include?("homered to")
             result[flag + '_hr'] += 1
