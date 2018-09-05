@@ -366,6 +366,8 @@ namespace :job do
           end
         end
       end
+      puts batters.inspect
+      puts pitchers.inspect
 
       url = "http://www.espn.com/mlb/playbyplay?gameId=#{game.game_id}"
       puts url
@@ -441,28 +443,28 @@ namespace :job do
         end
       end
 
-      game.update(
-        ll_ab: result['ll_ab'],
-        ll_h: result['ll_h'],
-        ll_bb: result['ll_bb'],
-        ll_hr: result['ll_hr'],
-        ll_k: result['ll_k'],
-        lr_ab: result['lr_ab'],
-        lr_h: result['lr_h'],
-        lr_bb: result['lr_bb'],
-        lr_hr: result['lr_hr'],
-        lr_k: result['lr_k'],
-        rl_ab: result['rl_ab'],
-        rl_h: result['rl_h'],
-        rl_bb: result['rl_bb'],
-        rl_hr: result['rl_hr'],
-        rl_k: result['rl_k'],
-        rr_ab: result['rr_ab'],
-        rr_h: result['rr_h'],
-        rr_bb: result['rr_bb'],
-        rr_hr: result['rr_hr'],
-        rr_k: result['rr_k']
-      )
+      # game.update(
+      #   ll_ab: result['ll_ab'],
+      #   ll_h: result['ll_h'],
+      #   ll_bb: result['ll_bb'],
+      #   ll_hr: result['ll_hr'],
+      #   ll_k: result['ll_k'],
+      #   lr_ab: result['lr_ab'],
+      #   lr_h: result['lr_h'],
+      #   lr_bb: result['lr_bb'],
+      #   lr_hr: result['lr_hr'],
+      #   lr_k: result['lr_k'],
+      #   rl_ab: result['rl_ab'],
+      #   rl_h: result['rl_h'],
+      #   rl_bb: result['rl_bb'],
+      #   rl_hr: result['rl_hr'],
+      #   rl_k: result['rl_k'],
+      #   rr_ab: result['rr_ab'],
+      #   rr_h: result['rr_h'],
+      #   rr_bb: result['rr_bb'],
+      #   rr_hr: result['rr_hr'],
+      #   rr_k: result['rr_k']
+      # )
     end
   end
 
