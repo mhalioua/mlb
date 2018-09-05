@@ -352,10 +352,11 @@ namespace :job do
           name_link = name.children[0]
           name_link = name.children[1] if name.children.length == 3
           player_name = name_link.children[0]
-          player_link = "https://www.baseball-reference.com/#{name_link['href']}"
+          player_link = "https://www.baseball-reference.com#{name_link['href']}"
           player_info = download_document(player_link)
           next unless player_info
           player_data = player_info.css('#meta')
+          puts player_data.inspect
           player_data = player_data.children[3].text.squish
           if flag < 2
             index = player_data.index('Bats: ')
