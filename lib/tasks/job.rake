@@ -4,15 +4,34 @@ namespace :job do
 
   task :test => :environment do
     include GetHtml
-    url = "https://www.baseball-reference.com/boxes/ARI/ARI201030628"
+    url = "https://www.baseball-reference.com/boxes/ARI/ARI201403230.shtml"
     puts url
 
     doc = download_document(url)
     next unless doc
     doc.xpath('//comment()').each {|comment| comment.replace(comment.text)}
     elements = doc.css('.table_outer_container table')
-    elements.each do |element|
-      puts element.children[3].inspect
+    elements[0..3].each_with_index do |element, flag|
+      element.children[6].children.each_with_index do |tr, index|
+        next if index % 2 == 0
+        name = tr.children[0]
+        name_link = name.children[0]
+        name_link = name.children[1] if name.children.length == 3
+        puts name_link
+        player_name = name_link.children[0]
+        player_link = "https://www.baseball-reference.com/#{name_link['href']}"
+        player_info = download_document(player_link)
+        next unless player_info
+        player_data = player_info.css('#meta')
+        player_data = player_data.children[3].text.squish
+        if flag < 2
+          index = player_data.index('Bats: ')
+          puts player_data[index + 6]
+        else
+          index = player_data.index('Throws: ')
+          puts player_data[index + 8]
+        end
+      end
     end
   end
 
@@ -323,87 +342,26 @@ namespace :job do
       pitchers = []
       batters = []
 
-      [stats[1], stats[3]].each do |stat|
-        pitcher_size = stat.children.size
-        next if pitcher_size == 3 && stat.children[1].children[0].children.size == 1
-        stat.children[1..-2].each do |pitcher|
-          element = pitcher.children[0].children[0]
-          if element.child['href']
-            href = element.child['href']
-            doc = download_document(href)
-            return unless doc
-            name = doc.css("h1").first.text
-            hand = ''
-            info = doc.css('.general-info')
-            if info.children.size > 2
-              info = info.children[1].text
-              info_index = info.index('Throws: ')
-              hand = info[info_index + 8]
-            else
-              player = Player.where(name: name).first
-              if player
-                if player.throwhand
-                  hand = player.throwhand
-                elsif player.fangraph_id
-                  player_url = "https://www.fangraphs.com/statss.aspx?playerid=#{player.fangraph_id}"
-                  doc = download_document(player_url)
-                  return unless doc
-                  info = doc.css(".player-info-box-header")
-                  info = info.children[2].text
-                  info_index = info.index('Bats/Throws: ')
-                  hand = info[info_index + 15]
-                end
-              else
-                hand = 'L'
-              end
-            end
-            pitchers.push({'name' => name, 'hand' => hand})
-          end
-        end
-      end
-
-      [stats[0], stats[2]].each do |hitters|
-        next if hitters.children[1].children[0].children.size == 1
-        hitters.children[1..-1].each do |hitter|
-          row = hitter.children[0]
-          name = row.children[0].children[0].text.squish
-          next if name == "TEAM"
-          if name == 'a -' || name == 'b -' || name == 'c -'
-            name = row.children[0].children[1].text.squish
-            element = row.children[0].children[1]
+      doc.xpath('//comment()').each {|comment| comment.replace(comment.text)}
+      elements = doc.css('.table_outer_container table')
+      elements[0..3].each_with_index do |element, flag|
+        element.children[6].children.each_with_index do |tr, index|
+          next if index % 2 == 0
+          name = tr.children[0]
+          name_link = name.children[0]
+          name_link = name.children[1] if name.children.length == 3
+          player_name = name_link.children[0]
+          player_link = "https://www.baseball-reference.com/#{name_link['href']}"
+          player_info = download_document(player_link)
+          next unless player_info
+          player_data = player_info.css('#meta')
+          player_data = player_data.children[3].text.squish
+          if flag < 2
+            index = player_data.index('Bats: ')
+            batters.push({'name' => player_name, 'hand' => player_data[index + 6]})
           else
-            element = row.children[0].children[0]
-          end
-          if element['href']
-            href = element['href']
-            doc = download_document(href)
-            return unless doc
-            name = doc.css("h1").first.text
-            info = doc.css('.general-info')
-            hand = ''
-            if info.children.size > 2
-              info = info.children[1].text
-              info_index = info.index('Bats: ')
-              hand = info[info_index + 6]
-            else
-              player = Player.where(name: name).first
-              if player
-                if player.bathand
-                  hand = player.bathand
-                elsif player.fangraph_id
-                  player_url = "https://www.fangraphs.com/statss.aspx?playerid=#{player.fangraph_id}"
-                  doc = download_document(player_url)
-                  return unless doc
-                  info = doc.css(".player-info-box-header")
-                  info = info.children[2].text
-                  info_index = info.index('Bats/Throws: ')
-                  hand = info[info_index + 13]
-                end
-              else
-                hand = 'B'
-              end
-            end
-            batters.push({'name' => name, 'hand' => hand})
+            index = player_data.index('Throws: ')
+            pitchers.push({'name' => player_name, 'hand' => player_data[index + 8]})
           end
         end
       end
