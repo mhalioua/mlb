@@ -366,6 +366,8 @@ namespace :job do
           end
         end
       end
+      puts batters.inspect
+      puts pitchers.inspect
 
       url = "http://www.espn.com/mlb/playbyplay?gameId=#{game.game_id}"
       puts url
