@@ -374,8 +374,8 @@ namespace :job do
       next unless doc
 
       lines = doc.css("#allPlays .headline")
-      pitcher_flag = "L"
-      batter_flag = "R"
+      pitcher_flag = "l"
+      batter_flag = "r"
 
       result = {
         'll_ab' => 0,
@@ -409,7 +409,6 @@ namespace :job do
         line_string = line_string.gsub('ó', 'o')
         line_string = line_string.gsub('ú', 'u')
         next if line_string.length == 0
-        puts line_string
         name = line_string.split(' ')[0]
         name = line_string.split(' ')[1] if name[-1] == '.' || name.length < 3
         check_pitcher = pitchers.select {|player| player['name'].include?(name)}
