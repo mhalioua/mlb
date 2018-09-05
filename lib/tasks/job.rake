@@ -410,7 +410,7 @@ namespace :job do
         line_string = line_string.gsub('ú', 'u')
         next if line_string.length == 0
         name = line_string.split(' ')[0]
-        name = line_string.split(' ')[1] if name[-1] == '.'
+        name = line_string.split(' ')[1] if name[-1] == '.' || name.length < 3
         check_pitcher = pitchers.select {|player| player['name'].include?(name)}
         check_batter = batters.select {|player| player['name'].include?(name)}
         if check_pitcher.length != 0
