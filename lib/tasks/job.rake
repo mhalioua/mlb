@@ -125,6 +125,97 @@ namespace :job do
   end
 
 
+  task :update => :environment do
+    game = Newworkbook.find(id: 7828)
+    game.update(game_id: 310624128)
+    game = Newworkbook.find(id: 33978)
+    game.update(game_id: 310624128)
+
+
+    game = Newworkbook.find(id: 7819)
+    game.update(game_id: 310626128)
+    game = Newworkbook.find(id: 33969)
+    game.update(game_id: 310626128)
+
+
+    game = Newworkbook.find(id: 22486)
+    game.update(game_id: 230628105)
+    game = Newworkbook.find(id: 48753)
+    game.update(game_id: 230628105)
+
+
+    game = Newworkbook.find(id: 22685)
+    game.update(game_id: 230628210)
+    game = Newworkbook.find(id: 48952)
+    game.update(game_id: 230628210)
+
+
+    game = Newworkbook.find(id: 22684)
+    game.update(game_id: 230628321)
+    game = Newworkbook.find(id: 48951)
+    game.update(game_id: 230628321)
+
+
+    game = Newworkbook.find(id: 22090)
+    game.update(game_id: 230628104)
+    game = Newworkbook.find(id: 48361)
+    game.update(game_id: 230628104)
+
+
+    game = Newworkbook.find(id: 21671)
+    game.update(game_id: 230628114)
+    game = Newworkbook.find(id: 47942)
+    game.update(game_id: 230628114)
+
+
+    game = Newworkbook.find(id: 22313)
+    game.update(game_id: 230628103)
+    game = Newworkbook.find(id: 48582)
+    game.update(game_id: 230628103)
+
+
+    game = Newworkbook.find(id: 22906)
+    game.update(game_id: 230628123)
+    game = Newworkbook.find(id: 49169)
+    game.update(game_id: 230628123)
+
+
+    game = Newworkbook.find(id: 22189)
+    game.update(game_id: 230628106)
+    game = Newworkbook.find(id: 48459)
+    game.update(game_id: 230628106)
+
+
+    game = Newworkbook.find(id: 21961)
+    game.update(game_id: 230628107)
+    game = Newworkbook.find(id: 48232)
+    game.update(game_id: 230628107)
+
+
+    game = Newworkbook.find(id: 22993)
+    game.update(game_id: 230628102)
+    game = Newworkbook.find(id: 49255)
+    game.update(game_id: 230628102)
+
+
+    game = Newworkbook.find(id: 22766)
+    game.update(game_id: 230628101)
+    game = Newworkbook.find(id: 49029)
+    game.update(game_id: 230628101)
+
+
+    game = Newworkbook.find(id: 21525)
+    game.update(game_id: 230628126)
+    game = Newworkbook.find(id: 47796)
+    game.update(game_id: 230628126)
+
+
+    game = Newworkbook.find(id: 7829)
+    game.update(game_id: 310625128)
+    game = Newworkbook.find(id: 33979)
+    game.update(game_id: 310625128)
+  end
+
 
 
   task :count => :environment do
