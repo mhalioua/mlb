@@ -148,100 +148,6 @@ namespace :job do
     end
   end
 
-
-  task :update => :environment do
-    game = Newworkbook.find(7828)
-    game.update(game_id: 310624128)
-    game = Newworkbook.find(33978)
-    game.update(game_id: 310624128)
-
-
-    game = Newworkbook.find(7819)
-    game.update(game_id: 310626128)
-    game = Newworkbook.find(33969)
-    game.update(game_id: 310626128)
-
-
-    game = Newworkbook.find(22486)
-    game.update(game_id: 230628105)
-    game = Newworkbook.find(48753)
-    game.update(game_id: 230628105)
-
-
-    game = Newworkbook.find(22685)
-    game.update(game_id: 230628210)
-    game = Newworkbook.find(48952)
-    game.update(game_id: 230628210)
-
-
-    game = Newworkbook.find(22684)
-    game.update(game_id: 230628321)
-    game = Newworkbook.find(48951)
-    game.update(game_id: 230628321)
-
-
-    game = Newworkbook.find(22090)
-    game.update(game_id: 230628104)
-    game = Newworkbook.find(48361)
-    game.update(game_id: 230628104)
-
-
-    game = Newworkbook.find(21671)
-    game.update(game_id: 230628114)
-    game = Newworkbook.find(47942)
-    game.update(game_id: 230628114)
-
-
-    game = Newworkbook.find(22313)
-    game.update(game_id: 230628103)
-    game = Newworkbook.find(48582)
-    game.update(game_id: 230628103)
-
-
-    game = Newworkbook.find(22906)
-    game.update(game_id: 230628123)
-    game = Newworkbook.find(49169)
-    game.update(game_id: 230628123)
-
-
-    game = Newworkbook.find(22189)
-    game.update(game_id: 230628106)
-    game = Newworkbook.find(48459)
-    game.update(game_id: 230628106)
-
-
-    game = Newworkbook.find(21961)
-    game.update(game_id: 230628107)
-    game = Newworkbook.find(48232)
-    game.update(game_id: 230628107)
-
-
-    game = Newworkbook.find(22993)
-    game.update(game_id: 230628102)
-    game = Newworkbook.find(49255)
-    game.update(game_id: 230628102)
-
-
-    game = Newworkbook.find(22766)
-    game.update(game_id: 230628101)
-    game = Newworkbook.find(49029)
-    game.update(game_id: 230628101)
-
-
-    game = Newworkbook.find(21525)
-    game.update(game_id: 230628126)
-    game = Newworkbook.find(47796)
-    game.update(game_id: 230628126)
-
-
-    game = Newworkbook.find(7829)
-    game.update(game_id: 310625128)
-    game = Newworkbook.find(33979)
-    game.update(game_id: 310625128)
-  end
-
-
-
   task :count => :environment do
     games = Newworkbook.where('game_id is not null and ll_ab is null')
     puts games.count
@@ -411,6 +317,7 @@ namespace :job do
         next if line_string.length == 0
         name = line_string.split(' ')[0]
         name = line_string.split(' ')[1] if name[-1] == '.' || name.length < 3
+        next if name == nil
         check_pitcher = pitchers.select {|player| player['name'].include?(name)}
         check_batter = batters.select {|player| player['name'].include?(name)}
         if check_pitcher.length != 0
