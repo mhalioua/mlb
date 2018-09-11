@@ -149,7 +149,7 @@ namespace :job do
   end
 
   task :count => :environment do
-    games = Newworkbook.where('game_id is not null and ll_ab is null')
+    games = Newworkbook.where('"game_id" is not null and "ll_ab" is null and "Date" like ?', "'%16'")
     puts games.count
     puts Newworkbook.all.count
   end
@@ -237,7 +237,7 @@ namespace :job do
 
   task :play_by_play => :environment do
     include GetHtml
-    games = Newworkbook.where('game_id is not null and ll_ab is null')
+    games = Newworkbook.where('"game_id" is not null and "ll_ab" is null and "Date" like ?', "'%16'")
     games.each do |game|
       url = "https://www.baseball-reference.com/#{game.link}"
       puts url
