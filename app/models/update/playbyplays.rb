@@ -52,7 +52,8 @@ module Update
           line_string = line_string.gsub('ú', 'u')
           next if line_string.length == 0
           name = line_string.split(' ')[0]
-          name = line_string.split(' ')[1] if name[-1] == '.'
+          name = line_string.split(' ')[1] if name[-1] == '.' || name.length < 3
+          next if name == nil
           check_pitcher = pitchers.select {|player| player.name.include?(name)}
           check_batter = batters.select {|player| player.name.include?(name)}
           if check_pitcher.length != 0
@@ -62,6 +63,8 @@ module Update
             flag = batter_flag + pitcher_flag
             if batter_flag == 'b'
               flag = (pitcher_flag == 'l' ? 'rl' : 'lr')
+            elsif pitcher_flag == 'b'
+              flag = (batter_flag == 'r' ? 'rl' : 'lr')
             end
             if line_string.include?("homered to")
               result[flag + '_hr'] += 1
