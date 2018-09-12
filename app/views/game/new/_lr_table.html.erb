@@ -1,5 +1,5 @@
 <%
-  caption = max != nil ? "#{min} ~ #{max} MPH" : "#{min} +"
+  caption = defined? max ? "#{min} ~ #{max} MPH" : "#{min} +"
   directions = [
     'N',
     'NNE',
