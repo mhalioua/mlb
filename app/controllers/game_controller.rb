@@ -182,4 +182,61 @@ class GameController < ApplicationController
 		@away_starting_lancer_previous = @game.prevpitchers.where(away: true).order(:start_index)
 		@home_starting_lancer_previous = @game.prevpitchers.where(away: false).order(:start_index)
 	end
+
+	def scout
+		@game = Game.find_by_id(params[:id])
+		@game_stats = @game.game_stats
+		@game_day = @game.game_day
+		@season = @game_day.season
+
+		@away_team = @game.away_team
+		@home_team = @game.home_team
+		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
+		@image_url = @home_team.id.to_s + ".png"
+
+		month = Date::MONTHNAMES[@game_day.month.to_i]
+		day = @game_day.day.to_s
+		@date = "#{month} #{day}"
+
+		@away_starting_lancer = @game.lancers.where(team: @away_team, starter: true, season_id: @season.id)
+		@home_starting_lancer = @game.lancers.where(team: @home_team, starter: true, season_id: @season.id)
+
+		unless @away_starting_lancer.empty?
+			@home_left = @away_starting_lancer.first.throwhand == "L"
+			@home_batters = @away_starting_lancer.first.opposing_lineup
+			if @home_batters.empty?
+				@home_predicted = "Predicted "
+				@home_batters = @away_starting_lancer.first.predict_opposing_lineup
+			end
+		else
+			@home_batters = Batter.none
+		end
+
+		unless @home_starting_lancer.empty?
+			@away_left = @home_starting_lancer.first.throwhand == "L"
+			@away_batters = @home_starting_lancer.first.opposing_lineup
+			if @away_batters.empty?
+				@away_predicted = "Predicted "
+				@away_batters = @home_starting_lancer.first.predict_opposing_lineup
+			end
+		else
+			@away_batters = Batter.none
+		end
+	end
+
+	def lr
+		@game = Game.find_by_id(params[:id])
+		@game_stats = @game.game_stats
+		@game_day = @game.game_day
+		@season = @game_day.season
+
+		@away_team = @game.away_team
+		@home_team = @game.home_team
+		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
+		@image_url = @home_team.id.to_s + ".png"
+
+		month = Date::MONTHNAMES[@game_day.month.to_i]
+		day = @game_day.day.to_s
+		@date = "#{month} #{day}"
+	end
 end

@@ -1,0 +1,70 @@
+<%
+  caption = max ? "#{min} ~ #{max} MPH" : "#{min} +"
+  directions = [
+    'N',
+    'NNE',
+    'NE',
+    'ENE',
+    'E',
+    'ESE',
+    'SE',
+    'SSE',
+    'S',
+    'SSW',
+    'SW',
+    'WSW',
+    'W',
+    'WNW',
+    'NW',
+    'NNW',
+  ]
+%>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>WIND SPEED</th>
+      <th>DIRECTION</th>
+      <th style="background: green"></th>
+      <th>LB AB's</th>
+      <th>LB hits</th>
+      <th>LB bb's</th>
+      <th>LH AVE</th>
+      <th>LH OBP</th>
+      <th style="background: green"></th>
+      <th>RB AB's</th>
+      <th>RB hits</th>
+      <th>RB bb's</th>
+      <th>RH AVE</th>
+      <th>RH OBP</th>
+      <th style="background: green"></th>
+      <th>+/- AVE</th>
+      <th>+/- OBP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% directions.each do |direction| %>
+      <tr>
+        <td>PITTSBURGH</td>
+        <td><%= caption %></td>
+        <td><%= direction %></td>
+        <td style="background: green"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td style="background: green"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td style="background: green"></td>
+        <td></td>
+        <td></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

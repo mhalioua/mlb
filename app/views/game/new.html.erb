@@ -89,5 +89,12 @@
     <% unless @home_starting_lancer.empty? %>
       <%= render partial: "game/new/previous_pitcher_table", locals: { pitcher: @home_starting_lancer.first, prev_pitchers: @home_starting_lancer_previous, flag: 1 } %>
     <% end %>
+
+    <%= render partial: "game/new/lr_table", locals: { min: 2, max: 6 } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 4, max: 9 } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 7, max: 12 } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 10, max: 15 } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 13, max: 20 } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 18 } %>
 	</div>
 </div>

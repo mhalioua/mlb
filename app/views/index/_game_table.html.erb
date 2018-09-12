@@ -2,11 +2,13 @@
 	<thead>
 		<tr style="background: lightgray">
 			<th scope="col"></th>
-			<th scope="col" colspan="4"><%= @head %></th>
+			<th scope="col" colspan="6"><%= @head %></th>
 			<th scope="col">Pitchers</th>
 			<th scope="col"></th>
 			<th scope="col"></th>
 			<th scope="col"></th>
+      <th scope="col"></th>
+      <th scope="col"></th>
 			<th scope="col"></th>
 			<th scope="col"></th>
 			<th scope="col"></th>
@@ -75,6 +77,8 @@
 				<td>Game Stats</td>
 				<td>Weather</td>
 				<td>Previous Games</td>
+        <td>Scout</td>
+        <td>LR</td>
 				<%= render "starter_header" %>
 				<td colspan="2">IN PARK with <br/>SPEED</td>
 				<td colspan="3">Averages in park going <br/> this direction</td>
@@ -88,6 +92,8 @@
 			<td></td>
 			<td></td>
 			<td></td>
+      <td></td>
+      <td></td>
 			<td colspan="8"><%= game_link(game) %></td>
 			<td colspan="18"><%= game_link(game) %></td>
 			<td colspan="11"><%= game_link(game) %></td>
@@ -106,6 +112,8 @@
 			<td rowspan="4" style="background: lightgray;"><%= link_to "Stats", { controller: "game", action: "stats", id: game.id } %></td>
 			<td rowspan="4" style="background: lightgray;"><%= link_to "Weather", { controller: "game", action: "weather", id: game.id, forecast: 1, option: 0} %></td>
 			<td rowspan="4" style="background: lightgray;"><%= link_to "Previous Games", { controller: "game", action: "previous", id: game.id } %></td>
+      <td rowspan="4" style="background: lightgray;"><%= link_to "Scout", { controller: "game", action: "scout", id: game.id } %></td>
+      <td rowspan="4" style="background: lightgray;"><%= link_to "LR", { controller: "game", action: "lr", id: game.id } %></td>
 			<% pitcher = game.away_pitcher %>
 			<% if pitcher && false %>
 			<%= render partial: "starter", locals: { pitcher: pitcher, pitcher_information: game.pitcherinformations.where(away: true).first } %>
@@ -164,6 +172,8 @@
 			<td>Game Stats</td>
 			<td>Weather</td>
 			<td>Previous Games</td>
+      <td>Scout</td>
+      <td>LR</td>
 			<%= render "starter_header" %>
 			<td colspan="2">IN PARK with <br/>SPEED</td>
 			<td colspan="3">Averages in park going <br/> this direction</td>
