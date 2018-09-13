@@ -51,7 +51,6 @@ module Update
           line_string = line_string.gsub('ó', 'o')
           line_string = line_string.gsub('ú', 'u')
           next if line_string.length == 0
-          puts line_string
           name = line_string.split(' ')[0]
           name = line_string.split(' ')[1] if name[-1] == '.' || name.length < 3
           next if name == nil
@@ -59,8 +58,22 @@ module Update
           check_batter = batters.select {|player| player.name.include?(name)}
           if check_pitcher.length != 0
             pitcher_flag = check_pitcher[0].hand.downcase
+            if pitcher_flag == ''
+              if name == 'Michael Kopech'
+                pitcher_flag = 'r'
+              else
+                puts "Pitcher" + name
+              end
+            end
           elsif check_batter.length != 0
             batter_flag = check_batter[0].hand.downcase
+            if batter_flag == ''
+              if name == 'Michael Kopech'
+                batter_flag = 'r'
+              else
+                puts "Batter" + name
+              end
+            end
             flag = batter_flag + pitcher_flag
             if batter_flag == 'b'
               flag = (pitcher_flag == 'l' ? 'rl' : 'lr')
