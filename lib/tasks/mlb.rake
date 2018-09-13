@@ -90,6 +90,13 @@ namespace :mlb do
     GameDay.yesterday.play_by_play
   end
 
+  task play_by_play_previous :environment do
+    [1..20].each do |index|
+      game_day = GameDay.today.previous_days(index)
+      game_day.play_by_play
+    end
+  end
+
   task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs, :update_game_status]
 
   task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout]
