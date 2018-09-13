@@ -59,7 +59,7 @@ module Update
           if check_pitcher.length != 0
             pitcher_flag = check_pitcher[0].hand.downcase
             if pitcher_flag == ''
-              if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Hutchison'
+              if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Hutchison' || name == 'Robinson'
                 pitcher_flag = 'r'
               elsif name == 'Coulombe'
                 pitcher_flag = 'l'
@@ -70,7 +70,7 @@ module Update
           elsif check_batter.length != 0
             batter_flag = check_batter[0].hand.downcase
             if batter_flag == ''
-              if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed'
+              if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Robinson'
                 batter_flag = 'r'
               elsif name == 'Coulombe' || name == 'Hutchison'
                 batter_flag = 'l'
