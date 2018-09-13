@@ -550,32 +550,31 @@ module Update
     end
 
     def parse_identity(element)
-      href = element.child['href']
+      href = element.children[0]['href']
+      href = element.children[1]['href'] if href == nil
       href[36..href.rindex("/") - 1]
     end
 
     def parse_name(element)
-      if element.child['href']
-        href = element.child['href']
-        doc = download_document(href)
-        doc.css("h1").first.text
-      end
+      href = element.children[0]['href']
+      href = element.children[1]['href'] if href == nil
+      doc = download_document(href)
+      doc.css("h1").first.text
     end
 
     def parse_hand(element)
-      if element.child['href']
-        href = element.child['href']
-        doc = download_document(href)
-        return unless doc
-        info = doc.css('.general-info')
-        hand = ''
-        if info.children.size > 2
-          info = info.children[1].text
-          info_index = info.index('Throws: ')
-          hand = info[info_index + 8]
-        end
-        return hand
+      href = element.children[0]['href']
+      href = element.children[1]['href'] if href == nil
+      doc = download_document(href)
+      return unless doc
+      info = doc.css('.general-info')
+      hand = ''
+      if info.children.size > 2
+        info = info.children[1].text
+        info_index = info.index('Throws: ')
+        hand = info[info_index + 8]
       end
+      return hand
     end
 
     def team_pitchers(game, team, pitchers)
