@@ -61,6 +61,8 @@ module Update
             if pitcher_flag == ''
               if name == 'Kopech' || name == 'Martin' || name == 'Prado'
                 pitcher_flag = 'r'
+              elsif name == 'Coulombe'
+                pitcher_flag = 'l'
               else
                 puts "Pitcher" + name
               end
@@ -70,6 +72,8 @@ module Update
             if batter_flag == ''
               if name == 'Kopech' || name == 'Martin' || name == 'Prado'
                 batter_flag = 'r'
+              elsif name == 'Coulombe'
+                pitcher_flag = 'l'
               else
                 puts "Batter" + name
               end
