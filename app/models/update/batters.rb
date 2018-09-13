@@ -164,7 +164,7 @@ module Update
           row = hitter.children[0]
           name = row.children[0].children[0].text.squish
           return if name == "TEAM"
-          if name == 'a -' || name == 'b -' || name == 'c -'
+          if name == 'a -' || name == 'b -' || name == 'c -' || name == 'd -' || name == 'e -' || name == 'f -'
             name = row.children[0].children[1].text.squish
             position = row.children[0].children[2].text.squish
             hand = parse_hand(row.children[0].children[1])
