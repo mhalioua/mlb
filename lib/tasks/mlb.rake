@@ -90,7 +90,7 @@ namespace :mlb do
     GameDay.yesterday.play_by_play
   end
 
-  task play_by_play_previous :environment do
+  task play_by_play_previous: :environment do
     [1..20].each do |index|
       game_day = GameDay.today.previous_days(index)
       game_day.play_by_play
