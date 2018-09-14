@@ -91,7 +91,7 @@ namespace :mlb do
   end
 
   task play_by_play_previous: :environment do
-    (14..20).each do |index|
+    (15..20).each do |index|
       game_day = GameDay.today.previous_days(index)
       game_day.pitcher_box_score
       game_day.batter_box_score
