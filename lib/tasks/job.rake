@@ -237,7 +237,7 @@ namespace :job do
 
   task :play_by_play => :environment do
     include GetHtml
-    games = Newworkbook.where('"game_id" is not null and "ll_ab" is null and "Date" like ?', '%08')
+    games = Newworkbook.where('"game_id" is not null and "ll_ab" is null and "Date" like ?', '%07')
     games.each do |game|
       url = "https://www.baseball-reference.com#{game.link}"
       puts url
