@@ -784,7 +784,6 @@ module GameHelper
 
   def lr_filter(min, max, direction, name)
     result = {}
-    return result
     search_string = []
     search_string.push('"Home_Team" = ' + "'#{name}'")
     search_string.push('"Direction" = ' + "'#{direction}'")
