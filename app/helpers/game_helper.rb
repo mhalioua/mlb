@@ -792,22 +792,22 @@ module GameHelper
       search_string.push('"Speed" <= ' + "'#{max}'")
     end
     query = Newworkbook.where(search_string.join(" AND ")).to_a
-    result[:ll_ab] = query.sum(:ll_ab)
-    result[:ll_h]  = query.sum(:ll_h)
-    result[:ll_bb] = query.sum(:ll_bb)
-    result[:ll_hr] = query.sum(:ll_hr)
-    result[:lr_ab] = query.sum(:lr_ab)
-    result[:lr_h]  = query.sum(:lr_h)
-    result[:lr_bb] = query.sum(:lr_bb)
-    result[:lr_hr] = query.sum(:lr_hr)
-    result[:rl_ab] = query.sum(:rl_ab)
-    result[:rl_h]  = query.sum(:rl_h)
-    result[:rl_bb] = query.sum(:rl_bb)
-    result[:rl_hr] = query.sum(:rl_hr)
-    result[:rr_ab] = query.sum(:rr_ab)
-    result[:rr_h]  = query.sum(:rr_h)
-    result[:rr_bb] = query.sum(:rr_bb)
-    result[:rr_hr] = query.sum(:rr_hr)
+    result[:ll_ab] = query.inject(0){|sum, x| sum + x.ll_ab.to_i}
+    result[:ll_h]  = query.inject(0){|sum, x| sum + x.ll_h.to_i}
+    result[:ll_bb] = query.inject(0){|sum, x| sum + x.ll_bb.to_i}
+    result[:ll_hr] = query.inject(0){|sum, x| sum + x.ll_hr.to_i}
+    result[:lr_ab] = query.inject(0){|sum, x| sum + x.lr_ab.to_i}
+    result[:lr_h]  = query.inject(0){|sum, x| sum + x.lr_h.to_i}
+    result[:lr_bb] = query.inject(0){|sum, x| sum + x.lr_bb.to_i}
+    result[:lr_hr] = query.inject(0){|sum, x| sum + x.lr_hr.to_i}
+    result[:rl_ab] = query.inject(0){|sum, x| sum + x.rl_ab.to_i}
+    result[:rl_h]  = query.inject(0){|sum, x| sum + x.rl_h.to_i}
+    result[:rl_bb] = query.inject(0){|sum, x| sum + x.rl_bb.to_i}
+    result[:rl_hr] = query.inject(0){|sum, x| sum + x.rl_hr.to_i}
+    result[:rr_ab] = query.inject(0){|sum, x| sum + x.rr_ab.to_i}
+    result[:rr_h]  = query.inject(0){|sum, x| sum + x.rr_h.to_i}
+    result[:rr_bb] = query.inject(0){|sum, x| sum + x.rr_bb.to_i}
+    result[:rr_hr] = query.inject(0){|sum, x| sum + x.rr_hr.to_i}
     return result
   end
 
