@@ -238,5 +238,10 @@ class GameController < ApplicationController
 		month = Date::MONTHNAMES[@game_day.month.to_i]
 		day = @game_day.day.to_s
 		@date = "#{month} #{day}"
+		@weathers = @game.weathers.where(station: "Actual").order(:hour)
+		@wind_dirs = []
+		@weathers.each do |weather|
+			@wind_dirs.push(weather.wind_dir)
+		end
 	end
 end

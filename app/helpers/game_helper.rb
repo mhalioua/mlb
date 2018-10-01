@@ -782,6 +782,34 @@ module GameHelper
     end
   end
 
+  def lr_filter(min, max, direction, name)
+    search_string = []
+    search_string.push('"Home_Team" = ' + "'#{name}'")
+    search_string.push('"Speed" >= ' + "'#{min}'")
+    result = {}
+    if max != 0
+      search_string.push('"Speed" <= ' + "'#{max}'")
+    end
+    query = Workbook.where(search_string.join(" AND ")).to_a
+    result[:ll_ab] = query.sum(:ll_ab)
+    result[:ll_h]  = query.sum(:ll_h)
+    result[:ll_bb] = query.sum(:ll_bb)
+    result[:ll_hr] = query.sum(:ll_hr)
+    result[:lr_ab] = query.sum(:lr_ab)
+    result[:lr_h]  = query.sum(:lr_h)
+    result[:lr_bb] = query.sum(:lr_bb)
+    result[:lr_hr] = query.sum(:lr_hr)
+    result[:rl_ab] = query.sum(:rl_ab)
+    result[:rl_h]  = query.sum(:rl_h)
+    result[:rl_bb] = query.sum(:rl_bb)
+    result[:rl_hr] = query.sum(:rl_hr)
+    result[:rr_ab] = query.sum(:rr_ab)
+    result[:rr_h]  = query.sum(:rr_h)
+    result[:rr_bb] = query.sum(:rr_bb)
+    result[:rr_hr] = query.sum(:rr_hr)
+    return result
+  end
+
   @@re = Hash[
     'ARI' => Hash[
       'North' => '',

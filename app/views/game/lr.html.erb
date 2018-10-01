@@ -18,11 +18,18 @@
 			<li class="list-group-item"><%= link_to(@date + ' Matchups', { controller: 'index', action: 'game', id: @game_day.id }) %></li>
 		</ul>
 
-    <%= render partial: "game/new/lr_table", locals: { min: 2, max: 6 } %>
-    <%= render partial: "game/new/lr_table", locals: { min: 4, max: 9 } %>
-    <%= render partial: "game/new/lr_table", locals: { min: 7, max: 12 } %>
-    <%= render partial: "game/new/lr_table", locals: { min: 10, max: 15 } %>
-    <%= render partial: "game/new/lr_table", locals: { min: 13, max: 20 } %>
-    <%= render partial: "game/new/lr_table", locals: { min: 18, max: 0 } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 2, max: 6, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 4, max: 9, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 7, max: 12, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 10, max: 15, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 13, max: 20, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 18, max: 0, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
+
+    <%= render partial: "game/new/lr_table", locals: { min: 2, max: 6, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 4, max: 9, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 7, max: 12, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 10, max: 15, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 13, max: 20, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 18, max: 0, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
 	</div>
 </div>
