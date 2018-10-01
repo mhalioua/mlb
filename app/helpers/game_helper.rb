@@ -785,12 +785,13 @@ module GameHelper
   def lr_filter(min, max, direction, name)
     search_string = []
     search_string.push('"Home_Team" = ' + "'#{name}'")
+    search_string.push('"Direction" = ' + "'#{direction}'")
     search_string.push('"Speed" >= ' + "'#{min}'")
     result = {}
     if max != 0
       search_string.push('"Speed" <= ' + "'#{max}'")
     end
-    query = Workbook.where(search_string.join(" AND ")).to_a
+    query = Newworkbook.where(search_string.join(" AND ")).to_a
     result[:ll_ab] = query.sum(:ll_ab)
     result[:ll_h]  = query.sum(:ll_h)
     result[:ll_bb] = query.sum(:ll_bb)

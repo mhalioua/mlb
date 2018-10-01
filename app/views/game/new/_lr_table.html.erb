@@ -104,6 +104,12 @@
         r_ave = r_ab ? (r_h / r_ab) : 0
         r_obp = (r_ab + r_bb) ? ((r_h + r_bb) / (r_ab + r_bb)) : 0
       end
+
+      total_ab = result[:ll_ab] + result[:rl_ab] + result[:lr_ab] + result[:rr_ab]
+      total_h  = result[:ll_h]  + result[:rl_h] + result[:lr_h]  + result[:rr_h]
+      total_bb = result[:ll_bb] + result[:rl_bb] + result[:lr_bb] + result[:rr_bb]
+      total_ave = total_ab ? (total_h / total_ab) : 0
+      total_obp = (total_ab + total_bb) ? ((total_h + total_bb) / (total_ab + total_bb)) : 0
       row_style = ''
       row_style = 'background: red' if wind_dirs.include? direction
     %>
@@ -124,8 +130,8 @@
         <td><%= r_ave %></td>
         <td><%= r_obp %></td>
         <td style="background: green"></td>
-        <td></td>
-        <td></td>
+        <td><%= total_ave %></td>
+        <td><%= total_obp %></td>
       </tr>
     <% end %>
   </tbody>
