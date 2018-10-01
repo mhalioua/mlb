@@ -83,33 +83,33 @@
         l_ab = result[:ll_ab] + result[:rl_ab]
         l_h  = result[:ll_h]  + result[:rl_h]
         l_bb = result[:ll_bb] + result[:rl_bb]
-        l_ave = l_ab != 0 ? (l_h / l_ab) : 0
-        l_obp = (l_ab + l_bb) != 0 ? ((l_h + l_bb) / (l_ab + l_bb)) : 0
+        l_ave = l_ab != 0 ? (l_h.to_f / l_ab).round(3) : 0
+        l_obp = (l_ab + l_bb) != 0 ? ((l_h + l_bb).to_f / (l_ab + l_bb)).round(3) : 0
 
         r_ab = result[:lr_ab] + result[:rr_ab]
         r_h  = result[:lr_h]  + result[:rr_h]
         r_bb = result[:lr_bb] + result[:rr_bb]
-        r_ave = r_ab != 0 ? (r_h / r_ab) : 0
-        r_obp = (r_ab + r_bb) != 0 ? ((r_h + r_bb) / (r_ab + r_bb)) : 0
+        r_ave = r_ab != 0 ? (r_h.to_f / r_ab).round(3) : 0
+        r_obp = (r_ab + r_bb) != 0 ? ((r_h + r_bb).to_f / (r_ab + r_bb)).round(3) : 0
       else
         l_ab = result[:ll_ab] + result[:lr_ab]
         l_h  = result[:ll_h]  + result[:lr_h]
         l_bb = result[:ll_bb] + result[:lr_bb]
-        l_ave = l_ab != 0 ? (l_h / l_ab) : 0
-        l_obp = (l_ab + l_bb) != 0 ? ((l_h + l_bb) / (l_ab + l_bb)) : 0
+        l_ave = l_ab != 0 ? (l_h.to_f / l_ab).round(3) : 0
+        l_obp = (l_ab + l_bb) != 0 ? ((l_h + l_bb).to_f / (l_ab + l_bb)).round(3) : 0
 
         r_ab = result[:rl_ab] + result[:rr_ab]
         r_h  = result[:rl_h]  + result[:rr_h]
         r_bb = result[:rl_bb] + result[:rr_bb]
-        r_ave = r_ab != 0 ? (r_h / r_ab) : 0
-        r_obp = (r_ab + r_bb) != 0 ? ((r_h + r_bb) / (r_ab + r_bb)) : 0
+        r_ave = r_ab != 0 ? (r_h.to_f / r_ab).round(3) : 0
+        r_obp = (r_ab + r_bb) != 0 ? ((r_h + r_bb).to_f / (r_ab + r_bb)).round(3) : 0
       end
 
       total_ab = result[:ll_ab] + result[:rl_ab] + result[:lr_ab] + result[:rr_ab]
       total_h  = result[:ll_h]  + result[:rl_h] + result[:lr_h]  + result[:rr_h]
       total_bb = result[:ll_bb] + result[:rl_bb] + result[:lr_bb] + result[:rr_bb]
-      total_ave = total_ab != 0 ? (total_h / total_ab) : 0
-      total_obp = (total_ab + total_bb) != 0 ? ((total_h + total_bb) / (total_ab + total_bb)) : 0
+      total_ave = total_ab != 0 ? (total_h.to_f / total_ab).round(3) : 0
+      total_obp = (total_ab + total_bb) != 0 ? ((total_h + total_bb).to_f / (total_ab + total_bb)).round(3) : 0
       row_style = ''
       row_style = 'background: red' if wind_dirs.include? direction
     %>
