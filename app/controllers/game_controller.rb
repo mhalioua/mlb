@@ -74,6 +74,11 @@ class GameController < ApplicationController
 		@home_hitters = @game.hitters.where(team_id: @home_team.id).order(:index)
 
 		@playbyplay = @game.playbyplays.first
+
+		@wind_dirs = []
+		@weathers.each do |weather|
+			@wind_dirs.push(weather.wind_dir)
+		end
 	end
 
 	def weather
