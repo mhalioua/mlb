@@ -105,11 +105,9 @@
         r_obp = (r_ab + r_bb) != 0 ? ((r_h + r_bb).to_f / (r_ab + r_bb)).round(3) : 0
       end
 
-      total_ab = result[:ll_ab] + result[:rl_ab] + result[:lr_ab] + result[:rr_ab]
-      total_h  = result[:ll_h]  + result[:rl_h] + result[:lr_h]  + result[:rr_h]
-      total_bb = result[:ll_bb] + result[:rl_bb] + result[:lr_bb] + result[:rr_bb]
-      total_ave = total_ab != 0 ? (total_h.to_f / total_ab).round(3) : 0
-      total_obp = (total_ab + total_bb) != 0 ? ((total_h + total_bb).to_f / (total_ab + total_bb)).round(3) : 0
+      total_ave = l_ave - r_ave
+      total_obp = l_obp - r_obp
+
       row_style = ''
       row_style = 'background: red' if wind_dirs.include? direction
     %>
