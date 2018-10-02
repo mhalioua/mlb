@@ -105,8 +105,8 @@
         r_obp = (r_ab + r_bb) != 0 ? ((r_h + r_bb).to_f / (r_ab + r_bb)).round(3) : 0
       end
 
-      total_ave = l_ave - r_ave
-      total_obp = l_obp - r_obp
+      total_ave = (l_ave - r_ave).round(3)
+      total_obp = (l_obp - r_obp).round(3)
 
       row_style = ''
       row_style = 'background: red' if wind_dirs.include? direction
