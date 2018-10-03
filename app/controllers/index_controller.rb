@@ -20,4 +20,12 @@ class IndexController < ApplicationController
 		@head = "#{game_day.strftime("%B")} #{game_day.strftime("%e").to_i.ordinalize}"
 		@games = Game.where(game_day_id: @gameDays.map{|gameDay| gameDay.id }).sort_by{|game| (DateTime.parse(game.game_date) - game.home_team.timezone.hours) }
 	end
+
+	def lr
+		@teams = Team.all
+	end
+
+	def stadium
+		@team = Team.find(params[:id])
+	end
 end

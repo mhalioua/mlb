@@ -21,7 +21,7 @@ module Create
       end
 
       def set_bullpen(game_day)
-        url = "http://www.baseballpress.com/bullpenusage/%d-%s-%02d" % [game_day.year, game_day.month, game_day.day]
+        url = "http://www.baseballpress.com/bullpen-usage/%d-%s-%02d" % [game_day.year, game_day.month, game_day.day]
         puts url
         doc = download_document(url)
 
