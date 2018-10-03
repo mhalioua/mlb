@@ -139,46 +139,61 @@
     <%
       table_data.each do |element|
         row_style = ''
-        if wind_dirs.include? element.direction
+        if wind_dirs.include? element[:direction]
           if type == 'PITCHERS'
             row_style = 'background: hotpink'
           else
             row_style = 'background: rgb(0, 233, 208)'
           end
         end
+
         ave_style = ''
-        if element.total_ave > 0
+        if element[:total_ave] > 0
           ave_style = 'background: #FFFFCC'
-          if element.total_ave >= one_value
+          if element[:total_ave] >= one_value
             ave_style = 'background: #FFD700'
           end
         end
-        if element.total_ave < 0
+        if element[:total_ave] < 0
           ave_style = 'background: #CCCCFF'
-          if element.total_ave >= one_value
+          if element[:total_ave] >= one_value
             ave_style = 'background: #6495ED'
+          end
+        end
+
+        obp_style = ''
+        if element[:total_obp] > 0
+          obp_style = 'background: #FFFFCC'
+          if element[:total_obp] >= two_value
+            obp_style = 'background: #FFD700'
+          end
+        end
+        if element[:total_obp] < 0
+          obp_style = 'background: #CCCCFF'
+          if element[:total_obp] >= two_value
+            obp_style = 'background: #6495ED'
           end
         end
     %>
       <tr style="<%= row_style %>">
         <td><%= team.name %></td>
         <td><%= caption %></td>
-        <td><%= element.direction %></td>
+        <td><%= element[:direction] %></td>
         <td style="background: green"></td>
-        <td><%= element.l_ab %></td>
-        <td><%= element.l_h %></td>
-        <td><%= element.l_bb %></td>
-        <td style="background: rgb(0, 233, 208)"><%= element.l_ave %></td>
-        <td><%= element.l_obp %></td>
+        <td><%= element[:l_ab] %></td>
+        <td><%= element[:l_h] %></td>
+        <td><%= element[:l_bb] %></td>
+        <td style="background: rgb(0, 233, 208)"><%= element[:l_ave] %></td>
+        <td><%= element[:l_obp] %></td>
         <td style="background: green"></td>
-        <td><%= element.r_ab %></td>
-        <td><%= element.r_h %></td>
-        <td><%= element.r_bb %></td>
-        <td style="background: rgb(0, 233, 208)"><%= element.r_ave %></td>
-        <td><%= element.r_obp %></td>
+        <td><%= element[:r_ab] %></td>
+        <td><%= element[:r_h] %></td>
+        <td><%= element[:r_bb] %></td>
+        <td style="background: rgb(0, 233, 208)"><%= element[:r_ave] %></td>
+        <td><%= element[:r_obp] %></td>
         <td style="background: green"></td>
-        <td style="<%= ave_style %>"><%= element.total_ave %></td>
-        <td><%= element.total_obp %></td>
+        <td style="<%= ave_style %>"><%= element[:total_ave] %></td>
+        <td style="<%= obp_style %>"><%= element[:total_obp] %></td>
       </tr>
     <% end %>
   </tbody>
