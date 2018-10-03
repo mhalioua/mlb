@@ -87,13 +87,13 @@
         :total_obp => total_obp,
         :direction => direction
       })
-    one_array = table_data.sort {|x, y| y[:total_ave] <=> x[:total_ave]}
-    one_value = one_array[3][1]
-    one_value_dup = one_array[-4][1]
-    two_array = table_data.sort {|x, y| y[:total_obp] <=> x[:total_obp]}
-    two_value = two_array[3][1]
-    two_value_dup = two_array[-4][1]
   end
+  one_array = table_data.sort {|x, y| y[:total_ave] <=> x[:total_ave]}
+  one_value = one_array[3][1]
+  one_value_dup = one_array[-4][1]
+  two_array = table_data.sort {|x, y| y[:total_obp] <=> x[:total_obp]}
+  two_value = two_array[3][1]
+  two_value_dup = two_array[-4][1]
 %>
 
 <table class="table-bordered" style="width: 49%; display: inline-block;">
@@ -177,7 +177,7 @@
         <td style="background: rgb(0, 233, 208)"><%= element.r_ave %></td>
         <td><%= element.r_obp %></td>
         <td style="background: green"></td>
-        <td><%= element.total_ave %></td>
+        <td style="<%= ave_style %>"><%= element.total_ave %></td>
         <td><%= element.total_obp %></td>
       </tr>
     <% end %>
