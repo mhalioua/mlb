@@ -24,6 +24,76 @@
     flag = 'HP'
     header_style = 'background: rgb(0, 233, 208)'
   end
+  table_data = []
+
+  directions.each do |direction|
+    result = lr_filter(min, max, direction, team.name)
+    l_ab = 0
+    l_h  = 0
+    l_bb = 0
+    l_ave = 0
+    l_obp = 0
+    r_ab = 0
+    r_h  = 0
+    r_bb = 0
+    r_ave = 0
+    r_obp = 0
+    total_ave = 0
+    total_obp = 0
+    if type == 'PITCHERS'
+      l_ab = result[:ll_ab] + result[:rl_ab]
+      l_h  = result[:ll_h]  + result[:rl_h]
+      l_bb = result[:ll_bb] + result[:rl_bb]
+      l_ave = l_ab != 0 ? (l_h.to_f / l_ab).round(3) : 0
+      l_obp = (l_ab + l_bb) != 0 ? ((l_h + l_bb).to_f / (l_ab + l_bb)).round(3) : 0
+
+      r_ab = result[:lr_ab] + result[:rr_ab]
+      r_h  = result[:lr_h]  + result[:rr_h]
+      r_bb = result[:lr_bb] + result[:rr_bb]
+      r_ave = r_ab != 0 ? (r_h.to_f / r_ab).round(3) : 0
+      r_obp = (r_ab + r_bb) != 0 ? ((r_h + r_bb).to_f / (r_ab + r_bb)).round(3) : 0
+
+      total_ave = ((r_ave - l_ave) * 1000).round
+      total_obp = ((r_obp - l_obp) * 1000).round
+    else
+      l_ab = result[:ll_ab] + result[:lr_ab]
+      l_h  = result[:ll_h]  + result[:lr_h]
+      l_bb = result[:ll_bb] + result[:lr_bb]
+      l_ave = l_ab != 0 ? (l_h.to_f / l_ab).round(3) : 0
+      l_obp = (l_ab + l_bb) != 0 ? ((l_h + l_bb).to_f / (l_ab + l_bb)).round(3) : 0
+
+      r_ab = result[:rl_ab] + result[:rr_ab]
+      r_h  = result[:rl_h]  + result[:rr_h]
+      r_bb = result[:rl_bb] + result[:rr_bb]
+      r_ave = r_ab != 0 ? (r_h.to_f / r_ab).round(3) : 0
+      r_obp = (r_ab + r_bb) != 0 ? ((r_h + r_bb).to_f / (r_ab + r_bb)).round(3) : 0
+
+      total_ave = ((l_ave - r_ave) * 1000).round
+      total_obp = ((l_obp - r_obp) * 1000).round
+    end
+    table_data.push(
+      {
+        :l_ab => l_ab,
+        :l_h => l_h,
+        :l_bb => l_bb,
+        :l_ave => l_ave,
+        :l_obp => l_obp,
+        :r_ab => r_ab,
+        :r_h => r_h,
+        :r_bb => r_bb,
+        :r_ave => r_ave,
+        :r_obp => r_obp,
+        :total_ave => total_ave,
+        :total_obp => total_obp,
+        :direction => direction
+      })
+    one_array = table_data.sort {|x, y| y['total_ave'] <=> x['total_ave']}
+    one_value = one_array[3][1]
+    one_value_dup = one_array[-4][1]
+    two_array = table_data.sort {|x, y| y['total_obp'] <=> x['total_obp']}
+    two_value = two_array[3][1]
+    two_value_dup = two_array[-4][1]
+  end
 %>
 
 <table class="table-bordered" style="width: 49%; display: inline-block;">
@@ -67,80 +137,35 @@
   </thead>
   <tbody>
     <%
-      directions.each do |direction|
-      result = lr_filter(min, max, direction, team.name)
-      l_ab = 0
-      l_h  = 0
-      l_bb = 0
-      l_ave = 0
-      l_obp = 0
-      r_ab = 0
-      r_h  = 0
-      r_bb = 0
-      r_ave = 0
-      r_obp = 0
-      total_ave = 0
-      total_obp = 0
-      if type == 'PITCHERS'
-        l_ab = result[:ll_ab] + result[:rl_ab]
-        l_h  = result[:ll_h]  + result[:rl_h]
-        l_bb = result[:ll_bb] + result[:rl_bb]
-        l_ave = l_ab != 0 ? (l_h.to_f / l_ab).round(3) : 0
-        l_obp = (l_ab + l_bb) != 0 ? ((l_h + l_bb).to_f / (l_ab + l_bb)).round(3) : 0
-
-        r_ab = result[:lr_ab] + result[:rr_ab]
-        r_h  = result[:lr_h]  + result[:rr_h]
-        r_bb = result[:lr_bb] + result[:rr_bb]
-        r_ave = r_ab != 0 ? (r_h.to_f / r_ab).round(3) : 0
-        r_obp = (r_ab + r_bb) != 0 ? ((r_h + r_bb).to_f / (r_ab + r_bb)).round(3) : 0
-
-        total_ave = ((r_ave - l_ave) * 1000).round
-        total_obp = ((r_obp - l_obp) * 1000).round
-      else
-        l_ab = result[:ll_ab] + result[:lr_ab]
-        l_h  = result[:ll_h]  + result[:lr_h]
-        l_bb = result[:ll_bb] + result[:lr_bb]
-        l_ave = l_ab != 0 ? (l_h.to_f / l_ab).round(3) : 0
-        l_obp = (l_ab + l_bb) != 0 ? ((l_h + l_bb).to_f / (l_ab + l_bb)).round(3) : 0
-
-        r_ab = result[:rl_ab] + result[:rr_ab]
-        r_h  = result[:rl_h]  + result[:rr_h]
-        r_bb = result[:rl_bb] + result[:rr_bb]
-        r_ave = r_ab != 0 ? (r_h.to_f / r_ab).round(3) : 0
-        r_obp = (r_ab + r_bb) != 0 ? ((r_h + r_bb).to_f / (r_ab + r_bb)).round(3) : 0
-
-        total_ave = ((l_ave - r_ave) * 1000).round
-        total_obp = ((l_obp - r_obp) * 1000).round
-      end
-
-      row_style = ''
-      if wind_dirs.include? direction
-        if type == 'PITCHERS'
-          row_style = 'background: hotpink'
-        else
-          row_style = 'background: rgb(0, 233, 208)'
+      table_data.each do |element|
+        row_style = ''
+        if wind_dirs.include? element.direction
+          if type == 'PITCHERS'
+            row_style = 'background: hotpink'
+          else
+            row_style = 'background: rgb(0, 233, 208)'
+          end
         end
-      end
     %>
       <tr style="<%= row_style %>">
         <td><%= team.name %></td>
         <td><%= caption %></td>
-        <td><%= direction %></td>
+        <td><%= element.direction %></td>
         <td style="background: green"></td>
-        <td><%= l_ab %></td>
-        <td><%= l_h %></td>
-        <td><%= l_bb %></td>
-        <td style="background: rgb(0, 233, 208)"><%= l_ave %></td>
-        <td><%= l_obp %></td>
+        <td><%= element.l_ab %></td>
+        <td><%= element.l_h %></td>
+        <td><%= element.l_bb %></td>
+        <td style="background: rgb(0, 233, 208)"><%= element.l_ave %></td>
+        <td><%= element.l_obp %></td>
         <td style="background: green"></td>
-        <td><%= r_ab %></td>
-        <td><%= r_h %></td>
-        <td><%= r_bb %></td>
-        <td style="background: rgb(0, 233, 208)"><%= r_ave %></td>
-        <td><%= r_obp %></td>
+        <td><%= element.r_ab %></td>
+        <td><%= element.r_h %></td>
+        <td><%= element.r_bb %></td>
+        <td style="background: rgb(0, 233, 208)"><%= element.r_ave %></td>
+        <td><%= element.r_obp %></td>
         <td style="background: green"></td>
-        <td><%= total_ave %></td>
-        <td><%= total_obp %></td>
+        <td><%= element.otal_ave %></td>
+        <td><%= element.otal_obp %></td>
       </tr>
     <% end %>
   </tbody>
