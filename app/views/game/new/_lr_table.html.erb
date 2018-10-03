@@ -114,7 +114,13 @@
       end
 
       row_style = ''
-      row_style = 'background: red' if wind_dirs.include? direction
+      if wind_dirs.include? direction
+        if type == 'PITCHERS'
+          row_style = 'background: hotpink'
+        else
+          row_style = 'background: rgb(0, 233, 208)'
+        end
+      end
     %>
       <tr style="<%= row_style %>">
         <td><%= team.name %></td>
