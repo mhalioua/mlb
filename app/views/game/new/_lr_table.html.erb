@@ -146,6 +146,12 @@
             row_style = 'background: rgb(0, 233, 208)'
           end
         end
+        ave_style = ''
+        if element.total_ave > 0
+          if element.total_ave >= one_value
+            ave_style = 'background: #FFD700'
+          end
+        end
     %>
       <tr style="<%= row_style %>">
         <td><%= team.name %></td>
@@ -164,8 +170,8 @@
         <td style="background: rgb(0, 233, 208)"><%= element.r_ave %></td>
         <td><%= element.r_obp %></td>
         <td style="background: green"></td>
-        <td><%= element.otal_ave %></td>
-        <td><%= element.otal_obp %></td>
+        <td><%= element.total_ave %></td>
+        <td><%= element.total_obp %></td>
       </tr>
     <% end %>
   </tbody>
