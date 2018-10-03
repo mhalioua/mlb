@@ -156,7 +156,7 @@
         end
         if element[:total_ave] < 0
           ave_style = 'background: #CCCCFF'
-          if element[:total_ave] >= one_value
+          if element[:total_ave] <= one_value_dup
             ave_style = 'background: #6495ED'
           end
         end
@@ -170,7 +170,7 @@
         end
         if element[:total_obp] < 0
           obp_style = 'background: #CCCCFF'
-          if element[:total_obp] >= two_value
+          if element[:total_obp] <= two_value_dup
             obp_style = 'background: #6495ED'
           end
         end
