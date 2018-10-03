@@ -552,7 +552,7 @@ module Update
     def parse_identity(element)
       href = element.children[0]['href']
       href = element.children[1]['href'] if href == nil
-      href[36..href.rindex("/") - 1]
+      href[36..-1]
     end
 
     def parse_name(element)
