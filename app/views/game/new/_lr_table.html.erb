@@ -87,10 +87,10 @@
         :total_obp => total_obp,
         :direction => direction
       })
-    one_array = table_data.sort {|x, y| y['total_ave'] <=> x['total_ave']}
+    one_array = table_data.sort {|x, y| y[:total_ave] <=> x[:total_ave]}
     one_value = one_array[3][1]
     one_value_dup = one_array[-4][1]
-    two_array = table_data.sort {|x, y| y['total_obp'] <=> x['total_obp']}
+    two_array = table_data.sort {|x, y| y[:total_obp] <=> x[:total_obp]}
     two_value = two_array[3][1]
     two_value_dup = two_array[-4][1]
   end
@@ -148,8 +148,15 @@
         end
         ave_style = ''
         if element.total_ave > 0
+          ave_style = 'background: #FFFFCC'
           if element.total_ave >= one_value
             ave_style = 'background: #FFD700'
+          end
+        end
+        if element.total_ave < 0
+          ave_style = 'background: #CCCCFF'
+          if element.total_ave >= one_value
+            ave_style = 'background: #6495ED'
           end
         end
     %>
