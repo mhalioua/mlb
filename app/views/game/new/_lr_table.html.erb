@@ -22,7 +22,7 @@
   header_style = 'background: darkorange'
   if type == 'PITCHERS'
     flag = 'HP'
-    header_style = 'background: rgb(0, 233, 208)'
+    header_style = 'background: cyan'
   end
   table_data = []
 
@@ -122,13 +122,13 @@
       <th>L<%= flag %> AB's</th>
       <th>L<%= flag %> hits</th>
       <th>L<%= flag %> bb's</th>
-      <th style="background: rgb(0, 233, 208)">L<%= flag %> AVE</th>
+      <th style="background: cyan">L<%= flag %> AVE</th>
       <th>L<%= flag %> OBP</th>
       <th style="background: green"></th>
       <th>R<%= flag %> AB's</th>
       <th>R<%= flag %> hits</th>
       <th>R<%= flag %> bb's</th>
-      <th style="background: rgb(0, 233, 208)">R<%= flag %> AVE</th>
+      <th style="background: cyan">R<%= flag %> AVE</th>
       <th>R<%= flag %> OBP</th>
       <th style="background: green"></th>
       <th>+/- AVE</th>
@@ -143,7 +143,7 @@
           if type == 'PITCHERS'
             row_style = 'background: hotpink'
           else
-            row_style = 'background: rgb(0, 233, 208)'
+            row_style = 'background: cyan'
           end
         end
 
@@ -183,13 +183,13 @@
         <td><%= element[:l_ab] %></td>
         <td><%= element[:l_h] %></td>
         <td><%= element[:l_bb] %></td>
-        <td style="background: rgb(0, 233, 208)"><%= element[:l_ave] %></td>
+        <td style="background: cyan"><%= element[:l_ave] %></td>
         <td><%= element[:l_obp] %></td>
         <td style="background: green"></td>
         <td><%= element[:r_ab] %></td>
         <td><%= element[:r_h] %></td>
         <td><%= element[:r_bb] %></td>
-        <td style="background: rgb(0, 233, 208)"><%= element[:r_ave] %></td>
+        <td style="background: cyan"><%= element[:r_ave] %></td>
         <td><%= element[:r_obp] %></td>
         <td style="background: green"></td>
         <td style="<%= ave_style %>"><%= element[:total_ave] %></td>
