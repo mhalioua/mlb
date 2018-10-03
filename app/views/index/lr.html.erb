@@ -1,7 +1,7 @@
-<table>
+<table class="table-bordered">
 <% @teams.each_with_index do |team, index| %>
   <tr>
-    <td><%= index %></td>
+    <td><%= index + 1 %></td>
     <td><%= link_to team.stadium, { controller: 'index', action: 'stadium', id: team.id } %></td>
   </tr>
 <% end %>

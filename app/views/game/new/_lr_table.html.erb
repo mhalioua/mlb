@@ -94,8 +94,8 @@
         r_ave = r_ab != 0 ? (r_h.to_f / r_ab).round(3) : 0
         r_obp = (r_ab + r_bb) != 0 ? ((r_h + r_bb).to_f / (r_ab + r_bb)).round(3) : 0
 
-        total_ave = (r_ave - l_ave).round(3) * 1000
-        total_obp = (r_obp - l_obp).round(3) * 1000
+        total_ave = ((r_ave - l_ave) * 1000).round
+        total_obp = ((r_obp - l_obp) * 1000).round
       else
         l_ab = result[:ll_ab] + result[:lr_ab]
         l_h  = result[:ll_h]  + result[:lr_h]
@@ -109,8 +109,8 @@
         r_ave = r_ab != 0 ? (r_h.to_f / r_ab).round(3) : 0
         r_obp = (r_ab + r_bb) != 0 ? ((r_h + r_bb).to_f / (r_ab + r_bb)).round(3) : 0
 
-        total_ave = (l_ave - r_ave).round(3) * 1000
-        total_obp = (l_obp - r_obp).round(3) * 1000
+        total_ave = ((l_ave - r_ave) * 1000).round
+        total_obp = ((l_obp - r_obp) * 1000).round
       end
 
       row_style = ''
