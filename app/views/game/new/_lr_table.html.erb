@@ -89,11 +89,11 @@
       })
   end
   one_array = table_data.sort {|x, y| y[:total_ave] <=> x[:total_ave]}
-  one_value = one_array[3][1]
-  one_value_dup = one_array[-4][1]
+  one_value = one_array[3][:total_ave]
+  one_value_dup = one_array[-4][:total_ave]
   two_array = table_data.sort {|x, y| y[:total_obp] <=> x[:total_obp]}
-  two_value = two_array[3][1]
-  two_value_dup = two_array[-4][1]
+  two_value = two_array[3][:total_obp]
+  two_value_dup = two_array[-4][:total_obp]
 %>
 
 <table class="table-bordered" style="width: 49%; display: inline-block;">
