@@ -591,6 +591,7 @@ module Update
         er = row.children[4].text.to_i
         bb = row.children[5].text.to_i
         k = row.children[6].text.to_i
+        pc = row.children[7].text.split('-')[0].to_i
         if index == 0
           player = Player.search(name, identity)
           unless player
@@ -605,7 +606,7 @@ module Update
           lancer.update(ip: ip, h: h, r: r, bb: bb)
         end
         pitcher = game.pitchers.find_or_create_by(index: index, team: team)
-        pitcher.update(name: name, hand: hand, identity: identity, ip: ip, h: h, r: r, bb: bb, er: er, k: k)
+        pitcher.update(name: name, hand: hand, identity: identity, ip: ip, h: h, r: r, bb: bb, er: er, k: k, pc: pc)
       end
     end
 

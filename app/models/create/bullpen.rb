@@ -11,7 +11,7 @@ module Create
 
     private
 
-      @@bullpen_teams = [1, 2, 3, 4, 12, 13, 17, 21, 22, 23, 26, 27, 28, 29, 30, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 18, 19, 20, 24, 25]
+      # @@bullpen_teams = [1, 2, 3, 4, 12, 13, 17, 21, 22, 23, 26, 27, 28, 29, 30, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 18, 19, 20, 24, 25]
 
       # def pitcher_info(element)
       #   name = element.child.text
@@ -74,6 +74,7 @@ module Create
             player.update(team_id: pitcher.team_id)
             lancer = player.create_lancer(season)
             lancer.update(bullpen: true)
+            lancer.update(pitches: pitcher.pc)
           end
         end
       end
