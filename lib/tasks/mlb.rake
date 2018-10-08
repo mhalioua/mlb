@@ -31,6 +31,13 @@ namespace :mlb do
     Season.where("year <= 2018").map { |season| season.create_games }
   end
 
+  task prev_matchups: :environment do
+    (1..10).each do |index|
+      game_day = GameDay.yesterday.previous_days(index)
+      game_day.create_matchups
+    end
+  end
+
   task create_matchups: :environment do
     [GameDay.yesterday, GameDay.today, GameDay.tomorrow].each { |game_day| game_day.create_matchups }
   end
