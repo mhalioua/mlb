@@ -46,6 +46,10 @@ namespace :mlb do
     [GameDay.yesterday, GameDay.today, GameDay.tomorrow].each { |game_day| game_day.create_matchups }
   end
 
+  task create_bullpen: :environment do
+    [GameDay.yesterday, GameDay.today, GameDay.tomorrow].each { |game_day| game_day.create_bullpen }
+  end
+
   task prev_pitchers: :environment do
     [GameDay.today].each { |game_day| game_day.prev_pitchers }
   end
