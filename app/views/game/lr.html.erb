@@ -18,7 +18,7 @@
 			<li class="list-group-item"><%= link_to(@date + ' Matchups', { controller: 'index', action: 'game', id: @game_day.id }) %></li>
 		</ul>
 
-    <div class="image">
+    <div>
       <%= image_tag(@image_url, :width => '600') %>
       <h2><%= @home_team.stadium + " Zipcode: " + @home_team.zipcode %></h2>
     </div>
