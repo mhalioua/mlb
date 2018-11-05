@@ -59,7 +59,7 @@ module Create
           doc = download_document(url)
           element = doc.css(".game-date-time").first
           game_date = element.children[1]['data-date']
-          date = DateTime.parse(game_date) - 4.hours + home_team.timezone.hours
+          date = DateTime.parse(game_date) - 5.hours + home_team.timezone.hours
           game = Game.find_or_create_by(game_id: game_id)
           gameDay = GameDay.find_or_create_by(season: game_day.season, date: date)
           game.update(game_day: gameDay, away_team: away_team, home_team: home_team, game_date: date)
