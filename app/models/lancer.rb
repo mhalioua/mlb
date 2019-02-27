@@ -154,6 +154,7 @@ class Lancer < ApplicationRecord
     .where(player: player, starter: true)
     .where("game_days.date < ?", game.game_day.date)
     .where.not("game_days.date between ? and ?", Date.new(2017, 11, 2), Date.new(2018, 3, 28))
+    .where.not("game_days.date between ? and ?", Date.new(2018, 10, 29), Date.new(2019, 3, 19))
     .where('ip is not null')
     .order("game_days.date DESC")
     .limit(60)
