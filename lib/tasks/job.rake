@@ -12,7 +12,9 @@ namespace :job do
     elements = doc.css("tr tr tbody tr")
     elements.each_with_index do |element, index|
       puts element.children[1].children[0].children[0].text
-      puts element.children[1].children[0].children[0]['href']
+      href = element.children[1].children[0].children[0]['href']
+      puts href
+      puts href[href.rindex("/")+1..-1] if href
       puts element.children[3].text
       puts element.children[4].text
       puts element.children[5].text

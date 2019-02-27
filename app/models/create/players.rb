@@ -147,7 +147,7 @@ module Create
 
     def parse_identity(element)
       href = element['href']
-      href[36..href.rindex("/")-1] if href
+      href[href.rindex("/")+1..-1] if href
     end
 
     def parse_fangraph_id(element)
