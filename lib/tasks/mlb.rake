@@ -90,7 +90,7 @@ namespace :mlb do
     GameDay.yesterday.play_by_play
   end
 
-  task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs, :update_game_status]
+  task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs]
 
   task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout]
 

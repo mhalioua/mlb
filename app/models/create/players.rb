@@ -8,12 +8,11 @@ module Create
       puts url
 
       doc = download_document(url)
-      rows = doc.css("tr.oddrow, tr.evenrow")
+      rows = doc.css("tr tr tbody tr")
 
-      rows.each_with_index do |element, index|
-        next if element.children.size == 1
-        name = element.children[1].child.text
-        identity = parse_identity(element.children[1])
+      rows.each do |element|
+        name = element.children[1].children[0].children[0].text
+        identity = parse_identity(element.children[1].children[0].children[0])
         bathand = element.children[3].text
         throwhand = element.children[4].text
         age = element.children[5].text
@@ -21,6 +20,9 @@ module Create
           player = Player.create(name: name, identity: identity)
           puts "Player " + player.name + " created"
         end
+        puts bathand
+        puts throwhand
+        puts age
         player.update(team: team, bathand: bathand, throwhand: throwhand, age: age)
       end
     end
@@ -144,7 +146,7 @@ module Create
   private
 
     def parse_identity(element)
-      href = element.child['href']
+      href = element['href']
       href[36..href.rindex("/")-1] if href
     end
 

@@ -4,34 +4,18 @@ namespace :job do
 
   task :test => :environment do
     include GetHtml
-    url = "https://www.baseball-reference.com/boxes/ARI/ARI201403230.shtml"
+    url = "http://www.espn.com/mlb/team/roster/_/name/LAA"
     puts url
 
     doc = download_document(url)
     next unless doc
-    doc.xpath('//comment()').each {|comment| comment.replace(comment.text)}
-    elements = doc.css('.table_outer_container table')
-    elements[0..3].each_with_index do |element, flag|
-      element.children[6].children.each_with_index do |tr, index|
-        next if index % 2 == 0
-        name = tr.children[0]
-        name_link = name.children[0]
-        name_link = name.children[1] if name.children.length == 3
-        puts name_link
-        player_name = name_link.children[0]
-        player_link = "https://www.baseball-reference.com/#{name_link['href']}"
-        player_info = download_document(player_link)
-        next unless player_info
-        player_data = player_info.css('#meta')
-        player_data = player_data.children[3].text.squish
-        if flag < 2
-          index = player_data.index('Bats: ')
-          puts player_data[index + 6]
-        else
-          index = player_data.index('Throws: ')
-          puts player_data[index + 8]
-        end
-      end
+    elements = doc.css("tr tr tbody tr")
+    elements.each_with_index do |element, index|
+      puts element.children[1].children[0].children[0].text
+      puts element.children[1].children[0].children[0]['href']
+      puts element.children[3].text
+      puts element.children[4].text
+      puts element.children[5].text
     end
   end
 
