@@ -59,7 +59,7 @@ module Update
           if check_pitcher.length != 0
             pitcher_flag = check_pitcher[0].hand.downcase
             if pitcher_flag == ''
-              if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Hutchison' || name == 'Robinson' || name == 'Brice' || name == 'Gentry' || name == 'Krieger'
+              if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Hutchison' || name == 'Robinson' || name == 'Brice' || name == 'Gentry' || name == 'Krieger' || name == 'Tom' || name == 'Friis'
                 pitcher_flag = 'r'
               elsif name == 'Coulombe' || name == 'Grills'
                 pitcher_flag = 'l'
@@ -72,9 +72,9 @@ module Update
             if batter_flag == ''
               if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Robinson' || name == 'Brice' || name == 'Gentry'
                 batter_flag = 'r'
-              elsif name == 'Coulombe' || name == 'Hutchison' || name == 'Grills'
+              elsif name == 'Coulombe' || name == 'Hutchison' || name == 'Grills' || name == 'Tom'
                 batter_flag = 'l'
-              elsif name == 'Krieger'
+              elsif name == 'Krieger' || name == 'Friis'
                 batter_flag = 'b'
               else
                 puts "Batter" + name
