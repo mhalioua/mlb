@@ -69,6 +69,7 @@ module Update
             end
           elsif check_batter.length != 0
             batter_flag = check_batter[0].hand.downcase
+            puts check_batter[0].inspect
             if batter_flag == ''
               if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Robinson' || name == 'Brice' || name == 'Gentry'
                 batter_flag = 'r'

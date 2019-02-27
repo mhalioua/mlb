@@ -4,35 +4,105 @@ namespace :job do
 
   task :test => :environment do
     include GetHtml
-    url = "http://www.espn.com/mlb/boxscore?gameId=401078911"
+    game = Game.where(game_id: 401078720).first
+    pitchers = game.pitchers.all.to_a
+    batters = game.hitters.all.to_a
+    url = "http://www.espn.com/mlb/playbyplay?gameId=#{game.game_id}"
     puts url
 
     doc = download_document(url)
     next unless doc
 
-    pitchers = doc.css('.stats-wrap')
-    next if pitchers.size < 4
+    lines = doc.css("#allPlays .headline")
+    pitcher_flag = "L"
+    batter_flag = "R"
 
-    pitchers = pitchers[1]
+    result = {
+        'll_ab' => 0,
+        'll_h' => 0,
+        'll_bb' => 0,
+        'll_hr' => 0,
+        'll_k' => 0,
+        'lr_ab' => 0,
+        'lr_h' => 0,
+        'lr_bb' => 0,
+        'lr_hr' => 0,
+        'lr_k' => 0,
+        'rl_ab' => 0,
+        'rl_h' => 0,
+        'rl_bb' => 0,
+        'rl_hr' => 0,
+        'rl_k' => 0,
+        'rr_ab' => 0,
+        'rr_h' => 0,
+        'rr_bb' => 0,
+        'rr_hr' => 0,
+        'rr_k' => 0
+    }
 
-    pitcher_size = pitchers.children.size
-    return if pitcher_size == 3 && pitchers.children[1].children[0].children.size == 1
-    pitchers.children[1..-2].each_with_index do |pitcher, index|
-      row = pitcher.children[0]
-      element = row.children[0]
-      href = element.children[0]['href']
-      href = element.children[1]['href'] if href == nil
-      puts href
-      # hand = parse_hand(row.children[0])
-      # name = parse_name(row.children[0])
-      # identity = parse_identity(row.children[0])
-      # ip = row.children[1].text.to_f
-      # h = row.children[2].text.to_i
-      # r = row.children[3].text.to_i
-      # er = row.children[4].text.to_i
-      # bb = row.children[5].text.to_i
-      # k = row.children[6].text.to_i
-      # pc = row.children[7].text.split('-')[0].to_i
+    lines.each_with_index do |line, index|
+      line_string = line.text.squish
+      line_string = line_string.gsub('á', 'a')
+      line_string = line_string.gsub('í', 'i')
+      line_string = line_string.gsub('é', 'e')
+      line_string = line_string.gsub('ñ', 'n')
+      line_string = line_string.gsub('ó', 'o')
+      line_string = line_string.gsub('ú', 'u')
+      next if line_string.length == 0
+      name = line_string.split(' ')[0]
+      name = line_string.split(' ')[1] if name[-1] == '.' || name.length < 3
+      next if name == nil
+      check_pitcher = pitchers.select {|player| player.name.include?(name)}
+      check_batter = batters.select {|player| player.name.include?(name)}
+      if check_pitcher.length != 0
+        pitcher_flag = check_pitcher[0].hand.downcase
+        if pitcher_flag == ''
+          if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Hutchison' || name == 'Robinson' || name == 'Brice' || name == 'Gentry'
+            pitcher_flag = 'r'
+          elsif name == 'Coulombe'
+            pitcher_flag = 'l'
+          else
+            puts "Pitcher" + name
+          end
+        end
+      elsif check_batter.length != 0
+        batter_flag = check_batter[0].hand.downcase
+        puts check_batter[0].inspect
+        if batter_flag == ''
+          if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Robinson' || name == 'Brice' || name == 'Gentry'
+            batter_flag = 'r'
+          elsif name == 'Coulombe' || name == 'Hutchison'
+            batter_flag = 'l'
+          else
+            puts "Batter" + name
+          end
+        end
+        flag = batter_flag + pitcher_flag
+        if batter_flag == 'b'
+          flag = (pitcher_flag == 'l' ? 'rl' : 'lr')
+        elsif pitcher_flag == 'b'
+          flag = (batter_flag == 'r' ? 'rl' : 'lr')
+        end
+        if line_string.include?("homered to")
+          result[flag + '_hr'] += 1
+          result[flag + '_ab'] += 1
+          result[flag + '_h'] += 1
+        elsif line_string.include?("singled to") || line_string.include?("bunt hit") ||line_string.include?("doubled to") ||line_string.include?("tripled to")
+          result[flag + '_ab'] += 1
+          result[flag + '_h'] += 1
+        elsif line_string.include?("struck out")
+          result[flag + '_ab'] += 1
+          result[flag + '_k'] += 1
+        elsif line_string.include?("out")
+          result[flag + '_ab'] += 1
+        elsif line_string.include?("walked")
+          result[flag + '_bb'] += 1
+        else
+          puts line_string
+        end
+      else
+        puts name + " does not exist"
+      end
     end
   end
 
