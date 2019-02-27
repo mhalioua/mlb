@@ -59,7 +59,7 @@ module Update
           if check_pitcher.length != 0
             pitcher_flag = check_pitcher[0].hand.downcase
             if pitcher_flag == ''
-              if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Hutchison' || name == 'Robinson' || name == 'Brice' || name == 'Gentry'
+              if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Hutchison' || name == 'Robinson' || name == 'Brice' || name == 'Gentry' || name == 'Krieger'
                 pitcher_flag = 'r'
               elsif name == 'Coulombe' || name == 'Grills'
                 pitcher_flag = 'l'
@@ -69,12 +69,13 @@ module Update
             end
           elsif check_batter.length != 0
             batter_flag = check_batter[0].hand.downcase
-            puts check_batter[0].inspect
             if batter_flag == ''
               if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Robinson' || name == 'Brice' || name == 'Gentry'
                 batter_flag = 'r'
               elsif name == 'Coulombe' || name == 'Hutchison' || name == 'Grills'
                 batter_flag = 'l'
+              elsif name == 'Krieger'
+                batter_flag = 'b'
               else
                 puts "Batter" + name
               end
