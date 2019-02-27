@@ -187,7 +187,7 @@ module Update
 
       def parse_identity(element)
         href = element.child['href']
-        href[36..href.rindex("/")-1]
+        href[href.rindex("/")+1..-1] if href
       end
 
       def parse_hand(element)

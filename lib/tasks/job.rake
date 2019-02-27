@@ -4,20 +4,35 @@ namespace :job do
 
   task :test => :environment do
     include GetHtml
-    url = "http://www.espn.com/mlb/team/roster/_/name/LAA"
+    url = "http://www.espn.com/mlb/boxscore?gameId=401078911"
     puts url
 
     doc = download_document(url)
     next unless doc
-    elements = doc.css("tr tr tbody tr")
-    elements.each_with_index do |element, index|
-      puts element.children[1].children[0].children[0].text
-      href = element.children[1].children[0].children[0]['href']
+
+    pitchers = doc.css('.stats-wrap')
+    next if pitchers.size < 4
+
+    pitchers = pitchers[1]
+
+    pitcher_size = pitchers.children.size
+    return if pitcher_size == 3 && pitchers.children[1].children[0].children.size == 1
+    pitchers.children[1..-2].each_with_index do |pitcher, index|
+      row = pitcher.children[0]
+      element = row.children[0]
+      href = element.children[0]['href']
+      href = element.children[1]['href'] if href == nil
       puts href
-      puts href[href.rindex("/")+1..-1] if href
-      puts element.children[3].text
-      puts element.children[4].text
-      puts element.children[5].text
+      # hand = parse_hand(row.children[0])
+      # name = parse_name(row.children[0])
+      # identity = parse_identity(row.children[0])
+      # ip = row.children[1].text.to_f
+      # h = row.children[2].text.to_i
+      # r = row.children[3].text.to_i
+      # er = row.children[4].text.to_i
+      # bb = row.children[5].text.to_i
+      # k = row.children[6].text.to_i
+      # pc = row.children[7].text.split('-')[0].to_i
     end
   end
 
