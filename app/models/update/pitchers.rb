@@ -558,8 +558,8 @@ module Update
     def parse_name(element)
       href = element.children[0]['href']
       href = element.children[1]['href'] if href == nil
-      puts href
       href = href.gsub('-', 'stats/_')
+      puts href
       doc = download_document(href)
       doc.css("h1").first.text
     end
