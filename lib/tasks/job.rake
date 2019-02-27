@@ -55,6 +55,7 @@ namespace :job do
       check_pitcher = pitchers.select {|player| player.name.include?(name)}
       check_batter = batters.select {|player| player.name.include?(name)}
       if check_pitcher.length != 0
+        puts check_pitcher[0].inspect
         pitcher_flag = check_pitcher[0].hand.downcase
         if pitcher_flag == ''
           if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Hutchison' || name == 'Robinson' || name == 'Brice' || name == 'Gentry'
