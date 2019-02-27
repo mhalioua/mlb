@@ -133,6 +133,8 @@ module Create
         away_lineup = home_lineup = false
         away_team = home_team = nil
         team_index = pitcher_index = batter_index = 0
+        times = doc.css(".lineup-card-header .col--min.c:nth-child(2)")
+
         elements = doc.css(".players div, .team-name+ div, .team-name, .game-time")
         season = game_day.season
         teams = Set.new

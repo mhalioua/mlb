@@ -28,7 +28,7 @@ module Update
           break
         end
         if index % 2 == 1
-          abbr = stat.child.text[0...-3].to_s
+          abbr = stat.text[0...-3].to_s
           abbr = fix_abbr(abbr)
           team = Team.find_by(espn_abbr: abbr)
           add_game_to_array(game_array, day_games, team)
