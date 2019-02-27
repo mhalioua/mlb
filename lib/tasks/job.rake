@@ -60,7 +60,7 @@ namespace :job do
         if pitcher_flag == ''
           if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Hutchison' || name == 'Robinson' || name == 'Brice' || name == 'Gentry'
             pitcher_flag = 'r'
-          elsif name == 'Coulombe'
+          elsif name == 'Coulombe' || name == 'Grills'
             pitcher_flag = 'l'
           else
             puts "Pitcher" + name
@@ -72,7 +72,7 @@ namespace :job do
         if batter_flag == ''
           if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Robinson' || name == 'Brice' || name == 'Gentry'
             batter_flag = 'r'
-          elsif name == 'Coulombe' || name == 'Hutchison'
+          elsif name == 'Coulombe' || name == 'Hutchison' || name == 'Grills'
             batter_flag = 'l'
           else
             puts "Batter" + name
