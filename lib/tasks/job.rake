@@ -79,7 +79,7 @@ namespace :job do
         batter.update(starter: true)
         game_batter = player.create_batter(season, away_team, game)
         game_batter.update(starter: true, position: position, lineup: lineup)
-      en
+      end
 
       home_players = players[1].css('.player')
 
