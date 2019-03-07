@@ -4,27 +4,29 @@ namespace :job do
 
   task :test => :environment do
     include GetHtml
-    # date = Date.new(2019, 2, 27)
-    # game_day = GameDay.find_by(date: date)
-    # url = "http://www.baseballpress.com/lineups/%d-%s-%02d" % [game_day.year, game_day.month, game_day.day]
-    url = "https://www.baseballpress.com/lineups/2019-2-27"
+    date = Date.new(2019, 2, 27)
+    game_day = GameDay.find_by(date: date)
+    url = "http://www.baseballpress.com/lineups/%d-%s-%02d" % [game_day.year, game_day.month, game_day.day]
+    # url = "https://www.baseballpress.com/lineups/2019-2-27"
     doc = download_document(url)
     puts url
-    # games = game_day.games
-    # puts games.count
+    games = game_day.games
+    puts games.count
 
     elements = doc.css(".lineup-card")
     puts elements.count
-    # season = game_day.season
+    season = game_day.season
     elements.each do |element|
       teams = element.css('.lineup-card-header')[0].children[1].css('a')
-      # away_team = Team.find_by_name(teams[0].text.squish)
-      # home_team = Team.find_by_name(teams[1].text.squish)
+      away_team = Team.find_by_name(teams[0].text.squish)
+      home_team = Team.find_by_name(teams[1].text.squish)
 
       game_date = element.css('.lineup-card-header')[0].children[1].children[5].text.squish
       game_date = DateTime.parse(game_date) + 5.hours
       puts game_date.strftime('%F %I:%M %p')
-      # game = games.where(away_team: away_team, home_team: home_team, game_date: game_date)
+      game = games.where(away_team: away_team, home_team: home_team, game_date: game_date)
+      puts 'game' if game
+      next unless game
 
       players = element.css('.lineup-card-header')[0].children[3].css('.player')
       away_pitcher = players[0].text.squish
@@ -36,25 +38,25 @@ namespace :job do
 
       puts away_pitcher_name
       puts away_pitcher_handedness
-      # player = Player.search(away_pitcher_name, nil, nil)
-      # player = Player.create(name: away_pitcher_name, throwhand: away_pitcher_handedness) unless player
-      # player.update(team: away_team)
-      #   lancer = player.create_lancer(season)
-      #   lancer.update_attributes(starter: true)
-      #   game_lancer = player.create_lancer(season, team, game)
-      #   game_lancer.update(starter: true)
+      player = Player.search(away_pitcher_name, nil, nil)
+      player = Player.create(name: away_pitcher_name, throwhand: away_pitcher_handedness) unless player
+      player.update(team: away_team)
+      lancer = player.create_lancer(season)
+      lancer.update_attributes(starter: true)
+      game_lancer = player.create_lancer(season, away_team, game)
+      game_lancer.update(starter: true)
 
 
       home_pitcher_name = home_pitcher[0..-4]
       home_pitcher_handedness = home_pitcher[-2]
       home_pitcher_handedness = 'B' if home_pitcher_handedness == 'S'
-      # player = Player.search(home_pitcher_name, nil, nil)
-      # player = Player.create(name: home_pitcher_name, throwhand: home_pitcher_handedness) unless player
-      # player.update(team: home_team)
-      #   lancer = player.create_lancer(season)
-      #   lancer.update_attributes(starter: true)
-      #   game_lancer = player.create_lancer(season, team, game)
-      #   game_lancer.update(starter: true)
+      player = Player.search(home_pitcher_name, nil, nil)
+      player = Player.create(name: home_pitcher_name, throwhand: home_pitcher_handedness) unless player
+      player.update(team: home_team)
+      lancer = player.create_lancer(season)
+      lancer.update_attributes(starter: true)
+      game_lancer = player.create_lancer(season, home_team, game)
+      game_lancer.update(starter: true)
 
       players = element.css('.lineup-card-body .h-100 .col')
       away_players = players[0].css('.player')
@@ -69,15 +71,15 @@ namespace :job do
         puts handedness
         puts position
 
-        # player = Player.search(name, nil, nil)
+        player = Player.search(name, nil, nil)
 
-        # player = Player.create(name: name, bathand: handedness) unless player
-        # player.update(team: away_team)
-        #   batter = player.create_batter(season)
-        #   batter.update(starter: true)
-        #   game_batter = player.create_batter(season, team, game)
-        #   game_batter.update(starter: true, position: position, lineup: lineup)
-      end
+        player = Player.create(name: name, bathand: handedness) unless player
+        player.update(team: away_team)
+        batter = player.create_batter(season)
+        batter.update(starter: true)
+        game_batter = player.create_batter(season, team, game)
+        game_batter.update(starter: true, position: position, lineup: lineup)
+      en
 
       home_players = players[1].css('.player')
 
@@ -91,14 +93,14 @@ namespace :job do
         puts handedness
         puts position
 
-        # player = Player.search(name, nil, nil)
+        player = Player.search(name, nil, nil)
 
-        # player = Player.create(name: name, bathand: handedness) unless player
-        # player.update(team: home_team)
-        #   batter = player.create_batter(season)
-        #   batter.update(starter: true)
-        #   game_batter = player.create_batter(season, team, game)
-        #   game_batter.update(starter: true, position: position, lineup: lineup)
+        player = Player.create(name: name, bathand: handedness) unless player
+        player.update(team: home_team)
+        batter = player.create_batter(season)
+        batter.update(starter: true)
+        game_batter = player.create_batter(season, team, game)
+        game_batter.update(starter: true, position: position, lineup: lineup)
       end
     end
   end
