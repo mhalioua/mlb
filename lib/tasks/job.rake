@@ -4,105 +4,101 @@ namespace :job do
 
   task :test => :environment do
     include GetHtml
-    game = Game.where(game_id: 401078720).first
-    pitchers = game.pitchers.all.to_a
-    batters = game.hitters.all.to_a
-    url = "http://www.espn.com/mlb/playbyplay?gameId=#{game.game_id}"
-    puts url
-
+    # date = Date.new(2019, 2, 27)
+    # game_day = GameDay.find_by(date: date)
+    # url = "http://www.baseballpress.com/lineups/%d-%s-%02d" % [game_day.year, game_day.month, game_day.day]
+    url = "https://www.baseballpress.com/lineups/2019-2-27"
     doc = download_document(url)
-    next unless doc
+    puts url
+    # games = game_day.games
+    # puts games.count
 
-    lines = doc.css("#allPlays .headline")
-    pitcher_flag = "L"
-    batter_flag = "R"
+    elements = doc.css(".lineup-card")
+    puts elements.count
+    # season = game_day.season
+    elements.each do |element|
+      teams = element.css('.lineup-card-header')[0].children[1].css('a')
+      # away_team = Team.find_by_name(teams[0].text.squish)
+      # home_team = Team.find_by_name(teams[1].text.squish)
 
-    result = {
-        'll_ab' => 0,
-        'll_h' => 0,
-        'll_bb' => 0,
-        'll_hr' => 0,
-        'll_k' => 0,
-        'lr_ab' => 0,
-        'lr_h' => 0,
-        'lr_bb' => 0,
-        'lr_hr' => 0,
-        'lr_k' => 0,
-        'rl_ab' => 0,
-        'rl_h' => 0,
-        'rl_bb' => 0,
-        'rl_hr' => 0,
-        'rl_k' => 0,
-        'rr_ab' => 0,
-        'rr_h' => 0,
-        'rr_bb' => 0,
-        'rr_hr' => 0,
-        'rr_k' => 0
-    }
+      game_date = element.css('.lineup-card-header')[0].children[1].children[5].text.squish
+      game_date = DateTime.parse(game_date) + 5.hours
+      puts game_date.strftime('%F %I:%M %p')
+      # game = games.where(away_team: away_team, home_team: home_team, game_date: game_date)
 
-    lines.each_with_index do |line, index|
-      line_string = line.text.squish
-      line_string = line_string.gsub('á', 'a')
-      line_string = line_string.gsub('í', 'i')
-      line_string = line_string.gsub('é', 'e')
-      line_string = line_string.gsub('ñ', 'n')
-      line_string = line_string.gsub('ó', 'o')
-      line_string = line_string.gsub('ú', 'u')
-      next if line_string.length == 0
-      name = line_string.split(' ')[0]
-      name = line_string.split(' ')[1] if name[-1] == '.' || name.length < 3
-      next if name == nil
-      check_pitcher = pitchers.select {|player| player.name.include?(name)}
-      check_batter = batters.select {|player| player.name.include?(name)}
-      if check_pitcher.length != 0
-        puts check_pitcher[0].inspect
-        pitcher_flag = check_pitcher[0].hand.downcase
-        if pitcher_flag == ''
-          if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Hutchison' || name == 'Robinson' || name == 'Brice' || name == 'Gentry'
-            pitcher_flag = 'r'
-          elsif name == 'Coulombe' || name == 'Grills'
-            pitcher_flag = 'l'
-          else
-            puts "Pitcher" + name
-          end
-        end
-      elsif check_batter.length != 0
-        batter_flag = check_batter[0].hand.downcase
-        puts check_batter[0].inspect
-        if batter_flag == ''
-          if name == 'Kopech' || name == 'Martin' || name == 'Prado' || name == 'Reed' || name == 'Robinson' || name == 'Brice' || name == 'Gentry'
-            batter_flag = 'r'
-          elsif name == 'Coulombe' || name == 'Hutchison' || name == 'Grills'
-            batter_flag = 'l'
-          else
-            puts "Batter" + name
-          end
-        end
-        flag = batter_flag + pitcher_flag
-        if batter_flag == 'b'
-          flag = (pitcher_flag == 'l' ? 'rl' : 'lr')
-        elsif pitcher_flag == 'b'
-          flag = (batter_flag == 'r' ? 'rl' : 'lr')
-        end
-        if line_string.include?("homered to")
-          result[flag + '_hr'] += 1
-          result[flag + '_ab'] += 1
-          result[flag + '_h'] += 1
-        elsif line_string.include?("singled to") || line_string.include?("bunt hit") ||line_string.include?("doubled to") ||line_string.include?("tripled to")
-          result[flag + '_ab'] += 1
-          result[flag + '_h'] += 1
-        elsif line_string.include?("struck out")
-          result[flag + '_ab'] += 1
-          result[flag + '_k'] += 1
-        elsif line_string.include?("out")
-          result[flag + '_ab'] += 1
-        elsif line_string.include?("walked")
-          result[flag + '_bb'] += 1
-        else
-          puts line_string
-        end
-      else
-        puts name + " does not exist"
+      players = element.css('.lineup-card-header')[0].children[3].css('.player')
+      away_pitcher = players[0].text.squish
+      home_pitcher = players[1].text.squish
+
+      away_pitcher_name = away_pitcher[0..-4]
+      away_pitcher_handedness = away_pitcher[-2]
+      away_pitcher_handedness = 'B' if away_pitcher_handedness == 'S'
+
+      puts away_pitcher_name
+      puts away_pitcher_handedness
+      # player = Player.search(away_pitcher_name, nil, nil)
+      # player = Player.create(name: away_pitcher_name, throwhand: away_pitcher_handedness) unless player
+      # player.update(team: away_team)
+      #   lancer = player.create_lancer(season)
+      #   lancer.update_attributes(starter: true)
+      #   game_lancer = player.create_lancer(season, team, game)
+      #   game_lancer.update(starter: true)
+
+
+      home_pitcher_name = home_pitcher[0..-4]
+      home_pitcher_handedness = home_pitcher[-2]
+      home_pitcher_handedness = 'B' if home_pitcher_handedness == 'S'
+      # player = Player.search(home_pitcher_name, nil, nil)
+      # player = Player.create(name: home_pitcher_name, throwhand: home_pitcher_handedness) unless player
+      # player.update(team: home_team)
+      #   lancer = player.create_lancer(season)
+      #   lancer.update_attributes(starter: true)
+      #   game_lancer = player.create_lancer(season, team, game)
+      #   game_lancer.update(starter: true)
+
+      players = element.css('.lineup-card-body .h-100 .col')
+      away_players = players[0].css('.player')
+
+      away_players.each do |player|
+        name = player.children[1].children[0].text
+        lineup = player.child.to_s[0].to_i
+        handedness = player.children[2].to_s[2]
+        position = player.children[2].to_s.match(/\w*$/).to_s
+        puts name
+        puts lineup
+        puts handedness
+        puts position
+
+        # player = Player.search(name, nil, nil)
+
+        # player = Player.create(name: name, bathand: handedness) unless player
+        # player.update(team: away_team)
+        #   batter = player.create_batter(season)
+        #   batter.update(starter: true)
+        #   game_batter = player.create_batter(season, team, game)
+        #   game_batter.update(starter: true, position: position, lineup: lineup)
+      end
+
+      home_players = players[1].css('.player')
+
+      home_players.each do |player|
+        name = player.children[1].children[0].text
+        lineup = player.child.to_s[0].to_i
+        handedness = player.children[2].to_s[2]
+        position = player.children[2].to_s.match(/\w*$/).to_s
+        puts name
+        puts lineup
+        puts handedness
+        puts position
+
+        # player = Player.search(name, nil, nil)
+
+        # player = Player.create(name: name, bathand: handedness) unless player
+        # player.update(team: home_team)
+        #   batter = player.create_batter(season)
+        #   batter.update(starter: true)
+        #   game_batter = player.create_batter(season, team, game)
+        #   game_batter.update(starter: true, position: position, lineup: lineup)
       end
     end
   end

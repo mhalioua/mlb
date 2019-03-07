@@ -129,12 +129,9 @@ module Create
         doc = download_document(url)
         puts url
         games = game_day.games
-        game_index = -1
         away_lineup = home_lineup = false
         away_team = home_team = nil
         team_index = pitcher_index = batter_index = 0
-        times = doc.css(".lineup-card-header .col--min.c:nth-child(2)")
-
         elements = doc.css(".players div, .team-name+ div, .team-name, .game-time")
         season = game_day.season
         teams = Set.new
@@ -142,7 +139,6 @@ module Create
           type = element_type(element)
           case type
           when 'time'
-            game_index += 1
             batter_index = 0
             teams << away_team if away_team
             next
