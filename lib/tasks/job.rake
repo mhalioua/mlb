@@ -25,7 +25,6 @@ namespace :job do
       game_date = DateTime.parse(game_date) + 5.hours
       puts game_date.strftime('%F %I:%M %p')
       game = games.where(away_team: away_team, home_team: home_team, game_date: game_date)
-      puts 'game' if game
       next unless game
 
       players = element.css('.lineup-card-header')[0].children[3].css('.player')
