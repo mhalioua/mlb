@@ -77,7 +77,7 @@ namespace :job do
         player.update(team: away_team)
         batter = player.create_batter(season)
         batter.update(starter: true)
-        game_batter = player.create_batter(season, team, game)
+        game_batter = player.create_batter(season, away_team, game)
         game_batter.update(starter: true, position: position, lineup: lineup)
       en
 
@@ -99,7 +99,7 @@ namespace :job do
         player.update(team: home_team)
         batter = player.create_batter(season)
         batter.update(starter: true)
-        game_batter = player.create_batter(season, team, game)
+        game_batter = player.create_batter(season, home_team, game)
         game_batter.update(starter: true, position: position, lineup: lineup)
       end
     end
