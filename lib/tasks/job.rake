@@ -60,11 +60,11 @@ namespace :job do
       players = element.css('.lineup-card-body .h-100 .col')
       away_players = players[0].css('.player')
 
-      away_players.each do |player|
-        name = player.children[1].children[0].text
-        lineup = player.child.to_s[0].to_i
-        handedness = player.children[2].to_s[2]
-        position = player.children[2].to_s.match(/\w*$/).to_s
+      away_players.each do |away_player|
+        name = away_player.children[1].children[0].text
+        lineup = away_player.child.to_s[0].to_i
+        handedness = away_player.children[2].to_s[2]
+        position = away_player.children[2].to_s.match(/\w*$/).to_s
         puts name
         puts lineup
         puts handedness
@@ -82,11 +82,11 @@ namespace :job do
 
       home_players = players[1].css('.player')
 
-      home_players.each do |player|
-        name = player.children[1].children[0].text
-        lineup = player.child.to_s[0].to_i
-        handedness = player.children[2].to_s[2]
-        position = player.children[2].to_s.match(/\w*$/).to_s
+      home_players.each do |home_player|
+        name = home_player.children[1].children[0].text
+        lineup = home_player.child.to_s[0].to_i
+        handedness = home_player.children[2].to_s[2]
+        position = home_player.children[2].to_s.match(/\w*$/).to_s
         puts name
         puts lineup
         puts handedness
