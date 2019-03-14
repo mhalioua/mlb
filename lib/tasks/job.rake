@@ -25,7 +25,12 @@ namespace :job do
       game_date = DateTime.parse(game_date)
       game_date = game_date.strftime('%FT%T%:z')
       game = games.where(away_team: away_team, home_team: home_team, game_date: game_date).first
-      next unless game
+      if game
+        puts 'YES'
+      else
+        puts 'NO'
+      end
+      next
 
       players = element.css('.lineup-card-header')[0].children[3].css('.player')
       away_pitcher = players[0].text.squish
