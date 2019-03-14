@@ -71,7 +71,7 @@ namespace :job do
         puts handedness
         puts position
 
-        player = Player.search(name, nil, nil)
+        player = Player.search(name, nil, 0)
 
         player = Player.create(name: name, bathand: handedness) unless player
         player.update(team: away_team)
@@ -93,7 +93,7 @@ namespace :job do
         puts handedness
         puts position
 
-        player = Player.search(name, nil, nil)
+        player = Player.search(name, nil, 0)
 
         player = Player.create(name: name, bathand: handedness) unless player
         player.update(team: home_team)

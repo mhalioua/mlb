@@ -127,7 +127,7 @@ module Create
             puts handedness
             puts position
 
-            player = Player.search(name, nil, nil)
+            player = Player.search(name, nil, 0)
 
             player = Player.create(name: name, bathand: handedness) unless player
             player.update(team: away_team)
@@ -149,7 +149,7 @@ module Create
             puts handedness
             puts position
 
-            player = Player.search(name, nil, nil)
+            player = Player.search(name, nil, 0)
 
             player = Player.create(name: name, bathand: handedness) unless player
             player.update(team: home_team)
