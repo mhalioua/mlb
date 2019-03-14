@@ -66,144 +66,96 @@ module Create
         end
       end
 
-      def element_type(element)
-        element_class = element['class']
-        case element_class
-        when /game-time/
-          type = 'time'
-        when /no-lineup/
-          type = 'no lineup'
-        when /team-name/
-          type = 'lineup'
-        else
-          if element.children.size == 3
-            type = 'batter'
-          else
-            type = 'pitcher'
-          end
-        end
-      end
-
-      def find_team_from_pitcher_index(pitcher_index, away_team, home_team)
-        if pitcher_index%2 == 0
-          away_team
-        else
-          home_team
-        end
-      end
-
-      def find_team_from_batter_index(batter_index, away_team, home_team, away_lineup, home_lineup)
-        if away_lineup && home_lineup
-          if batter_index/9 == 0
-            away_team
-          else
-            home_team
-          end
-        elsif away_lineup
-          away_team
-        else
-          home_team
-        end
-      end
-
-      def pitcher_info(element)
-        name = element.child.text
-        identity = element.child['data-bref']
-        fangraph_id = element.child['data-razz'].gsub!(/[^0-9]/, "").to_i
-        handedness = element.children[1].text[2]
-        return identity, fangraph_id, name, handedness
-      end
-
-      def batter_info(element)
-        name = element.children[1].text
-        lineup = element.child.to_s[0].to_i
-        handedness = element.children[2].to_s[2]
-        position = element.children[2].to_s.match(/\w*$/).to_s
-        identity = element.children[1]['data-bref']
-        fangraph_id = element.children[1]['data-razz'].gsub!(/[^0-9]/, "").to_i
-        return identity, fangraph_id, name, handedness, lineup, position
-      end
-
       def create_game_stats(game_day)
         url = "http://www.baseballpress.com/lineups/%d-%s-%02d" % [game_day.year, game_day.month, game_day.day]
         doc = download_document(url)
         puts url
         games = game_day.games
-        away_lineup = home_lineup = false
-        away_team = home_team = nil
-        team_index = pitcher_index = batter_index = 0
-        elements = doc.css(".players div, .team-name+ div, .team-name, .game-time")
+        elements = doc.css(".lineup-card")
         season = game_day.season
-        teams = Set.new
-        elements.each_with_index do |element, index|
-          type = element_type(element)
-          case type
-          when 'time'
-            batter_index = 0
-            teams << away_team if away_team
-            next
-          when 'lineup'
-            if team_index%2 == 0
-              away_team = Team.find_by_name(element.text)
-              away_lineup = true
-            else
-              home_team = Team.find_by_name(element.text)
-              home_lineup = true
-            end
-            team_index += 1
-            next
-          when 'no lineup'
-            if team_index%2 == 0
-              away_team = Team.find_by_name(element.text)
-              away_lineup = false
-            else
-              home_team = Team.find_by_name(element.text)
-              home_lineup = false
-            end
-            team_index += 1
-            next
-          when 'pitcher'
-            if element.text == "TBD"
-              pitcher_index += 1
-              next
-            else
-              identity, fangraph_id, name, handedness = pitcher_info(element)
-            end
-            team = find_team_from_pitcher_index(pitcher_index, away_team, home_team)
-            pitcher_index += 1
-          when 'batter'
-            identity, fangraph_id, name, handedness, lineup, position = batter_info(element)
-            team = find_team_from_batter_index(batter_index, away_team, home_team, away_lineup, home_lineup)
-            batter_index += 1
-          end
+        elements.each do |element|
+          teams = element.css('.lineup-card-header')[0].children[1].css('a')
+          away_team = Team.find_by_name(teams[0].text.squish)
+          home_team = Team.find_by_name(teams[1].text.squish)
 
-          player = Player.search(name, nil, fangraph_id)
+          game_date = element.css('.lineup-card-header')[0].children[1].children[5].text.squish
+          game_date = DateTime.parse(game_date) + home_team.timezone.hours
+          game_date = game_date.strftime('%FT%T%:z')
+          game = games.where(away_team: away_team, home_team: home_team, game_date: game_date).first
+          next unless game
 
-          # Make sure the player is in database, otherwise create him
-          unless player
-            if type == 'pitcher'
-              player = Player.create(name: name, fangraph_id: fangraph_id, throwhand: handedness)
-            else
-              player = Player.create(name: name, fangraph_id: fangraph_id, bathand: handedness)
-            end
-            puts "Player " + player.name + " created"
-          end
+          players = element.css('.lineup-card-header')[0].children[3].css('.player')
+          away_pitcher = players[0].text.squish
+          home_pitcher = players[1].text.squish
+
+          away_pitcher_name = away_pitcher[0..-4]
+          away_pitcher_handedness = away_pitcher[-2]
+          away_pitcher_handedness = 'B' if away_pitcher_handedness == 'S'
+
+          puts away_pitcher_name
+          puts away_pitcher_handedness
+          player = Player.search(away_pitcher_name, nil, nil)
+          player = Player.create(name: away_pitcher_name, throwhand: away_pitcher_handedness) unless player
+          player.update(team: away_team)
+          lancer = player.create_lancer(season)
+          lancer.update_attributes(starter: true)
+          game_lancer = player.create_lancer(season, away_team, game)
+          game_lancer.update(starter: true)
 
 
-          player.update(team: team)
-          game = find_game(games, away_team, teams)
+          home_pitcher_name = home_pitcher[0..-4]
+          home_pitcher_handedness = home_pitcher[-2]
+          home_pitcher_handedness = 'B' if home_pitcher_handedness == 'S'
+          player = Player.search(home_pitcher_name, nil, nil)
+          player = Player.create(name: home_pitcher_name, throwhand: home_pitcher_handedness) unless player
+          player.update(team: home_team)
+          lancer = player.create_lancer(season)
+          lancer.update_attributes(starter: true)
+          game_lancer = player.create_lancer(season, home_team, game)
+          game_lancer.update(starter: true)
 
-          # Set the season player and the game player to true
-          # This will help in determining whether or not to delete a player
-          if type == 'pitcher'
-            lancer = player.create_lancer(season)
-            lancer.update_attributes(starter: true)
-            game_lancer = player.create_lancer(season, team, game)
-            game_lancer.update(starter: true)
-          elsif type == 'batter'
+          players = element.css('.lineup-card-body .h-100 .col')
+          away_players = players[0].css('.player')
+
+          away_players.each do |player|
+            name = player.children[1].children[0].text
+            lineup = player.child.to_s[0].to_i
+            handedness = player.children[2].to_s[2]
+            position = player.children[2].to_s.match(/\w*$/).to_s
+            puts name
+            puts lineup
+            puts handedness
+            puts position
+
+            player = Player.search(name, nil, nil)
+
+            player = Player.create(name: name, bathand: handedness) unless player
+            player.update(team: away_team)
             batter = player.create_batter(season)
             batter.update(starter: true)
-            game_batter = player.create_batter(season, team, game)
+            game_batter = player.create_batter(season, away_team, game)
+            game_batter.update(starter: true, position: position, lineup: lineup)
+          end
+
+          home_players = players[1].css('.player')
+
+          home_players.each do |player|
+            name = player.children[1].children[0].text
+            lineup = player.child.to_s[0].to_i
+            handedness = player.children[2].to_s[2]
+            position = player.children[2].to_s.match(/\w*$/).to_s
+            puts name
+            puts lineup
+            puts handedness
+            puts position
+
+            player = Player.search(name, nil, nil)
+
+            player = Player.create(name: name, bathand: handedness) unless player
+            player.update(team: home_team)
+            batter = player.create_batter(season)
+            batter.update(starter: true)
+            game_batter = player.create_batter(season, home_team, game)
             game_batter.update(starter: true, position: position, lineup: lineup)
           end
         end
