@@ -22,7 +22,7 @@ namespace :job do
       home_team = Team.find_by_name(teams[1].text.squish)
 
       game_date = element.css('.lineup-card-header')[0].children[1].children[5].text.squish
-      game_date = DateTime.parse(game_date)
+      game_date = DateTime.parse(game_date) + home_team.timezone.hours
       game_date = game_date.strftime('%FT%T%:z')
       game = games.where(away_team: away_team, home_team: home_team, game_date: game_date).first
       if game
