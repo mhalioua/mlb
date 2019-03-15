@@ -38,6 +38,10 @@ namespace :mlb do
     end
   end
 
+  task create_matchups_test: :environment do
+    [GameDay.yesterday].each { |game_day| game_day.create_matchups }
+  end
+
   task create_matchups: :environment do
     [GameDay.yesterday, GameDay.today, GameDay.tomorrow].each { |game_day| game_day.create_matchups }
   end
