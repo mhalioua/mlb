@@ -88,31 +88,34 @@ module Create
           away_pitcher = players[0].text.squish
           home_pitcher = players[1].text.squish
 
-          away_pitcher_name = away_pitcher[0..-4]
-          away_pitcher_handedness = away_pitcher[-2]
-          away_pitcher_handedness = 'B' if away_pitcher_handedness == 'S'
+          if away_pitcher != 'TBD'
+            away_pitcher_name = away_pitcher[0..-4]
+            away_pitcher_handedness = away_pitcher[-2]
+            away_pitcher_handedness = 'B' if away_pitcher_handedness == 'S'
 
-          puts away_pitcher_name
-          puts away_pitcher_handedness
-          player = Player.search(away_pitcher_name, nil, nil)
-          player = Player.create(name: away_pitcher_name, throwhand: away_pitcher_handedness) unless player
-          player.update(team: away_team)
-          lancer = player.create_lancer(season)
-          lancer.update_attributes(starter: true)
-          game_lancer = player.create_lancer(season, away_team, game)
-          game_lancer.update(starter: true)
+            puts away_pitcher_name
+            puts away_pitcher_handedness
+            player = Player.search(away_pitcher_name, nil, nil)
+            player = Player.create(name: away_pitcher_name, throwhand: away_pitcher_handedness) unless player
+            player.update(team: away_team)
+            lancer = player.create_lancer(season)
+            lancer.update_attributes(starter: true)
+            game_lancer = player.create_lancer(season, away_team, game)
+            game_lancer.update(starter: true)
+          end
 
-
-          home_pitcher_name = home_pitcher[0..-4]
-          home_pitcher_handedness = home_pitcher[-2]
-          home_pitcher_handedness = 'B' if home_pitcher_handedness == 'S'
-          player = Player.search(home_pitcher_name, nil, nil)
-          player = Player.create(name: home_pitcher_name, throwhand: home_pitcher_handedness) unless player
-          player.update(team: home_team)
-          lancer = player.create_lancer(season)
-          lancer.update_attributes(starter: true)
-          game_lancer = player.create_lancer(season, home_team, game)
-          game_lancer.update(starter: true)
+          if home_pitcher != 'TBD'
+            home_pitcher_name = home_pitcher[0..-4]
+            home_pitcher_handedness = home_pitcher[-2]
+            home_pitcher_handedness = 'B' if home_pitcher_handedness == 'S'
+            player = Player.search(home_pitcher_name, nil, nil)
+            player = Player.create(name: home_pitcher_name, throwhand: home_pitcher_handedness) unless player
+            player.update(team: home_team)
+            lancer = player.create_lancer(season)
+            lancer.update_attributes(starter: true)
+            game_lancer = player.create_lancer(season, home_team, game)
+            game_lancer.update(starter: true)
+          end
 
           players = element.css('.lineup-card-body .h-100 .col')
           away_players = players[0].css('.player')
