@@ -50,12 +50,6 @@ namespace :mlb do
     [GameDay.today].each { |game_day| game_day.prev_pitchers }
   end
 
-  task prev_pitchers_fix: :environment do
-    date = Date.new(2019, 2, 27)
-    game_day = GameDay.find_by(date: date)
-    game_day.prev_pitchers
-  end
-
   task pitcher_informations: :environment do
     [GameDay.today].each { |game_day| game_day.pitcher_informations }
   end
