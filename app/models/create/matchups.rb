@@ -89,7 +89,7 @@ module Create
           home_pitcher = players[1].text.squish
 
           if away_pitcher != 'TBD'
-            away_pitcher_name = away_pitcher[0..-4]
+            away_pitcher_name = away_pitcher[0..-5]
             away_pitcher_handedness = away_pitcher[-2]
             away_pitcher_handedness = 'B' if away_pitcher_handedness == 'S'
 
@@ -105,7 +105,7 @@ module Create
           end
 
           if home_pitcher != 'TBD'
-            home_pitcher_name = home_pitcher[0..-4]
+            home_pitcher_name = home_pitcher[0..-5]
             home_pitcher_handedness = home_pitcher[-2]
             home_pitcher_handedness = 'B' if home_pitcher_handedness == 'S'
             player = Player.search(home_pitcher_name, nil, 0)
