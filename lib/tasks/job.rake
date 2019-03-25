@@ -10,7 +10,7 @@ namespace :job do
     time = DateTime.parse(game.game_date) + 10.hours - home_team.timezone.hours
     return if time > DateTime.now
 
-    url = "https://api.weather.com/v1/geocode/29.641/-95.277/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=20190324&endDate=20190324&units=e"
+    url = "https://api.weather.com/v1/geocode/40.77/-73.86/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=20190324&endDate=20190324&units=e"
     puts url
 
     open(url) do |f|
