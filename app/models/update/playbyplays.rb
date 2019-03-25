@@ -64,6 +64,7 @@ module Update
               elsif name == 'Coulombe' || name == 'Grills'
                 pitcher_flag = 'l'
               else
+                pitcher_flag = 'r'
                 puts "Pitcher" + name
               end
             end
@@ -77,6 +78,7 @@ module Update
               elsif name == 'Krieger' || name == 'Friis'
                 batter_flag = 'b'
               else
+                batter_flag = 'r'
                 puts "Batter" + name
               end
             end
