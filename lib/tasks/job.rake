@@ -4,103 +4,41 @@ namespace :job do
 
   task :test => :environment do
     include GetHtml
-    date = Date.new(2019, 2, 27)
-    game_day = GameDay.find_by(date: date)
-    url = "http://www.baseballpress.com/lineups/%d-%s-%02d" % [game_day.year, game_day.month, game_day.day]
-    # url = "https://www.baseballpress.com/lineups/2019-2-27"
-    doc = download_document(url)
+    game = Game.find_by(id: 10579)
+
+    home_team = game.home_team
+    time = DateTime.parse(game.game_date) + 4.hours - home_team.timezone.hours
+    return if time > DateTime.now
+
+    url = "https://api.weather.com/v1/geocode/29.641/-95.277/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=20190324&endDate=20190324&units=e"
     puts url
-    games = game_day.games
-    puts games.count
 
-    elements = doc.css(".lineup-card")
-    puts elements.count
-    season = game_day.season
-    elements.each do |element|
-      teams = element.css('.lineup-card-header')[0].children[1].css('a')
-      away_team = Team.find_by_name(teams[0].text.squish)
-      home_team = Team.find_by_name(teams[1].text.squish)
+    open(url) do |f|
+      json_string = f.read
+      parsed_json = JSON.parse(json_string)
+      forecast_data = parsed_json['observations']
+      count = 1
+      forecast_data.each do |hour_data|
+        break if count == 5
+        hour_date_time = DateTime.strptime(hour_data['valid_time_gmt'],'%s')
+        next if hour_date_time < time
+        temp = hour_data['temp']
+        hum = hour_data['rh']
+        dp = hour_data['dewPt']
+        pressure = hour_data['pressure']
+        wind_dir = hour_data['wdir_cardinal']
+        wind_speed = hour_data['wspd'].to_f
+        wind_speed = 0 if wind_speed < 0
+        # weather = game.weathers.find_or_create_by(station: "Actual", hour: count)
+        # weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed)
+        puts temp
+        puts dp
+        puts hum
+        puts pressure
+        puts wind_dir
+        puts wind_speed
 
-      game_date = element.css('.lineup-card-header')[0].children[1].children[5].text.squish
-      game_date = DateTime.parse(game_date) + home_team.timezone.hours
-      game_date = game_date.strftime('%FT%T%:z')
-      game = games.where(away_team: away_team, home_team: home_team, game_date: game_date).first
-      next unless game
-      next unless game.id == 10198
-
-      players = element.css('.lineup-card-header')[0].children[3].css('.player')
-      away_pitcher = players[0].text.squish
-      home_pitcher = players[1].text.squish
-
-      away_pitcher_name = away_pitcher[0..-4]
-      away_pitcher_handedness = away_pitcher[-2]
-      away_pitcher_handedness = 'B' if away_pitcher_handedness == 'S'
-
-      puts away_pitcher_name
-      puts away_pitcher_handedness
-      player = Player.search(away_pitcher_name, nil, nil)
-      player = Player.create(name: away_pitcher_name, throwhand: away_pitcher_handedness) unless player
-      player.update(team: away_team)
-      lancer = player.create_lancer(season)
-      lancer.update_attributes(starter: true)
-      game_lancer = player.create_lancer(season, away_team, game)
-      game_lancer.update(starter: true)
-
-
-      home_pitcher_name = home_pitcher[0..-4]
-      home_pitcher_handedness = home_pitcher[-2]
-      home_pitcher_handedness = 'B' if home_pitcher_handedness == 'S'
-      player = Player.search(home_pitcher_name, nil, nil)
-      player = Player.create(name: home_pitcher_name, throwhand: home_pitcher_handedness) unless player
-      player.update(team: home_team)
-      lancer = player.create_lancer(season)
-      lancer.update_attributes(starter: true)
-      game_lancer = player.create_lancer(season, home_team, game)
-      game_lancer.update(starter: true)
-
-      players = element.css('.lineup-card-body .h-100 .col')
-      away_players = players[0].css('.player')
-
-      away_players.each do |away_player|
-        name = away_player.children[1].children[0].text
-        lineup = away_player.child.to_s[0].to_i
-        handedness = away_player.children[2].to_s[2]
-        position = away_player.children[2].to_s.match(/\w*$/).to_s
-        puts name
-        puts lineup
-        puts handedness
-        puts position
-
-        player = Player.search(name, nil, 0)
-
-        player = Player.create(name: name, bathand: handedness) unless player
-        player.update(team: away_team)
-        batter = player.create_batter(season)
-        batter.update(starter: true)
-        game_batter = player.create_batter(season, away_team, game)
-        game_batter.update(starter: true, position: position, lineup: lineup)
-      end
-
-      home_players = players[1].css('.player')
-
-      home_players.each do |home_player|
-        name = home_player.children[1].children[0].text
-        lineup = home_player.child.to_s[0].to_i
-        handedness = home_player.children[2].to_s[2]
-        position = home_player.children[2].to_s.match(/\w*$/).to_s
-        puts name
-        puts lineup
-        puts handedness
-        puts position
-
-        player = Player.search(name, nil, 0)
-
-        player = Player.create(name: name, bathand: handedness) unless player
-        player.update(team: home_team)
-        batter = player.create_batter(season)
-        batter.update(starter: true)
-        game_batter = player.create_batter(season, home_team, game)
-        game_batter.update(starter: true, position: position, lineup: lineup)
+        count = count + 1
       end
     end
   end
