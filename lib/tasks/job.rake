@@ -20,7 +20,7 @@ namespace :job do
       count = 1
       forecast_data.each do |hour_data|
         break if count == 5
-        hour_date_time = DateTime.strptime(hour_data['valid_time_gmt'],'%s')
+        hour_date_time = DateTime.strptime(hour_data['valid_time_gmt'].to_s,'%s')
         next if hour_date_time < time
         temp = hour_data['temp']
         hum = hour_data['rh']
