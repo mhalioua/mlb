@@ -79,7 +79,6 @@ namespace :mlb do
       puts "-------------------#{index}-------------------"
       game_day = GameDay.yesterday.previous_days(index)
       game_day.update_weather
-      game_day.update_forecast
     end
   end
 
