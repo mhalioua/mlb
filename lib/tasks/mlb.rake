@@ -74,6 +74,14 @@ namespace :mlb do
     [GameDay.today, GameDay.tomorrow].each { |game_day| game_day.update_forecast }
   end
 
+  task update_previous: :environment do
+    (1..400).each do |index|
+      game_day = GameDay.yesterday.previous_days(index)
+      game_day.update_weather
+      game_day.update_forecast
+    end
+  end
+
   task update_forecast_check: :environment do
     GameDay.today.update_forecast_check
   end
