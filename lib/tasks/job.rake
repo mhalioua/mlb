@@ -7,7 +7,7 @@ namespace :job do
     game = Game.find_by(id: 10579)
 
     home_team = game.home_team
-    time = DateTime.parse(game.game_date) + 3.hours - home_team.timezone.hours
+    time = DateTime.parse(game.game_date) - home_team.timezone.hours
     return if time > DateTime.now
 
     url = "https://api.weather.com/v1/geocode/40.77/-73.86/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=20190324&endDate=20190324&units=e"
@@ -20,7 +20,7 @@ namespace :job do
       count = 1
       forecast_data.each do |hour_data|
         break if count == 5
-        hour_date_time = DateTime.strptime(hour_data['valid_time_gmt'].to_s,'%s')
+        hour_date_time = DateTime.strptime(hour_data['expire_time_gmt'].to_s,'%s')
         next if hour_date_time < time
         temp = hour_data['temp']
         hum = hour_data['rh']
