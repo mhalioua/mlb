@@ -113,7 +113,7 @@
       <td rowspan="4" style="background: lightgray;"><%= link_to "Scout", { controller: "game", action: "scout", id: game.id } %></td>
       <td rowspan="4" style="background: lightgray;"><%= link_to "LR", { controller: "game", action: "lr", id: game.id } %></td>
 			<% pitcher = game.away_pitcher %>
-			<% if pitcher && true %>
+			<% if pitcher && false %>
 			<%= render partial: "starter", locals: { pitcher: pitcher, pitcher_information: game.pitcherinformations.where(away: true).first } %>
 			<% else %>
 			<%= render partial: "not_found", locals: {colspan: 32} %>
@@ -139,7 +139,7 @@
 		</tr>
 		<tr style="background: lightgray;">
 			<% pitcher = game.home_pitcher %>
-			<% if pitcher && true %>
+			<% if pitcher && false %>
 			<%= render partial: "starter", locals: { pitcher: pitcher, pitcher_information: game.pitcherinformations.where(away: false).first } %>
 			<% else %>
 			<%= render partial: "not_found", locals: {colspan: 32} %>
