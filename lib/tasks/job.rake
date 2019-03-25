@@ -7,7 +7,7 @@ namespace :job do
     game = Game.find_by(id: 10579)
 
     home_team = game.home_team
-    time = DateTime.parse(game.game_date) + 4.hours - home_team.timezone.hours
+    time = DateTime.parse(game.game_date) - home_team.timezone.hours
     return if time > DateTime.now
 
     url = "https://api.weather.com/v1/geocode/29.641/-95.277/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=20190324&endDate=20190324&units=e"
