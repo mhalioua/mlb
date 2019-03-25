@@ -15,18 +15,18 @@ module Update
       open(url) do |f|
         json_string = f.read
         parsed_json = JSON.parse(json_string)
-        forecast_data = parsed_json['history']['observations']
+        forecast_data = parsed_json['observations']
         count = 1
         forecast_data.each do |hour_data|
           break if count == 5
-          hour_date_time = DateTime.parse(hour_data['utcdate']['pretty'])
+          hour_date_time = DateTime.strptime(hour_data['expire_time_gmt'].to_s,'%s')
           next if hour_date_time < time
-          temp = hour_data['tempi']
-          hum = hour_data['hum']
-          dp = hour_data['dewpti']
-          pressure = hour_data['pressurei']
-          wind_dir = hour_data['wdire']
-          wind_speed = hour_data['wspdi'].to_f
+          temp = hour_data['temp']
+          hum = hour_data['rh']
+          dp = hour_data['dewPt']
+          pressure = hour_data['pressure']
+          wind_dir = hour_data['wdir_cardinal']
+          wind_speed = hour_data['wspd'].to_f
           wind_speed = 0 if wind_speed < 0
           weather = game.weathers.find_or_create_by(station: "Actual", hour: count)
           weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed)
@@ -228,8 +228,9 @@ module Update
 
     private
       def get_url(home_team, game_day)
-        url = "http://api.wunderground.com/api/65bd4b6d02af0c3b/history_YYYYMMDD/q/#{home_team.zipcode}.json"
-        url = "http://api.wunderground.com/api/65bd4b6d02af0c3b/history_YYYYMMDD/q/zmw:00000.233.71508.json" if home_team.zipcode == 'M5V 1J1'
+        # url = "https://api.weather.com/v1/geocode/40.77/-73.86/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e"
+        # url = "http://api.wunderground.com/api/65bd4b6d02af0c3b/history_YYYYMMDD/q/zmw:00000.233.71508.json" if home_team.zipcode == 'M5V 1J1'
+        url = @@urls[home_team.id-1]
         find = "YYYYMMDD"
         replace = "#{game_day.year}#{game_day.month}#{game_day.day}"
         url.gsub(/#{find}/, replace)
@@ -285,36 +286,36 @@ module Update
       end
 
       @@urls = [
-        "https://www.wunderground.com/history/daily/KFUL/date/year-month-day?req_city=Anaheim&req_state=CA&reqdb.zip=92806&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KMCJ/date/year-month-day?req_city=Houston&req_state=TX&reqdb.zip=77002&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KOAK/date/year-month-day?req_city=Oakland&req_state=CA&reqdb.zip=94621&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/CXTO/date/year-month-day?req_city=Toronto&req_state=ON&req_statename=Ontario&reqdb.zip=00000&reqdb.magic=233&reqdb.wmo=71508",
-        "https://www.wunderground.com/history/daily/KATL/date/year-month-day?req_city=Atlanta&req_state=GA&reqdb.zip=30315&reqdb.magic=1&reqdb.wmo=99999&MR=1",
-        "https://www.wunderground.com/history/daily/KMWC/date/year-month-day?req_city=Milwaukee&req_state=WI&reqdb.zip=53214&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KCPS/date/year-month-day?req_city=Saint%20Louis&req_state=MO&reqdb.zip=63102&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KMDW/date/year-month-day?req_city=Chicago&req_state=IL&reqdb.zip=60613&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KPHX/date/year-month-day?req_city=Phoenix&req_state=AZ&reqdb.zip=85004&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KCQT/date/year-month-day?req_city=Los%20Angeles&req_state=CA&reqdb.zip=90012&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KOAK/date/year-month-day?req_city=San%20Francisco&req_state=CA&reqdb.zip=94107&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KBKL/date/year-month-day?req_city=Cleveland&req_state=OH&reqdb.zip=44115&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KBFI/date/year-month-day?req_city=Seattle&req_state=WA&reqdb.zip=98134&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KMIA/date/year-month-day?req_city=Miami&req_state=FL&reqdb.zip=33125&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KLGA/date/year-month-day?req_city=Corona&req_state=NY&reqdb.zip=11368&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KDCA/date/year-month-day?req_city=Washington&req_state=DC&reqdb.zip=20003&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KDMH/date/year-month-day?req_city=Baltimore&req_state=MD&req_statename=&reqdb.zip=21201&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KSAN/date/year-month-day?req_city=San%20Diego&req_state=CA&reqdb.zip=92101&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KPHL/date/year-month-day?req_city=Philadelphia&req_state=PA&reqdb.zip=19148&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KAGC/date/year-month-day?req_city=Pittsburgh&req_state=PA&reqdb.zip=15212&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KGPM/date/year-month-day?req_city=Arlington&req_state=TX&reqdb.zip=76011&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KSPG/date/year-month-day?req_city=Saint%20Petersburg&req_state=FL&reqdb.zip=33705&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KBOS/date/year-month-day?req_city=Boston&req_state=MA&reqdb.zip=02215&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KLUK/date/year-month-day?req_city=Cincinnati&req_state=OH&reqdb.zip=45202&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KBKF/date/year-month-day?req_city=Denver&req_state=CO&reqdb.zip=80205&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KMKC/date/year-month-day?req_city=Kansas%20City&req_state=MO&reqdb.zip=64129&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KDET/date/year-month-day?req_city=Detroit&req_state=MI&reqdb.zip=48201&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KMSP/date/year-month-day?req_city=Minneapolis&req_state=MN&reqdb.zip=55403&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KMDW/date/year-month-day?req_city=Chicago&req_state=IL&reqdb.zip=60616&reqdb.magic=1&reqdb.wmo=99999",
-        "https://www.wunderground.com/history/daily/KLGA/date/year-month-day?req_city=Bronx&req_state=NY&reqdb.zip=10451&reqdb.magic=1&reqdb.wmo=99999"
+        "https://api.weather.com/v1/geocode/33.68/-117.86/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/29.641/-95.277/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/37.71/-122.21/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/43.636/-79.396/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/33.64/-84.43/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/42.946/-87.896/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/38.74/-90.37/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/41.79/-87.74/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/33.444/-112.049/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/33.96/-118.401/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/37.71/-122.21/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/41.42/-81.85/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/47.44/-122.3/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/25.822/-80.289/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/40.77/-73.86/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/38.85/-77.04/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/39.18/-76.67/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/32.733/-117.199/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/39.87/-75.24/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/40.52/-80.21/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/32.9/-97.04/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/27.914/-82.705/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/42.375/-71.039/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/39/-84.65/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/39.86/-104.67/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/39.281/-94.733/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/42.43/-83.08/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/44.88/-93.21/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/41.79/-87.74/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e",
+        "https://api.weather.com/v1/geocode/40.77/-73.86/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e"
         ]
   end
 end
