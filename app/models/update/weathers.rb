@@ -6,7 +6,7 @@ module Update
     def update(game)
       game_day = game.game_day
       home_team = game.home_team
-      time = DateTime.parse(game.game_date) - 4.hours - home_team.timezone.hours
+      time = DateTime.parse(game.game_date) + 10.hours - home_team.timezone.hours
       return if time > DateTime.now
 
       url = get_url(home_team, game_day)
@@ -44,7 +44,7 @@ module Update
       return if weathers.length == 0
       date = weathers.first.updated_at.advance(hours: game.home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")
 
-      Weathersource.where(game_id: game.id, date: date, table_number: 2).destroy_all
+      Weathersource.where(game_id: game.id, table_number: 2).destroy_all
       weathers.each do |weather|
         wind_min = (weather.wind_speed.to_f - 5).round(1)
         wind_max = (weather.wind_speed.to_f + 5).round(1)
