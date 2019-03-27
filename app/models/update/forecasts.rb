@@ -356,13 +356,6 @@ module Update
         elsif wind_dir == "E"
           wind_dir = "East"
         end
-        puts temp
-        puts dp
-        puts hum
-        puts pressure
-        puts precip
-        puts wind_dir
-        puts feel
 
         start_index = start_index + 1 if start_index < hourlyweathers.size - 1
       end
