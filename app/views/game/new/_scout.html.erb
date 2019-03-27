@@ -1,9 +1,9 @@
-<% seasons = Season.greater_than(2016).reverse_order %>
+<% seasons = Season.greater_than(2017).reverse_order %>
 <table class="table-bordered" style="display: inline-table">
   <caption><%= team.name %>'s Scouting Table</caption>
   <tbody>
     <%
-      current_season = Season.where(year: 2018)
+      current_season = Season.where(year: 2019)
       main_pitcher_scouting = pitcher.player.pitcher_scoutings.where(season: current_season).first
 
       main_pitcher_scouting_FA = "white"
@@ -96,7 +96,7 @@
       <td bgcolor="<%= main_pitcher_scouting_CU %>">CU%</td>
     </tr>
     <% seasons.each_with_index do |season, index| %>
-      <tr style="font-weight: <%= (season.year == 2018 ? 900 : 400) %>">
+      <tr style="font-weight: <%= (season.year == 2019 ? 900 : 400) %>">
         <% if index == 0 %>
         <td rowspan="3" bgcolor="#7FFFD4"><%= pitcher.name %> (<%= pitcher.throwhand %>)</td>
         <% end %>
@@ -149,7 +149,7 @@
     </tr>
     <% batters.each do |batter| %>
       <% seasons.each_with_index do |season, index| %>
-        <tr style="font-weight: <%= (season.year == 2018 ? 900 : 400) %>">
+        <tr style="font-weight: <%= (season.year == 2019 ? 900 : 400) %>">
           <% if index == 0 %>
             <td rowspan="3"><%= "#{batter.lineup}. #{batter.player.name} (#{batter.player.bathand})"%></td>
           <% end %>
@@ -157,22 +157,22 @@
           <% batter_scouting = batter.player.batter_scoutings.where(season: season).first %>
           <% if batter_scouting %>
           <td bgcolor="gray"><%= batter_scouting.PA %></td>
-          <td bgcolor="<%= season.year == 2018 ? main_pitcher_scouting_FA : main_pitcher_scouting_FA_opacity %>"><%= batter_scouting.FA %></td>
-          <td bgcolor="<%= season.year == 2018 ? main_pitcher_scouting_FC : main_pitcher_scouting_FC_opacity %>"><%= batter_scouting.FC %></td>
-          <td bgcolor="<%= season.year == 2018 ? main_pitcher_scouting_FS : main_pitcher_scouting_FS_opacity %>"><%= batter_scouting.FS %></td>
-          <td bgcolor="<%= season.year == 2018 ? main_pitcher_scouting_SI : main_pitcher_scouting_SI_opacity %>"><%= batter_scouting.SI %></td>
-          <td bgcolor="<%= season.year == 2018 ? main_pitcher_scouting_CH : main_pitcher_scouting_CH_opacity %>"><%= batter_scouting.CH %></td>
-          <td bgcolor="<%= season.year == 2018 ? main_pitcher_scouting_SL : main_pitcher_scouting_SL_opacity %>"><%= batter_scouting.SL %></td>
-          <td bgcolor="<%= season.year == 2018 ? main_pitcher_scouting_CU : main_pitcher_scouting_CU_opacity %>"><%= batter_scouting.CU %></td>
+          <td bgcolor="<%= season.year == 2019 ? main_pitcher_scouting_FA : main_pitcher_scouting_FA_opacity %>"><%= batter_scouting.FA %></td>
+          <td bgcolor="<%= season.year == 2019 ? main_pitcher_scouting_FC : main_pitcher_scouting_FC_opacity %>"><%= batter_scouting.FC %></td>
+          <td bgcolor="<%= season.year == 2019 ? main_pitcher_scouting_FS : main_pitcher_scouting_FS_opacity %>"><%= batter_scouting.FS %></td>
+          <td bgcolor="<%= season.year == 2019 ? main_pitcher_scouting_SI : main_pitcher_scouting_SI_opacity %>"><%= batter_scouting.SI %></td>
+          <td bgcolor="<%= season.year == 2019 ? main_pitcher_scouting_CH : main_pitcher_scouting_CH_opacity %>"><%= batter_scouting.CH %></td>
+          <td bgcolor="<%= season.year == 2019 ? main_pitcher_scouting_SL : main_pitcher_scouting_SL_opacity %>"><%= batter_scouting.SL %></td>
+          <td bgcolor="<%= season.year == 2019 ? main_pitcher_scouting_CU : main_pitcher_scouting_CU_opacity %>"><%= batter_scouting.CU %></td>
           <% else %>
           <td bgcolor="gray"></td>
-          <td bgcolor="<%= season.year == 2018 ? main_pitcher_scouting_FA : main_pitcher_scouting_FA_opacity %>"></td>
-          <td bgcolor="<%= season.year == 2018 ? main_pitcher_scouting_FC : main_pitcher_scouting_FC_opacity %>"></td>
-          <td bgcolor="<%= season.year == 2018 ? main_pitcher_scouting_FS : main_pitcher_scouting_FS_opacity %>"></td>
-          <td bgcolor="<%= season.year == 2018 ? main_pitcher_scouting_SI : main_pitcher_scouting_SI_opacity %>"></td>
-          <td bgcolor="<%= season.year == 2018 ? main_pitcher_scouting_CH : main_pitcher_scouting_CH_opacity %>"></td>
-          <td bgcolor="<%= season.year == 2018 ? main_pitcher_scouting_SL : main_pitcher_scouting_SL_opacity %>"></td>
-          <td bgcolor="<%= season.year == 2018 ? main_pitcher_scouting_CU : main_pitcher_scouting_CU_opacity %>"></td>
+          <td bgcolor="<%= season.year == 2019 ? main_pitcher_scouting_FA : main_pitcher_scouting_FA_opacity %>"></td>
+          <td bgcolor="<%= season.year == 2019 ? main_pitcher_scouting_FC : main_pitcher_scouting_FC_opacity %>"></td>
+          <td bgcolor="<%= season.year == 2019 ? main_pitcher_scouting_FS : main_pitcher_scouting_FS_opacity %>"></td>
+          <td bgcolor="<%= season.year == 2019 ? main_pitcher_scouting_SI : main_pitcher_scouting_SI_opacity %>"></td>
+          <td bgcolor="<%= season.year == 2019 ? main_pitcher_scouting_CH : main_pitcher_scouting_CH_opacity %>"></td>
+          <td bgcolor="<%= season.year == 2019 ? main_pitcher_scouting_SL : main_pitcher_scouting_SL_opacity %>"></td>
+          <td bgcolor="<%= season.year == 2019 ? main_pitcher_scouting_CU : main_pitcher_scouting_CU_opacity %>"></td>
           <% end %>
         </tr>
       <% end %>

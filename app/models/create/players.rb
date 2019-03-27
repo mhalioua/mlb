@@ -65,8 +65,8 @@ module Create
 
     def update_fangraphs
       urls = [
-        'https://www.fangraphs.com/minorleaders.aspx?pos=all&stats=bat&lg=all&qual=0&type=0&season=2017&team=0&players=0&page=1_6000',
-        'https://www.fangraphs.com/minorleaders.aspx?pos=all&stats=pit&lg=all&qual=0&type=0&season=2017&team=0&players=0&page=1_5000'
+        'https://www.fangraphs.com/minorleaders.aspx?pos=all&stats=bat&lg=all&qual=0&type=0&season=2018&team=0&players=0&page=1_6000',
+        'https://www.fangraphs.com/minorleaders.aspx?pos=all&stats=pit&lg=all&qual=0&type=0&season=2018&team=0&players=0&page=1_5000'
       ]
       count = 23
       urls.each do |url|

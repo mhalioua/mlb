@@ -3,8 +3,7 @@ class GameDay < ApplicationRecord
   has_many :games, dependent: :destroy
 
   def self.search(date)
-    # season = Season.find_by_year(date.year)
-    season = Season.find_by_year(2018)
+    season = Season.find_by_year(date.year)
     return GameDay.find_or_create_by(season: season, date: date)
   end
 

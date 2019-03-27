@@ -214,7 +214,7 @@ module Update
     private
 
     def get_pitcher_information(game, pitcher, away)
-      seasons = Season.greater_than(2017)
+      seasons = Season.greater_than(2018)
       stats = pitcher.view_stats(seasons)
       lefty, righty = pitcher.opposing_batters_handedness
       ip_two = mixed_statistic_ip(stats[1].first.ip, stats[1].second.ip)
@@ -362,8 +362,8 @@ module Update
         batters = opposite.opposing_lineup
         batters = opposite.predict_opposing_lineup if batters.empty?
       end
-      season_one = Season.find_by(year: 2016)
-      season_two = Season.find_by(year: 2017)
+      season_one = Season.find_by(year: 2017)
+      season_two = Season.find_by(year: 2018)
       stats_one = batters.map { |batter| batter.player.create_batter(season_one).stats(handedness(opposite.throwhand == "L")) }
       stats_two = batters.map { |batter| batter.player.create_batter(season_two).stats(handedness(opposite.throwhand == "L")) }
       stats_three = batters.map { |batter| batter.stats(handedness(opposite.throwhand == "L")) }
