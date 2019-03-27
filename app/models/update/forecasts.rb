@@ -292,9 +292,9 @@ module Update
 
       url = get_url(home_team, game_day)
       doc = download_document(url)
-      puts home_team.name
-      puts game.game_date
-      puts url
+      puts "home_team.name #{home_team.name}"
+      puts "game.game_date #{game.game_date}"
+      puts "url #{url}"
 
       return unless doc
       header = doc.css("#hourly-forecast-table tr").first
@@ -322,10 +322,10 @@ module Update
 
       hourlyweathers = doc.css("#hourly-forecast-table tbody tr")
       start_index = hourlyweathers.size - 1
-      puts game_day.date
-      puts GameDay.today.date
-      puts hourlyweathers[0].children[2].text.squish.to_time
-      puts time
+      puts "game_day #{game_day.inspect}"
+      puts "GameDay.today #{GameDay.today.inspect}"
+      puts "hourlyweathers[0].children[2].text.squish.to_time #{hourlyweathers[0].children[2].text.squish.to_time}"
+      puts "time #{time}"
       return if start_index < 0 || (hourlyweathers[0].children[2].text.squish.to_time > time && GameDay.today == game_day)
       start_index = 0
       hourlyweathers.each_with_index do |weather, index|
