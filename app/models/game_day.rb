@@ -85,6 +85,11 @@ class GameDay < ApplicationRecord
     GameDay.find_by_date(prev_date)
   end
 
+  def next_days(num_days)
+    next_day = date.next_day(num_days)
+    GameDay.find_by_date(next_day)
+  end
+
   def date_string
     "#{year}/#{month}/#{day}"
   end

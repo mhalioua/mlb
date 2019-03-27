@@ -6,7 +6,7 @@ module Update
     def update(game)
       game_day = game.game_day
       home_team = game.home_team
-      time = DateTime.parse(game.game_date) + 4.hours - home_team.timezone.hours
+      time = DateTime.parse(game.game_date) - 4.hours - home_team.timezone.hours
       return if time > DateTime.now
 
       url = get_url(home_team, game_day)
@@ -229,11 +229,13 @@ module Update
 
     private
       def get_url(home_team, game_day)
-        # url = "https://api.weather.com/v1/geocode/40.77/-73.86/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=YYYYMMDD&endDate=YYYYMMDD&units=e"
-        # url = "http://api.wunderground.com/api/65bd4b6d02af0c3b/history_YYYYMMDD/q/zmw:00000.233.71508.json" if home_team.zipcode == 'M5V 1J1'
+        next_days = game_day.next_days(1)
         url = @@urls[home_team.id-1]
-        find = "YYYYMMDD"
-        replace = "#{game_day.year}#{game_day.month}#{game_day.day}"
+        find = "startDate=YYYYMMDD"
+        replace = "startDate=#{game_day.year}#{game_day.month}#{game_day.day}"
+        url.gsub(/#{find}/, replace)
+        find = "endDate=YYYYMMDD"
+        replace = "endDate=#{next_days.year}#{next_days.month}#{next_days.day}"
         url.gsub(/#{find}/, replace)
       end
 
