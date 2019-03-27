@@ -75,7 +75,7 @@ namespace :mlb do
   end
 
   task update_forecast_check: :environment do
-    GameDay.today.update_forecast_check
+    GameDay.tomorrow.update_forecast_check
   end
 
   task update_batters_scout: :environment do
