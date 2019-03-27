@@ -322,6 +322,9 @@ module Update
 
       hourlyweathers = doc.css("#hourly-forecast-table tbody tr")
       start_index = hourlyweathers.size - 1
+      puts game_day.date
+      puts GameDay.today.date
+      puts hourlyweathers[0].children[2].text.squish.to_time
       return if start_index < 0 || (hourlyweathers[0].children[2].text.squish.to_time > time && GameDay.today == game_day)
       start_index = 0
       hourlyweathers.each_with_index do |weather, index|
