@@ -233,7 +233,7 @@ module Update
         url = @@urls[home_team.id-1]
         find = "startDate=YYYYMMDD"
         replace = "startDate=#{game_day.year}#{game_day.month}#{game_day.day}"
-        url.gsub(/#{find}/, replace)
+        url = url.gsub(/#{find}/, replace)
         find = "endDate=YYYYMMDD"
         replace = "endDate=#{next_days.year}#{next_days.month}#{next_days.day}"
         url.gsub(/#{find}/, replace)
