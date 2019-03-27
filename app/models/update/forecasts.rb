@@ -325,6 +325,7 @@ module Update
       puts game_day.date
       puts GameDay.today.date
       puts hourlyweathers[0].children[2].text.squish.to_time
+      puts time
       return if start_index < 0 || (hourlyweathers[0].children[2].text.squish.to_time > time && GameDay.today == game_day)
       start_index = 0
       hourlyweathers.each_with_index do |weather, index|
