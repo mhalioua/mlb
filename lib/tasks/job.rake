@@ -3,44 +3,9 @@ include GameHelper
 namespace :job do
 
   task :test => :environment do
-    include GetHtml
-    game = Game.find_by(id: 10579)
-
-    home_team = game.home_team
-    time = DateTime.parse(game.game_date) + 4.hours - home_team.timezone.hours
-    return if time > DateTime.now
-
-    url = "https://api.weather.com/v1/geocode/40.77/-73.86/observations/historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e&startDate=20190324&endDate=20190324&units=e"
-    puts url
-
-    open(url) do |f|
-      json_string = f.read
-      parsed_json = JSON.parse(json_string)
-      forecast_data = parsed_json['observations']
-      count = 1
-      forecast_data.each do |hour_data|
-        break if count == 5
-        hour_date_time = DateTime.strptime(hour_data['expire_time_gmt'].to_s,'%s')
-        next if hour_date_time < time
-        temp = hour_data['temp']
-        hum = hour_data['rh']
-        dp = hour_data['dewPt']
-        pressure = hour_data['pressure']
-        wind_dir = hour_data['wdir_cardinal']
-        wind_speed = hour_data['wspd'].to_f
-        wind_speed = 0 if wind_speed < 0
-        # weather = game.weathers.find_or_create_by(station: "Actual", hour: count)
-        # weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed)
-        puts temp
-        puts dp
-        puts hum
-        puts pressure
-        puts wind_dir
-        puts wind_speed
-
-        count = count + 1
-      end
-    end
+    date = Date.new(2019, 3, 26)
+    prev = GameDay.find_by(date: date)
+    prev.prev_pitchers
   end
 
   task getGameID: :environment do
