@@ -71,8 +71,10 @@ namespace :mlb do
   end
 
   task update_prev: :environment do
-    (1..400).each do |index|
-      game_day = GameDay.yesterday.previous_days(index)
+    date = Date.new(2018, 10, 29)
+    prev = GameDay.find_by(date: date)
+    (1..300).each do |index|
+      game_day = prev.previous_days(index)
       game_day.update_weather
     end
   end
