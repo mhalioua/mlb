@@ -105,7 +105,7 @@ namespace :mlb do
 
   task hourly: [:update_games, :pitcher_box_score, :batter_box_score, :play_by_play]
 
-  task weather: [:update_forecast, :update_weather]
+  task weather: [:update_weather, :update_forecast]
 
   task ten: [:create_matchups, :prev_pitchers, :pitcher_informations]
 
