@@ -39,7 +39,7 @@ namespace :mlb do
   end
 
   task create_matchups: :environment do
-    [GameDay.yesterday, GameDay.today, GameDay.tomorrow, GameDay.tomorrow.next_days(1)].each { |game_day| game_day.create_matchups }
+    [GameDay.yesterday, GameDay.today, GameDay.tomorrow].each { |game_day| game_day.create_matchups }
   end
 
   task create_bullpen: :environment do
@@ -80,7 +80,7 @@ namespace :mlb do
   end
 
   task update_forecast: :environment do
-    [GameDay.today, GameDay.tomorrow, GameDay.tomorrow.next_days(1)].each { |game_day| game_day.update_forecast }
+    [GameDay.today, GameDay.tomorrow].each { |game_day| game_day.update_forecast }
   end
 
   task update_forecast_check: :environment do
