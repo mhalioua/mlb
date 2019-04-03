@@ -50,7 +50,7 @@ class GameController < ApplicationController
 		@forecast_dropdown = []
 		@forecasts.each_with_index do |forecast_one, index|
 			next if index % 2 == 0
-			break if index == 11
+			break if index == 21
       if index != 0
 			  @forecast_dropdown << [forecast_one.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p"), index]
       end
@@ -103,7 +103,7 @@ class GameController < ApplicationController
 		@forecast_dropdown = []
 		@forecasts.each_with_index do |forecast_one, index|
 			next if index % 2 == 0
-			break if index == 11
+			break if index == 21
       if index != 0
 			  @forecast_dropdown << [forecast_one.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p"), index]
       end
