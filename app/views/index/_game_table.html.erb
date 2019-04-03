@@ -127,9 +127,12 @@
 			<td rowspan="4" style="background: lightgray;"><%= link_to "Previous Games", { controller: "game", action: "previous", id: game.id } %></td>
       <td rowspan="4" style="background: lightgray;"><%= link_to "Scout", { controller: "game", action: "scout", id: game.id } %></td>
       <td rowspan="4" style="background: lightgray;"><%= link_to "LR", { controller: "game", action: "lr", id: game.id } %></td>
-			<% pitcher = game.away_pitcher %>
+			<%
+        pitcher = game.away_pitcher
+        pitcher_information = game.pitcherinformations.where(away: true).first
+      %>
 			<% if pitcher %>
-			<%= render partial: "starter", locals: { pitcher: pitcher, pitcher_information: game.pitcherinformations.where(away: true).first } %>
+			<%= render partial: "starter", locals: { pitcher: pitcher, pitcher_information: pitcher_information } %>
 			<% else %>
 			<%= render partial: "not_found", locals: {colspan: 32} %>
 			<% end %>
@@ -153,9 +156,12 @@
 			<td>Wind Speed</td>
 		</tr>
 		<tr style="background: lightgray;">
-			<% pitcher = game.home_pitcher %>
-			<% if pitcher %>
-			<%= render partial: "starter", locals: { pitcher: pitcher, pitcher_information: game.pitcherinformations.where(away: false).first } %>
+			<%
+        pitcher = game.home_pitcher
+        pitcher_information = game.pitcherinformations.where(away: false).first
+      %>
+			<% if pitcher && pitcher_information %>
+			<%= render partial: "starter", locals: { pitcher: pitcher, pitcher_information: pitcher_information } %>
 			<% else %>
 			<%= render partial: "not_found", locals: {colspan: 32} %>
 			<% end %>
