@@ -59,27 +59,29 @@
 	<tbody>
 		<%
 			@games.each_with_index do |game, index|
-				# @forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC")
-				# @forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC")
-				# @forecast_three = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC")
-				# next unless @forecast_one.first
-				# first_speed, first_dir = split_wind(@forecast_one.first.wind)
-				# second_speed, second_dir = split_wind(@forecast_two.first.wind)
-				# third_speed, third_dir = split_wind(@forecast_three.first.wind)
-				# winds = wind_data_match(game.home_team.name, @forecast_one.first.wind, @forecast_two.first.wind, @forecast_three.first.wind)
-        first_speed = ''
-        first_dir = ''
-        second_speed = ''
-        second_dir = ''
-        third_speed = ''
-        third_dir = ''
-        winds = [
-          ['', '', '', ''],
-          ['', '', '', ''],
-          ['', '', '', ''],
-          ['', '', '', ''],
-          ['', '', '', ''],
-        ]
+				@forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC")
+				@forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC")
+				@forecast_three = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC")
+				if @forecast_one.first
+          first_speed, first_dir = split_wind(@forecast_one.first.wind)
+          second_speed, second_dir = split_wind(@forecast_two.first.wind)
+          third_speed, third_dir = split_wind(@forecast_three.first.wind)
+          winds = wind_data_match(game.home_team.name, @forecast_one.first.wind, @forecast_two.first.wind, @forecast_three.first.wind)
+				else
+          first_speed = ''
+          first_dir = ''
+          second_speed = ''
+          second_dir = ''
+          third_speed = ''
+          third_dir = ''
+          winds = [
+            ['', '', '', ''],
+            ['', '', '', ''],
+            ['', '', '', ''],
+            ['', '', '', ''],
+            ['', '', '', ''],
+          ]
+				end
 		%>
 		<% if index % 3 === 0 %>
 			<tr style="background: gray;">
