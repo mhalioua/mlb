@@ -131,7 +131,7 @@
         pitcher = game.away_pitcher
         pitcher_information = game.pitcherinformations.where(away: true).first
       %>
-			<% if pitcher && pitcher_information && false %>
+			<% if pitcher && pitcher_information %>
 			<%= render partial: "starter", locals: { pitcher: pitcher, pitcher_information: pitcher_information } %>
 			<% else %>
 			<%= render partial: "not_found", locals: {colspan: 32} %>
@@ -160,7 +160,7 @@
         pitcher = game.home_pitcher
         pitcher_information = game.pitcherinformations.where(away: false).first
       %>
-			<% if pitcher && pitcher_information && false %>
+			<% if pitcher && pitcher_information %>
 			<%= render partial: "starter", locals: { pitcher: pitcher, pitcher_information: pitcher_information } %>
 			<% else %>
 			<%= render partial: "not_found", locals: {colspan: 32} %>
