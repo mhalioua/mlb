@@ -73,7 +73,7 @@ namespace :mlb do
   task update_prev: :environment do
     date = Date.new(2019, 4, 2)
     game_day = GameDay.find_by(date: date)
-    game_day.create_matchups
+    game_day.pitcher_box_score
   end
 
   task update_forecast: :environment do
