@@ -421,7 +421,10 @@ module Update
           t_HRS_avg: result[:t_HRS_avg],
           first_count: result[:first_count],
           second_count: result[:second_count],
-          third_count: result[:third_count]
+          third_count: result[:third_count],
+          city1: result[:city1],
+          city2: result[:city2],
+          city3: result[:city3]
         )
       end
 

@@ -444,6 +444,9 @@ module GameHelper
   def true_data(temp_min, temp_max, dew_min, dew_max, humid_min, humid_max, baro_min, baro_max, wind_min, wind_max, wind_dir1, wind_dir2, name)
     search_string = table_type(name)
     search_string_low = table_type(name)
+    search_city1 = table_type(name)
+    search_city2 = table_type(name)
+    search_city3 = table_type(name)
     result = {}
     if temp_max != -1
       search_string.push('"TEMP" >= ' + "'#{temp_min}'" + ' AND "TEMP" <= ' + "'#{temp_max}'")
@@ -452,14 +455,17 @@ module GameHelper
     if dew_max != -1
       search_string.push('"DP" >= ' + "'#{dew_min}'" + ' AND "DP" <= ' + "'#{dew_max}'")
       search_string_low.push('"DP" >= ' + "'#{dew_min + 1}'" + ' AND "DP" <= ' + "'#{dew_max - 1}'")
+      search_city3.push('"DP" >= ' + "'#{dew_min-3}'" + ' AND "DP" <= ' + "'#{dew_max+3}'")
     end
     if humid_max != -1
       search_string.push('"HUMID" >= ' + "'#{humid_min}'" + ' AND "HUMID" <= ' + "'#{humid_max}'")
       search_string_low.push('"HUMID" >= ' + "'#{humid_min}'" + ' AND "HUMID" <= ' + "'#{humid_max}'")
+      search_city2.push('"HUMID" >= ' + "'#{humid_min-2}'" + ' AND "HUMID" <= ' + "'#{humid_max+2}'")
     end
     if baro_max != -1
       search_string.push('"BARo" >= ' + "'#{baro_min}'" + ' AND "BARo" <= ' + "'#{baro_max}'")
       search_string_low.push('"BARo" >= ' + "'#{baro_min}'" + ' AND "BARo" <= ' + "'#{baro_max}'")
+      search_city1.push('"BARo" >= ' + "'#{(baro_min-0.01).round(2)}'" + ' AND "BARo" <= ' + "'#{(baro_max+0.01).round(2)}'")
     end
 
     search_string_all = search_string.dup
@@ -499,6 +505,9 @@ module GameHelper
       search_string_low_wind.push('"M" IN ' + "('#{wind_dir1}', '#{wind_dir2}')")
       search_string_wind.push('"N" >= ' + "#{wind_min}" + ' AND "N" <= ' + "#{wind_max}")
       search_string_low_wind.push('"N" >= ' + "#{wind_min}" + ' AND "N" <= ' + "#{wind_max}")
+      search_city1.push('"N" >= ' + "#{wind_min+1}" + ' AND "N" <= ' + "#{wind_max-1}")
+      search_city2.push('"N" >= ' + "#{wind_min+1}" + ' AND "N" <= ' + "#{wind_max-1}")
+      search_city3.push('"N" >= ' + "#{wind_min+1}" + ' AND "N" <= ' + "#{wind_max-1}")
 
       search_string.push('"Home_Team" = ' + "'#{name}'")
       search_string_low.push('"Home_Team" = ' + "'#{name}'")
@@ -506,7 +515,25 @@ module GameHelper
       search_string_low_wind.push('"Home_Team" = ' + "'#{name}'")
       search_string_dup.push('"Home_Team" != ' + "'#{name}'")
       search_string_low_dup.push('"Home_Team" != ' + "'#{name}'")
+      search_city1.push('"Home_Team" = ' + "'#{name}'")
+      search_city2.push('"Home_Team" = ' + "'#{name}'")
+      search_city3.push('"Home_Team" = ' + "'#{name}'")
     end
+
+    query = Workbook.where(search_city1.join(" AND ")).to_a
+    temp_count = query.count
+
+    result[:city1] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+
+    query = Workbook.where(search_city2.join(" AND ")).to_a
+    temp_count = query.count
+
+    result[:city2] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+
+    query = Workbook.where(search_city3.join(" AND ")).to_a
+    temp_count = query.count
+
+    result[:city3] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
 
     query = Workbook.where(search_string.join(" AND ")).to_a
     temp_count = query.count
