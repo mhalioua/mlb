@@ -124,6 +124,7 @@ module Update
     end
 
     def fix_abbr(abbr)
+      abbr = abbr.split(' - ')[0]
       case abbr
         when "CWS"
           "CHW"
