@@ -59,11 +59,11 @@ namespace :mlb do
   end
 
   task pitcher_box_score: :environment do
-    GameDay.yesterday.pitcher_box_score
+    [GameDay.yesterday, GameDay.today].each { |game_day| game_day.pitcher_box_score }
   end
 
   task batter_box_score: :environment do
-    GameDay.yesterday.batter_box_score
+    [GameDay.yesterday, GameDay.today].each { |game_day| game_day.batter_box_score }
   end
 
   task update_weather: :environment do
