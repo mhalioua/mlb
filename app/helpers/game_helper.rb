@@ -508,6 +508,9 @@ module GameHelper
       search_city1.push('"N" >= ' + "#{wind_min+1}" + ' AND "N" <= ' + "#{wind_max-1}")
       search_city2.push('"N" >= ' + "#{wind_min+1}" + ' AND "N" <= ' + "#{wind_max-1}")
       search_city3.push('"N" >= ' + "#{wind_min+1}" + ' AND "N" <= ' + "#{wind_max-1}")
+      search_city1.push('"M" IN ' + "('#{wind_dir1}', '#{wind_dir2}')")
+      search_city2.push('"M" IN ' + "('#{wind_dir1}', '#{wind_dir2}')")
+      search_city3.push('"M" IN ' + "('#{wind_dir1}', '#{wind_dir2}')")
 
       search_string.push('"Home_Team" = ' + "'#{name}'")
       search_string_low.push('"Home_Team" = ' + "'#{name}'")
