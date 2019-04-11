@@ -31,19 +31,12 @@ namespace :mlb do
     Season.where("year <= 2019").map { |season| season.create_games }
   end
 
-  task prev_bullpen: :environment do
-    (1..10).each do |index|
-      game_day = GameDay.yesterday.previous_days(index)
-      game_day.create_bullpen
-    end
-  end
-
   task create_matchups: :environment do
     [GameDay.yesterday, GameDay.today, GameDay.tomorrow].each { |game_day| game_day.create_matchups }
   end
 
   task create_bullpen: :environment do
-    [GameDay.yesterday, GameDay.today, GameDay.tomorrow].each { |game_day| game_day.create_bullpen }
+    GameDay.today.create_bullpen
   end
 
   task prev_pitchers: :environment do
