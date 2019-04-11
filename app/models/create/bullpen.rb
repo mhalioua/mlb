@@ -31,6 +31,7 @@ module Create
           text = element.text
           if text == "Pitcher"
             team_index += 1
+            next
           end
           case var
           when 1
