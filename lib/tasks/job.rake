@@ -13,6 +13,7 @@ namespace :job do
         puts element.children[0].text
         next
       end
+      puts text.to_i
     end
   end
 

@@ -17,8 +17,6 @@ module Create
         doc = download_document(url)
 
         Lancer.bullpen.update_all(bullpen: false)
-        player = nil
-        var = one = two = three = four = five = 0
         team_index = -1
         season = game_day.season
         doc.css(".no-space tr").each do |element|
@@ -26,31 +24,11 @@ module Create
             puts element.children[0].text
             next
           end
-          text = element.text
-          if text == "Pitcher"
+          if element.children[0].text == "Pitcher"
             team_index += 1
             next
           end
-          case var
-          when 1
-            one = get_pitches(text)
-            var += 1
-          when 2
-            two = get_pitches(text)
-            var += 1
-          when 3
-            three = get_pitches(text)
-            var += 1
-          when 4
-            four = get_pitches(text)
-            var += 1
-          when 5
-            five = get_pitches(text)
-            update_bullpen_pitches(player, one, two, three, four, five, game_day.time)
-            var = 0
-          end
-
-          name = element.child.text
+          name = element.children[0].text
           player = Player.search(name, nil, 0)
           unless player
             player = Player.create(name: name)
@@ -58,7 +36,13 @@ module Create
           player.update(team_id: team_index)
           lancer = player.create_lancer(season)
           lancer.update(bullpen: true)
-          var = 1
+
+          one = get_pitches(element.children[1].text)
+          two = get_pitches(element.children[2].text)
+          three = get_pitches(element.children[3].text)
+          four = get_pitches(element.children[4].text)
+          five = get_pitches(element.children[5].text)
+          update_bullpen_pitches(player, one, two, three, four, five, game_day.time)
         end
       end
 
