@@ -11,8 +11,6 @@ module Create
 
     private
 
-      @@bullpen_teams = [1, 2, 3, 4, 12, 13, 17, 21, 22, 23, 26, 27, 28, 29, 30, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 18, 19, 20, 24, 25]
-
       def set_bullpen(game_day)
         url = "http://www.baseballpress.com/bullpen-usage"
         puts url
@@ -57,7 +55,7 @@ module Create
           unless player
             player = Player.create(name: name)
           end
-          player.update(team_id: @@bullpen_teams[team_index])
+          player.update(team_id: team_index)
           lancer = player.create_lancer(season)
           lancer.update(bullpen: true)
           var = 1

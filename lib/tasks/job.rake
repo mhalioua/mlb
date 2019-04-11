@@ -3,6 +3,7 @@ include GameHelper
 namespace :job do
 
   task :test => :environment do
+    include GetHtml
     url = "http://www.baseballpress.com/bullpen-usage"
     puts url
     doc = download_document(url)
