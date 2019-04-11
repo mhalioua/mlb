@@ -3,9 +3,16 @@ include GameHelper
 namespace :job do
 
   task :test => :environment do
-    date = Date.new(2019, 3, 26)
-    prev = GameDay.find_by(date: date)
-    prev.prev_pitchers
+    url = "http://www.baseballpress.com/bullpen-usage"
+    puts url
+    doc = download_document(url)
+
+    doc.css(".no-space tr").each do |element|
+      if element.children.size < 3
+        puts element.children[0].text
+        next
+      end
+    end
   end
 
   task getGameID: :environment do
