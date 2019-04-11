@@ -424,7 +424,10 @@ module Update
           third_count: result[:third_count],
           city1: result[:city1],
           city2: result[:city2],
-          city3: result[:city3]
+          city3: result[:city3],
+          cityCount1: result[:cityCount1],
+          cityCount2: result[:cityCount2],
+          cityCount3: result[:cityCount3]
         )
       end
 

@@ -527,16 +527,19 @@ module GameHelper
     temp_count = query.count
 
     result[:city1] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:cityCount1] = temp_count
 
     query = Workbook.where(search_city2.join(" AND ")).to_a
     temp_count = query.count
 
     result[:city2] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:cityCount2] = temp_count
 
     query = Workbook.where(search_city3.join(" AND ")).to_a
     temp_count = query.count
 
     result[:city3] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:cityCount3] = temp_count
 
     query = Workbook.where(search_string.join(" AND ")).to_a
     temp_count = query.count
