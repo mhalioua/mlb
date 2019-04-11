@@ -53,7 +53,7 @@ module Create
           end
 
           name = element.child.text
-          player = Player.search(name, nil, nil)
+          player = Player.search(name, nil, 0)
           unless player
             player = Player.create(name: name)
           end
