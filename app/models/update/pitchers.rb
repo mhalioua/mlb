@@ -594,19 +594,19 @@ module Update
         bb = row.children[5].text.to_i
         k = row.children[6].text.to_i
         pc = row.children[7].text.split('-')[0].to_i
-        if index == 0
-          player = Player.search(name, identity)
-          unless player
-            puts "Player #{name} not found"
-            return
-          end
-          lancer = game.lancers.where(starter: true).find_by(player: player)
-          unless lancer
-            lancer = player.create_lancer(game.game_day.season, team, game)
+        player = Player.search(name, identity)
+        unless player
+          puts "Player #{name} not found"
+          return
+        end
+        lancer = game.lancers.where(starter: true).find_by(player: player)
+        unless lancer
+          lancer = player.create_lancer(game.game_day.season, team, game)
+          if index == 0
             lancer.update(starter: true)
           end
-          lancer.update(ip: ip, h: h, r: r, bb: bb)
         end
+        lancer.update(ip: ip, h: h, r: r, bb: bb)
         pitcher = game.pitchers.find_or_create_by(index: index, team: team)
         pitcher.update(name: name, hand: hand, identity: identity, ip: ip, h: h, r: r, bb: bb, er: er, k: k, pc: pc)
       end
