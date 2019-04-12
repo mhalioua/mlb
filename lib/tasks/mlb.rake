@@ -98,6 +98,6 @@ namespace :mlb do
 
   task weather: [:update_weather, :update_forecast]
 
-  task ten: [:create_matchups, :prev_pitchers, :pitcher_informations]
+  task ten: [:create_matchups, :create_bullpen, :prev_pitchers, :pitcher_informations]
 
 end
