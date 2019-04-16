@@ -87,7 +87,7 @@ namespace :mlb do
   end
 
   task play_by_play: :environment do
-    GameDay.yesterday.play_by_play
+    [GameDay.yesterday, GameDay.today].each { |game_day| game_day.play_by_play }
   end
 
   task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs]
