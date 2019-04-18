@@ -36,7 +36,7 @@ namespace :mlb do
   end
 
   task create_bullpen: :environment do
-    GameDay.yesterday.create_bullpen
+    GameDay.today.create_bullpen
   end
 
   task prev_pitchers: :environment do
