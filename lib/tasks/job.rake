@@ -131,9 +131,15 @@ namespace :job do
   end
 
   task :count => :environment do
-    games = Newworkbook.where('"game_id" is not null and "ll_ab" is null and "Date" like ?', '%16')
-    puts games.count
-    puts Newworkbook.all.count
+    players = Player.all
+    list = []
+    players.each do |player|
+      matched_players = Player.where(name: player.name)
+      if matched_players.length
+        list.push(player.name)
+      end
+    end
+    puts list.inspect
   end
 
   task :newworkbook_id => :environment do
