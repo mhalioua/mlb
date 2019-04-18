@@ -17,7 +17,7 @@ module Create
         doc = download_document(url)
 
         Lancer.bullpen.update_all(bullpen: false)
-        team_index = -1
+        team_index = 0
         season = game_day.season
         doc.css(".no-space tr").each do |element|
           if element.children.size < 3
