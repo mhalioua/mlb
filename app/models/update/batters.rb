@@ -81,6 +81,7 @@ module Update
           next
         end
         index = { name: 1, pa: 2+rost, fa: 3+rost, fc: 4+rost, fs: 5+rost, si: 6+rost, ch: 7+rost, sl: 8+rost, cu: 9+rost }
+        puts doc.css(".grid_line_regular, .grid_line_break").length
         doc.css(".grid_line_regular, .grid_line_break").each_slice(13+rost) do |slice|
           name = slice[index[:name]].text
           puts name
