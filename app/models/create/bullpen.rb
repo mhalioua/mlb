@@ -5,7 +5,6 @@ module Create
 
     def create(game_day)
       set_bullpen(game_day)
-      update_bullpen(game_day)
       create_bullpen(game_day)
     end
 
@@ -43,22 +42,6 @@ module Create
           four = get_pitches(element.children[4].text)
           five = get_pitches(element.children[5].text)
           update_bullpen_pitches(player, one, two, three, four, five, game_day.time)
-        end
-      end
-
-      def update_bullpen(game_day)
-        Lancer.bullpen.update_all(bullpen: false)
-        season = game_day.season
-        games = game_day.games
-        games.each do |game|
-          pitchers = game.pitchers
-          pitchers.each do |pitcher|
-            player = Player.search(pitcher.name, pitcher.identity)
-            player.update(team_id: pitcher.team_id)
-            lancer = player.create_lancer(season)
-            lancer.update(bullpen: true)
-            lancer.update(pitches: pitcher.pc)
-          end
         end
       end
 
