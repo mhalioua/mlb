@@ -83,6 +83,7 @@ module Update
         index = { name: 1, pa: 2+rost, fa: 3+rost, fc: 4+rost, fs: 5+rost, si: 6+rost, ch: 7+rost, sl: 8+rost, cu: 9+rost }
         doc.css(".grid_line_regular, .grid_line_break").each_slice(13+rost) do |slice|
           name = slice[index[:name]].text
+          puts name
           fangraph_id = parse_fangraph_id(slice[index[:name]])
           player = Player.search(name, nil, fangraph_id)
           unless player
