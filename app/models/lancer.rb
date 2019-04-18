@@ -120,7 +120,7 @@ class Lancer < ApplicationRecord
   def sort_bullpen
     num_size = [10, 8, 6, 4, 2]
     count = 0
-    (1..5).each_with_index do |days, index|
+    (0..4).each_with_index do |days, index|
       game_day = self.game.game_day.previous_days(days)
       unless game_day
         next
