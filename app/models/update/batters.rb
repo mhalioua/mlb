@@ -76,7 +76,10 @@ module Update
         url = "http://www.fangraphs.com/leaders.aspx?pos=all&stats=bat&lg=all&qual=0&type=21&season=#{year}&month=0&season1=#{year}&ind=0&team=#{team.fangraph_id}&rost=#{rost}&age=0&filter=&players=0&page=1_50"
         doc = download_document(url)
         puts url
-        next unless doc
+        unless doc
+          puts "Link not exist"
+          next
+        end
         index = { name: 1, pa: 2+rost, fa: 3+rost, fc: 4+rost, fs: 5+rost, si: 6+rost, ch: 7+rost, sl: 8+rost, cu: 9+rost }
         doc.css(".grid_line_regular, .grid_line_break").each_slice(13+rost) do |slice|
           name = slice[index[:name]].text
