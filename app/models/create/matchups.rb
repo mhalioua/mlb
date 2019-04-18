@@ -168,12 +168,18 @@ module Create
       def remove_excess_starters(game_day)
         game_day.games.each do |game|
           game.lancers.where(starter: true).each do |game_lancer|
+            unless game_lancer.player
+              game_lancer.destroy
+            end
             lancer = game_lancer.player.find_lancer(game_lancer.season)
             unless lancer.starter
               game_lancer.destroy
             end
           end
           game.batters.where(starter: true).each do |game_batter|
+            unless game_batter.player
+              game_batter.destroy
+            end
             batter = game_batter.player.find_batter(game_batter.season)
             unless batter.starter
               game_batter.destroy
