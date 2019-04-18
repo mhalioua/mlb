@@ -135,7 +135,7 @@ namespace :job do
     list = []
     players.each do |player|
       matched_players = Player.where(name: player.name)
-      if matched_players.length
+      if matched_players.length > 1
         list.push(player.name)
       end
     end
