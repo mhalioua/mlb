@@ -134,7 +134,7 @@ namespace :job do
     players = Player.all
     list = []
     players.each do |player|
-      matched_players = Player.where(name: player.name)
+      matched_players = Player.where("name LIKE '%" + player.name + "%'")
       if matched_players.length > 1
         list.push(player.name)
       end
