@@ -44,7 +44,7 @@ namespace :mlb do
   end
 
   task pitcher_informations: :environment do
-    [GameDay.yesterday, GameDay.today, GameDay.tomorrow].each { |game_day| game_day.pitcher_informations }
+    [GameDay.today, GameDay.tomorrow].each { |game_day| game_day.pitcher_informations }
   end
 
   task update_games: :environment do
@@ -94,9 +94,9 @@ namespace :mlb do
 
   task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout]
 
-  task hourly: [:update_games, :pitcher_box_score, :batter_box_score, :play_by_play]
+  task source: [:ten, :hourly, :update_weather, :update_forecast]
 
-  task weather: [:update_weather, :update_forecast]
+  task hourly: [:update_games, :pitcher_box_score, :batter_box_score, :play_by_play]
 
   task ten: [:create_matchups, :create_bullpen, :prev_pitchers, :pitcher_informations]
 
