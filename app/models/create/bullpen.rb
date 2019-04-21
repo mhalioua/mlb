@@ -60,7 +60,7 @@ module Create
       end
 
       def get_pitches(text)
-        if text == "N/G"
+        if text == "x"
           return 0
         else
           return text.to_i
