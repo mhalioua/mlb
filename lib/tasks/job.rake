@@ -136,9 +136,9 @@ namespace :job do
     player = Player.find_by(id: 2486)
 
     (1..5).each do |n|
+      time = time.yesterday
       game_day = GameDay.search(time)
       puts game_day.id
-      time = time.yesterday
       lancers = player.game_day_lancers(game_day)
       lancers.each do |lancer|
         puts lancer.id
