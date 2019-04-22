@@ -60,6 +60,7 @@ module Create
       end
 
       def get_pitches(text)
+        puts "-------#{text}----"
         if text == "x"
           return 0
         else
