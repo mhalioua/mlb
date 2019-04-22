@@ -60,7 +60,6 @@ module Create
       end
 
       def get_pitches(text)
-        puts "-------#{text}----"
         if text == "x"
           return 0
         else
@@ -70,8 +69,8 @@ module Create
 
       def update_bullpen_pitches(player, one, two, three, four, five, time)
         (1..5).each do |n|
-          time = time.yesterday
           game_day = GameDay.search(time)
+          time = time.yesterday
           case n
           when 1
             pitches = one
