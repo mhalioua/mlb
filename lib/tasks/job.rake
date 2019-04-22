@@ -131,18 +131,19 @@ namespace :job do
   end
 
   task :count => :environment do
-    # players = Player.all
-    # list = []
-    # players.each do |player|
-    #   next if player.name.include?("'")
-    #   matched_players = Player.where("name LIKE '%" + player.name + "%'")
-    #   if matched_players.length > 1
-    #     list.push(player.name)
-    #   end
-    # end
-    # puts list.inspect
-    #
-    Player.find_by(name: 'name')
+    game_day = GameDay.today
+    time = game_day.time
+    player = Player.find_by(2486)
+
+    (1..5).each do |n|
+      game_day = GameDay.search(time)
+      puts game_day.id
+      time = time.yesterday
+      lancers = player.game_day_lancers(game_day)
+      lancers.each do |lancer|
+        puts lancer.id
+      end
+    end
   end
 
   task :newworkbook_id => :environment do
