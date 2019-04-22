@@ -133,7 +133,7 @@ namespace :job do
   task :count => :environment do
     game_day = GameDay.today
     time = game_day.time
-    player = Player.find_by(2486)
+    player = Player.find_by(id: 2486)
 
     (1..5).each do |n|
       game_day = GameDay.search(time)
