@@ -41,7 +41,7 @@ module Update
       weathers = game.weathers.where(station: "Actual").order(:hour)
       row_number = 0
       block_number = 0
-      return if weathers.length == 0
+      return if weathers.length < 4
       date = weathers.first.updated_at.advance(hours: game.home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")
 
       Weathersource.where(game_id: game.id, table_number: 2).destroy_all
