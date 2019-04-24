@@ -88,6 +88,15 @@ module Update
           home_totals_closer << stat.text
         end
       end
+      puts game_array.inspect
+      puts away_money_line.inspect
+      puts home_money_line.inspect
+      puts away_money_line_closer.inspect
+      puts home_money_line_closer.inspect
+      puts away_totals.inspect
+      puts home_totals.inspect
+      puts away_totals_closer.inspect
+      puts home_totals_closer.inspect
 
       (0...game_size).each do |i|
         game = game_array[i]
