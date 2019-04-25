@@ -94,7 +94,7 @@ namespace :mlb do
 
   task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout]
 
-  task source: [:ten, :hourly, :update_forecast, :update_weather]
+  task source: [:create_matchups, :create_bullpen, :update_games, :pitcher_box_score, :batter_box_score, :play_by_play, :prev_pitchers, :pitcher_informations, :update_forecast, :update_weather]
 
   task hourly: [:update_games, :pitcher_box_score, :batter_box_score, :play_by_play]
 
