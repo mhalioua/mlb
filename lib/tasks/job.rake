@@ -131,17 +131,36 @@ namespace :job do
   end
 
   task :count => :environment do
-    game_day = GameDay.today
-    time = game_day.time
-    player = Player.find_by(id: 2486)
+    include GetHtml
+    url = "http://www.baseballpress.com/lineups"
+    doc = download_document(url)
+    elements = doc.css(".lineup-card")
+    elements.each do |element|
+      players = element.css('.lineup-card-body .h-100 .col')
+      away_players = players[0].css('.player')
 
-    (1..5).each do |n|
-      time = time.yesterday
-      game_day = GameDay.search(time)
-      puts game_day.id
-      lancers = player.game_day_lancers(game_day)
-      lancers.each do |lancer|
-        puts lancer.id
+      away_players.each do |away_player|
+        name = away_player.children[1].children[0].text
+        lineup = away_player.child.to_s[0].to_i
+        handedness = away_player.children[2].to_s[2]
+        position = away_player.children[2].to_s.match(/\w*$/).to_s
+        puts name
+        puts lineup
+        puts handedness
+        puts position
+      end
+
+      home_players = players[1].css('.player')
+
+      home_players.each do |home_player|
+        name = home_player.children[1].children[0].text
+        lineup = home_player.child.to_s[0].to_i
+        handedness = home_player.children[2].to_s[2]
+        position = home_player.children[2].to_s.match(/\w*$/).to_s
+        puts name
+        puts lineup
+        puts handedness
+        puts position
       end
     end
   end
