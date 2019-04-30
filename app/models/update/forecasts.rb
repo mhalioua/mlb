@@ -173,7 +173,7 @@ module Update
           wind_min = weather_two.wind_speed.to_f
           wind_max = weather_one.wind_speed.to_f
         end
-        wind_speed_diff = ((11 + wind_min - wind_max)/2).to_i
+        wind_speed_diff = ((5 + wind_min - wind_max)/2).to_i
         wind_min = wind_min - wind_speed_diff
         wind_max = wind_max + wind_speed_diff
         wind_min = 3 if wind_min < 3
@@ -226,7 +226,7 @@ module Update
           wind_min = weather_two.wind_speed.to_f
           wind_max = weather_one.wind_speed.to_f
         end
-        wind_speed_diff = ((11 + wind_min - wind_max)/2).to_i
+        wind_speed_diff = ((5 + wind_min - wind_max)/2).to_i
         wind_min = wind_min - wind_speed_diff
         wind_max = wind_max + wind_speed_diff
         wind_min = 3 if wind_min < 3
