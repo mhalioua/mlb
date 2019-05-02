@@ -132,36 +132,22 @@ namespace :job do
 
   task :count => :environment do
     include GetHtml
-    url = "http://www.baseballpress.com/lineups"
+    game_day = GameDay.yesterday
+    url = "http://www.baseballpress.com/lineups/%d-%s-%02d" % [game_day.year, game_day.month, game_day.day]
     doc = download_document(url)
+    puts url
+    games = game_day.games
     elements = doc.css(".lineup-card")
+    season = game_day.season
     elements.each do |element|
-      players = element.css('.lineup-card-body .h-100 .col')
-      away_players = players[0].css('.player')
+      teams = element.css('.lineup-card-header')[0].children[1].css('a')
+      away_team = Team.find_by_name(teams[0].text.squish)
+      home_team = Team.find_by_name(teams[1].text.squish)
 
-      away_players.each do |away_player|
-        name = away_player.children[1].children[0].text
-        lineup = away_player.child.to_s[0].to_i
-        handedness = away_player.children[2].to_s[2]
-        position = away_player.children[2].to_s.match(/\w*$/).to_s
-        puts name
-        puts lineup
-        puts handedness
-        puts position
-      end
-
-      home_players = players[1].css('.player')
-
-      home_players.each do |home_player|
-        name = home_player.children[1].children[0].text
-        lineup = home_player.child.to_s[0].to_i
-        handedness = home_player.children[2].to_s[2]
-        position = home_player.children[2].to_s.match(/\w*$/).to_s
-        puts name
-        puts lineup
-        puts handedness
-        puts position
-      end
+      game_date = element.css('.lineup-card-header')[0].children[1].children[5].text.squish
+      game_date = DateTime.parse(game_date) + home_team.timezone.hours
+      game_date = game_date.strftime('%FT%T%:z')
+      puts game_date
     end
   end
 
