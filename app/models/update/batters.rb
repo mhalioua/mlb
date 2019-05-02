@@ -191,6 +191,8 @@ module Update
           hitter.update(name: name, position: position, hand: hand, ab: ab, h: h, r: r, rbi: rbi, bb: bb, avg: avg, hr: 0, k: k)
 
           next if row.children[0]['class'] == 'name bench'
+          name = row.children[0].children[0].text.squish
+          next if name == 'a -' || name == 'b -' || name == 'c -' || name == 'd -' || name == 'e -' || name == 'f -'
           name = parse_name(row.children[0])
           identity = parse_identity(row.children[0])
           position = row.children[0].children[1].text
