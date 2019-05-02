@@ -165,6 +165,7 @@ module Update
 
       def team_batters(game, team, hitters)
         return if hitters.children[1].children[0].children.size == 1
+        lineup = 1
         hitters.children[1..-1].each_with_index do |hitter, index|
           row = hitter.children[0]
           name = row.children[0].children[0].text.squish
@@ -188,6 +189,34 @@ module Update
           avg = row.children[9].text if row.children.length > 9
           hitter = game.hitters.find_or_create_by(index: index, team: team)
           hitter.update(name: name, position: position, hand: hand, ab: ab, h: h, r: r, rbi: rbi, bb: bb, avg: avg, hr: 0, k: k)
+
+          next if row.children[0]['class'] == 'name bench'
+          name = parse_name(row.children[0])
+          identity = parse_identity(row.children[0])
+          position = row.children[0].children[1].text
+          puts name
+          puts identity
+          puts position
+          puts lineup
+          player = Player.search(name, identity)
+          unless player
+            player = Player.create(team: team, name: name, identity: identity)
+            puts "Player " + player.name + " created"
+          end
+          player.update(team: team)
+          batter = player.create_batter(game.game_day.season)
+          batter.update(starter: true)
+          game_batter = player.create_batter(game.game_day.season, team, game)
+          game_batter.update(starter: true, position: position, lineup: lineup)
+          lineup = lineup + 1
+        end
+      end
+
+      def parse_name(element)
+        if element.child['href']
+          href = element.child['href']
+          doc = download_document(href)
+          doc.css("h1").first.text
         end
       end
 
