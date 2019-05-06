@@ -300,7 +300,7 @@
             weathers << weather
             name = @post['form_stadium']
         %>
-        <%= render partial: "calc/new/weather", locals: { caption: "Weather", weathers: weathers, name: name, stadium: @home_team.stadium } %>
+        <%= `render partial: "calc/new/weather", locals: { caption: "Weather", weathers: weathers, name: name, stadium: @home_team.stadium }` %>
         <%= `render partial: "calc/new/prev", locals: { caption: "Weather", weathers: weathers, name: name, stadium: @home_team.stadium }` %>
         <div class="image">
             <%= image_tag(@image_url, :width => '600') %>
