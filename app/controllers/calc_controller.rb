@@ -9,7 +9,7 @@ class CalcController < ApplicationController
     @type_dropdown = []
     @index_dropdown = []
     @wunderground =[]
-    # @weather = []
+    @weather = []
     @weathers = []
     @stadium = []
     @home_team = nil
@@ -21,7 +21,7 @@ class CalcController < ApplicationController
     @team_dropdown = @team_dropdown.sort
 
     @type_dropdown << ['Wunderground', 1]
-    # @type_dropdown << ['Weather', 2]
+    @type_dropdown << ['Weather', 2]
 
     time = Time.now.hour - 3
     (0...12).each do |index|
@@ -39,7 +39,7 @@ class CalcController < ApplicationController
     if @post['form_stadium']
       @home_team = @teams.find{|x| x.name == @post['form_stadium'] }
       @wunderground = wunderground_weather(@home_team.id)
-      # @weather = weather_weather(@home_team.id)
+      @weather = weather_weather(@home_team.zipcode)
       @image_url = @home_team.id.to_s + ".png"
     end
 
@@ -48,8 +48,8 @@ class CalcController < ApplicationController
 
     if @type === 1
       @weathers = @wunderground
-    # else
-    #   @weathers = @weather
+    else
+      @weathers = @weather
     end
 
     @index = 0

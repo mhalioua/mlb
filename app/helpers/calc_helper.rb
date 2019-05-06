@@ -84,6 +84,11 @@ module CalcHelper
         wind_dir = "East"
       end
       wind_speed = wind[0..wind_index-1]
+      temp = temp.split(' °F')[0].to_i
+      hum = hum.split('%')[0].to_i
+      dp = dp.split(' °F')[0].to_i
+      pressure = pressure.split(' in')[0].to_f
+      wind_speed = wind_speed.split(' mph')[0].to_i
       data = {
           temp: temp,
           humidity: hum,
@@ -98,7 +103,7 @@ module CalcHelper
     return re
   end
 
-  def weather_weather(id)
+  def weather_weather(zipcode)
     url = "https://weather.com/weather/hourbyhour/l/#{zipcode}:4:US"
     url = 'https://weather.com/weather/hourbyhour/l/CAXX0504:1:CA' if zipcode == 'M5V 1J1'
     doc = download_document(url)
