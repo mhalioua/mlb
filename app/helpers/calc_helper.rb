@@ -1,29 +1,103 @@
 module CalcHelper
+  @@urls = [
+      "https://www.wunderground.com/hourly/us/ca/anaheim/92806?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/tx/houston/77002?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/ca/oakland/94621?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/ca/toronto?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/ga/atlanta/30339?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/wi/milwaukee/53214?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/mo/saint-louis/63102?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/il/chicago/60613?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/az/phoenix/85004?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/ca/los-angeles/90012?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/ca/san-francisco/94107?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/oh/cleveland/44115?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/wa/seattle/98134?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/fl/miami/33125?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/ny/corona/11368?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/dc/washington/20003?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/md/baltimore/21201?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/ca/san-diego/92101?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/pa/philadelphia/19148?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/pa/pittsburgh/15212?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/tx/arlington/76011?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/fl/saint-petersburg/33705?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/ma/boston/02215?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/oh/cincinnati/45202?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/co/denver/80205?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/mo/64129?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/mi/detroit/48201?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/mn/minneapolis/55403?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/il/chicago/60616?cm_ven=localwx_hour",
+      "https://www.wunderground.com/hourly/us/ny/bronx/10451?cm_ven=localwx_hour"
+  ]
+  
   include GetHtml
-  def wunderground_weather(zipcode)
-    require 'open-uri'
-    require 'json'
+  def wunderground_weather(id)
+    url = @@urls[home_team.id-1]
+    doc = download_document(url)
+    puts url
 
-    zipcode = 'M5V1J1' if zipcode == 'M5V 1J1'
-    url = "http://api.wunderground.com/api/65bd4b6d02af0c3b/hourly/q/#{zipcode}.json"
-    re = []
-    open(url) do |f|
-      json_string = f.read
-      parsed_json = JSON.parse(json_string)
-      forecast_data = parsed_json['hourly_forecast']
-      count = 0
-      forecast_data.each do |hour_data|
-        break if count == 12
-        data = {temp: hour_data['temp']['english'], humidity: hour_data['humidity'], dew: hour_data['dewpoint']['english'], pressure: hour_data['mslp']['english'], wind_dir: hour_data['wdir']['dir'], wind_speed: hour_data['wspd']['english'].to_f}
-        re << data
-        count = count + 1
+    return unless doc
+    header = doc.css("#hourly-forecast-table tr").first
+    return unless header
+    headers = {
+        'Temp.' => 0,
+        'Dew Point' => 0,
+        'Humidity' => 0,
+        'Pressure' => 0,
+        'Wind' => 0,
+        'Amount' => 0,
+        'Feels Like' => 0
+    }
+
+    header.children.each_with_index do |header_element, index|
+      key = header_element.text.squish
+      headers[key] = index if key == 'Temp.'
+      headers[key] = index if key == 'Dew Point'
+      headers[key] = index if key == 'Humidity'
+      headers[key] = index if key == 'Pressure'
+      headers[key] = index if key == 'Wind'
+      headers[key] = index if key == 'Amount'
+      headers[key] = index if key == 'Feels Like'
+    end
+
+    hourlyweathers = doc.css("#hourly-forecast-table tbody tr")
+    (0..12).each do |index|
+      temp = hourlyweathers[index].children[headers['Temp.']].text.squish
+      dp = hourlyweathers[index].children[headers['Dew Point']].text.squish
+      hum = hourlyweathers[index].children[headers['Humidity']].text.squish
+      pressure = hourlyweathers[index].children[headers['Pressure']].text.squish
+      # precip = hourlyweathers[index].children[headers['Amount']].text.squish
+      wind = hourlyweathers[index].children[headers['Wind']].text.squish
+      # feel = hourlyweathers[index].children[headers['Feels Like']].text.squish
+      wind_index = wind.rindex(' ')
+      wind_dir = wind[wind_index+1..-1]
+      if wind_dir == "W"
+        wind_dir = "West"
+      elsif wind_dir == "S"
+        wind_dir = "South"
+      elsif wind_dir == "N"
+        wind_dir = "North"
+      elsif wind_dir == "E"
+        wind_dir = "East"
       end
+      wind_speed = wind[0..wind_index-1]
+      data = {
+          temp: temp,
+          humidity: hum,
+          dew: dp,
+          pressure: pressure,
+          wind_dir: wind_dir,
+          wind_speed: wind_speed
+      }
+      re << data
     end
 
     return re
   end
 
-  def weather_weather(zipcode)
+  def weather_weather(id)
     url = "https://weather.com/weather/hourbyhour/l/#{zipcode}:4:US"
     url = 'https://weather.com/weather/hourbyhour/l/CAXX0504:1:CA' if zipcode == 'M5V 1J1'
     doc = download_document(url)
