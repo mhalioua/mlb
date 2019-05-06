@@ -62,6 +62,7 @@ module CalcHelper
       headers[key] = index if key == 'Feels Like'
     end
 
+    re = []
     hourlyweathers = doc.css("#hourly-forecast-table tbody tr")
     (0..12).each do |index|
       temp = hourlyweathers[index].children[headers['Temp.']].text.squish
