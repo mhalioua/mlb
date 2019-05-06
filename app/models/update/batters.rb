@@ -129,11 +129,15 @@ module Update
         next if batters.size < 4
         next if batters[0].children[0].children.length == 0
 
-        away_batter = batters[0].children[0].children[0].children[1..-1]
-        home_batter = batters[2].children[0].children[0].children[1..-1]
+        if batters[0].children && batters[0].children[0].children
+          away_batter = batters[0].children[0].children[0].children[1..-1]
+          team_batter_hr(game, game.away_team, away_batter)
+        end
 
-        team_batter_hr(game, game.away_team, away_batter)
-        team_batter_hr(game, game.home_team, home_batter)
+        if batters[2].children && batters[2].children[0].children
+          home_batter = batters[2].children[0].children[0].children[1..-1]
+          team_batter_hr(game, game.home_team, home_batter)
+        end
       end
     end
 
