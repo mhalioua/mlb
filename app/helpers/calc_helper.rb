@@ -34,7 +34,7 @@ module CalcHelper
   
   include GetHtml
   def wunderground_weather(id)
-    url = @@urls[home_team.id-1]
+    url = @@urls[id-1]
     doc = download_document(url)
     puts url
 
