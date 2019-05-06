@@ -64,7 +64,7 @@ module CalcHelper
 
     re = []
     hourlyweathers = doc.css("#hourly-forecast-table tbody tr")
-    (0..12).each do |index|
+    (0...hourlyweathers.length).each do |index|
       temp = hourlyweathers[index].children[headers['Temp.']].text.squish
       dp = hourlyweathers[index].children[headers['Dew Point']].text.squish
       hum = hourlyweathers[index].children[headers['Humidity']].text.squish
