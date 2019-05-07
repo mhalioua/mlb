@@ -598,6 +598,128 @@ module GameHelper
     return result
   end
 
+  def calc_true_data(temp_min, temp_max, dew_min, dew_max, humid_min, humid_max, baro_min, baro_max, wind_min, wind_max, wind_dir1, wind_dir2, name)
+    search_string = table_type(name)
+    search_string_low = table_type(name)
+    result = {}
+    if temp_max != -1
+      search_string.push('"TEMP" >= ' + "'#{temp_min}'" + ' AND "TEMP" <= ' + "'#{temp_max}'")
+      search_string_low.push('"TEMP" >= ' + "'#{temp_min}'" + ' AND "TEMP" <= ' + "'#{temp_max}'")
+    end
+    if dew_max != -1
+      search_string.push('"DP" >= ' + "'#{dew_min}'" + ' AND "DP" <= ' + "'#{dew_max}'")
+      search_string_low.push('"DP" >= ' + "'#{dew_min + 1}'" + ' AND "DP" <= ' + "'#{dew_max - 1}'")
+    end
+    if humid_max != -1
+      search_string.push('"HUMID" >= ' + "'#{humid_min}'" + ' AND "HUMID" <= ' + "'#{humid_max}'")
+      search_string_low.push('"HUMID" >= ' + "'#{humid_min}'" + ' AND "HUMID" <= ' + "'#{humid_max}'")
+    end
+    if baro_max != -1
+      search_string.push('"BARo" >= ' + "'#{baro_min}'" + ' AND "BARo" <= ' + "'#{baro_max}'")
+      search_string_low.push('"BARo" >= ' + "'#{baro_min}'" + ' AND "BARo" <= ' + "'#{baro_max}'")
+    end
+
+    search_string_all = search_string.dup
+    search_string_all.push('"total_line" is not null ')
+
+    query = Workbook.where(search_string_all.join(" AND ")).to_a
+    temp_count = query.count
+
+    result[:total_count] = temp_count
+    result[:total_avg_1] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_avg_2] = (query.map {|stat| stat.Total_Hits.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_hits_avg] = (query.map {|stat| stat.Total_Walks.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:home_runs_avg] = (query.map {|stat| stat.home_runs.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_lines_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:t_HITS_avg] = (query.map {|stat| stat.t_HITS.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:t_HRS_avg] = (query.map {|stat| stat.t_HRS.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:first_count] = query.select {|stat| stat.R.to_i < 9}.count
+    result[:second_count] = query.select {|stat| stat.R.to_i == 9}.count
+    result[:third_count] = query.select {|stat| stat.R.to_i > 9}.count
+
+    search_string_low_all = search_string_low.dup
+    search_string_low_all.push('"total_line" is not null ')
+
+    query = Workbook.where(search_string_low_all.join(" AND ")).to_a
+    temp_count = query.count
+
+    result[:lower_one] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:lower_one_count] = temp_count
+
+    search_string_dup = search_string.dup
+    search_string_low_dup = search_string_low.dup
+    search_string_wind = search_string.dup
+    search_string_low_wind = search_string_low.dup
+
+    if name != ""
+      search_string_wind.push('"M" IN ' + "('#{wind_dir1}', '#{wind_dir2}')")
+      search_string_low_wind.push('"M" IN ' + "('#{wind_dir1}', '#{wind_dir2}')")
+      search_string_wind.push('"N" >= ' + "#{wind_min}" + ' AND "N" <= ' + "#{wind_max}")
+      search_string_low_wind.push('"N" >= ' + "#{wind_min}" + ' AND "N" <= ' + "#{wind_max}")
+
+      search_string.push('"Home_Team" = ' + "'#{name}'")
+      search_string_low.push('"Home_Team" = ' + "'#{name}'")
+      search_string_wind.push('"Home_Team" = ' + "'#{name}'")
+      search_string_low_wind.push('"Home_Team" = ' + "'#{name}'")
+      search_string_dup.push('"Home_Team" != ' + "'#{name}'")
+      search_string_low_dup.push('"Home_Team" != ' + "'#{name}'")
+    end
+
+    query = Workbook.where(search_string.join(" AND ")).to_a
+    temp_count = query.count
+    lines_count = query.count{|x| x.total_line != nil}
+
+    result[:home_total_runs1_avg] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:home_total_runs2_avg] = (query.map {|stat| stat.Total_Hits.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_hits_park_avg] = (query.map {|stat| stat.Total_Walks.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_hr_park] = (query.map {|stat| stat.home_runs.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:home_count] = temp_count
+    result[:total_lines_park_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count == 0 ? 1 : lines_count)).round(2)
+
+    query = Workbook.where(search_string_low.join(" AND ")).to_a
+    temp_count = query.count
+
+    result[:home_one] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:home_one_count] = temp_count
+
+    query = Workbook.where(search_string_wind.join(" AND ")).to_a
+    temp_count = query.count
+    lines_count = query.count{|x| x.total_line != nil}
+
+    result[:home_total_runs1_avg_wind] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:home_total_runs2_avg_wind] = (query.map {|stat| stat.Total_Hits.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_hits_park_avg_wind] = (query.map {|stat| stat.Total_Walks.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:total_hr_park_wind] = (query.map {|stat| stat.home_runs.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:home_count_wind] = temp_count
+    result[:total_lines_park_avg_wind] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count == 0 ? 1 : lines_count)).round(2)
+
+    query = Workbook.where(search_string_low_wind.join(" AND ")).to_a
+    temp_count = query.count
+
+    result[:home_one_wind] = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+    result[:home_one_count_wind] = temp_count
+
+    query = Workbook.where(search_string_dup.join(" AND ")).to_a
+    temp_count_dup = query.count
+    lines_count_dup = query.count{|x| x.total_line != nil}
+
+    result[:home_total_runs1_avg_dup] = (query.map {|stat| stat.R.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
+    result[:home_total_runs2_avg_dup] = (query.map {|stat| stat.Total_Hits.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
+    result[:total_hits_park_avg_dup] = (query.map {|stat| stat.Total_Walks.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
+    result[:total_hr_park_dup] = (query.map {|stat| stat.home_runs.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
+    result[:home_count_dup] = temp_count_dup
+    result[:total_lines_park_avg_dup] = (query.map {|stat| stat.total_line.to_f }.sum / (lines_count_dup == 0 ? 1 : lines_count_dup)).round(2)
+
+    query = Workbook.where(search_string_low_dup.join(" AND ")).to_a
+    temp_count_dup = query.count
+
+    result[:home_one_dup] = (query.map {|stat| stat.R.to_f }.sum / (temp_count_dup == 0 ? 1 : temp_count_dup)).round(2)
+    result[:home_one_count_dup] = temp_count_dup
+
+    return result
+  end
+
+
   def true_data_prev(temp_min, temp_max, dew_min, dew_max, humid_min, humid_max, baro_min, baro_max, wind_min, wind_max, wind_dir1, wind_dir2, name)
     search_string = []
     search_string_low = []
