@@ -602,9 +602,9 @@ module Update
         lancer = game.lancers.where(starter: true).find_by(player: player)
         unless lancer
           lancer = player.create_lancer(game.game_day.season, team, game)
-          # if index == 0
-          #   lancer.update(starter: true)
-          # end
+          if index == 0
+            lancer.update(starter: true)
+          end
         end
         lancer.update(ip: ip, h: h, r: r, bb: bb)
         pitcher = game.pitchers.find_or_create_by(index: index, team: team)
