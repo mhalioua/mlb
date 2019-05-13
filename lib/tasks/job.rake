@@ -131,68 +131,7 @@ namespace :job do
   end
 
   task :count => :environment do
-    include GetHtml
-    url = 'https://www.wunderground.com/hourly/us/ca/anaheim/92806?cm_ven=localwx_hour'
-    doc = download_document(url)
-    puts url
-
-    next unless doc
-    header = doc.css("#hourly-forecast-table tr").first
-    next unless header
-    headers = {
-        'Temp.' => 0,
-        'Dew Point' => 0,
-        'Humidity' => 0,
-        'Pressure' => 0,
-        'Wind' => 0,
-        'Amount' => 0,
-        'Feels Like' => 0
-    }
-
-    header.children.each_with_index do |header_element, index|
-      key = header_element.text.squish
-      headers[key] = index if key == 'Temp.'
-      headers[key] = index if key == 'Dew Point'
-      headers[key] = index if key == 'Humidity'
-      headers[key] = index if key == 'Pressure'
-      headers[key] = index if key == 'Wind'
-      headers[key] = index if key == 'Amount'
-      headers[key] = index if key == 'Feels Like'
-    end
-
-    re = []
-    hourlyweathers = doc.css("#hourly-forecast-table tbody tr")
-    (0...hourlyweathers.length).each do |index|
-      temp = hourlyweathers[index].children[headers['Temp.']].text.squish
-      dp = hourlyweathers[index].children[headers['Dew Point']].text.squish
-      hum = hourlyweathers[index].children[headers['Humidity']].text.squish
-      pressure = hourlyweathers[index].children[headers['Pressure']].text.squish
-      # precip = hourlyweathers[index].children[headers['Amount']].text.squish
-      wind = hourlyweathers[index].children[headers['Wind']].text.squish
-      # feel = hourlyweathers[index].children[headers['Feels Like']].text.squish
-      wind_index = wind.rindex(' ')
-      wind_dir = wind[wind_index+1..-1]
-      if wind_dir == "W"
-        wind_dir = "West"
-      elsif wind_dir == "S"
-        wind_dir = "South"
-      elsif wind_dir == "N"
-        wind_dir = "North"
-      elsif wind_dir == "E"
-        wind_dir = "East"
-      end
-      wind_speed = wind[0..wind_index-1]
-      data = {
-          temp: temp,
-          humidity: hum,
-          dew: dp,
-          pressure: pressure,
-          wind_dir: wind_dir,
-          wind_speed: wind_speed
-      }
-      re << data
-    end
-    puts re
+    puts DateTime.now.in_time_zone('Eastern Time (US & Canada)').to_date
   end
 
   task :newworkbook_id => :environment do
