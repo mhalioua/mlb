@@ -401,6 +401,8 @@ module GameHelper
       search_string.push('"table" = ' + "'tampa'")
     elsif name == 'Rockies'
       search_string.push('"table" = ' + "'colo'")
+    elsif name == 'Brewers' || name == 'Phillies' || name == 'Rangers' || name == 'Twins'
+      search_string.push('"table" = ' + "'wind'")
     else
       search_string.push('"table" = ' + "'Workbook'")
     end
