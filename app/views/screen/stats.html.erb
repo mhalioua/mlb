@@ -1,0 +1,39 @@
+<% content_for :title, @head %>
+<div class="panel panel-primary text-center">
+	<div class="panel-heading">
+		<h1><%= @away_team.name + " @ " + @home_team.name %></h1>
+    <h2><%= "Odds Opener: #{@game.away_money_line} @ #{@game.home_money_line}" %></h2>
+    <h2 style="color: red"><%= "Totals Opener: #{@game.away_total} @ #{@game.home_total}" %></h2>
+    <h2><%= "Odds Closer: #{@game.away_money_line_closer} @ #{@game.home_money_line_closer}" %></h2>
+    <h2 style="color: red"><%= "Totals Closer: #{@game.away_total_closer} @ #{@game.home_total_closer}" %></h2>
+		<h3><%= "Gametime: #{DateTime.parse(@game.game_date).strftime("%I:%M%p")} Local Time" %></h3>
+		<h3><%= "Ump: #{@game.ump}" %></h3>
+		<% unless @game_stats.empty? %>
+			<%= render partial: "game/new/game_stats", locals: { game_stats: @game_stats, home_team: @home_team.name, away_team: @away_team.name} %>
+		<% end %>
+	</div>
+	<div class="panel-body">
+		<ul class="list-group">
+			<li class="list-group-item"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
+			<li class="list-group-item"><%= link_to(@date + ' Matchups', { controller: 'index', action: 'game', id: @game_day.id }) %></li>
+		</ul>
+	</div>
+  <% unless @away_hitters.empty? %>
+    <%= render partial: "game/new/hitter", locals: { caption: "#{@away_team.name} Hitter", hitters: @away_hitters, pitcher: @home_starting_lancer.first }%>
+  <% end %>
+  <% unless @home_hitters.empty? %>
+    <%= render partial: "game/new/hitter", locals: { caption: "#{@home_team.name} Hitter", hitters: @home_hitters, pitcher: @away_starting_lancer.first }%>
+  <% end %>
+
+  <% if !@away_hitters.empty? && @playbyplay %>
+    <%= render partial: "game/new/hitter_sum", locals: { away_hitters: @away_hitters, home_hitters: @home_hitters, away_pitcher: @away_starting_lancer.first, home_pitcher: @home_starting_lancer.first, playbyplay: @playbyplay }%>
+  <% end %>
+
+	<%= render partial: "game/new/pitcher", locals: { caption: "Starting Pitchers", lancers: @away_starting_lancer + @home_starting_lancer  } %>
+
+	<%= render partial: "game/new/batter", locals: { caption: "#{@away_predicted}#{@away_team.name} Batters", predicted: @away_predicted, batters: @away_batters, left: @away_left } %>
+	<%= render partial: "game/new/batter", locals: { caption: "#{@home_predicted}#{@home_team.name} Batters", predicted: @home_predicted, batters: @home_batters, left: @home_left } %>
+
+	<%= render partial: "game/new/bullpen", locals: { caption: "#{@away_team.name} Bullpen", lancers: @away_bullpen_lancers }%>
+	<%= render partial: "game/new/bullpen", locals: { caption: "#{@home_team.name} Bullpen", lancers: @home_bullpen_lancers }%>
+</div>

@@ -1,0 +1,107 @@
+<% content_for :title, @head %>
+<div class="panel panel-primary text-center">
+	<div class="panel-heading">
+		<h1><%= @away_team.name + " @ " + @home_team.name %></h1>
+		<h2><%= "Odds Opener: #{@game.away_money_line} @ #{@game.home_money_line}" %></h2>
+		<h2 style="color: red"><%= "Totals Opener: #{@game.away_total} @ #{@game.home_total}" %></h2>
+    <h2><%= "Odds Closer: #{@game.away_money_line_closer} @ #{@game.home_money_line_closer}" %></h2>
+    <h2 style="color: red"><%= "Totals Closer: #{@game.away_total_closer} @ #{@game.home_total_closer}" %></h2>
+		<h3><%= "Gametime: #{DateTime.parse(@game.game_date).strftime("%I:%M%p")} Local Time" %></h3>
+		<h3><%= "Ump: #{@game.ump}" %></h3>
+		<% unless @game_stats.empty? %>
+			<%= render partial: "game/new/game_stats", locals: { game_stats: @game_stats, home_team: @home_team.name, away_team: @away_team.name} %>
+		<% end %>
+	</div>
+	<div class="panel-body">
+		<ul class="list-group">
+			<li class="list-group-item"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
+			<li class="list-group-item"><%= link_to(@date + ' Matchups', { controller: 'index', action: 'game', id: @game_day.id }) %></li>
+		</ul>
+		<%= select_tag :days, options_for_select(@forecast_dropdown, @forecast), :id => "select_days" %>
+		<script>
+		$(document).ready(function(){
+			$('#select_days').change(function() {
+				var a = window.location.href.split("/")
+				a[6] = $(this).val()
+				window.location.href = a.join("/")
+			});
+		});
+		</script>
+		<% unless @forecasts.empty? %>
+			<%= render partial: "game/new/wind", locals: { caption: "Forecast Wind", weathers: @forecasts, name: @home_team.name, additional: @additional } %>
+		<% end %>
+		<% unless @weathers.empty? %>
+			<%= render partial: "game/new/wind", locals: { caption: "Weather Wind", weathers: @weathers, name: @home_team.name, additional: 0 } %>
+		<% end %>
+
+		<div class="image">
+			<%= image_tag(@image_url, :width => '600') %>
+			<h2><%= @home_team.stadium + " Zipcode: " + @home_team.zipcode %></h2>
+		</div>
+
+		<% unless @forecasts.empty? %>
+			<%= render partial: "game/new/updated_weather", locals: { caption: "Wunderground Weather Forecast", type: 0, weathers: @weather_forecasts, name: @home_team.name, stadium: @home_team.stadium } %>
+		<% end %>
+		<% unless @weathers.empty? %>
+			<%= render partial: "game/new/updated_weather", locals: { caption: "Wunderground Weather Records", type: 2, weathers: @weather_actual, name: @home_team.name, stadium: @home_team.stadium } %>
+		<% end %>
+
+		<% unless @forecasts.empty? %>
+			<%= render partial: "game/new/updated_weather", locals: { caption: "Wunderground Weather Forecast", type: 1, weathers: @weather_previous, name: @home_team.name, stadium: @home_team.stadium } %>
+		<% end %>
+
+    <% unless @away_hitters.empty? %>
+      <%= render partial: "game/new/hitter", locals: { caption: "#{@away_team.name} Hitter", hitters: @away_hitters, pitcher: @home_starting_lancer.first }%>
+    <% end %>
+    <% unless @home_hitters.empty? %>
+      <%= render partial: "game/new/hitter", locals: { caption: "#{@home_team.name} Hitter", hitters: @home_hitters, pitcher: @away_starting_lancer.first }%>
+    <% end %>
+
+    <% if !@away_hitters.empty? && @playbyplay %>
+      <%= render partial: "game/new/hitter_sum", locals: { away_hitters: @away_hitters, home_hitters: @home_hitters, away_pitcher: @away_starting_lancer.first, home_pitcher: @home_starting_lancer.first, playbyplay: @playbyplay }%>
+    <% end %>
+
+		<%= render partial: "game/new/pitcher", locals: { caption: "Starting Pitchers", lancers: @away_starting_lancer + @home_starting_lancer  } %>
+
+		<%= render partial: "game/new/batter", locals: { caption: "#{@away_predicted}#{@away_team.name} Batters", predicted: @away_predicted, batters: @away_batters, left: @away_left } %>
+		<%= render partial: "game/new/batter", locals: { caption: "#{@home_predicted}#{@home_team.name} Batters", predicted: @home_predicted, batters: @home_batters, left: @home_left } %>
+		<div style="float: left">
+			<% unless @away_starting_lancer.empty? %>
+				<%= render partial: "game/new/scout", locals: { predicted: @away_predicted, batters: @home_batters, pitcher: @away_starting_lancer.first, team: @away_team } %>
+			<% end %>
+			<% unless @home_starting_lancer.empty? %>
+				<%= render partial: "game/new/scout", locals: { predicted: @home_predicted, batters: @away_batters, pitcher: @home_starting_lancer.first, team: @home_team } %>
+			<% end %>
+		</div>
+		<% unless @home_starting_lancer.empty? %>
+			<%= render partial: "game/new/scout_information", locals: { pitcher: @home_starting_lancer.first } %>
+		<% end %>
+		<% unless @away_starting_lancer.empty? %>
+			<%= render partial: "game/new/scout_information", locals: { pitcher: @away_starting_lancer.first } %>
+		<% end %>
+
+		<%= render partial: "game/new/bullpen", locals: { caption: "#{@away_team.name} Bullpen", lancers: @away_bullpen_lancers }%>
+		<%= render partial: "game/new/bullpen", locals: { caption: "#{@home_team.name} Bullpen", lancers: @home_bullpen_lancers }%>
+
+    <% unless @away_starting_lancer.empty? %>
+      <%= render partial: "game/new/previous_pitcher_table", locals: { pitcher: @away_starting_lancer.first, prev_pitchers: @away_starting_lancer_previous, flag: 1 } %>
+    <% end %>
+    <% unless @home_starting_lancer.empty? %>
+      <%= render partial: "game/new/previous_pitcher_table", locals: { pitcher: @home_starting_lancer.first, prev_pitchers: @home_starting_lancer_previous, flag: 1 } %>
+    <% end %>
+
+    <%= render partial: "game/new/lr_table", locals: { min: 2, max: 6, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 4, max: 9, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 7, max: 12, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 10, max: 15, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 13, max: 20, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 18, max: 0, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
+
+    <%= render partial: "game/new/lr_table", locals: { min: 2, max: 6, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 4, max: 9, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 7, max: 12, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 10, max: 15, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 13, max: 20, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 18, max: 0, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+	</div>
+</div>
