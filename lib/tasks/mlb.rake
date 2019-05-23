@@ -90,18 +90,11 @@ namespace :mlb do
     [GameDay.yesterday, GameDay.today].each { |game_day| game_day.play_by_play }
   end
 
-  task daemon: :environment do
-    include GetHtml
-    url = 'https://mlb-daemon.herokuapp.com/'
-    download_document(url)
-    puts url
-  end
-
   task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs]
 
   task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout]
 
-  task source: [:create_matchups, :create_bullpen, :update_games, :pitcher_box_score, :batter_box_score, :play_by_play, :prev_pitchers, :pitcher_informations, :update_forecast, :update_weather, :daemon]
+  task source: [:create_matchups, :create_bullpen, :update_games, :pitcher_box_score, :batter_box_score, :play_by_play, :prev_pitchers, :pitcher_informations, :update_forecast, :update_weather]
 
   task hourly: [:update_games, :pitcher_box_score, :batter_box_score, :play_by_play]
 
