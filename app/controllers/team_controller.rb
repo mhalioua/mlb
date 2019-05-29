@@ -6,6 +6,6 @@ class TeamController < ApplicationController
   def show
     id = params[:id]
     @team = Team.find_by(id: id)
-    @games = Game.where("home_team_id = ? AND game_date < ?", id, Date.current).or(Game.where("away_team_id = ? AND game_date < ?", id, Date.current)).order('game_date DESC').limit(50)
+    @games = Game.where("home_team_id = ? AND game_date < ?", id, Date.current).order('game_date DESC').limit(50)
   end
 end
