@@ -1,15 +1,6 @@
 <% content_for :title, @team.name %>
-<div class="panel panel-primary text-center">
-  <div class="panel-heading">
-    <h1><%= @team.name %></h1>
+<% @games.each do |game| %>
+  <div style="border-bottom: 20px solid black;">
+    <img src="https://s3.amazonaws.com/mlb-daemon/images/<%= game.id %>.png" />
   </div>
-  <div class="panel-body">
-    <ul class="list-group">
-      <% @games.each do |game| %>
-        <div style="border-bottom: 20px solid black;">
-          <img src="https://s3.amazonaws.com/mlb-daemon/images/<%= game.id %>.png" />
-        </div>
-      <% end %>
-    </ul>
-  </div>
-</div>
+<% end %>
