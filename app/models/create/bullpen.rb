@@ -69,8 +69,7 @@ module Create
 
       def update_bullpen_pitches(player, one, two, three, four, five, time)
         (1..5).each do |n|
-          time = time.yesterday
-          game_day = GameDay.search(time)
+          game_day = GameDay.today.previous_days(n)
           case n
           when 1
             pitches = one
