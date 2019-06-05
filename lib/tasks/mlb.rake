@@ -64,10 +64,11 @@ namespace :mlb do
   end
 
   task update_prev: :environment do
-    date = Date.new(2019, 4, 2)
-    game_day = GameDay.find_by(date: date)
-    game_day.prev_pitchers
-    game_day.pitcher_informations
+    (1..6).each do |index|
+      date = Date.new(2019, 6, index)
+      game_day = GameDay.find_by(date: date)
+      game_day.create_matchups
+    end
   end
 
   task update_forecast: :environment do
