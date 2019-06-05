@@ -86,12 +86,12 @@ module Create
           next unless game
 
           players = element.css('.lineup-card-header')[0].children[3].css('.player')
-          away_pitcher = players[0].children[0].text.squish
-          home_pitcher = players[1].children[0].text.squish
+          away_pitcher = players[0]
+          home_pitcher = players[1]
 
-          if away_pitcher != 'TBD'
-            away_pitcher_name = away_pitcher[0..-5]
-            away_pitcher_handedness = away_pitcher[-2]
+          if away_pitcher.text.squish != 'TBD'
+            away_pitcher_name = away_pitcher.children[0].children[0].text.squish
+            away_pitcher_handedness = away_pitcher.children[1].text.squish
             away_pitcher_handedness = 'B' if away_pitcher_handedness == 'S'
 
             puts away_pitcher_name
@@ -105,9 +105,9 @@ module Create
             game_lancer.update(starter: true)
           end
 
-          if home_pitcher != 'TBD'
-            home_pitcher_name = home_pitcher[0..-5]
-            home_pitcher_handedness = home_pitcher[-2]
+          if home_pitcher.text.squish != 'TBD'
+            home_pitcher_name = home_pitcher.children[0].children[0].text.squish
+            home_pitcher_handedness = home_pitcher.children[1].text.squish
             home_pitcher_handedness = 'B' if home_pitcher_handedness == 'S'
             player = Player.search(home_pitcher_name, nil, 0)
             player = Player.create(name: home_pitcher_name, throwhand: home_pitcher_handedness) unless player
