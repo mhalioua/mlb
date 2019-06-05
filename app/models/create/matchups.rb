@@ -91,7 +91,7 @@ module Create
 
           if away_pitcher.text.squish != 'TBD'
             away_pitcher_name = away_pitcher.children[0].children[0].text.squish
-            away_pitcher_handedness = away_pitcher.children[1].text.squish
+            away_pitcher_handedness = away_pitcher.children[1].text.squish[1]
             away_pitcher_handedness = 'B' if away_pitcher_handedness == 'S'
 
             puts away_pitcher_name
@@ -107,7 +107,7 @@ module Create
 
           if home_pitcher.text.squish != 'TBD'
             home_pitcher_name = home_pitcher.children[0].children[0].text.squish
-            home_pitcher_handedness = home_pitcher.children[1].text.squish
+            home_pitcher_handedness = home_pitcher.children[1].text.squish[1]
             home_pitcher_handedness = 'B' if home_pitcher_handedness == 'S'
             player = Player.search(home_pitcher_name, nil, 0)
             player = Player.create(name: home_pitcher_name, throwhand: home_pitcher_handedness) unless player
