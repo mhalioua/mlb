@@ -86,8 +86,8 @@ module Create
           next unless game
 
           players = element.css('.lineup-card-header')[0].children[3].css('.player')
-          away_pitcher = players[0].text.squish
-          home_pitcher = players[1].text.squish
+          away_pitcher = players[0].children[0].text.squish
+          home_pitcher = players[1].children[0].text.squish
 
           if away_pitcher != 'TBD'
             away_pitcher_name = away_pitcher[0..-5]
