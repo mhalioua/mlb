@@ -27,7 +27,7 @@ module Create
             team_index += 1
             next
           end
-          name = element.children[0].children[0].text
+          name = element.children[0].children[0].children[0].text
           player = Player.search(name, nil, 0)
           unless player
             player = Player.create(name: name)
