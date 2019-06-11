@@ -30,7 +30,7 @@ class TeamController < ApplicationController
         next if is_filter === false
       end
 
-      if params[:wind_dir].present? && params[:wind_dir] !== ''
+      if params[:wind_dir].present? && params[:wind_dir] != ''
         @wind_dir = params[:wind_dir]
         is_filter = false
         is_filter = true if forecast_one.wind_dir === @wind_dir
