@@ -57,6 +57,6 @@ class TeamController < ApplicationController
 
       return true
     }
-    @games = @games.limit(50)
+    @games = @games[0..50]
   end
 end
