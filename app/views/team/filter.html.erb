@@ -7,7 +7,7 @@
   <label>Stadium: </label>
   <select name="team_id">
     <% @teams.each do |team| %>
-      <option value="<%= team.id %>" <%= @team_id === team.id ? "selected" : '' %>><%= team.name %></option>
+      <option value="<%= team.id %>" <%= @team_id == team.id ? "selected" : '' %>><%= team.name %></option>
     <% end %>
   </select>
 
