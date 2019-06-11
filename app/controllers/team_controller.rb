@@ -11,12 +11,13 @@ class TeamController < ApplicationController
 
   def filter
     @teams = Team.all.order('name')
-    @games = Game.where("game_date < ? AND id > 10516", Date.current).or(Game.where("game_date < ? AND id < 10070 AND id >= 9058", Date.current)).order('game_date DESC')
+    @result = Game.where("game_date < ? AND id > 10516", Date.current).or(Game.where("game_date < ? AND id < 10070 AND id >= 9058", Date.current)).order('game_date DESC')
     @team_id = nil
     @wind_dir = nil
     @wind_speed = nil
     @baro = nil
-    @games = @games.select {|game|
+    @games = []
+    @result.each do |game|
       forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(1)
       forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC").offset(1)
       forecast_thr = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC").offset(1)
@@ -26,7 +27,7 @@ class TeamController < ApplicationController
         @team_id = params[:team_id]
         is_filter = false
         is_filter = true if game.home_team_id === @team_id
-        return false if is_filter === false
+        next if is_filter === false
       end
 
       if params[:wind_dir].present? && params[:wind_dir]
@@ -36,7 +37,7 @@ class TeamController < ApplicationController
         is_filter = true if forecast_two.wind_dir === @wind_dir
         is_filter = true if forecast_thr.wind_dir === @wind_dir
         is_filter = true if forecast_for.wind_dir === @wind_dir
-        return false if is_filter === false
+        next if is_filter === false
       end
 
       if params[:wind_speed].present? && params[:wind_speed]
@@ -46,7 +47,7 @@ class TeamController < ApplicationController
         is_filter = true if forecast_two.wind_speed >= @wind_speed - 3 && forecast_two.wind_speed <= @wind_speed + 3
         is_filter = true if forecast_thr.wind_speed >= @wind_speed - 3 && forecast_thr.wind_speed <= @wind_speed + 3
         is_filter = true if forecast_for.wind_speed >= @wind_speed - 3 && forecast_for.wind_speed <= @wind_speed + 3
-        return false if is_filter === false
+        next if is_filter === false
       end
 
       if params[:baro].present? && params[:baro]
@@ -56,11 +57,11 @@ class TeamController < ApplicationController
         is_filter = true if forecast_two.pressure_num >= (@baro - 0.04).round(2) && forecast_two.pressure_num <= (@baro + 0.04).round(2)
         is_filter = true if forecast_thr.pressure_num >= (@baro - 0.04).round(2) && forecast_thr.pressure_num <= (@baro + 0.04).round(2)
         is_filter = true if forecast_for.pressure_num >= (@baro - 0.04).round(2) && forecast_for.pressure_num <= (@baro + 0.04).round(2)
-        return false if is_filter === false
+        next if is_filter === false
       end
 
-      return true
-    }
-    @games = @games[0..50]
+      @games.push(game)
+      break if @games.length === 50
+    end
   end
 end
