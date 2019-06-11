@@ -1,20 +1,24 @@
 <% content_for :title, 'Filter' %>
+<%= @team_id %>
+<%= @wind_dir %>
+<%= @wind_speed %>
+<%= @baro %>
 <%= form_tag("/team/filter", method: "get") do %>
   <label>Stadium: </label>
   <select name="team_id">
     <% @teams.each do |team| %>
-      <option value="<%= team.id %>"><%= team.name %></option>
+      <option value="<%= team.id %>" <%= @team_id === team.id ? "selected" : '' %>><%= team.name %></option>
     <% end %>
   </select>
 
   <label>Wind Direction: </label>
-  <input type="text" name="wind_dir" />
+  <input type="text" name="wind_dir" value="<%= @wind_dir %>" />
 
   <label>Wind Speed: </label>
-  <input type="number" step="1" name="wind_speed" />
+  <input type="number" step="1" name="wind_speed" value="<%= @wind_speed %>" />
 
   <label>Baro: </label>
-  <input type="number" step="0.01" name="baro" />
+  <input type="number" step="0.01" name="baro" value="<%= @baro %>" />
 
   <input type="submit" value="Filter">
 <% end %>
