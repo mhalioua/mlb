@@ -19,7 +19,7 @@ class TeamController < ApplicationController
     @games = []
     @result.each do |game|
       if params[:team_id].present? && params[:team_id] != ''
-        @team_id = params[:team_id]
+        @team_id = params[:team_id].to_i
         is_filter = false
         is_filter = true if game.home_team_id == @team_id
         next if is_filter === false
