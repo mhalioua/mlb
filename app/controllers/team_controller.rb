@@ -41,7 +41,7 @@ class TeamController < ApplicationController
       end
 
       if params[:wind_speed].present? && params[:wind_speed] != ''
-        @wind_speed = params[:wind_speed]
+        @wind_speed = params[:wind_speed].to_i
         is_filter = false
         is_filter = true if forecast_one && forecast_one.wind_speed.to_i >= @wind_speed - 3 && forecast_one.wind_speed.to_i <= @wind_speed + 3
         is_filter = true if forecast_two && forecast_two.wind_speed.to_i >= @wind_speed - 3 && forecast_two.wind_speed.to_i <= @wind_speed + 3
@@ -51,7 +51,7 @@ class TeamController < ApplicationController
       end
 
       if params[:baro].present? && params[:baro] != ''
-        @baro = params[:baro]
+        @baro = params[:baro].to_f
         is_filter = false
         is_filter = true if forecast_one && forecast_one.pressure_num >= (@baro - 0.04).round(2) && forecast_one.pressure_num <= (@baro + 0.04).round(2)
         is_filter = true if forecast_two && forecast_two.pressure_num >= (@baro - 0.04).round(2) && forecast_two.pressure_num <= (@baro + 0.04).round(2)
