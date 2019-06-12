@@ -43,10 +43,10 @@ class TeamController < ApplicationController
       if params[:wind_speed].present? && params[:wind_speed] != ''
         @wind_speed = params[:wind_speed]
         is_filter = false
-        is_filter = true if forecast_one && forecast_one.wind_speed >= @wind_speed - 3 && forecast_one.wind_speed <= @wind_speed + 3
-        is_filter = true if forecast_two && forecast_two.wind_speed >= @wind_speed - 3 && forecast_two.wind_speed <= @wind_speed + 3
-        is_filter = true if forecast_thr && forecast_thr.wind_speed >= @wind_speed - 3 && forecast_thr.wind_speed <= @wind_speed + 3
-        is_filter = true if forecast_for && forecast_for.wind_speed >= @wind_speed - 3 && forecast_for.wind_speed <= @wind_speed + 3
+        is_filter = true if forecast_one && forecast_one.wind_speed.to_i >= @wind_speed - 3 && forecast_one.wind_speed.to_i <= @wind_speed + 3
+        is_filter = true if forecast_two && forecast_two.wind_speed.to_i >= @wind_speed - 3 && forecast_two.wind_speed.to_i <= @wind_speed + 3
+        is_filter = true if forecast_thr && forecast_thr.wind_speed.to_i >= @wind_speed - 3 && forecast_thr.wind_speed.to_i <= @wind_speed + 3
+        is_filter = true if forecast_for && forecast_for.wind_speed.to_i >= @wind_speed - 3 && forecast_for.wind_speed.to_i <= @wind_speed + 3
         next if is_filter === false
       end
 

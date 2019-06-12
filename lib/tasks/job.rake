@@ -22,17 +22,16 @@ namespace :job do
       puts forecast_two.wind_dir
       puts forecast_thr.wind_dir
       puts forecast_for.wind_dir
-      puts forecast_one.wind_speed
-      puts forecast_two.wind_speed
-      puts forecast_thr.wind_speed
-      puts forecast_for.wind_speed
+      puts forecast_one.wind_speed.to_i
+      puts forecast_two.wind_speed.to_i
+      puts forecast_thr.wind_speed.to_i
+      puts forecast_for.wind_speed.to_i
       puts forecast_one.pressure_num
       puts forecast_two.pressure_num
       puts forecast_thr.pressure_num
       puts forecast_for.pressure_num
 
-      if params[:team_id].present? && params[:team_id] != ''
-        @team_id = params[:team_id]
+      if @team_id != ''
         is_filter = false
         is_filter = true if game.home_team_id == @team_id
         next if is_filter === false
@@ -51,10 +50,10 @@ namespace :job do
 
       if @wind_speed != ''
         is_filter = false
-        is_filter = true if forecast_one && forecast_one.wind_speed >= @wind_speed - 3 && forecast_one.wind_speed <= @wind_speed + 3
-        is_filter = true if forecast_two && forecast_two.wind_speed >= @wind_speed - 3 && forecast_two.wind_speed <= @wind_speed + 3
-        is_filter = true if forecast_thr && forecast_thr.wind_speed >= @wind_speed - 3 && forecast_thr.wind_speed <= @wind_speed + 3
-        is_filter = true if forecast_for && forecast_for.wind_speed >= @wind_speed - 3 && forecast_for.wind_speed <= @wind_speed + 3
+        is_filter = true if forecast_one && forecast_one.wind_speed.to_i >= @wind_speed - 3 && forecast_one.wind_speed.to_i <= @wind_speed + 3
+        is_filter = true if forecast_two && forecast_two.wind_speed.to_i >= @wind_speed - 3 && forecast_two.wind_speed.to_i <= @wind_speed + 3
+        is_filter = true if forecast_thr && forecast_thr.wind_speed.to_i >= @wind_speed - 3 && forecast_thr.wind_speed.to_i <= @wind_speed + 3
+        is_filter = true if forecast_for && forecast_for.wind_speed.to_i >= @wind_speed - 3 && forecast_for.wind_speed.to_i <= @wind_speed + 3
         next if is_filter === false
       end
       puts 'wind speed pass'
