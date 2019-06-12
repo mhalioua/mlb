@@ -18,17 +18,17 @@ class TeamController < ApplicationController
     @baro = nil
     @games = []
     @result.each do |game|
-      forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(1).first
-      forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC").offset(1).first
-      forecast_thr = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC").offset(1).first
-      forecast_for = game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").offset(1).first
-
       if params[:team_id].present? && params[:team_id] != ''
         @team_id = params[:team_id]
         is_filter = false
         is_filter = true if game.home_team_id == @team_id
         next if is_filter === false
       end
+
+      forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(1).first
+      forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC").offset(1).first
+      forecast_thr = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC").offset(1).first
+      forecast_for = game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").offset(1).first
 
       if params[:wind_dir].present? && params[:wind_dir] != ''
         @wind_dir = params[:wind_dir]
