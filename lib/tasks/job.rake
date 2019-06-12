@@ -4,16 +4,74 @@ namespace :job do
 
   task :test => :environment do
     include GetHtml
-    url = "http://www.baseballpress.com/bullpen-usage"
-    puts url
-    doc = download_document(url)
+    @teams = Team.all.order('name')
+    @result = Game.where("game_date < ? AND id > 10516", Date.current).or(Game.where("game_date < ? AND id < 10070 AND id >= 9058", Date.current)).order('game_date DESC')
+    @team_id = 1
+    @wind_dir = ''
+    @wind_speed = ''
+    @baro = ''
+    @games = []
+    @result.each do |game|
+      forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(1).first
+      forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC").offset(1).first
+      forecast_thr = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC").offset(1).first
+      forecast_for = game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").offset(1).first
+      puts game.id
+      puts game.home_team_id
+      puts forecast_one.wind_dir
+      puts forecast_two.wind_dir
+      puts forecast_thr.wind_dir
+      puts forecast_for.wind_dir
+      puts forecast_one.wind_speed
+      puts forecast_two.wind_speed
+      puts forecast_thr.wind_speed
+      puts forecast_for.wind_speed
+      puts forecast_one.pressure_num
+      puts forecast_two.pressure_num
+      puts forecast_thr.pressure_num
+      puts forecast_for.pressure_num
 
-    doc.css(".no-space tr").each do |element|
-      if element.children.size < 3
-        puts element.children[0].text
-        next
+      if params[:team_id].present? && params[:team_id] != ''
+        @team_id = params[:team_id]
+        is_filter = false
+        is_filter = true if game.home_team_id == @team_id
+        next if is_filter === false
       end
-      puts text.to_i
+      puts 'team pass'
+
+      if @wind_dir != ''
+        is_filter = false
+        is_filter = true if forecast_one && forecast_one.wind_dir === @wind_dir
+        is_filter = true if forecast_two && forecast_two.wind_dir === @wind_dir
+        is_filter = true if forecast_thr && forecast_thr.wind_dir === @wind_dir
+        is_filter = true if forecast_for && forecast_for.wind_dir === @wind_dir
+        next if is_filter === false
+      end
+      puts 'wind dir pass'
+
+      if @wind_speed != ''
+        is_filter = false
+        is_filter = true if forecast_one && forecast_one.wind_speed >= @wind_speed - 3 && forecast_one.wind_speed <= @wind_speed + 3
+        is_filter = true if forecast_two && forecast_two.wind_speed >= @wind_speed - 3 && forecast_two.wind_speed <= @wind_speed + 3
+        is_filter = true if forecast_thr && forecast_thr.wind_speed >= @wind_speed - 3 && forecast_thr.wind_speed <= @wind_speed + 3
+        is_filter = true if forecast_for && forecast_for.wind_speed >= @wind_speed - 3 && forecast_for.wind_speed <= @wind_speed + 3
+        next if is_filter === false
+      end
+      puts 'wind speed pass'
+
+      if @baro != ''
+        is_filter = false
+        is_filter = true if forecast_one && forecast_one.pressure_num >= (@baro - 0.04).round(2) && forecast_one.pressure_num <= (@baro + 0.04).round(2)
+        is_filter = true if forecast_two && forecast_two.pressure_num >= (@baro - 0.04).round(2) && forecast_two.pressure_num <= (@baro + 0.04).round(2)
+        is_filter = true if forecast_thr && forecast_thr.pressure_num >= (@baro - 0.04).round(2) && forecast_thr.pressure_num <= (@baro + 0.04).round(2)
+        is_filter = true if forecast_for && forecast_for.pressure_num >= (@baro - 0.04).round(2) && forecast_for.pressure_num <= (@baro + 0.04).round(2)
+        next if is_filter === false
+      end
+      puts 'baro pass'
+      puts 'success'
+
+      @games.push(game)
+      break if @games.length === 50
     end
   end
 
