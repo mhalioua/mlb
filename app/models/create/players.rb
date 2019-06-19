@@ -95,6 +95,21 @@ module Create
       end
     end
 
+    def getPlayerNumber(team)
+      puts "Get #{team.name} MLB Player Number"
+      url = "http://m.#{team.mlb_abbr}.mlb.com/roster"
+      puts url
+
+      doc = download_document(url)
+      rows = doc.css('tr')
+      rows.each_with_index do |element, index|
+        player_number = element.children[0].text.to_i
+        next if player_number === 0
+        player = Player.find_by(name: element.children[2].text)
+        player.update(player_number: player_number) if player
+      end
+    end
+
     def getMlbId(team)
       puts "Get #{team.name} MLB IDs"
       url = "http://m.#{team.mlb_abbr}.mlb.com/roster"

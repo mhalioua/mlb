@@ -91,6 +91,13 @@ namespace :mlb do
     GameDay.today.update_transactions
   end
 
+  task player_number: :environment do
+    teams = Team.all
+    teams.each do |team|
+      team.player_number
+    end
+  end
+
   task play_by_play: :environment do
     [GameDay.yesterday, GameDay.today].each {|game_day| game_day.play_by_play}
   end
@@ -99,7 +106,8 @@ namespace :mlb do
 
   task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout]
 
-  task source: [:create_matchups, :create_bullpen, :update_games, :pitcher_box_score, :batter_box_score, :play_by_play, :prev_pitchers, :pitcher_informations, :update_forecast, :update_weather]
+  task source: [:create_matchups, :create_bullpen, :update_games, :pitcher_box_score, :batter_box_score, :player_number,
+                :update_transactions, :play_by_play, :prev_pitchers, :pitcher_informations, :update_forecast, :update_weather]
 
   task hourly: [:update_games, :pitcher_box_score, :batter_box_score, :play_by_play]
 

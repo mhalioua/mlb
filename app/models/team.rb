@@ -8,4 +8,8 @@ class Team < ApplicationRecord
   def self.create_teams
     Create::Teams.create
   end
+
+  def self.player_number
+    Create::Players.getPlayerNumber(self)
+  end
 end
