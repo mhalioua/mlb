@@ -64,7 +64,7 @@ class GameDay < ApplicationRecord
   end
 
   def update_transactions
-    Update::Transactions.new.update(self)
+    Update::Transactions.new.update
   end
 
   def update_weather
