@@ -87,6 +87,10 @@ namespace :mlb do
     Season.where("year = 2019").map {|season| season.update_pitchers_scout}
   end
 
+  task update_transactions: :environment do
+    GameDay.today.update_transactions
+  end
+
   task play_by_play: :environment do
     [GameDay.yesterday, GameDay.today].each {|game_day| game_day.play_by_play}
   end
