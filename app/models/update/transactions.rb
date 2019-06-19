@@ -14,8 +14,8 @@ module Update
 
         transactions = doc.css("tbody tr")
         transactions[-20..-1].each do |transaction|
-          date = transaction.children[0].text
-          description = transaction.children[1].text
+          date = transaction.children[1].text
+          description = transaction.children[3].text
           Transaction.find_or_create_by(date: date, description: description)
         end
       end
