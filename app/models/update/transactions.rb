@@ -13,7 +13,7 @@ module Update
         next unless doc
 
         transactions = doc.css("tbody tr")
-        transactions.last(20).each do |transaction|
+        transactions[-20..-1].each do |transaction|
           date = transaction.children[0].text
           description = transaction.children[1].text
           Transaction.find_or_create_by(date: date, description: description)
