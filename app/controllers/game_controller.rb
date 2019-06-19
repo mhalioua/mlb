@@ -140,6 +140,15 @@ class GameController < ApplicationController
 		@away_starting_lancer = @game.lancers.where(team: @away_team, starter: true, season_id: @season.id)
 		@home_starting_lancer = @game.lancers.where(team: @home_team, starter: true, season_id: @season.id)
 
+		@forecast_pre_one = @game.weathers.where(station: "Forecast", hour: -1).order("updated_at DESC").offset(1)
+		@forecast_pre_two = @game.weathers.where(station: "Forecast", hour: 0).order("updated_at DESC").offset(1)
+		@forecast_one = @game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(1)
+		@forecast_two = @game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC").offset(1)
+		@forecast_three = @game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC").offset(1)
+		@forecast_four = @game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").offset(1)
+		@forecast_after_one = @game.weathers.where(station: "Forecast", hour: 5).order("updated_at DESC").offset(1)
+		@forecasts = [@forecast_one.first, @forecast_two.first, @forecast_three.first, @forecast_four.first]
+
 		unless @away_starting_lancer.empty?
 			@home_left = @away_starting_lancer.first.throwhand == "L"
 			@home_batters = @away_starting_lancer.first.opposing_lineup

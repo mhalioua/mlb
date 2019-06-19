@@ -1,0 +1,24 @@
+<table>
+  <thead>
+    <tr>
+
+    </tr>
+  </thead>
+  <tbody>
+    <% forecasts.each do |forecast| %>
+    <tr>
+      <td><%= forecast["time"] %></td>
+      <td><%= forecast["conditions"] %></td>
+      <td><%= forecast["temp"] %></td>
+      <td><%= forecast["feel"] %></td>
+      <td><%= forecast["precip_percent"] %></td>
+      <td><%= forecast["precip"] %></td>
+      <td><%= forecast["cloud"] %></td>
+      <td><%= forecast["dp"] %></td>
+      <td><%= forecast["hum"] %></td>
+      <td><%= forecast["wind_dir"] %> <%= forecast["wind_speed"] %></td>
+      <td><%= forecast["pressure"] %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
