@@ -9,7 +9,7 @@ class Team < ApplicationRecord
     Create::Teams.create
   end
 
-  def self.player_number
+  def player_number
     Create::Players.getPlayerNumber(self)
   end
 end
