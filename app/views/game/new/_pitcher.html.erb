@@ -98,7 +98,7 @@
       <% stats = lancer.view_stats(seasons) %>
       <% lefty, righty = lancer.opposing_batters_handedness  %>
       <tr>
-        <td class="name"><%= "#{lancer.name} (#{lancer.throwhand})" %></td>
+        <td class="name"><%= "#{lancer.name} (#{lancer.throwhand}) (#{lancer.player.player_number})" %></td>
         <td><%= lefty %></td>
         <td><%= righty %></td>
         <%= render partial: "game/new/pitcher_begin", locals: { stat: stats.first } %>

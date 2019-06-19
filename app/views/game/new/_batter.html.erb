@@ -41,7 +41,7 @@
     <% batters.each do |batter| %>
       <% stats = batter.view_stats(seasons, handedness(left)) %>
       <tr>
-        <td class="name"><%= "#{batter.lineup}. #{batter.player.name} (#{batter.player.bathand})"%></td>
+        <td class="name"><%= "#{batter.lineup}. #{batter.player.name} (#{batter.player.bathand}) (#{batter.player.player_number})"%></td>
         <% stats.each do |stat| %>
           <%= render partial: "game/new/batter_stat", locals: { stat: stat } %>
         <% end %>

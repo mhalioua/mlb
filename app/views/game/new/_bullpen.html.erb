@@ -74,7 +74,7 @@
     <% lancers.sort_by(&:sort_bullpen).each_with_index do |lancer, index| %>
       <% stats = lancer.view_stats(seasons) %>
       <tr>
-        <td class="name"><%= "#{lancer.player.name} (#{lancer.player.throwhand})" %></td>
+        <td class="name"><%= "#{lancer.player.name} (#{lancer.player.throwhand}) (#{lancer.player.player_number})" %></td>
         <% 5.times do |i| %>
           <td><%= lancer.prev_bullpen_pitches(i+2) %></td>
         <% end %>
