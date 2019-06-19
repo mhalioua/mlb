@@ -85,7 +85,7 @@ module Update
           wind_dir = "East"
         end
         wind_speed = wind[0..wind_index-1]
-        weather = game+.weathers.create(station: "Forecast", hour: index)
+        weather = game.weathers.create(station: "Forecast", hour: index)
         weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed, precip: precip, feel: feel,
                        time: time, conditions: conditions, precip_percent: precip_percent, cloud: cloud)
 
