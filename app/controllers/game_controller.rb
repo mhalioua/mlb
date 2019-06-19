@@ -149,6 +149,9 @@ class GameController < ApplicationController
 		@forecast_after_one = @game.weathers.where(station: "Forecast", hour: 5).order("updated_at DESC").offset(1)
 		@forecasts = [@forecast_one.first, @forecast_two.first, @forecast_three.first, @forecast_four.first]
 
+		@home_transactions = Transactions.where(team_id: @home_team.id).order("updated_at DESC").limit(20)
+		@away_transactions = Transactions.where(team_id: @away_team.id).order("updated_at DESC").limit(20)
+
 		unless @away_starting_lancer.empty?
 			@home_left = @away_starting_lancer.first.throwhand == "L"
 			@home_batters = @away_starting_lancer.first.opposing_lineup

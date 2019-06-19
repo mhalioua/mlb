@@ -16,7 +16,7 @@ module Update
         transactions[-20..-1].each do |transaction|
           date = transaction.children[1].text
           description = transaction.children[3].text
-          Transaction.find_or_create_by(date: date, description: description)
+          Transaction.find_or_create_by(team_id: team.id, date: date, description: description)
         end
       end
     end
