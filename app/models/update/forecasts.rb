@@ -48,7 +48,8 @@ module Update
         start_index = index
       end
 
-      (1..4).each do |index|
+      start_index = start_index - 1 if start_index !== 0
+      (0..6).each do |index|
         temp = hourlyweathers[start_index].children[headers['Temp.']].text.squish
         dp = hourlyweathers[start_index].children[headers['Dew Point']].text.squish
         hum = hourlyweathers[start_index].children[headers['Humidity']].text.squish
