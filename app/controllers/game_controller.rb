@@ -147,7 +147,7 @@ class GameController < ApplicationController
 		@forecast_three = @game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC").offset(1)
 		@forecast_four = @game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").offset(1)
 		@forecast_after_one = @game.weathers.where(station: "Forecast", hour: 5).order("updated_at DESC").offset(1)
-		@forecasts = [@forecast_one.first, @forecast_two.first, @forecast_three.first, @forecast_four.first]
+		@forecasts = [@forecast_pre_one.first, @forecast_pre_two.first, @forecast_one.first, @forecast_two.first, @forecast_three.first, @forecast_four.first, @forecast_after_one.first]
 
 		@home_transactions = Transaction.where(team_id: @home_team.id).order("updated_at DESC").limit(20)
 		@away_transactions = Transaction.where(team_id: @away_team.id).order("updated_at DESC").limit(20)
