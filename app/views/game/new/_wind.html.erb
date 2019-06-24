@@ -3,7 +3,10 @@
   <caption>
     <%= caption %>
     <% if caption === 'Forecast Wind' %>
-      <input type="number" id="offset">
+      <div>
+        <input type="number" id="offset">
+        <button class="btn-primary apply">Apply</button>
+      </div>
       <div>
         <button class="btn-primary addWind">+</button>
         <button class="btn-danger subWind">-</button>
@@ -122,7 +125,7 @@
       window.location.href = a.join("/")
     });
 
-    $("#offset").change(function(){
+    $(".apply").click(function(){
       var a = window.location.href.split("/");
       a[8] = parseInt($("#offset")[0].value);
       window.location.href = a.join("/")
