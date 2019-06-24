@@ -82,8 +82,8 @@ class GameController < ApplicationController
 			@wind_dirs.push(weather.wind_dir)
 		end
 
-		@offset = params[:offset].to_i
-		@offset = 5 if @offset === 0
+		@offset = 5
+		@offset = params[:offset].to_i if params[:offset].present?
 	end
 
 	def weather
@@ -131,8 +131,8 @@ class GameController < ApplicationController
     end
 		@weather_actual = @game.weathersources.where(table_number: 2).order(:row_number)
 
-		@offset = params[:offset].to_i
-		@offset = 5 if @offset === 0
+		@offset = 5
+		@offset = params[:offset].to_i if params[:offset].present?
 	end
 
 	def stats

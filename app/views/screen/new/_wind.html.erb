@@ -3,9 +3,15 @@
   <caption>
     <%= caption %>
     <% if caption === 'Forecast Wind' %>
-      <button class="btn-primary addWind">+</button>
-      <button class="btn-danger subWind">-</button>
-      <input type="number" id="additional">
+      <div>
+        <input type="number" id="offset">
+        <button class="btn-primary apply">Apply</button>
+      </div>
+      <div>
+        <button class="btn-primary addWind">+</button>
+        <button class="btn-danger subWind">-</button>
+        <input type="number" id="additional">
+      </div>
     <% end %>
   </caption>
   <thead>
@@ -23,7 +29,7 @@
   </thead>
   <tbody>
     <%
-      winds = wind_data(name, weathers[0].wind, weathers[1].wind, weathers[2].wind, additional)
+      winds = wind_data(name, weathers[0].wind, weathers[1].wind, weathers[2].wind, additional, offset)
       one_array = winds[3..-1].sort {|x, y| y[1] <=> x[1]}
       one_value = one_array[6][1]
       one_value_dup = one_array[2][1]
@@ -114,8 +120,14 @@
     });
     $(".subWind").click(function(){
       var a = window.location.href.split("/");
-        var value = parseInt($("#additional")[0].value);
+      var value = parseInt($("#additional")[0].value);
       a[7] = parseInt(a[7]) - value;
+      window.location.href = a.join("/")
+    });
+
+    $(".apply").click(function(){
+      var a = window.location.href.split("/");
+      a[8] = parseInt($("#offset")[0].value);
       window.location.href = a.join("/")
     });
   });
