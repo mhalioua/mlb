@@ -1,0 +1,99 @@
+<% if prev_pitchers.length > 0
+		ip_sum = []
+		bb_sum = 0
+		h_sum = 0
+		r_sum = 0
+		opposite_ip_sum = []
+		opposite_bb_sum = 0
+		opposite_h_sum = 0
+		opposite_r_sum = 0
+		prev_pitchers.each_with_index do |pitcher, index|
+		style = ""
+		style = "background: yellow" if pitcher.opposite_ip && pitcher.opposite_throwhand != throwhand %>
+		<% if index % 4 == 3 %>
+			<tr class='lightgray'>
+		<% else %>
+			<tr>
+		<% end %>
+			<td><%= pitcher.start_index + 1 %></td>
+			<td><%= pitcher.date %></td>
+			<td><%= pitcher.time %></td>
+			<td style="background-color: red;"><%= pitcher.opp_team_abbr %></td>
+			<td class="lightgray"><%= pitcher.ip %></td>
+			<td class="lightgray"><%= pitcher.bb %></td>
+			<td class="lightgray"><%= pitcher.h %></td>
+			<td class="lightgray"><%= pitcher.r %></td>
+			<%
+				ip_sum.push(pitcher.ip)
+				bb_sum = bb_sum + pitcher.bb
+				h_sum = h_sum + pitcher.h
+				r_sum = r_sum + pitcher.r
+			%>
+			<% if pitcher.temp %>
+				<td><%= pitcher.temp %></td>
+				<td><%= pitcher.dp %></td>
+				<td style='<%= "#{style}" %>'><%= pitcher.wind_speed %></td>
+				<td style='<%= "#{style}" %>'><%= pitcher.wind_dir %></td>
+				<td style='<%= "#{style}" %>'><%= pitcher.d2 %></td>
+				<td><%= pitcher.pressure %></td>
+				<td><%= pitcher.hum %></td>
+			<% else %>
+				<td colspan="7"></td>
+			<% end %>
+			<td style="background-color: red;"><%= pitcher.home_team_abbr %></td>
+			<% if pitcher.temp %>
+				<td class="blue"><%= pitcher.total_count_count %></td>
+				<td style="background-color: royalblue;"><%= pitcher.total_avg_1_avg_1 %></td>
+				<td style="background-color: royalblue;"><%= pitcher.total_avg_2 %></td>
+				<td class="blue"><%= pitcher.total_hits_avg %></td>
+				<td class="blue"><%= pitcher.home_runs_avg %></td>
+				<td style="background-color: royalblue;"><%= pitcher.lower_one %></td>
+				<td class="blue"><%= pitcher.lower_one_count %></td>
+				<td style="background-color: red;"></td>
+				<td class="blue"> <%= pitcher.home_total_runs1_avg %> </td>
+				<td class="blue"> <%= pitcher.home_total_runs2_avg %> </td>
+				<td class="blue"> <%= pitcher.home_count %> </td>
+				<td class="blue"> <%= pitcher.home_one %> </td>
+				<td class="blue"> <%= pitcher.home_one_count %> </td>
+			<% else %>
+				<td colspan="13"></td>
+			<% end %>
+			<%
+				if pitcher.opposite_ip
+					opposite_ip_sum.push(pitcher.opposite_ip)
+					opposite_bb_sum = opposite_bb_sum + pitcher.opposite_bb.to_i
+					opposite_h_sum = opposite_h_sum + pitcher.opposite_h.to_i
+					opposite_r_sum = opposite_r_sum + pitcher.opposite_r.to_i
+			%>
+				<td> (<%= pitcher.opposite_throwhand %>) <%= pitcher.opposite_name %> </td>
+				<td> <%= pitcher.opposite_ip %> </td>
+				<td> <%= pitcher.opposite_bb %> </td>
+				<td> <%= pitcher.opposite_h %> </td>
+				<td style='<%= "#{style}" %>'> <%= pitcher.opposite_r %> </td>
+			<% else %>
+				<td colspan="5"></td>
+			<% end %>
+		</tr>
+	<% end %>
+	<%
+		prev_pitchers_ip = add_innings(ip_sum)
+		opposite_ip = add_innings(opposite_ip_sum)
+	%>
+	<tr>
+	  <td></td>
+	  <td bgcolor="#DC143C">Totals</td>
+	  <td></td>
+	  <td></td>
+	  <td bgcolor="#DC143C"><%= prev_pitchers_ip %></td>
+	  <td bgcolor="#DC143C"><%= bb_sum %></td>
+	  <td bgcolor="#DC143C"><%= h_sum %></td>
+	  <td bgcolor="#DC143C"><%= r_sum %></td>
+	  <td class="blue"><%= ((bb_sum + h_sum) / prev_pitchers_ip.to_f).round(2) %></td>
+	  <td colspan="20"></td>
+	  <td class="blue"><%= ((opposite_bb_sum + opposite_h_sum) / opposite_ip.to_f).round(2) %></td>
+	  <td bgcolor="#DC143C"><%= opposite_ip %></td>
+	  <td bgcolor="#DC143C"><%= opposite_bb_sum %></td>
+	  <td bgcolor="#DC143C"><%= opposite_h_sum %></td>
+	  <td bgcolor="#DC143C"><%= opposite_r_sum %></td>
+	</tr>
+<% end %>

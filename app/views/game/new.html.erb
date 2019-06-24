@@ -28,10 +28,10 @@
 		});
 		</script>
 		<% unless @forecasts.empty? %>
-			<%= render partial: "game/new/wind", locals: { caption: "Forecast Wind", weathers: @forecasts, name: @home_team.name, additional: @additional } %>
+			<%= render partial: "game/new/wind", locals: { caption: "Forecast Wind", weathers: @forecasts, name: @home_team.name, additional: @additional, offset: @offset } %>
 		<% end %>
 		<% unless @weathers.empty? %>
-			<%= render partial: "game/new/wind", locals: { caption: "Weather Wind", weathers: @weathers, name: @home_team.name, additional: 0 } %>
+			<%= render partial: "game/new/wind", locals: { caption: "Weather Wind", weathers: @weathers, name: @home_team.name, additional: 0, offset: @offset } %>
 		<% end %>
 
 		<div class="image">

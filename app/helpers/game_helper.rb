@@ -60,7 +60,7 @@ module GameHelper
     end
   end
 
-  def wind_data(name, first_wind, second_wind, third_wind, additional)
+  def wind_data(name, first_wind, second_wind, third_wind, additional, offset)
     first_wind_speed, first_wind_dir = split_wind(first_wind)
     second_wind_speed, second_wind_dir = split_wind(second_wind)
     third_wind_speed, third_wind_dir = split_wind(third_wind)
@@ -99,8 +99,8 @@ module GameHelper
     #   filter_max = avg + 3
     # end
 
-    filter_min = avg - 2
-    filter_max = avg + 3
+    filter_min = avg - (offset/2).to_i
+    filter_max = avg + ((offset+1)/2).to_i
 
     filter_min = filter_min + additional
     filter_max = filter_max + additional

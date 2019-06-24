@@ -1,0 +1,125 @@
+<% if weathers && weathers.length > 3 && weathers[3] != nil %>
+<table class="table-bordered weather">
+  <caption><%= caption %></caption>
+  <thead>
+  	<tr bgcolor="gray">
+  	  <th width="50">Time</th>
+  	  <th width="80">Temperature</th>
+      <th width="50">Dew</th>
+      <th width="60">Humidity</th>
+      <th width="60">Pressure</th>
+  	  <th width="60">Wind</th>
+      <th width="10" class="blue"></th>
+      <th width="50">Home Team Total 1</th>
+      <th width="50">Home Team Total 2</th>
+      <th width="50">Total Hits not in Park Average</th>
+      <th width="50">Total HR's not in this park</th>
+      <th width="50">Home Total Count</th>
+      <th width="10" class="blue"></th>
+      <th width="50">Home +/- 1</th>
+      <th width="50">Home Total Count +/- 1</th>
+      <th width="50">Total Lines Average</th>
+      <th width="10" class="blue"></th>
+      <th width="50">Home Team Total 1</th>
+      <th width="50">Home Team Total 2</th>
+      <th width="50">Total Hits in Park Average</th>
+      <th width="50">Total HR's in this park</th>
+      <th width="50">Home Total Count</th>
+      <th width="10" class="blue"></th>
+      <th width="50">Home +/- 1</th>
+      <th width="50">Home Total Count +/- 1</th>
+      <th width="50">Total Lines Average</th>
+      <th width="50" style="background: red;">Time</th>
+      <th width="50" style="background: red;">Home Team Total 1</th>
+      <th width="50" style="background: red;">Home Team Total 2</th>
+      <th width="50" style="background: red;">Total Hits in Park Average</th>
+      <th width="50" style="background: red;">Total HR's in this park</th>
+      <th width="50" style="background: red;">Home Total Count</th>
+      <th width="10" style="background: red;"></th>
+      <th width="50" style="background: red;">Home +/- 1</th>
+      <th width="50" style="background: red;">Home Total Count +/- 1</th>
+      <th width="50" style="background: red;">Total Lines Average</th>
+      <th width="50">Total Average 1</th>
+      <th width="50">Total Average 2</th>
+      <th width="50" style="background: palegreen;">Total t-Hits Average</th>
+      <th width="50">Total Hits Average</th>
+      <th width="50" style="background: palegreen;">Total t-HRs Average</th>
+      <th width="50">Home Runs Average</th>
+      <th width="50">Total Count</th>
+      <th width="10" style="background: red"></th>
+      <th width="50" style="background: red">+/-1</th>
+      <th width="50" style="background: red">Total Count +/-1</th>
+      <th width="50" style="background: red">Total Lines Average</th>
+      <th width="150" colspan="3" style="background: red">COUNT</th>
+      <th width="10" style="background: black"></th>
+      <th width="150" colspan="6" style="background: red">SAME CITY</th>
+  	</tr>
+  </thead>
+  <tbody>
+    <% result = (type == 1 ? prev_data(name) : total_data(name)) %>
+    <tr bgcolor="#DC143C">
+      <td></td>
+      <td colspan="5"><%= caption %></td>
+      <td class="blue"></td>
+      <td style="background: yellow;"><%= result[:home_total_runs1_avg_dup] %></td>
+      <td style="background: yellow;"><%= result[:home_total_runs2_avg_dup] %></td>
+      <td colspan="5" style="background: yellow;">All Stadiums except <%= stadium %></td>
+      <td style="background: yellow;"><%= result[:total_hits_park_avg_dup] %></td>
+      <td style="background: yellow;"><%= result[:total_hr_park_dup] %></td>
+      <td class="blue"></td>
+      <td style="background: #EA5;"><%= result[:home_total_runs1_avg] %></td>
+      <td style="background: #EA5;"><%= result[:home_total_runs2_avg] %></td>
+      <td colspan="5" style="background: #EA5;">Only <%= stadium %></td>
+      <td style="background: #EA5;"><%= result[:total_hits_park_avg] %></td>
+      <td style="background: #EA5;"><%= result[:total_hr_park] %></td>
+      <td></td>
+      <td><%= result[:home_total_runs1_avg] %></td>
+      <td><%= result[:home_total_runs2_avg] %></td>
+      <td colspan="5" >Only <%= stadium %> with wind</td>
+      <td><%= result[:total_hits_park_avg] %></td>
+      <td><%= result[:total_hr_park] %></td>
+      <td style="background: #EA5;"><%= result[:total_avg_1] %></td>
+      <td style="background: #EA5;"><%= result[:total_avg_2] %></td>
+      <td style="background: #EA5;"></td>
+      <td colspan="6" style="background: #EA5;">All Stadiums</td>
+      <td style="background: #EA5;"><%= result[:total_hits_avg] %></td>
+      <td style="background: #EA5;"><%= result[:home_runs_avg] %></td>
+      <td style="background: #EA5;">0-6.75</td>
+      <td style="background: #EA5;">9.00 =</td>
+      <td style="background: #EA5;">Over 9</td>
+      <td width="10" style="background: black"></td>
+      <td colspan="2" style="background: #EA5;">WIND +/-4<br> BARO +/-5</td>
+      <td colspan="2" style="background: #EA5;">WIND +/-4<br> HUMID +/-5</td>
+      <td colspan="2" style="background: #EA5;">WIND +/-4<br> DP +/-5</td>
+    </tr>
+    <% block_number = 0 %>
+
+    <% weathers.each do |weather|
+      bgcolor = "gray"
+      bgcolor = "lightgreen" if weather.caption == "With wind"
+      color = ""
+      color = "#6495ED" if weather.caption == "With wind"
+      color = "gray" if weather.caption == "Minus 5" || weather.caption == "Plus 5"
+    %>
+      <% if block_number != weather.block_number %>
+          <% if weather.block_number == 1 || weather.block_number == 2 || weather.block_number == 3 %>
+            <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
+          <% end %>
+          <% if weather.block_number == 4 || weather.block_number == 6 || weather.block_number == 8 %>
+            <%= render partial: "game/new/weather_blank", locals: { color: "#6495ED" } %>
+          <% end %>
+          <% if weather.block_number == 5 || weather.block_number == 7 || weather.block_number == 9 %>
+            <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
+            <%= render partial: "game/new/weather_blank", locals: { color: "#6495ED" } %>
+            <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
+          <% end %>
+      <% end %>
+      <%= render partial: "game/new/updated_weather_value", locals: { weather: weather, color: color, bgcolor: bgcolor } %>
+    <%
+      block_number = weather.block_number
+      end
+    %>
+    <%= render partial: "game/new/weather_blank", locals: { color: "#EA5" } %>
+  </tbody>
+</table>
+<% end %>

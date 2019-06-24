@@ -1,0 +1,42 @@
+<% player_scout = pitcher.player.player_scouts.first %>
+<% if player_scout
+    scouts = player_scout.scouts.order(:row_index)
+%>
+<div style="clear:both; text-align: left">
+  <p><%= pitcher.name %></p>
+  <p><%= player_scout.relies %></p>
+  <p><%= player_scout.description.split('Statcast - Pitching')[0] %></p>
+  <table class="table-bordered">
+    <tr>
+      <td>Season</td>
+      <td>Pitches</td>
+      <td>Batted Balls</td>
+      <td>Barrels</td>
+      <td>Barrel %</td>
+      <td>Exit Velocity</td>
+      <td>Launch Angle</td>
+      <td>XBA</td>
+      <td>XSLG</td>
+      <td>XWOBA</td>
+      <td>WOBA</td>
+      <td>Hard Hit %</td>
+    </tr>
+    <% scouts.each do |scout| %>
+      <tr>
+        <td><%= scout.season %></td>
+        <td><%= scout.pitches %></td>
+        <td><%= scout.batted_balls %></td>
+        <td><%= scout.barrels %></td>
+        <td><%= scout.barrel %></td>
+        <td><%= scout.exit_velocity %></td>
+        <td><%= scout.launch_angle %></td>
+        <td><%= scout.xba %></td>
+        <td><%= scout.xslg %></td>
+        <td><%= scout.xwoba %></td>
+        <td><%= scout.woba %></td>
+        <td><%= scout.hard_hit %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+<% end %>

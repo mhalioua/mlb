@@ -1,0 +1,64 @@
+<%
+    wind_min = weather_one_speed.to_f
+    wind_max = weather_two_speed.to_f
+    if wind_min > wind_max
+      wind_min = weather_two_speed.to_f
+      wind_max = weather_one_speed.to_f
+    end
+    wind_speed_diff = ((11 + wind_min - wind_max)/2).to_i
+    wind_min = wind_min - wind_speed_diff
+    wind_max = wind_max + wind_speed_diff
+    wind_min = 3 if wind_min < 3
+    result = calc_true_data(temp_min, temp_max, dew_min, dew_max, hum_min, hum_max, pressure_min, pressure_max, wind_min, wind_max, weather_one_dir, weather_two_dir, name) %>
+<tr bgcolor="<%= color %>">
+    <td bgcolor="<%= caption == "With wind" ? "lightgreen" : "" %>"><%= caption %></td>
+    <td><%= "#{temp_min}-#{temp_max}" %></td>
+    <td><%= "#{dew_min.round}-#{dew_max.round}" %><br><%= "#{(dew_min+1).round}-#{(dew_max-1).round}" %></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "yellow" : "" %>"><%= hum_min === hum_max ? hum_min : "#{hum_min}-#{hum_max}" %></td>
+    <td><%= "#{(pressure_min*100).round%100}-#{(pressure_max*100).round%100}" %></td>
+    <td><%= "#{wind_min}-#{wind_max}" %> , <%= weather_one_dir == weather_two_dir ? weather_one_dir : "#{weather_one_dir}, #{weather_two_dir}" %></td>
+    <td class="blue"></td>
+    <td><%= result[:home_total_runs1_avg_dup] %></td>
+    <td><%= result[:home_total_runs2_avg_dup] %></td>
+    <td><%= result[:total_hits_park_avg_dup] %></td>
+    <td><%= result[:total_hr_park_dup] %></td>
+    <td><%= result[:home_count_dup] %></td>
+    <td class="blue"></td>
+    <td><%= result[:home_one_dup] %></td>
+    <td><%= result[:home_one_count_dup] %></td>
+    <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg_dup] %></td>
+    <td class="blue"></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "" : ( caption == "With wind" ? "" : "sandybrown") %>"><%= result[:home_total_runs1_avg] %></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "" : ( caption == "With wind" ? "" : "sandybrown") %>"><%= result[:home_total_runs2_avg] %></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "" : ( caption == "With wind" ? "" : "sandybrown") %>"><%= result[:total_hits_park_avg] %></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "" : ( caption == "With wind" ? "" : "sandybrown") %>"><%= result[:total_hr_park] %></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "" : ( caption == "With wind" ? "" : "sandybrown") %>"><%= result[:home_count] %></td>
+    <td class="blue"></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "" : ( caption == "With wind" ? "" : "sandybrown") %>"><%= result[:home_one] %></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "" : ( caption == "With wind" ? "" : "sandybrown") %>"><%= result[:home_one_count] %></td>
+    <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg] %></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "" : ( caption == "With wind" ? "" : "lightgray") %>"><%= caption %></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "" : ( caption == "With wind" ? "" : "lightgray") %>"><%= result[:home_total_runs1_avg_wind] %></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "" : ( caption == "With wind" ? "" : "lightgray") %>"><%= result[:home_total_runs2_avg_wind] %></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "" : ( caption == "With wind" ? "" : "lightgray") %>"><%= result[:total_hits_park_avg_wind] %></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "" : ( caption == "With wind" ? "" : "lightgray") %>"><%= result[:total_hr_park_wind] %></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "" : ( caption == "With wind" ? "" : "lightgray") %>"><%= result[:home_count_wind] %></td>
+    <td class="blue"></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "" : ( caption == "With wind" ? "" : "lightgray") %>"><%= result[:home_one_wind] %></td>
+    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" ? "" : ( caption == "With wind" ? "" : "lightgray") %>"><%= result[:home_one_count_wind] %></td>
+    <td style="background: gray; color: sandybrown;"><%= result[:total_lines_park_avg_wind] %></td>
+    <td><%= result[:total_avg_1] %></td>
+    <td><%= result[:total_avg_2] %></td>
+    <td><%= result[:t_HITS_avg] %></td>
+    <td><%= result[:total_hits_avg] %></td>
+    <td><%= result[:t_HRS_avg] %></td>
+    <td><%= result[:home_runs_avg] %></td>
+    <td><%= result[:total_count] %></td>
+    <td class="blue"></td>
+    <td><%= result[:lower_one] %></td>
+    <td><%= result[:lower_one_count] %></td>
+    <td style="background: gray; color: sandybrown;"><%= result[:total_lines_avg] %></td>
+    <td><%= result[:first_count] %></td>
+    <td><%= result[:second_count] %></td>
+    <td><%= result[:third_count] %></td>
+</tr>

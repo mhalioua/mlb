@@ -23,7 +23,7 @@
   </thead>
   <tbody>
     <%
-      winds = wind_data(name, weathers[0].wind, weathers[1].wind, weathers[2].wind, additional, offset)
+      winds = wind_data(name, weathers[0].wind, weathers[1].wind, weathers[2].wind, additional)
       one_array = winds[3..-1].sort {|x, y| y[1] <=> x[1]}
       one_value = one_array[6][1]
       one_value_dup = one_array[2][1]

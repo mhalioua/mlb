@@ -1,0 +1,17 @@
+<table class="table-bordered" style="margin: 1rem">
+  <caption><%= caption %></caption>
+  <thead>
+    <tr>
+      <td>Date</td>
+      <td>Description</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% transactions.each do |transaction| %>
+    <tr>
+      <td><%= transaction["date"] %></td>
+      <td><%= transaction["description"] %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

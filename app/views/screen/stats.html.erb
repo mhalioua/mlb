@@ -29,6 +29,11 @@
     <%= render partial: "game/new/hitter_sum", locals: { away_hitters: @away_hitters, home_hitters: @home_hitters, away_pitcher: @away_starting_lancer.first, home_pitcher: @home_starting_lancer.first, playbyplay: @playbyplay }%>
   <% end %>
 
+  <%= render partial: "game/new/weather_table", locals: { caption: "Weather Table", forecasts: @forecasts  } %>
+
+  <%= render partial: "game/new/transactions_table", locals: { caption: "Home Transactions", transactions: @home_transactions  } %>
+  <%= render partial: "game/new/transactions_table", locals: { caption: "Away Transactions", transactions: @away_transactions  } %>
+
 	<%= render partial: "game/new/pitcher", locals: { caption: "Starting Pitchers", lancers: @away_starting_lancer + @home_starting_lancer  } %>
 
 	<%= render partial: "game/new/batter", locals: { caption: "#{@away_predicted}#{@away_team.name} Batters", predicted: @away_predicted, batters: @away_batters, left: @away_left } %>

@@ -14,7 +14,7 @@
   	</tr>
   </thead>
   <tbody>
-    <% winds = wind_data(name, weathers[0]['wind_speed'].to_s + ' ' + weathers[0]['wind_dir'], weathers[1]['wind_speed'].to_s + ' ' + weathers[1]['wind_dir'], weathers[2]['wind_speed'].to_s + ' ' + weathers[2]['wind_dir'], 0, 5) %>
+    <% winds = wind_data_prev(name, weathers[0].wind, weathers[1].wind, weathers[2].wind) %>
     <% winds.each do |wind| %>
       <% if wind[6].to_i == 1 %>
       <tr bgcolor="#DC143C">
@@ -34,17 +34,3 @@
     <% end %>
   </tbody>
 </table>
-<script>
-  $(document).ready(function(){
-    $(".addWind").click(function(){
-      var a = window.location.href.split("/")
-      a[7] = parseInt(a[7]) + 1
-      window.location.href = a.join("/")
-    });
-    $(".subWind").click(function(){
-      var a = window.location.href.split("/")
-      a[7] = parseInt(a[7]) - 1
-      window.location.href = a.join("/")
-    });
-  });
-</script>

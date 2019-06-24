@@ -1,4 +1,6 @@
 class ScreenController < ApplicationController
+	before_action :confirm_logged_in
+
 	def new
 		@game = Game.find_by_id(params[:id])
 		@game_stats = @game.game_stats
@@ -137,6 +139,18 @@ class ScreenController < ApplicationController
 
 		@away_starting_lancer = @game.lancers.where(team: @away_team, starter: true, season_id: @season.id)
 		@home_starting_lancer = @game.lancers.where(team: @home_team, starter: true, season_id: @season.id)
+
+		@forecast_pre_one = @game.weathers.where(station: "Forecast", hour: -1).order("updated_at DESC").offset(1)
+		@forecast_pre_two = @game.weathers.where(station: "Forecast", hour: 0).order("updated_at DESC").offset(1)
+		@forecast_one = @game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(1)
+		@forecast_two = @game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC").offset(1)
+		@forecast_three = @game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC").offset(1)
+		@forecast_four = @game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").offset(1)
+		@forecast_after_one = @game.weathers.where(station: "Forecast", hour: 5).order("updated_at DESC").offset(1)
+		@forecasts = [@forecast_pre_one.first, @forecast_pre_two.first, @forecast_one.first, @forecast_two.first, @forecast_three.first, @forecast_four.first, @forecast_after_one.first]
+
+		@home_transactions = Transaction.where(team_id: @home_team.id).order("updated_at DESC").limit(20)
+		@away_transactions = Transaction.where(team_id: @away_team.id).order("updated_at DESC").limit(20)
 
 		unless @away_starting_lancer.empty?
 			@home_left = @away_starting_lancer.first.throwhand == "L"

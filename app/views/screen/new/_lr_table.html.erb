@@ -1,0 +1,200 @@
+<%
+  caption = max != 0 ? "#{min} ~ #{max} MPH" : "#{min} +"
+  directions = [
+    'North',
+    'NNE',
+    'NE',
+    'ENE',
+    'East',
+    'ESE',
+    'SE',
+    'SSE',
+    'South',
+    'SSW',
+    'SW',
+    'WSW',
+    'West',
+    'WNW',
+    'NW',
+    'NNW',
+  ]
+  flag = 'B'
+  header_style = 'background: darkorange'
+  if type == 'PITCHERS'
+    flag = 'HP'
+    header_style = 'background: cyan'
+  end
+  table_data = []
+
+  directions.each do |direction|
+    result = lr_filter(min, max, direction, team.name)
+    l_ab = 0
+    l_h  = 0
+    l_bb = 0
+    l_ave = 0
+    l_obp = 0
+    r_ab = 0
+    r_h  = 0
+    r_bb = 0
+    r_ave = 0
+    r_obp = 0
+    total_ave = 0
+    total_obp = 0
+    if type == 'PITCHERS'
+      l_ab = result[:ll_ab] + result[:rl_ab]
+      l_h  = result[:ll_h]  + result[:rl_h]
+      l_bb = result[:ll_bb] + result[:rl_bb]
+      l_ave = l_ab != 0 ? (l_h.to_f / l_ab).round(3) : 0
+      l_obp = (l_ab + l_bb) != 0 ? ((l_h + l_bb).to_f / (l_ab + l_bb)).round(3) : 0
+
+      r_ab = result[:lr_ab] + result[:rr_ab]
+      r_h  = result[:lr_h]  + result[:rr_h]
+      r_bb = result[:lr_bb] + result[:rr_bb]
+      r_ave = r_ab != 0 ? (r_h.to_f / r_ab).round(3) : 0
+      r_obp = (r_ab + r_bb) != 0 ? ((r_h + r_bb).to_f / (r_ab + r_bb)).round(3) : 0
+
+      total_ave = ((r_ave - l_ave) * 1000).round
+      total_obp = ((r_obp - l_obp) * 1000).round
+    else
+      l_ab = result[:ll_ab] + result[:lr_ab]
+      l_h  = result[:ll_h]  + result[:lr_h]
+      l_bb = result[:ll_bb] + result[:lr_bb]
+      l_ave = l_ab != 0 ? (l_h.to_f / l_ab).round(3) : 0
+      l_obp = (l_ab + l_bb) != 0 ? ((l_h + l_bb).to_f / (l_ab + l_bb)).round(3) : 0
+
+      r_ab = result[:rl_ab] + result[:rr_ab]
+      r_h  = result[:rl_h]  + result[:rr_h]
+      r_bb = result[:rl_bb] + result[:rr_bb]
+      r_ave = r_ab != 0 ? (r_h.to_f / r_ab).round(3) : 0
+      r_obp = (r_ab + r_bb) != 0 ? ((r_h + r_bb).to_f / (r_ab + r_bb)).round(3) : 0
+
+      total_ave = ((l_ave - r_ave) * 1000).round
+      total_obp = ((l_obp - r_obp) * 1000).round
+    end
+    table_data.push(
+      {
+        :l_ab => l_ab,
+        :l_h => l_h,
+        :l_bb => l_bb,
+        :l_ave => l_ave,
+        :l_obp => l_obp,
+        :r_ab => r_ab,
+        :r_h => r_h,
+        :r_bb => r_bb,
+        :r_ave => r_ave,
+        :r_obp => r_obp,
+        :total_ave => total_ave,
+        :total_obp => total_obp,
+        :direction => direction
+      })
+  end
+  one_array = table_data.sort {|x, y| y[:total_ave] <=> x[:total_ave]}
+  one_value = one_array[3][:total_ave]
+  one_value_dup = one_array[-4][:total_ave]
+  two_array = table_data.sort {|x, y| y[:total_obp] <=> x[:total_obp]}
+  two_value = two_array[3][:total_obp]
+  two_value_dup = two_array[-4][:total_obp]
+%>
+
+<table class="table-bordered" style="width: 49%; display: inline-block;">
+  <thead>
+    <tr style="<%= header_style %>">
+      <th colspan="3">
+        <%= type %>
+      </th>
+      <th></th>
+      <th colspan="5">
+        <%= type %>
+      </th>
+      <th></th>
+      <th colspan="5">
+        <%= type %>
+      </th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>WIND SPEED</th>
+      <th>DIRECTION</th>
+      <th style="background: green"></th>
+      <th>L<%= flag %> AB's</th>
+      <th>L<%= flag %> hits</th>
+      <th>L<%= flag %> bb's</th>
+      <th style="background: cyan">L<%= flag %> AVE</th>
+      <th>L<%= flag %> OBP</th>
+      <th style="background: green"></th>
+      <th>R<%= flag %> AB's</th>
+      <th>R<%= flag %> hits</th>
+      <th>R<%= flag %> bb's</th>
+      <th style="background: cyan">R<%= flag %> AVE</th>
+      <th>R<%= flag %> OBP</th>
+      <th style="background: green"></th>
+      <th>+/- AVE</th>
+      <th>+/- OBP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%
+      table_data.each do |element|
+        row_style = ''
+        if wind_dirs.include? element[:direction]
+          if type == 'PITCHERS'
+            row_style = 'background: hotpink'
+          else
+            row_style = 'background: cyan'
+          end
+        end
+
+        ave_style = ''
+        if element[:total_ave] > 0
+          ave_style = 'background: #FFFFCC'
+          if element[:total_ave] >= one_value
+            ave_style = 'background: #FFD700'
+          end
+        end
+        if element[:total_ave] < 0
+          ave_style = 'background: cyan'
+          if element[:total_ave] <= one_value_dup
+            ave_style = 'background: #6495ED'
+          end
+        end
+
+        obp_style = ''
+        if element[:total_obp] > 0
+          obp_style = 'background: #FFFFCC'
+          if element[:total_obp] >= two_value
+            obp_style = 'background: #FFD700'
+          end
+        end
+        if element[:total_obp] < 0
+          obp_style = 'background: cyan'
+          if element[:total_obp] <= two_value_dup
+            obp_style = 'background: #6495ED'
+          end
+        end
+    %>
+      <tr style="<%= row_style %>">
+        <td><%= team.name %></td>
+        <td><%= caption %></td>
+        <td><%= element[:direction] %></td>
+        <td style="background: green"></td>
+        <td><%= element[:l_ab] %></td>
+        <td><%= element[:l_h] %></td>
+        <td><%= element[:l_bb] %></td>
+        <td style="background: cyan"><%= element[:l_ave] %></td>
+        <td><%= element[:l_obp] %></td>
+        <td style="background: green"></td>
+        <td><%= element[:r_ab] %></td>
+        <td><%= element[:r_h] %></td>
+        <td><%= element[:r_bb] %></td>
+        <td style="background: cyan"><%= element[:r_ave] %></td>
+        <td><%= element[:r_obp] %></td>
+        <td style="background: green"></td>
+        <td style="<%= ave_style %>"><%= element[:total_ave] %></td>
+        <td style="<%= obp_style %>"><%= element[:total_obp] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
