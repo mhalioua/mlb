@@ -68,7 +68,7 @@ module Update
         feel = hourlyweathers[start_index].children[headers['Feels Like']].text.squish
 
         time = hourlyweathers[start_index].children[headers['Time']].text.squish
-        conditions = hourlyweathers[start_index].children[headers['Conditions']].text.squish
+        conditions = hourlyweathers[start_index].children[headers['Conditions']].children[1].text.squish
         precip_percent = hourlyweathers[start_index].children[headers['Precip']].text.squish
         cloud = hourlyweathers[start_index].children[headers['Cloud Cover']].text.squish
 
