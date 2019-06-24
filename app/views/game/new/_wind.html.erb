@@ -3,9 +3,12 @@
   <caption>
     <%= caption %>
     <% if caption === 'Forecast Wind' %>
-      <button class="btn-primary addWind">+</button>
-      <button class="btn-danger subWind">-</button>
-      <input type="number" id="additional">
+      <input type="number" id="offset">
+      <div>
+        <button class="btn-primary addWind">+</button>
+        <button class="btn-danger subWind">-</button>
+        <input type="number" id="additional">
+      </div>
     <% end %>
   </caption>
   <thead>
@@ -114,8 +117,14 @@
     });
     $(".subWind").click(function(){
       var a = window.location.href.split("/");
-        var value = parseInt($("#additional")[0].value);
+      var value = parseInt($("#additional")[0].value);
       a[7] = parseInt(a[7]) - value;
+      window.location.href = a.join("/")
+    });
+
+    $("#offset").change(function(){
+      var a = window.location.href.split("/");
+      a[8] = parseInt($("#offset")[0].value);
       window.location.href = a.join("/")
     });
   });
