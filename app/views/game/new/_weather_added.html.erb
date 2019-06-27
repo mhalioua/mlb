@@ -1,6 +1,6 @@
 <tr bgcolor="black">
     <td bgcolor="gray"><%= weather.conditions %></td>
-    <td bgcolor="gray"><%= weather_time(weather.game.game_date, weather.hour) %></td>
+    <td bgcolor="gray"><%= weather_time(weather.game.game_date, weather.hour) %><span style="display: none"><%= weather.hour %></span></td>
     <td bgcolor="gray"><%= weather.temp %></td>
     <td bgcolor="gray"><%= weather.dp %></td>
     <td bgcolor="gray"><%= weather.hum %></td>
