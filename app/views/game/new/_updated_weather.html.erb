@@ -103,7 +103,11 @@
       color = "#6495ED" if weather.caption == "With wind"
       color = "gray" if weather.caption == "Minus 5" || weather.caption == "Plus 5"
     %>
-      <% if type !== 2 && (index < 2 || index === 4)  %>
+      <% if type != 2 && index === 0 && realWeathers.length > 4 %>
+        <%= render partial: "game/new/weather_blank", locals: { color: "#fff" } %>
+        <%= render partial: "game/new/weather_blank", locals: { color: "#fff" } %>
+      <% end %>
+      <% if type != 2 && index === 4 && realWeathers.length > 4 %>
         <%= render partial: "game/new/weather_blank", locals: { color: "#fff" } %>
       <% end %>
       <% if block_number != weather.block_number %>

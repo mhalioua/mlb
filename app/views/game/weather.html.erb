@@ -41,14 +41,14 @@
 	</div>
 
 	<% unless @forecasts.empty? %>
-		<%= render partial: "game/new/updated_weather", locals: { caption: "Wunderground Weather Forecast", type: 0, weathers: @weather_forecasts, name: @home_team.name, stadium: @home_team.stadium } %>
+		<%= render partial: "game/new/updated_weather", locals: { caption: "Wunderground Weather Forecast", type: 0, weathers: @weather_forecasts, realWeathers: @forecasts, name: @home_team.name, stadium: @home_team.stadium } %>
 	<% end %>
 	<% unless @weathers.empty? %>
-		<%= render partial: "game/new/updated_weather", locals: { caption: "Wunderground Weather Records", type: 2, weathers: @weather_actual, name: @home_team.name, stadium: @home_team.stadium } %>
+		<%= render partial: "game/new/updated_weather", locals: { caption: "Wunderground Weather Records", type: 2, weathers: @weather_actual, realWeathers: @weathers, name: @home_team.name, stadium: @home_team.stadium } %>
 	<% end %>
 
 	<% unless @forecasts.empty? %>
-		<%= render partial: "game/new/updated_weather", locals: { caption: "Wunderground Weather Forecast", type: 1, weathers: @weather_previous, name: @home_team.name, stadium: @home_team.stadium } %>
+		<%= render partial: "game/new/updated_weather", locals: { caption: "Wunderground Weather Forecast", type: 1, weathers: @weather_previous, realWeathers: @forecasts, name: @home_team.name, stadium: @home_team.stadium } %>
 	<% end %>
 </div>
 
