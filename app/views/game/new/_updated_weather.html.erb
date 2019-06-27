@@ -59,7 +59,7 @@
   <tbody>
     <% result = (type == 1 ? prev_data(name) : total_data(name)) %>
     <tr bgcolor="#DC143C">
-      <td></td>
+      <td bgcolor="white"></td>
       <td></td>
       <td colspan="5"><%= caption %></td>
       <td class="blue"></td>
@@ -103,11 +103,11 @@
       color = "#6495ED" if weather.caption == "With wind"
       color = "gray" if weather.caption == "Minus 5" || weather.caption == "Plus 5"
     %>
-      <% if type != 2 && index === 0 && realWeathers.length > 4 %>
+      <% if type != 2 && index === 0 && realWeathers.length === 3 %>
         <%= render partial: "game/new/weather_blank", locals: { color: "#fff" } %>
         <%= render partial: "game/new/weather_blank", locals: { color: "#fff" } %>
       <% end %>
-      <% if type != 2 && index === 4 && realWeathers.length > 4 %>
+      <% if type != 2 && index === 4 && realWeathers.length === 3 %>
         <%= render partial: "game/new/weather_blank", locals: { color: "#fff" } %>
       <% end %>
       <% if block_number != weather.block_number %>
