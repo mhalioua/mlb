@@ -127,7 +127,7 @@ class GameController < ApplicationController
 		@forecast_pre_one = @game.weathers.where(station: "Forecast", hour: -1).order("updated_at DESC").offset(@forecast)
 		@forecast_pre_two = @game.weathers.where(station: "Forecast", hour: 0).order("updated_at DESC").offset(@forecast)
 		@forecast_after_one = @game.weathers.where(station: "Forecast", hour: 5).order("updated_at DESC").offset(@forecast)
-		@additionalForecasts = [@forecast_pre_one.first, @forecast_pre_two.first, @forecast_after_one.first]
+		@additionalForecasts = [@forecast_pre_one.first, @forecast_one.first, @forecast_two.first, @forecast_three.first, @forecast_four.first, @forecast_pre_two.first, @forecast_after_one.first]
 
 		@weathers = @game.weathers.where(station: "Actual").order(:hour)
 		@additional = params[:option].to_i
