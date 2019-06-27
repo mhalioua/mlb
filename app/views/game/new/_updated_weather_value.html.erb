@@ -1,6 +1,6 @@
 <% caption = weather.caption %>
 <tr bgcolor="<%= color %>">
-    <td bgcolor="white"></td>
+    <td bgcolor="white"><%= real ? real.conditions : '' %></td>
     <td bgcolor="<%= bgcolor %>"><%= weather.caption %></td>
     <td><%= weather.temp %></td>
     <td><%= weather.dew %></td>

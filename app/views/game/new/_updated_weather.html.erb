@@ -123,7 +123,7 @@
             <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
           <% end %>
       <% end %>
-      <%= render partial: "game/new/updated_weather_value", locals: { weather: weather, color: color, bgcolor: bgcolor } %>
+      <%= render partial: "game/new/updated_weather_value", locals: { weather: weather, color: color, bgcolor: bgcolor, real: index < 4 ? realWeathers[2+index] : nil } %>
     <%
       block_number = weather.block_number
       end
