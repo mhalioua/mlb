@@ -26,7 +26,7 @@ module Update
         puts so
         puts bb
         puts sw
-      #   umpire = Umpire.where("year = ? AND statfox LIKE '%" + text + "%'", year).first
+      #   umpire = Umpire.where("year = ? AND statfox LIKE '%" + text + "%'", year)[0]
       #   if umpire
       #     umpire.update(
       #       covers: link,
