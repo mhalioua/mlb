@@ -8,7 +8,7 @@ module Update
       url = "https://www.covers.com/pageLoader/pageLoader.aspx?page=/data/mlb/umpires/umpires.html"
       doc = download_document(url)
       puts url
-      next unless doc
+      return unless doc
 
       elements = doc.css("td")
       elements.each do |element|
