@@ -13,7 +13,12 @@ module Update
         next unless doc
 
         transactions = doc.css("tbody tr")
-        transactions[-20..-1].each do |transaction|
+        if transactions.length >= 20
+          elements = transactions[-20..-1]
+        else
+          elements = transactions
+        end
+        elements.each do |transaction|
           date = transaction.children[1].text
           description = transaction.children[3].text
           Transaction.find_or_create_by(team_id: team.id, date: date, description: description)
