@@ -1,0 +1,2 @@
+class Umpire < ApplicationRecord
+end

@@ -4,18 +4,28 @@ namespace :job do
 
   task :test => :environment do
     include GetHtml
-    url = "http://m.reds.mlb.com/roster"
-    puts url
-
+    year = 2019
+    url = "https://www.covers.com/pageLoader/pageLoader.aspx?page=/data/mlb/umpires/umpires.html"
     doc = download_document(url)
-    rows = doc.css('tr')
-    puts rows.length
-    rows.each_with_index do |element, index|
-      player_number = element.children[1].text.to_i
-      next if player_number === 0
-      # player = Player.find_by(name: element.children[2].text)
-      puts element.children[5].text.squish
-      puts player_number
+    puts url
+    next unless doc
+
+    elements = doc.css("td")
+    elements.each do |element|
+      link = 'https://www.covers.com' + element.children[1]['href']
+      text = element.children[1].text
+      text = text.split(',')[0]
+      puts link
+      puts text
+      link = link.gsub('2019', year.to_s)
+      page = download_document(link)
+      next unless page
+      so = page.css("#LeftCol-wss table:nth-child(8) tr:nth-child(1) td:nth-child(4)")[0].text
+      bb = page.css("#LeftCol-wss table:nth-child(8) tr:nth-child(2) td:nth-child(4)")[0].text
+      sw =page.css("#LeftCol-wss table:nth-child(8) tr:nth-child(3) td:nth-child(4)")[0].text
+      puts so
+      puts bb
+      puts sw
     end
   end
 

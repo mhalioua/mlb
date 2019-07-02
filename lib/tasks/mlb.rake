@@ -102,6 +102,10 @@ namespace :mlb do
     [GameDay.yesterday, GameDay.today].each {|game_day| game_day.play_by_play}
   end
 
+  task umpire: :environment do
+    Season.where("year = 2019").map {|season| season.umpire}
+  end
+
   task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs]
 
   task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout]
