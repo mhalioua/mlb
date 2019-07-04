@@ -14,7 +14,8 @@ module Update
       elements.each do |element|
         link = 'https://www.covers.com' + element.children[1]['href']
         text = element.children[1].text
-        text = text.split(',')[0]
+        text = text.split(',')[0].upcase
+        text = text.split("'")[0]
         puts link
         puts text
         link = link.gsub('2019', year.to_s)
