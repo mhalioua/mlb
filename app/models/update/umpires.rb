@@ -23,9 +23,8 @@ module Update
         page = download_document(link)
         next unless page
         page = page.css("#LeftCol-wss table")
-        count = page[0].css("tr:nth-child(2) td:nth-child(2)")[0]
-        next unless count
-        count = count.text.squish
+        next if page.length === 0
+        count = page[0].css("tr:nth-child(2) td:nth-child(2)")[0].text.squish
         so = page[1].css("tr:nth-child(1) td:nth-child(4)")[0].text.squish
         bb = page[1].css("tr:nth-child(2) td:nth-child(4)")[0].text.squish
         sw = page[1].css("tr:nth-child(3) td:nth-child(4)")[0].text.squish
