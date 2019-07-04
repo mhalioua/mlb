@@ -108,6 +108,7 @@ namespace :mlb do
     Season.where("year = 2017").map {|season| season.umpire}
     Season.where("year = 2016").map {|season| season.umpire}
     Season.where("year = 2015").map {|season| season.umpire}
+    Season.where("year = 2014").map {|season| season.umpire}
   end
 
   task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs]
@@ -115,7 +116,7 @@ namespace :mlb do
   task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout]
 
   task source: [:create_matchups, :create_bullpen, :update_games, :pitcher_box_score, :batter_box_score, :player_number,
-                :update_transactions, :play_by_play, :prev_pitchers, :pitcher_informations, :update_forecast, :update_weather]
+                :umpire, :update_transactions, :play_by_play, :prev_pitchers, :pitcher_informations, :update_forecast, :update_weather]
 
   task hourly: [:update_games, :pitcher_box_score, :batter_box_score, :play_by_play]
 
