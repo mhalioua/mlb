@@ -90,6 +90,8 @@ class GameController < ApplicationController
 
 		@offset = 5
 		@offset = params[:offset].to_i if params[:offset].present?
+
+		@umpires = Umpire.where("statfox = ? AND count is not NULL", @game.ump).order("year ASC")
 	end
 
 	def weather
@@ -139,6 +141,8 @@ class GameController < ApplicationController
 
 		@offset = 5
 		@offset = params[:offset].to_i if params[:offset].present?
+
+		@umpires = Umpire.where("statfox = ? AND count is not NULL", @game.ump).order("year ASC")
 	end
 
 	def stats
@@ -190,6 +194,8 @@ class GameController < ApplicationController
 		@home_hitters = @game.hitters.where(team_id: @home_team.id).order(:index)
 
 		@playbyplay = @game.playbyplays.first
+
+		@umpires = Umpire.where("statfox = ? AND count is not NULL", @game.ump).order("year ASC")
 	end
 
 	def previous
@@ -211,6 +217,8 @@ class GameController < ApplicationController
 
 		@away_starting_lancer_previous = @game.prevpitchers.where(away: true).order(:start_index)
 		@home_starting_lancer_previous = @game.prevpitchers.where(away: false).order(:start_index)
+
+		@umpires = Umpire.where("statfox = ? AND count is not NULL", @game.ump).order("year ASC")
 	end
 
 	def scout
@@ -252,6 +260,8 @@ class GameController < ApplicationController
 		else
 			@away_batters = Batter.none
 		end
+
+		@umpires = Umpire.where("statfox = ? AND count is not NULL", @game.ump).order("year ASC")
 	end
 
 	def lr
@@ -273,5 +283,7 @@ class GameController < ApplicationController
 		@weathers.each do |weather|
 			@wind_dirs.push(weather.wind_dir)
 		end
+
+		@umpires = Umpire.where("statfox = ? AND count is not NULL", @game.ump).order("year ASC")
 	end
 end
