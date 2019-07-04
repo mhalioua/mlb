@@ -1,5 +1,5 @@
 module Update
-  class Pitchers
+  class Umpires
 
     include GetHtml
 
