@@ -1,3 +1,6 @@
+<ul class="list-group">
+  <li class="list-group-item"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
+</ul>
 <%= render partial: "game/new/lr_table", locals: { min: 2, max: 6, wind_dirs: [], type: 'PITCHERS', team: @team } %>
 <%= render partial: "game/new/lr_table", locals: { min: 2, max: 6, wind_dirs: [], type: 'BATTERS', team: @team } %>
 

@@ -1,4 +1,7 @@
 <% content_for :title, 'Filter' %>
+<ul class="list-group">
+  <li class="list-group-item"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
+</ul>
 <%= @team_id %>
 <%= @wind_dir %>
 <%= @wind_speed %>
