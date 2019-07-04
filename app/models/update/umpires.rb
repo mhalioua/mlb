@@ -22,7 +22,9 @@ module Update
         link = link.gsub('2019', year.to_s)
         page = download_document(link)
         next unless page
-        count = page.css("#LeftCol-wss table:nth-child(6) tr:nth-child(2) td:nth-child(2)")[0].text.squish
+        count = page.css("#LeftCol-wss table:nth-child(6) tr:nth-child(2) td:nth-child(2)")[0]
+        next unless count
+        count = count.text.squish
         so = page.css("#LeftCol-wss table:nth-child(8) tr:nth-child(1) td:nth-child(4)")[0].text.squish
         bb = page.css("#LeftCol-wss table:nth-child(8) tr:nth-child(2) td:nth-child(4)")[0].text.squish
         sw = page.css("#LeftCol-wss table:nth-child(8) tr:nth-child(3) td:nth-child(4)")[0].text.squish
