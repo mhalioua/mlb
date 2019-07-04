@@ -1,5 +1,10 @@
 <% caption = weather.caption %>
 <tr bgcolor="<%= color %>">
+    <% if real && real.conditions %>
+      <td bgcolor="gray"><%= real.conditions %></td>
+    <% else %>
+      <td bgcolor="white"></td>
+    <% end %>
     <td bgcolor="<%= bgcolor %>"><%= weather.caption %></td>
     <td><%= weather.temp %></td>
     <td><%= weather.dew %></td>
@@ -26,15 +31,15 @@
     <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" || caption == "With wind" ? "" : "#EA5" %>"><%= weather.only_min_total_average %></td>
     <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" || caption == "With wind" ? "" : "#EA5" %>"><%= weather.only_min_total_count %></td>
     <td style="background: #555; color: sandybrown;"><%= weather.only_total_lines_average %></td>
-    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" || caption == "With wind" ? "" : "gray" %>"><%= weather.caption %></td>
-    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" || caption == "With wind" ? "" : "gray" %>"><%= weather.only_wind_total_average_one %></td>
-    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" || caption == "With wind" ? "" : "gray" %>"><%= weather.only_wind_total_average_two %></td>
-    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" || caption == "With wind" ? "" : "gray" %>"><%= weather.only_wind_total_hits_average %></td>
-    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" || caption == "With wind" ? "" : "gray" %>"><%= weather.only_wind_home_runs_average %></td>
-    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" || caption == "With wind" ? "" : "gray" %>"><%= weather.only_wind_total_count %></td>
+    <td bgcolor="<%= (caption == "Minus 5" || caption == "Plus 5") ? "yellow" : (caption == "With wind" ? "" : "gray") %>"><%= weather.caption %></td>
+    <td bgcolor="<%= (caption == "Minus 5" || caption == "Plus 5") ? "yellow" : (caption == "With wind" ? "" : "gray") %>"><%= weather.only_wind_total_average_one %></td>
+    <td bgcolor="<%= (caption == "Minus 5" || caption == "Plus 5") ? "yellow" : (caption == "With wind" ? "" : "gray") %>"><%= weather.only_wind_total_average_two %></td>
+    <td bgcolor="<%= (caption == "Minus 5" || caption == "Plus 5") ? "yellow" : (caption == "With wind" ? "" : "gray") %>"><%= weather.only_wind_total_hits_average %></td>
+    <td bgcolor="<%= (caption == "Minus 5" || caption == "Plus 5") ? "yellow" : (caption == "With wind" ? "" : "gray") %>"><%= weather.only_wind_home_runs_average %></td>
+    <td bgcolor="<%= (caption == "Minus 5" || caption == "Plus 5") ? "yellow" : (caption == "With wind" ? "" : "gray") %>"><%= weather.only_wind_total_count %></td>
     <td class="blue"></td>
-    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" || caption == "With wind" ? "" : "gray" %>"><%= weather.only_wind_min_total_average %></td>
-    <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" || caption == "With wind" ? "" : "gray" %>"><%= weather.only_wind_min_total_count %></td>
+    <td bgcolor="<%= (caption == "Minus 5" || caption == "Plus 5") ? "yellow" : (caption == "With wind" ? "" : "gray") %>"><%= weather.only_wind_min_total_average %></td>
+    <td bgcolor="<%= (caption == "Minus 5" || caption == "Plus 5") ? "yellow" : (caption == "With wind" ? "" : "gray") %>"><%= weather.only_wind_min_total_count %></td>
     <td style="background: #555; color: sandybrown;"><%= weather.only_wind_total_lines_average %></td>
     <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" || caption == "With wind" ? "" : "#EA5" %>"><%= weather.all_stadium_total_average_one %></td>
     <td bgcolor="<%= caption == "Minus 5" || caption == "Plus 5" || caption == "With wind" ? "" : "yellow" %>"><%= weather.all_stadium_total_average_two %></td>

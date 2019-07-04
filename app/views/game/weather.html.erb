@@ -13,7 +13,7 @@
         <%= render partial: "game/new/game_stats", locals: { game_stats: @game_stats, home_team: @home_team.name, away_team: @away_team.name} %>
       <% end %>
     </div>
-    <div>
+    <div class="umpires-wrapper">
       <table class="table-bordered umpires">
         <tr>
           <td><%= @game.ump %></td>

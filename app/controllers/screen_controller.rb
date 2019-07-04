@@ -1,6 +1,4 @@
 class ScreenController < ApplicationController
-	before_action :confirm_logged_in
-
 	def new
 		@game = Game.find_by_id(params[:id])
 		@game_stats = @game.game_stats
@@ -23,8 +21,8 @@ class ScreenController < ApplicationController
 			@home_left = @away_starting_lancer.first.throwhand == "L"
 			@home_batters = @away_starting_lancer.first.opposing_lineup
 			if @home_batters.empty?
-			  @home_predicted = "Predicted "
-			  @home_batters = @away_starting_lancer.first.predict_opposing_lineup
+				@home_predicted = "Predicted "
+				@home_batters = @away_starting_lancer.first.predict_opposing_lineup
 			end
 		else
 			@home_batters = Batter.none
@@ -34,8 +32,8 @@ class ScreenController < ApplicationController
 			@away_left = @home_starting_lancer.first.throwhand == "L"
 			@away_batters = @home_starting_lancer.first.opposing_lineup
 			if @away_batters.empty?
-			  @away_predicted = "Predicted "
-			  @away_batters = @home_starting_lancer.first.predict_opposing_lineup
+				@away_predicted = "Predicted "
+				@away_batters = @home_starting_lancer.first.predict_opposing_lineup
 			end
 		else
 			@away_batters = Batter.none
@@ -51,9 +49,9 @@ class ScreenController < ApplicationController
 		@forecasts.each_with_index do |forecast_one, index|
 			next if index % 2 == 0
 			break if index == 21
-      if index != 0
-			  @forecast_dropdown << [forecast_one.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p"), index]
-      end
+			if index != 0
+				@forecast_dropdown << [forecast_one.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p"), index]
+			end
 		end
 
 		@forecast_one = @game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(@forecast)
@@ -61,12 +59,18 @@ class ScreenController < ApplicationController
 		@forecast_three = @game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC").offset(@forecast)
 		@forecast_four = @game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").offset(@forecast)
 		@forecasts = [@forecast_one.first, @forecast_two.first, @forecast_three.first, @forecast_four.first]
+
+		@forecast_pre_one = @game.weathers.where(station: "Forecast", hour: -1).order("updated_at DESC").offset(@forecast)
+		@forecast_pre_two = @game.weathers.where(station: "Forecast", hour: 0).order("updated_at DESC").offset(@forecast)
+		@forecast_after_one = @game.weathers.where(station: "Forecast", hour: 5).order("updated_at DESC").offset(@forecast)
+		@additionalForecasts = [@forecast_pre_one.first, @forecast_pre_two.first, @forecast_one.first, @forecast_two.first, @forecast_three.first, @forecast_four.first, @forecast_after_one.first]
+
 		@weathers = @game.weathers.where(station: "Actual").order(:hour)
 		@additional = params[:option].to_i
-    if @forecast_one.first
-		  @weather_forecasts = @game.weathersources.where(table_number: 0, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
-		  @weather_previous = @game.weathersources.where(table_number: 1, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
-    end
+		if @forecast_one.first
+			@weather_forecasts = @game.weathersources.where(table_number: 0, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
+			@weather_previous = @game.weathersources.where(table_number: 1, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
+		end
 		@weather_actual = @game.weathersources.where(table_number: 2).order(:row_number)
 
 		@away_starting_lancer_previous = @game.prevpitchers.where(away: true).order(:start_index)
@@ -84,6 +88,8 @@ class ScreenController < ApplicationController
 
 		@offset = 5
 		@offset = params[:offset].to_i if params[:offset].present?
+
+		@umpires = Umpire.where("statfox = ? AND count is not NULL", @game.ump).order("year ASC")
 	end
 
 	def weather
@@ -107,9 +113,9 @@ class ScreenController < ApplicationController
 		@forecasts.each_with_index do |forecast_one, index|
 			next if index % 2 == 0
 			break if index == 21
-      if index != 0
-			  @forecast_dropdown << [forecast_one.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p"), index]
-      end
+			if index != 0
+				@forecast_dropdown << [forecast_one.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p"), index]
+			end
 		end
 
 		@forecast_one = @game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(@forecast)
@@ -118,21 +124,23 @@ class ScreenController < ApplicationController
 		@forecast_four = @game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").offset(@forecast)
 		@forecasts = [@forecast_one.first, @forecast_two.first, @forecast_three.first, @forecast_four.first]
 
-		# @forecast_pre_one = @game.weathers.where(station: "Forecast", hour: -1).order("updated_at DESC").offset(@forecast)
-		# @forecast_pre_two = @game.weathers.where(station: "Forecast", hour: 0).order("updated_at DESC").offset(@forecast)
-		# @forecast_after_one = @game.weathers.where(station: "Forecast", hour: 5).order("updated_at DESC").offset(@forecast)
-		# @forecasts = [@forecast_pre_one.first, @forecast_pre_two.first, @forecast_one.first, @forecast_two.first, @forecast_three.first, @forecast_four.first, @forecast_after_one.first]
+		@forecast_pre_one = @game.weathers.where(station: "Forecast", hour: -1).order("updated_at DESC").offset(@forecast)
+		@forecast_pre_two = @game.weathers.where(station: "Forecast", hour: 0).order("updated_at DESC").offset(@forecast)
+		@forecast_after_one = @game.weathers.where(station: "Forecast", hour: 5).order("updated_at DESC").offset(@forecast)
+		@additionalForecasts = [@forecast_pre_one.first, @forecast_pre_two.first, @forecast_one.first, @forecast_two.first, @forecast_three.first, @forecast_four.first, @forecast_after_one.first]
 
 		@weathers = @game.weathers.where(station: "Actual").order(:hour)
 		@additional = params[:option].to_i
-    if @forecast_one.first
-      @weather_forecasts = @game.weathersources.where(table_number: 0, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
-      @weather_previous = @game.weathersources.where(table_number: 1, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
-    end
+		if @forecast_one.first
+			@weather_forecasts = @game.weathersources.where(table_number: 0, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
+			@weather_previous = @game.weathersources.where(table_number: 1, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
+		end
 		@weather_actual = @game.weathersources.where(table_number: 2).order(:row_number)
 
 		@offset = 5
 		@offset = params[:offset].to_i if params[:offset].present?
+
+		@umpires = Umpire.where("statfox = ? AND count is not NULL", @game.ump).order("year ASC")
 	end
 
 	def stats
@@ -159,8 +167,8 @@ class ScreenController < ApplicationController
 			@home_left = @away_starting_lancer.first.throwhand == "L"
 			@home_batters = @away_starting_lancer.first.opposing_lineup
 			if @home_batters.empty?
-			  @home_predicted = "Predicted "
-			  @home_batters = @away_starting_lancer.first.predict_opposing_lineup
+				@home_predicted = "Predicted "
+				@home_batters = @away_starting_lancer.first.predict_opposing_lineup
 			end
 		else
 			@home_batters = Batter.none
@@ -170,8 +178,8 @@ class ScreenController < ApplicationController
 			@away_left = @home_starting_lancer.first.throwhand == "L"
 			@away_batters = @home_starting_lancer.first.opposing_lineup
 			if @away_batters.empty?
-			  @away_predicted = "Predicted "
-			  @away_batters = @home_starting_lancer.first.predict_opposing_lineup
+				@away_predicted = "Predicted "
+				@away_batters = @home_starting_lancer.first.predict_opposing_lineup
 			end
 		else
 			@away_batters = Batter.none
@@ -184,6 +192,8 @@ class ScreenController < ApplicationController
 		@home_hitters = @game.hitters.where(team_id: @home_team.id).order(:index)
 
 		@playbyplay = @game.playbyplays.first
+
+		@umpires = Umpire.where("statfox = ? AND count is not NULL", @game.ump).order("year ASC")
 	end
 
 	def previous
@@ -205,6 +215,8 @@ class ScreenController < ApplicationController
 
 		@away_starting_lancer_previous = @game.prevpitchers.where(away: true).order(:start_index)
 		@home_starting_lancer_previous = @game.prevpitchers.where(away: false).order(:start_index)
+
+		@umpires = Umpire.where("statfox = ? AND count is not NULL", @game.ump).order("year ASC")
 	end
 
 	def scout
@@ -246,6 +258,8 @@ class ScreenController < ApplicationController
 		else
 			@away_batters = Batter.none
 		end
+
+		@umpires = Umpire.where("statfox = ? AND count is not NULL", @game.ump).order("year ASC")
 	end
 
 	def lr
@@ -267,5 +281,7 @@ class ScreenController < ApplicationController
 		@weathers.each do |weather|
 			@wind_dirs.push(weather.wind_dir)
 		end
+
+		@umpires = Umpire.where("statfox = ? AND count is not NULL", @game.ump).order("year ASC")
 	end
 end

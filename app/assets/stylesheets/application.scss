@@ -340,3 +340,10 @@ table.umpires {
 table.umpires td {
   border: 1px solid burlywood !important;
 }
+
+.umpires-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 40px;
+}

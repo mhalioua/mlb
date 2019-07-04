@@ -3,6 +3,7 @@
   <caption><%= caption %></caption>
   <thead>
   	<tr bgcolor="gray">
+      <th bgcolor="white"></th>
   	  <th width="50">Time</th>
   	  <th width="80">Temperature</th>
       <th width="50">Dew</th>
@@ -58,6 +59,7 @@
   <tbody>
     <% result = (type == 1 ? prev_data(name) : total_data(name)) %>
     <tr bgcolor="#DC143C">
+      <td bgcolor="white"></td>
       <td></td>
       <td colspan="5"><%= caption %></td>
       <td class="blue"></td>
@@ -94,13 +96,20 @@
     </tr>
     <% block_number = 0 %>
 
-    <% weathers.each do |weather|
+    <% weathers.each_with_index do |weather, index|
       bgcolor = "gray"
       bgcolor = "lightgreen" if weather.caption == "With wind"
       color = ""
       color = "#6495ED" if weather.caption == "With wind"
       color = "gray" if weather.caption == "Minus 5" || weather.caption == "Plus 5"
     %>
+      <% if type != 2 && index === 0 && realWeathers.length === 7 %>
+        <%= render partial: "game/new/weather_added", locals: { color: "#fff", weather: realWeathers[0] } %>
+        <%= render partial: "game/new/weather_added", locals: { color: "#fff", weather: realWeathers[1] } %>
+      <% end %>
+      <% if type != 2 && index === 4 && realWeathers.length === 7 %>
+        <%= render partial: "game/new/weather_added", locals: { color: "#fff", weather: realWeathers[6] } %>
+      <% end %>
       <% if block_number != weather.block_number %>
           <% if weather.block_number == 1 || weather.block_number == 2 || weather.block_number == 3 %>
             <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
@@ -114,7 +123,7 @@
             <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
           <% end %>
       <% end %>
-      <%= render partial: "game/new/updated_weather_value", locals: { weather: weather, color: color, bgcolor: bgcolor } %>
+      <%= render partial: "game/new/updated_weather_value", locals: { weather: weather, color: color, bgcolor: bgcolor, real: index < 4 && realWeathers.length === 7 ? realWeathers[2+index] : nil } %>
     <%
       block_number = weather.block_number
       end
