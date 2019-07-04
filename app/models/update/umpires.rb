@@ -12,6 +12,7 @@ module Update
 
       elements = doc.css("td")
       elements.each do |element|
+        next unless element.children[1]
         link = 'https://www.covers.com' + element.children[1]['href']
         text = element.children[1].text
         text = text.split(',')[0].upcase
