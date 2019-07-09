@@ -88,8 +88,6 @@ module Update
             elsif pitcher_flag == 'b'
               flag = (batter_flag == 'r' ? 'rl' : 'lr')
             end
-            puts line_string
-            puts flag
             if line_string.include?("homered to")
               result[flag + '_hr'] += 1
               result[flag + '_ab'] += 1
