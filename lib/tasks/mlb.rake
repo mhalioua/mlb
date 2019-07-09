@@ -124,6 +124,12 @@ namespace :mlb do
     game_day.update_weather
   end
 
+  task history_debug: :environment do
+    date = Date.new(2018, 10, 1)
+    game_day = GameDay.find_by(date: date)
+    game_day.play_by_play
+  end
+
   task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs]
 
   task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout]
