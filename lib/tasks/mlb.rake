@@ -112,13 +112,13 @@ namespace :mlb do
   end
 
   task history: :environment do
-    date = Date.new(2018, 10, 1)
+    date = Date.new(2018, 9, 30)
     game_day = GameDay.find_by(date: date)
     game_day.create_matchups
     game_day.update_games
     game_day.pitcher_box_score
     game_day.batter_box_score
-    # game_day.play_by_play
+    game_day.play_by_play
     game_day.prev_pitchers
     game_day.pitcher_informations
     game_day.update_weather
