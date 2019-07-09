@@ -111,6 +111,19 @@ namespace :mlb do
     Season.where("year = 2014").map {|season| season.umpire}
   end
 
+  task history: :environment do
+    date = Date.new(2018, 10, 1)
+    game_day = GameDay.find_by(date: date)
+    game_day.create_matchups
+    game_day.update_games
+    game_day.pitcher_box_score
+    game_day.batter_box_score
+    game_day.play_by_play
+    game_day.prev_pitchers
+    game_day.pitcher_informations
+    game_day.update_weather
+  end
+
   task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs]
 
   task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout]
