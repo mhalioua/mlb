@@ -112,7 +112,7 @@ namespace :mlb do
   end
 
   task history: :environment do
-    date = Date.new(2018, 9, 30)
+    date = Date.new(2018, 9, 27)
     game_day = GameDay.find_by(date: date)
     game_day.create_matchups
     game_day.update_games
@@ -122,12 +122,28 @@ namespace :mlb do
     game_day.prev_pitchers
     game_day.pitcher_informations
     game_day.update_weather
-  end
 
-  task history_debug: :environment do
-    date = Date.new(2018, 10, 1)
+    date = Date.new(2018, 9, 28)
     game_day = GameDay.find_by(date: date)
+    game_day.create_matchups
+    game_day.update_games
+    game_day.pitcher_box_score
+    game_day.batter_box_score
     game_day.play_by_play
+    game_day.prev_pitchers
+    game_day.pitcher_informations
+    game_day.update_weather
+
+    date = Date.new(2018, 9, 29)
+    game_day = GameDay.find_by(date: date)
+    game_day.create_matchups
+    game_day.update_games
+    game_day.pitcher_box_score
+    game_day.batter_box_score
+    game_day.play_by_play
+    game_day.prev_pitchers
+    game_day.pitcher_informations
+    game_day.update_weather
   end
 
   task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs]
