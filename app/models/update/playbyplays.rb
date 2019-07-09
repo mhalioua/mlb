@@ -16,8 +16,8 @@ module Update
         next unless doc
 
         lines = doc.css("#allPlays .headline")
-        pitcher_flag = "L"
-        batter_flag = "R"
+        pitcher_flag = "l"
+        batter_flag = "r"
 
         result = {
           'll_ab' => 0,
