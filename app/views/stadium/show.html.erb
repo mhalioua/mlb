@@ -27,7 +27,7 @@
       <td><%= "#{wind}#{wind === 25 ? '+' : ''}" %> mph</td>
 
       <% wind_dirs.each do |wind_dir|
-        stadium_data = StadiumDatum.find_or_create_by(team_id: team.id, wind_dir: wind_dir, wind_speed: wind)
+        stadium_data = StadiumDatum.find_or_create_by(team_id: @team.id, wind_dir: wind_dir, wind_speed: wind)
       %>
         <td><%= stadium_data.count %></td>
         <td><%= stadium_data.result %></td>
