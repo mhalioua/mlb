@@ -461,16 +461,18 @@ module GameHelper
       search_string.push('"DP" >= ' + "'#{dew_min}'" + ' AND "DP" <= ' + "'#{dew_max}'")
       search_string_low.push('"DP" >= ' + "'#{dew_min + 1}'" + ' AND "DP" <= ' + "'#{dew_max - 1}'")
       search_city3.push('"DP" >= ' + "'#{dew_min-3}'" + ' AND "DP" <= ' + "'#{dew_max+3}'")
+      search_city1.push('"DP" >= ' + "'#{dew_min-3}'" + ' AND "DP" <= ' + "'#{dew_max+3}'")
     end
     if humid_max != -1
       search_string.push('"HUMID" >= ' + "'#{humid_min}'" + ' AND "HUMID" <= ' + "'#{humid_max}'")
       search_string_low.push('"HUMID" >= ' + "'#{humid_min}'" + ' AND "HUMID" <= ' + "'#{humid_max}'")
       search_city2.push('"HUMID" >= ' + "'#{humid_min-2}'" + ' AND "HUMID" <= ' + "'#{humid_max+2}'")
+      search_city1.push('"HUMID" >= ' + "'#{humid_min-2}'" + ' AND "HUMID" <= ' + "'#{humid_max+2}'")
     end
     if baro_max != -1
       search_string.push('"BARo" >= ' + "'#{baro_min}'" + ' AND "BARo" <= ' + "'#{baro_max}'")
       search_string_low.push('"BARo" >= ' + "'#{baro_min}'" + ' AND "BARo" <= ' + "'#{baro_max}'")
-      search_city1.push('"BARo" >= ' + "'#{(baro_min-0.01).round(2)}'" + ' AND "BARo" <= ' + "'#{(baro_max+0.01).round(2)}'")
+      # search_city1.push('"BARo" >= ' + "'#{(baro_min-0.01).round(2)}'" + ' AND "BARo" <= ' + "'#{(baro_max+0.01).round(2)}'")
     end
 
     search_string_all = search_string.dup
