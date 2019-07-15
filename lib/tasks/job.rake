@@ -2,6 +2,20 @@ require "#{Rails.root}/app/helpers/game_helper"
 include GameHelper
 namespace :job do
 
+  task :stadium_data => :environment do
+    teams = Team.all
+    wind_dirs = %w(North NNW NW WNW West WSW SW SSW South SSE SE ESE East ENE NE NNE)
+    teams.each do |team|
+      wind_dirs.each do |wind_dir|
+        (1..25).each do |wind_speed|
+          result, count = stadium_data(wind_dir, wind_speed, team.name)
+          stadium_data = StadiumDatum.find_or_create_by(team_id: team.id, wind_dir: wind_dir, wind_speed: wind_speed)
+          stadium_data.update(result: result, count: count)
+        end
+      end
+    end
+  end
+
   task :test => :environment do
     include GetHtml
     year = 2019

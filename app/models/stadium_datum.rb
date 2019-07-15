@@ -1,0 +1,2 @@
+class StadiumDatum < ApplicationRecord
+end
