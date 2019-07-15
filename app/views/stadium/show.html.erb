@@ -1,0 +1,35 @@
+<% content_for :title, @team.stadium %>
+<ul class="list-group">
+  <li class="list-group-item"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
+</ul>
+<% wind_dirs = %w(N NNW NW WNW W WSW SW SSW S SSE SE ESE E ENE NE NNE) %>
+<table class="table-bordered">
+  <tr>
+    <td></td>
+    <td colspan="31"><%= @team.stadium %></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <% wind_dirs.each do |wind_dir| %>
+      <td colspan="2"><%= wind_dir %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <td></td>
+    <% wind_dirs.each do |wind_dir| %>
+      <td>gms</td>
+      <td>runs</td>
+    <% end %>
+  </tr>
+  <% (1..25).each do |wind| %>
+    <tr>
+      <td><%= "#{wind}#{wind === 25 ? '+' : ''}" %> mph</td>
+
+      <% wind_dirs.each do |wind_dir| %>
+        <td></td>
+        <td></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
