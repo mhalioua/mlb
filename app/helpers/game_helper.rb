@@ -446,6 +446,25 @@ module GameHelper
     return result
   end
 
+  def stadium_data(wind_dir, wind_speed, name)
+    search_string = table_type(name)
+    search_string.push('"Home_Team" = ' + "'#{name}'")
+
+    search_string.push('"M" = ' + "'#{wind_dir}'")
+    if wind_speed === 25
+      search_string.push('"N" >= ' + "#{wind_speed}")
+    else
+      search_string.push('"N" >= ' + "#{wind_speed}" + ' AND "N" < ' + "#{wind_speed + 1}")
+    end
+
+    query = Workbook.where(search_string.join(" AND ")).to_a
+    temp_count = query.count
+
+    result = (query.map {|stat| stat.R.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
+
+    return result, temp_count
+  end
+
   def true_data(temp_min, temp_max, dew_min, dew_max, humid_min, humid_max, baro_min, baro_max, wind_min, wind_max, wind_dir1, wind_dir2, name)
     search_string = table_type(name)
     search_string_low = table_type(name)

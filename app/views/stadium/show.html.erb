@@ -2,7 +2,7 @@
 <ul class="list-group">
   <li class="list-group-item"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
 </ul>
-<% wind_dirs = %w(N NNW NW WNW W WSW SW SSW S SSE SE ESE E ENE NE NNE) %>
+<% wind_dirs = %w(North NNW NW WNW West WSW SW SSW South SSE SE ESE East ENE NE NNE) %>
 <table class="table-bordered">
   <tr>
     <td></td>
@@ -26,9 +26,11 @@
     <tr>
       <td><%= "#{wind}#{wind === 25 ? '+' : ''}" %> mph</td>
 
-      <% wind_dirs.each do |wind_dir| %>
-        <td></td>
-        <td></td>
+      <% wind_dirs.each do |wind_dir|
+        result, count = stadium_data(wind, wind_dir, @team.name)
+      %>
+        <td><%= count %></td>
+        <td><%= result %></td>
       <% end %>
     </tr>
   <% end %>
