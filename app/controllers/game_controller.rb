@@ -12,9 +12,10 @@ class GameController < ApplicationController
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
 		@image_url = @home_team.id.to_s + ".png"
 
+		year = @game_day.year.to_s
 		month = Date::MONTHNAMES[@game_day.month.to_i]
 		day = @game_day.day.to_s
-		@date = "#{month} #{day}"
+		@date = "#{month} #{day} #{year}"
 
 		@away_starting_lancer = @game.lancers.where(team: @away_team, starter: true, season_id: @season.id)
 		@home_starting_lancer = @game.lancers.where(team: @home_team, starter: true, season_id: @season.id)
@@ -104,9 +105,10 @@ class GameController < ApplicationController
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
 		@image_url = @home_team.id.to_s + ".png"
 
+		year = @game_day.year.to_s
 		month = Date::MONTHNAMES[@game_day.month.to_i]
 		day = @game_day.day.to_s
-		@date = "#{month} #{day}"
+		@date = "#{month} #{day} #{year}"
 
 		@forecast = params[:forecast].to_i
 		@forecasts = @game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").to_a
@@ -155,9 +157,10 @@ class GameController < ApplicationController
 		@home_team = @game.home_team
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
 
+		year = @game_day.year.to_s
 		month = Date::MONTHNAMES[@game_day.month.to_i]
 		day = @game_day.day.to_s
-		@date = "#{month} #{day}"
+		@date = "#{month} #{day} #{year}"
 
 		@away_starting_lancer = @game.lancers.where(team: @away_team, starter: true, season_id: @season.id)
 		@home_starting_lancer = @game.lancers.where(team: @home_team, starter: true, season_id: @season.id)
@@ -208,9 +211,10 @@ class GameController < ApplicationController
 		@home_team = @game.home_team
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
 
+		year = @game_day.year.to_s
 		month = Date::MONTHNAMES[@game_day.month.to_i]
 		day = @game_day.day.to_s
-		@date = "#{month} #{day}"
+		@date = "#{month} #{day} #{year}"
 
 		@away_starting_lancer = @game.lancers.where(team: @away_team, starter: true, season_id: @season.id)
 		@home_starting_lancer = @game.lancers.where(team: @home_team, starter: true, season_id: @season.id)
@@ -232,9 +236,10 @@ class GameController < ApplicationController
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
 		@image_url = @home_team.id.to_s + ".png"
 
+		year = @game_day.year.to_s
 		month = Date::MONTHNAMES[@game_day.month.to_i]
 		day = @game_day.day.to_s
-		@date = "#{month} #{day}"
+		@date = "#{month} #{day} #{year}"
 
 		@away_starting_lancer = @game.lancers.where(team: @away_team, starter: true, season_id: @season.id)
 		@home_starting_lancer = @game.lancers.where(team: @home_team, starter: true, season_id: @season.id)
@@ -275,9 +280,11 @@ class GameController < ApplicationController
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
 		@image_url = @home_team.id.to_s + ".png"
 
+		year = @game_day.year.to_s
 		month = Date::MONTHNAMES[@game_day.month.to_i]
 		day = @game_day.day.to_s
-		@date = "#{month} #{day}"
+		@date = "#{month} #{day} #{year}"
+
 		@weathers = @game.weathers.where(station: "Actual").order(:hour)
 		@wind_dirs = []
 		@weathers.each do |weather|
