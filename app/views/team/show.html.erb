@@ -2,8 +2,39 @@
 <ul class="list-group">
   <li class="list-group-item"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
 </ul>
-<% @games.each do |game| %>
-  <div style="border-bottom: 20px solid black;">
+<div style="display: flex;">
+  <% (1..(@games.length/10).to_i).each do |index| %>
+    <button class="btn-primary apply apply<%= index %>"><%= "#{index * 10 - 9} - #{index * 10 < @games.length ? index * 10 : @games.length}" %></button>
+  <% end %>
+</div>
+<% @games.each_with_index do |game, index| %>
+  <div style="border-bottom: 20px solid black;" class="class class<%= (index/10).to_i + 1 %>">
     <img style="border-radius: 0;" src="https://s3.amazonaws.com/mlb-daemon/images/<%= game.id %>.png" />
   </div>
 <% end %>
+
+<script>
+    $(document).ready(function(){
+        $(".apply1").click(function(){
+            $(".class").css("display", "none");
+            $(".class1").css("display", "block");
+        });
+        $(".apply2").click(function(){
+            $(".class").css("display", "none");
+            $(".class2").css("display", "block");
+        });
+        $(".apply3").click(function(){
+            $(".class").css("display", "none");
+            $(".class3").css("display", "block");
+        });
+        $(".apply4").click(function(){
+            $(".class").css("display", "none");
+            $(".class4").css("display", "block");
+        });
+        $(".apply5").click(function(){
+            $(".class").css("display", "none");
+            $(".class5").css("display", "block");
+        });
+
+    });
+</script>
