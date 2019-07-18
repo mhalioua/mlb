@@ -1,4 +1,13 @@
 <% content_for :title, 'Filter' %>
+<style>
+  .class {
+    display: none;
+  }
+
+  .class1 {
+    display: block;
+  }
+</style>
 <ul class="list-group">
   <li class="list-group-item"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
 </ul>
@@ -31,7 +40,33 @@
   <% end %>
 </div>
 <% @games.each_with_index do |game, index| %>
-  <div style="border-bottom: 20px solid black;" class="class<%= ((index + 1)/10).to_i %>">
+  <div style="border-bottom: 20px solid black;" class="class class<%= ((index + 1)/10).to_i %>">
     <img style="border-radius: 0;" src="https://s3.amazonaws.com/mlb-daemon/images/<%= game.id %>.png" />
   </div>
 <% end %>
+
+<script>
+    $(document).ready(function(){
+        $(".apply1").click(function(){
+            $(".class").css("display", "none");
+            $(".class1").css("display", "block");
+        });
+        $(".apply2").click(function(){
+            $(".class").css("display", "none");
+            $(".class2").css("display", "block");
+        });
+        $(".apply3").click(function(){
+            $(".class").css("display", "none");
+            $(".class3").css("display", "block");
+        });
+        $(".apply4").click(function(){
+            $(".class").css("display", "none");
+            $(".class4").css("display", "block");
+        });
+        $(".apply5").click(function(){
+            $(".class").css("display", "none");
+            $(".class5").css("display", "block");
+        });
+
+    });
+</script>
