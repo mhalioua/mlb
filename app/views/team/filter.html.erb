@@ -35,7 +35,7 @@
   <input type="submit" value="Filter">
 <% end %>
 <div style="display: flex;">
-  <% [1..(@games.length/10).to_i].each do |index| %>
+  <% (1..(@games.length/10).to_i).each do |index| %>
     <button class="btn-primary apply apply<%= index %>"><%= "#{index * 10 - 9} - #{index * 10 < @games.length ? index * 10 : @games.length}" %></button>
   <% end %>
 </div>
