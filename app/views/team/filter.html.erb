@@ -25,7 +25,7 @@
 
   <input type="submit" value="Filter">
 <% end %>
-<% @games.each do |game| %>
+<% @games[0..10].each do |game| %>
   <div style="border-bottom: 20px solid black;">
     <img style="border-radius: 0;" src="https://s3.amazonaws.com/mlb-daemon/images/<%= game.id %>.png" />
   </div>
