@@ -22,15 +22,21 @@
       <td>runs</td>
     <% end %>
   </tr>
-  <% wind_dirs.each do |wind_dir| %>
+  <% wind_dirs.each do |wind_dir|
+    stadium_list = Game.where("team_id = ? AND wind_dir = ?", @team.id, wind_dir).order('result DESC')
+  %>
     <tr>
       <td><%= wind_dir %></td>
 
       <% (1..25).each do |wind|
         stadium_data = StadiumDatum.find_or_create_by(team_id: @team.id, wind_dir: wind_dir, wind_speed: wind)
+        color = ""
+        color = "lightblue" if stadium_list[5].result <= stadium_data.result
+        color = "royalblue" if stadium_list[2].result <= stadium_data.result
+
       %>
-        <td><%= stadium_data.count %></td>
-        <td><%= stadium_data.result %></td>
+        <td bgcolor="<%= color %>"><%= stadium_data.count %></td>
+        <td bgcolor="<%= color %>"><%= stadium_data.result %></td>
       <% end %>
     </tr>
   <% end %>
