@@ -26,7 +26,7 @@
     <tr>
       <td><%= wind_dir %></td>
 
-      <% (1..25).each do |wind| %>
+      <% (1..25).each do |wind|
         stadium_data = StadiumDatum.find_or_create_by(team_id: @team.id, wind_dir: wind_dir, wind_speed: wind)
       %>
         <td><%= stadium_data.count %></td>
