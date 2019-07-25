@@ -31,8 +31,8 @@
       <% (1..25).each do |wind|
         stadium_data = StadiumDatum.find_or_create_by(team_id: @team.id, wind_dir: wind_dir, wind_speed: wind)
         color = ""
-        color = "lightblue" if stadium_list[5].result <= stadium_data.result
-        color = "royalblue" if stadium_list[2].result <= stadium_data.result
+        color = "lightblue" if stadium_list[5].result <= stadium_data.result && stadium_data.result != '0.0'
+        color = "royalblue" if stadium_list[2].result <= stadium_data.result && stadium_data.result != '0.0'
 
       %>
         <td bgcolor="<%= color %>"><%= stadium_data.count %></td>
