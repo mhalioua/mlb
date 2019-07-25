@@ -16,6 +16,7 @@ class TeamController < ApplicationController
     @wind_dir = nil
     @wind_speed = nil
     @baro = nil
+    @dp = nil
     @games = []
     @result.each do |game|
       if params[:team_id].present? && params[:team_id] != ''
@@ -57,6 +58,16 @@ class TeamController < ApplicationController
         is_filter = true if forecast_two && forecast_two.pressure_num >= (@baro - 0.04).round(2) && forecast_two.pressure_num <= (@baro + 0.04).round(2)
         is_filter = true if forecast_thr && forecast_thr.pressure_num >= (@baro - 0.04).round(2) && forecast_thr.pressure_num <= (@baro + 0.04).round(2)
         is_filter = true if forecast_for && forecast_for.pressure_num >= (@baro - 0.04).round(2) && forecast_for.pressure_num <= (@baro + 0.04).round(2)
+        next if is_filter === false
+      end
+
+      if params[:dp].present? && params[:dp] != ''
+        @dp = params[:dp].to_f
+        is_filter = false
+        is_filter = true if forecast_one && forecast_one.dew_num >= (@dp - 3).round(2) && forecast_one.dew_num <= (@dp + 3).round(2)
+        is_filter = true if forecast_two && forecast_two.dew_num >= (@dp - 3).round(2) && forecast_two.dew_num <= (@dp + 3).round(2)
+        is_filter = true if forecast_thr && forecast_thr.dew_num >= (@dp - 3).round(2) && forecast_thr.dew_num <= (@dp + 3).round(2)
+        is_filter = true if forecast_for && forecast_for.dew_num >= (@dp - 3).round(2) && forecast_for.dew_num <= (@dp + 3).round(2)
         next if is_filter === false
       end
 

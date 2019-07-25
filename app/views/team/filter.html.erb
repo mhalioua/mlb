@@ -12,6 +12,7 @@
 <%= @wind_dir %>
 <%= @wind_speed %>
 <%= @baro %>
+<%= @dp %>
 <%= form_tag("/team/filter", method: "get") do %>
   <label>Stadium: </label>
   <select name="team_id">
@@ -28,6 +29,9 @@
 
   <label>Baro: </label>
   <input type="number" step="0.01" name="baro" value="<%= @baro %>" />
+
+  <label>DP: </label>
+  <input type="number" step="1" name="dp" value="<%= @dp %>" />
 
   <input type="submit" value="Filter">
 <% end %>
