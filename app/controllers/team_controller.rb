@@ -31,12 +31,12 @@ class TeamController < ApplicationController
       forecast_for = game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").offset(1).first
 
       if params[:wind_dir].present? && params[:wind_dir] != ''
-        @wind_dir = params[:wind_dir].upcase
+        @wind_dir = params[:wind_dir]
         is_filter = false
-        is_filter = true if forecast_one && forecast_one.wind_dir === @wind_dir
-        is_filter = true if forecast_two && forecast_two.wind_dir === @wind_dir
-        is_filter = true if forecast_thr && forecast_thr.wind_dir === @wind_dir
-        is_filter = true if forecast_for && forecast_for.wind_dir === @wind_dir
+        is_filter = true if forecast_one && forecast_one.wind_dir.upcase === @wind_dir.upcase
+        is_filter = true if forecast_two && forecast_two.wind_dir.upcase === @wind_dir.upcase
+        is_filter = true if forecast_thr && forecast_thr.wind_dir.upcase === @wind_dir.upcase
+        is_filter = true if forecast_for && forecast_for.wind_dir.upcase === @wind_dir.upcase
         next if is_filter === false
       end
 
