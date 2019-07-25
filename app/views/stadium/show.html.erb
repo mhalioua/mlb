@@ -23,7 +23,7 @@
     <% end %>
   </tr>
   <% wind_dirs.each do |wind_dir|
-    stadium_list = Game.where("team_id = ? AND wind_dir = ?", @team.id, wind_dir).order('result DESC')
+    stadium_list = StadiumDatum.where("team_id = ? AND wind_dir = ?", @team.id, wind_dir).order('result DESC')
   %>
     <tr>
       <td><%= wind_dir %></td>
