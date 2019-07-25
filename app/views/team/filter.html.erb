@@ -8,9 +8,6 @@
     display: block;
   }
 </style>
-<ul class="list-group">
-  <li class="list-group-item"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
-</ul>
 <%= @team_id %>
 <%= @wind_dir %>
 <%= @wind_speed %>
@@ -45,6 +42,9 @@
   </div>
 <% end %>
 
+<ul class="list-group">
+  <li class="list-group-item"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
+</ul>
 <script>
     $(document).ready(function(){
         $(".apply1").click(function(){
@@ -78,5 +78,6 @@
             $(this).addClass("active");
         });
 
+        $(".apply1").addClass("active");
     });
 </script>
