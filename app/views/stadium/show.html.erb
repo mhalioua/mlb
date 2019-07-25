@@ -6,27 +6,27 @@
 <table class="table-bordered">
   <tr>
     <td></td>
-    <td colspan="31"><%= @team.stadium %></td>
+    <td colspan="49"><%= @team.stadium %></td>
     <td></td>
   </tr>
   <tr>
     <td></td>
-    <% wind_dirs.each do |wind_dir| %>
-      <td colspan="2"><%= wind_dir %></td>
+    <% (1..25).each do |wind| %>
+      <td colspan="2"><%= "#{wind}#{wind === 25 ? '+' : ''}" %> mph</td>
     <% end %>
   </tr>
   <tr>
     <td></td>
-    <% wind_dirs.each do |wind_dir| %>
+    <% (1..25).each do |wind| %>
       <td>gms</td>
       <td>runs</td>
     <% end %>
   </tr>
-  <% (1..25).each do |wind| %>
+  <% wind_dirs.each do |wind_dir| %>
     <tr>
-      <td><%= "#{wind}#{wind === 25 ? '+' : ''}" %> mph</td>
+      <td><%= wind_dir %></td>
 
-      <% wind_dirs.each do |wind_dir|
+      <% (1..25).each do |wind| %>
         stadium_data = StadiumDatum.find_or_create_by(team_id: @team.id, wind_dir: wind_dir, wind_speed: wind)
       %>
         <td><%= stadium_data.count %></td>
