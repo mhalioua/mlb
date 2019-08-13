@@ -6,10 +6,12 @@ class Batter < ApplicationRecord
   has_many   :batter_stats, dependent: :destroy
 
   def bathand
+    "" unless player
     player.bathand
   end
 
   def name
+    "" unless player
     player.name
   end
 
