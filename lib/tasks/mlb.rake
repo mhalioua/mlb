@@ -63,12 +63,8 @@ namespace :mlb do
     [GameDay.yesterday, GameDay.today].each {|game_day| game_day.update_weather}
   end
 
-  task update_prev: :environment do
-    (1..6).each do |index|
-      date = Date.new(2019, 6, index)
-      game_day = GameDay.find_by(date: date)
-      game_day.create_matchups
-    end
+  task update_yesterday: :environment do
+    GameDay.yesterday.create_matchups
   end
 
   task update_forecast: :environment do
@@ -109,19 +105,6 @@ namespace :mlb do
     Season.where("year = 2016").map {|season| season.umpire}
     Season.where("year = 2015").map {|season| season.umpire}
     Season.where("year = 2014").map {|season| season.umpire}
-  end
-
-  task history: :environment do
-    date = Date.new(2018, 9, 27)
-    game_day = GameDay.find_by(date: date)
-    game_day.create_matchups
-    game_day.update_games
-    game_day.pitcher_box_score
-    game_day.batter_box_score
-    game_day.play_by_play
-    game_day.prev_pitchers
-    game_day.pitcher_informations
-    game_day.update_weather
   end
 
   task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs]
