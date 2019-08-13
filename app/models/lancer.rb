@@ -65,6 +65,14 @@ class Lancer < ApplicationRecord
           opp_pitcher = game.lancers.find_by(starter: true, team_id: game.away_team_id)
         end
 
+        if opp_pitcher
+          puts opp_pitcher.player.throwhand
+          puts throwhand
+          puts opp_pitcher.player.throwhand == throwhand
+          lineup = game.batters.where(team: opp_team, starter: true).order("lineup ASC")
+          puts lineup.size
+        end
+
         if opp_pitcher && opp_pitcher.player.throwhand == throwhand
           lineup = game.batters.where(team: opp_team, starter: true).order("lineup ASC")
           next unless lineup.size == 9
