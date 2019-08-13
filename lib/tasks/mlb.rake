@@ -94,6 +94,22 @@ namespace :mlb do
     end
   end
 
+  task player_clean: :environment do
+    batters = Batter.all
+    batters.each do |batter|
+      if batter.player == nil
+        batter.destroy
+      end
+    end
+
+    lancers = Lancer.all
+    lancers.each do |lancer|
+      if lancer.player == nil
+        lancer.destroy
+      end
+    end
+  end
+
   task play_by_play: :environment do
     [GameDay.yesterday, GameDay.today].each {|game_day| game_day.play_by_play}
   end
