@@ -18,28 +18,103 @@ namespace :job do
 
   task :test => :environment do
     include GetHtml
-    year = 2019
-    url = "https://www.covers.com/pageLoader/pageLoader.aspx?page=/data/mlb/umpires/umpires.html"
+    game_day = GameDay.yesterday
+    url = "https://www.baseballpress.com/lineups/2019-08-12" % [game_day.year, game_day.month, game_day.day]
     doc = download_document(url)
     puts url
-    next unless doc
-
-    elements = doc.css("td")
+    games = game_day.games
+    elements = doc.css(".lineup-card")
+    season = game_day.season
     elements.each do |element|
-      link = 'https://www.covers.com' + element.children[1]['href']
-      text = element.children[1].text
-      text = text.split(',')[0]
-      puts link
-      puts text
-      link = link.gsub('2019', year.to_s)
-      page = download_document(link)
-      next unless page
-      so = page.css("#LeftCol-wss table:nth-child(8) tr:nth-child(1) td:nth-child(4)")[0].text
-      bb = page.css("#LeftCol-wss table:nth-child(8) tr:nth-child(2) td:nth-child(4)")[0].text
-      sw =page.css("#LeftCol-wss table:nth-child(8) tr:nth-child(3) td:nth-child(4)")[0].text
-      puts so
-      puts bb
-      puts sw
+      teams = element.css('.lineup-card-header')[0].children[1].css('a')
+      away_team = Team.find_by_name(teams[0].text.squish)
+      home_team = Team.find_by_name(teams[1].text.squish)
+
+      game_date = element.css('.lineup-card-header')[0].children[1].children[5].text.squish
+      game_date = DateTime.parse(game_date) + home_team.timezone.hours
+      game_date = game_date.strftime('%FT%T%:z')
+      game = games.where(away_team: away_team, home_team: home_team, game_date: game_date).first
+      game = games.where(away_team: away_team, home_team: home_team).first unless game
+      game = game_day.next_days(1).games.where(away_team: away_team, home_team: home_team).first unless game
+      next unless game
+
+      players = element.css('.lineup-card-header')[0].children[3].css('.player')
+      away_pitcher = players[0]
+      home_pitcher = players[1]
+
+      if away_pitcher.text.squish != 'TBD'
+        away_pitcher_name = away_pitcher.children[0].children[0].text.squish
+        away_pitcher_handedness = away_pitcher.children[1].text.squish[1]
+        away_pitcher_handedness = 'B' if away_pitcher_handedness == 'S'
+
+        puts away_pitcher_name
+        puts away_pitcher_handedness
+        player = Player.search(away_pitcher_name, nil, 0)
+        player = Player.create(name: away_pitcher_name, throwhand: away_pitcher_handedness) unless player
+        player.update(team: away_team)
+        lancer = player.create_lancer(season)
+        lancer.update_attributes(starter: true)
+        game_lancer = player.create_lancer(season, away_team, game)
+        game_lancer.update(starter: true)
+      end
+
+      if home_pitcher.text.squish != 'TBD'
+        home_pitcher_name = home_pitcher.children[0].children[0].text.squish
+        home_pitcher_handedness = home_pitcher.children[1].text.squish[1]
+        home_pitcher_handedness = 'B' if home_pitcher_handedness == 'S'
+        player = Player.search(home_pitcher_name, nil, 0)
+        player = Player.create(name: home_pitcher_name, throwhand: home_pitcher_handedness) unless player
+        player.update(team: home_team)
+        lancer = player.create_lancer(season)
+        lancer.update_attributes(starter: true)
+        game_lancer = player.create_lancer(season, home_team, game)
+        game_lancer.update(starter: true)
+      end
+
+      players = element.css('.lineup-card-body .h-100 .col')
+      away_players = players[0].css('.player')
+
+      away_players.each do |away_player|
+        name = away_player.children[1].children[0].text
+        lineup = away_player.child.to_s[0].to_i
+        handedness = away_player.children[2].to_s[2]
+        position = away_player.children[2].to_s.match(/\w*$/).to_s
+        puts name
+        puts lineup
+        puts handedness
+        puts position
+
+        player = Player.search(name, nil, 0)
+
+        player = Player.create(name: name, bathand: handedness) unless player
+        player.update(team: away_team)
+        batter = player.create_batter(season)
+        batter.update(starter: true)
+        game_batter = player.create_batter(season, away_team, game)
+        game_batter.update(starter: true, position: position, lineup: lineup)
+      end
+
+      home_players = players[1].css('.player')
+
+      home_players.each do |home_player|
+        name = home_player.children[1].children[0].text
+        lineup = home_player.child.to_s[0].to_i
+        handedness = home_player.children[2].to_s[2]
+        position = home_player.children[2].to_s.match(/\w*$/).to_s
+        puts name
+        puts lineup
+        puts handedness
+        puts position
+
+        player = Player.search(name, nil, 0)
+
+        player = Player.create(name: name, bathand: handedness) unless player
+        player.update(team: home_team)
+        batter = player.create_batter(season)
+        batter.update(starter: true)
+        game_batter = player.create_batter(season, home_team, game)
+        game_batter.update(starter: true, position: position, lineup: lineup)
+      end
     end
   end
 
