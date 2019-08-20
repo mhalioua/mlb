@@ -176,6 +176,15 @@ module Update
             string = element.text
             home_runs = home_runs + 1 if string.include?("homered")
           end
+          walked = 0
+          top.each do |element|
+            string = element.text
+            walked = walked + 1 if string.include?("walked")
+          end
+          bottom.each do |element|
+            string = element.text
+            walked = walked + 1 if string.include?("walked")
+          end
           top_hits_string = doc.css("#allPlaysContainer section#allPlaysTop" + (index + 1).to_s + " ul .info-row--footer")
           top_hits_count = 0
           if top_hits_string.length != 0
@@ -194,7 +203,7 @@ module Update
           end
           hits = top_hits_count + bottom_hits_count
           game_stat = game.game_stats.find_or_create_by(row_number: (index + 1))
-          game_stat.update(hits: hits, home_runs: home_runs)
+          game_stat.update(hits: hits, home_runs: home_runs, walked: walked)
         end
       end
     end

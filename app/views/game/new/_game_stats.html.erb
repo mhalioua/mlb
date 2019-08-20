@@ -13,13 +13,22 @@
       <% end %>
     </tr>
     <tr>
-      <td>Hits</td>
+      <td>HITS</td>
       <% hits = 0 %>
       <% game_stats.order(:row_number).limit(game_stats.length - 3).each do |game_stat| %>
         <td><%= game_stat.hits %></td>
         <% hits = hits + game_stat.hits.to_i %>
       <% end %>
       <td colspan="3"><%= hits %> hits</td>
+    </tr>
+    <tr>
+      <td>WALKS</td>
+      <% walks = 0 %>
+      <% game_stats.order(:row_number).limit(game_stats.length - 3).each do |game_stat| %>
+        <td><%= game_stat.walked %></td>
+        <% walks = walks + game_stat.walked.to_i %>
+      <% end %>
+      <td colspan="3"><%= walks %> walks</td>
     </tr>
     <tr>
       <td>Home Runs</td>
