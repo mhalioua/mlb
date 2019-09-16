@@ -120,7 +120,10 @@ namespace :mlb do
 
     return unless doc
     script = doc.css("script")[2]
-    puts script.children[0]
+    content = script.children[0].text
+    content = content[/\[.*\]/]
+    content = JSON.parse(content)
+    puts content
     # header = doc.css("#hourly-forecast-table tr").first
     # return unless header
     # headers = {
