@@ -108,6 +108,7 @@ namespace :mlb do
   end
 
   task test_forecast: :environment do
+    include GetHtml
     # game_day = game.game_day
     # home_team = game.home_team
     # time = DateTime.parse(game.game_date).strftime("%I:%M%p").to_time
