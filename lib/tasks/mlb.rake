@@ -112,55 +112,25 @@ namespace :mlb do
     # game_day = game.game_day
     # home_team = game.home_team
     # time = DateTime.parse(game.game_date).strftime("%I:%M%p").to_time
-    #
-    # url = get_url(home_team, game_day)
-    url = "https://www.accuweather.com/en/us/oakland/94612/hourly-weather-forecast/39606_pc?day=0"
+    # diff = (time - Time.zone.now).to_i / 1.day
+    diff = 0
+
+    url = "https://www.accuweather.com/en/us/oakland/94612/hourly-weather-forecast/39606_pc?day=#{diff}"
     doc = download_document(url)
     puts url
 
     return unless doc
     script = doc.css("script")[2]
-    content = script.children[0].text
-    content = content[/\[.*\]/]
-    content = JSON.parse(content)
-    puts content
-    # header = doc.css("#hourly-forecast-table tr").first
-    # return unless header
-    # headers = {
-    #     'Time' => 0,
-    #     'Conditions' => 0,
-    #     'Precip' => 0,
-    #     'Cloud Cover' => 0,
-    #     'Temp.' => 0,
-    #     'Dew Point' => 0,
-    #     'Humidity' => 0,
-    #     'Pressure' => 0,
-    #     'Wind' => 0,
-    #     'Amount' => 0,
-    #     'Feels Like' => 0
-    # }
-    #
-    # header.children.each_with_index do |header_element, index|
-    #   key = header_element.text.squish
-    #   headers[key] = index if key == 'Time'
-    #   headers[key] = index if key == 'Conditions'
-    #   headers[key] = index if key == 'Precip'
-    #   headers[key] = index if key == 'Cloud Cover'
-    #   headers[key] = index if key == 'Temp.'
-    #   headers[key] = index if key == 'Dew Point'
-    #   headers[key] = index if key == 'Humidity'
-    #   headers[key] = index if key == 'Pressure'
-    #   headers[key] = index if key == 'Wind'
-    #   headers[key] = index if key == 'Amount'
-    #   headers[key] = index if key == 'Feels Like'
-    # end
+    hourlyweathers = script.children[0].text
+    hourlyweathers = hourlyweathers[/\[.*\]/]
+    hourlyweathers = JSON.parse(hourlyweathers)
+    puts hourlyweathers
 
-    # hourlyweathers = doc.css("#hourly-forecast-table tbody tr")
     # start_index = hourlyweathers.size - 1
-    # return if start_index < 0 || (hourlyweathers[0].children[2].text.squish.to_time > time && GameDay.today == game_day)
+    # return if start_index < 0 || (hourlyweathers[0].localTime > time && GameDay.today == game_day)
     # start_index = 0
     # hourlyweathers.each_with_index do |weather, index|
-    #   date = weather.children[2].text.squish.to_time
+    #   date = weather.localTime
     #   if date > time
     #     break
     #   end
@@ -170,9 +140,9 @@ namespace :mlb do
     # start_index = start_index - 1 if start_index != 0
     # start_index = start_index - 1 if start_index != 0
     # (-1..5).each do |index|
-    #   temp = hourlyweathers[start_index].children[headers['Temp.']].text.squish
-    #   dp = hourlyweathers[start_index].children[headers['Dew Point']].text.squish
-    #   hum = hourlyweathers[start_index].children[headers['Humidity']].text.squish
+    #   temp = hourlyweathers[start_index].temp
+    #   dp = hourlyweathers[start_index].extended.dewPoint
+    #   hum = hourlyweathers[start_index].extended.humidity
     #   pressure = hourlyweathers[start_index].children[headers['Pressure']].text.squish
     #   precip = hourlyweathers[start_index].children[headers['Amount']].text.squish
     #   wind = hourlyweathers[start_index].children[headers['Wind']].text.squish
