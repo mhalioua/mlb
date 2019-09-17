@@ -18,102 +18,79 @@ namespace :job do
 
   task :test => :environment do
     include GetHtml
-    game_day = GameDay.yesterday
-    url = "https://www.baseballpress.com/lineups/2019-08-12" % [game_day.year, game_day.month, game_day.day]
-    doc = download_document(url)
-    puts url
-    games = game_day.games
-    elements = doc.css(".lineup-card")
-    season = game_day.season
-    elements.each do |element|
-      teams = element.css('.lineup-card-header')[0].children[1].css('a')
-      away_team = Team.find_by_name(teams[0].text.squish)
-      home_team = Team.find_by_name(teams[1].text.squish)
+    @teams = Team.all.order('name')
+    @result = Game.where("game_date < ? AND id > 10654", Date.current).or(Game.where("game_date < ? AND id < 10070 AND id >= 9058", Date.current)).order('game_date DESC')
+    @team_id = nil
+    @wind_dir = nil
+    @wind_speed = nil
+    @baro = nil
+    @dp = nil
+    @games = []
+    params = {
+        team_id: 3,
+        wind_dir: 'S'
+    }
+    if params[:team_id].present? && params[:team_id] != ''
+      @result.each do |game|
+        if params[:team_id].present? && params[:team_id] != ''
+          @team_id = params[:team_id].to_i
+          is_filter = false
+          is_filter = true if game.home_team_id == @team_id
+          next if is_filter === false
+        end
+        puts game.id
 
-      game_date = element.css('.lineup-card-header')[0].children[1].children[5].text.squish
-      game_date = DateTime.parse(game_date) + home_team.timezone.hours
-      game_date = game_date.strftime('%FT%T%:z')
-      game = games.where(away_team: away_team, home_team: home_team, game_date: game_date).first
-      game = games.where(away_team: away_team, home_team: home_team).first unless game
-      game = game_day.next_days(1).games.where(away_team: away_team, home_team: home_team).first unless game
-      next unless game
+        forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(1).first
+        forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC").offset(1).first
+        forecast_thr = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC").offset(1).first
+        forecast_for = game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").offset(1).first
 
-      players = element.css('.lineup-card-header')[0].children[3].css('.player')
-      away_pitcher = players[0]
-      home_pitcher = players[1]
+        if params[:wind_dir].present? && params[:wind_dir] != ''
+          @wind_dir = params[:wind_dir]
+          is_filter = false
+          is_filter = true if forecast_one && forecast_one.wind_dir.upcase === @wind_dir.upcase
+          is_filter = true if forecast_two && forecast_two.wind_dir.upcase === @wind_dir.upcase
+          is_filter = true if forecast_thr && forecast_thr.wind_dir.upcase === @wind_dir.upcase
+          is_filter = true if forecast_for && forecast_for.wind_dir.upcase === @wind_dir.upcase
+          next if is_filter === false
+        end
+        puts "Pass Wind Dir"
 
-      if away_pitcher.text.squish != 'TBD'
-        away_pitcher_name = away_pitcher.children[0].children[0].text.squish
-        away_pitcher_handedness = away_pitcher.children[1].text.squish[1]
-        away_pitcher_handedness = 'B' if away_pitcher_handedness == 'S'
+        if params[:wind_speed].present? && params[:wind_speed] != ''
+          @wind_speed = params[:wind_speed].to_i
+          is_filter = false
+          is_filter = true if forecast_one && forecast_one.wind_speed.to_i >= @wind_speed - 3 && forecast_one.wind_speed.to_i <= @wind_speed + 3
+          is_filter = true if forecast_two && forecast_two.wind_speed.to_i >= @wind_speed - 3 && forecast_two.wind_speed.to_i <= @wind_speed + 3
+          is_filter = true if forecast_thr && forecast_thr.wind_speed.to_i >= @wind_speed - 3 && forecast_thr.wind_speed.to_i <= @wind_speed + 3
+          is_filter = true if forecast_for && forecast_for.wind_speed.to_i >= @wind_speed - 3 && forecast_for.wind_speed.to_i <= @wind_speed + 3
+          next if is_filter === false
+        end
+        puts "Pass Wind Speed"
 
-        puts away_pitcher_name
-        puts away_pitcher_handedness
-        player = Player.search(away_pitcher_name, nil, 0)
-        player = Player.create(name: away_pitcher_name, throwhand: away_pitcher_handedness) unless player
-        player.update(team: away_team)
-        lancer = player.create_lancer(season)
-        lancer.update_attributes(starter: true)
-        game_lancer = player.create_lancer(season, away_team, game)
-        game_lancer.update(starter: true)
-      end
+        if params[:baro].present? && params[:baro] != ''
+          @baro = params[:baro].to_f
+          is_filter = false
+          is_filter = true if forecast_one && forecast_one.pressure_num >= (@baro - 0.04).round(2) && forecast_one.pressure_num <= (@baro + 0.04).round(2)
+          is_filter = true if forecast_two && forecast_two.pressure_num >= (@baro - 0.04).round(2) && forecast_two.pressure_num <= (@baro + 0.04).round(2)
+          is_filter = true if forecast_thr && forecast_thr.pressure_num >= (@baro - 0.04).round(2) && forecast_thr.pressure_num <= (@baro + 0.04).round(2)
+          is_filter = true if forecast_for && forecast_for.pressure_num >= (@baro - 0.04).round(2) && forecast_for.pressure_num <= (@baro + 0.04).round(2)
+          next if is_filter === false
+        end
+        puts "Pass Baro"
 
-      if home_pitcher.text.squish != 'TBD'
-        home_pitcher_name = home_pitcher.children[0].children[0].text.squish
-        home_pitcher_handedness = home_pitcher.children[1].text.squish[1]
-        home_pitcher_handedness = 'B' if home_pitcher_handedness == 'S'
-        player = Player.search(home_pitcher_name, nil, 0)
-        player = Player.create(name: home_pitcher_name, throwhand: home_pitcher_handedness) unless player
-        player.update(team: home_team)
-        lancer = player.create_lancer(season)
-        lancer.update_attributes(starter: true)
-        game_lancer = player.create_lancer(season, home_team, game)
-        game_lancer.update(starter: true)
-      end
+        if params[:dp].present? && params[:dp] != ''
+          @dp = params[:dp].to_f
+          is_filter = false
+          is_filter = true if forecast_one && forecast_one.dew_num >= (@dp - 3).round(2) && forecast_one.dew_num <= (@dp + 3).round(2)
+          is_filter = true if forecast_two && forecast_two.dew_num >= (@dp - 3).round(2) && forecast_two.dew_num <= (@dp + 3).round(2)
+          is_filter = true if forecast_thr && forecast_thr.dew_num >= (@dp - 3).round(2) && forecast_thr.dew_num <= (@dp + 3).round(2)
+          is_filter = true if forecast_for && forecast_for.dew_num >= (@dp - 3).round(2) && forecast_for.dew_num <= (@dp + 3).round(2)
+          next if is_filter === false
+        end
+        puts "Pass DP"
 
-      players = element.css('.lineup-card-body .h-100 .col')
-      away_players = players[0].css('.player')
-
-      away_players.each do |away_player|
-        name = away_player.children[1].children[0].text
-        lineup = away_player.child.to_s[0].to_i
-        handedness = away_player.children[2].to_s[2]
-        position = away_player.children[2].to_s.match(/\w*$/).to_s
-        puts name
-        puts lineup
-        puts handedness
-        puts position
-
-        player = Player.search(name, nil, 0)
-
-        player = Player.create(name: name, bathand: handedness) unless player
-        player.update(team: away_team)
-        batter = player.create_batter(season)
-        batter.update(starter: true)
-        game_batter = player.create_batter(season, away_team, game)
-        game_batter.update(starter: true, position: position, lineup: lineup)
-      end
-
-      home_players = players[1].css('.player')
-
-      home_players.each do |home_player|
-        name = home_player.children[1].children[0].text
-        lineup = home_player.child.to_s[0].to_i
-        handedness = home_player.children[2].to_s[2]
-        position = home_player.children[2].to_s.match(/\w*$/).to_s
-        puts name
-        puts lineup
-        puts handedness
-        puts position
-
-        player = Player.search(name, nil, 0)
-
-        player = Player.create(name: name, bathand: handedness) unless player
-        player.update(team: home_team)
-        batter = player.create_batter(season)
-        batter.update(starter: true)
-        game_batter = player.create_batter(season, home_team, game)
-        game_batter.update(starter: true, position: position, lineup: lineup)
+        @games.push(game)
+        # break if @games.length === 50
       end
     end
   end
