@@ -31,7 +31,7 @@ namespace :job do
     hourlyweathers = doc.css("#hourly-forecast-table tbody tr")
     start_index = hourlyweathers.size - 1
     puts "start_index"
-    put start_index
+    puts start_index
     puts "hour time"
     puts hourlyweathers[0].children[2].text.squish.to_time
     puts time
