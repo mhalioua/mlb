@@ -13,6 +13,8 @@
 <%= @wind_speed %>
 <%= @baro %>
 <%= @dp %>
+<%= @game_start_index %>
+<%= @game_end_index %>
 <%= form_tag("/team/filter", method: "get") do %>
   <label>Stadium: </label>
   <select name="team_id">
@@ -32,6 +34,8 @@
 
   <label>DP: </label>
   <input type="number" step="1" name="dp" value="<%= @dp %>" />
+
+  <input type="text" data-toggle="daterangepicker" name="date" data-filter-type="date-range" style="width: 400px; text-align:center; margin: 20px;" class="daterange">
 
   <input type="submit" value="Filter">
 <% end %>
@@ -114,4 +118,29 @@
 
         $(".apply1").addClass("active");
     });
+
+    var start = moment("<%= @game_start_index %>").format('MMM DD, YYYY');
+    var end = moment("<%= @game_end_index %>").format('MMM DD, YYYY');
+    $('.daterange').daterangepicker({
+        showCustomRangeLabel: true,
+        showDropdowns: true,
+        alwaysShowCalendars: true,
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Next 7 Days': [moment(), moment().add(6, 'days')],
+            'This Week': [moment().startOf('week'), moment().endOf('week')],
+            'Last Week': [moment().subtract(1, 'week').startOf('week'), moment().subtract(1, 'week').endOf('week')]
+        },
+        locale: {
+            format: 'MMM DD, YYYY'
+        },
+        startDate: start,
+        endDate: end
+    });
+
+    // function cb(start, end) {
+    //     window.location.href = "/welcome/index/" + start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD');
+    // }
 </script>

@@ -10,8 +10,15 @@ class TeamController < ApplicationController
   end
 
   def filter
+    unless params[:date]
+      params[:date] = Time.now.strftime("%Y-%m-%d") + " - " + Time.now.strftime("%Y-%m-%d")
+    end
+    @game_index = params[:date]
+    @game_start_index = @game_index[0..9]
+    @game_end_index = @game_index[13..23]
     @teams = Team.all.order('name')
-    @result = Game.where("game_date < ? AND id > 10654", Date.current).or(Game.where("game_date < ? AND id < 10070 AND id >= 9058", Date.current)).order('game_date DESC')
+    @result = Game.where("game_date < ? AND id > 10654 AND game_date between ? and ?", Date.current, Date.strptime(@game_start_index).beginning_of_day, Date.strptime(@game_end_index).end_of_day)
+                  .or(Game.where("game_date < ? AND id < 10070 AND id >= 9058 AND game_date between ? and ?", Date.current, Date.strptime(@game_start_index).beginning_of_day, Date.strptime(@game_end_index).end_of_day)).order('game_date DESC')
     @team_id = nil
     @wind_dir = nil
     @wind_speed = nil
