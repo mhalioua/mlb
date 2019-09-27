@@ -29,13 +29,11 @@ namespace :job do
     find = "/date/year-month-day"
     replace = "/date/#{game_day.year}-#{game_day.month}-#{game_day.day}"
     replace = "" if game_day == GameDay.today
-    url.gsub(/#{find}/, replace)
+    url = url.gsub(/#{find}/, replace)
     doc = download_document(url)
     puts url
 
-    return unless doc
     header = doc.css("#hourly-forecast-table tr").first
-    return unless header
     headers = {
         'Time' => 0,
         'Conditions' => 0,
