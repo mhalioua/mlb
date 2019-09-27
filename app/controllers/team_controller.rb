@@ -14,8 +14,8 @@ class TeamController < ApplicationController
       params[:date] = Time.now.strftime("%b %d, %Y") + " - " + Time.now.strftime("%b %d, %Y")
     end
     @game_index = params[:date]
-    @game_start_index = @game_index[0..13]
-    @game_end_index = @game_index[17..30]
+    @game_start_index = @game_index[0..12]
+    @game_end_index = @game_index[15..27]
     @teams = Team.all.order('name')
     @result = Game.where("game_date < ? AND id > 10654 AND game_date between ? and ?", Date.current, Date.strptime(@game_start_index, '%b %d, %Y').beginning_of_day, Date.strptime(@game_end_index, '%b %d, %Y').end_of_day)
                   .or(Game.where("game_date < ? AND id < 10070 AND id >= 9058 AND game_date between ? and ?", Date.current, Date.strptime(@game_start_index, '%b %d, %Y').beginning_of_day, Date.strptime(@game_end_index, '%b %d, %Y').end_of_day)).order('game_date DESC')
