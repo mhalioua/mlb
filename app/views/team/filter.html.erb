@@ -19,6 +19,7 @@
 <%= form_tag("/team/filter", method: "get") do %>
   <label>Stadium: </label>
   <select name="team_id">
+    <option value="All" <%= @team_id == "All" ? "selected" : '' %>>All</option>
     <% @teams.each do |team| %>
       <option value="<%= team.id %>" <%= @team_id == team.id ? "selected" : '' %>><%= team.name %></option>
     <% end %>
