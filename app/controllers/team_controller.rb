@@ -59,40 +59,56 @@ class TeamController < ApplicationController
         if params[:wind_speed].present? && params[:wind_speed] != ''
           @wind_speed = params[:wind_speed].to_i
           is_filter = false
-          is_filter = true if forecast_one && forecast_one.wind_speed.to_i >= @wind_speed - 3 && forecast_one.wind_speed.to_i <= @wind_speed + 3
-          is_filter = true if forecast_two && forecast_two.wind_speed.to_i >= @wind_speed - 3 && forecast_two.wind_speed.to_i <= @wind_speed + 3
-          is_filter = true if forecast_thr && forecast_thr.wind_speed.to_i >= @wind_speed - 3 && forecast_thr.wind_speed.to_i <= @wind_speed + 3
-          is_filter = true if forecast_for && forecast_for.wind_speed.to_i >= @wind_speed - 3 && forecast_for.wind_speed.to_i <= @wind_speed + 3
+          forecast_one_wind_speed = forecast_one.wind_speed.to_i
+          forecast_two_wind_speed = forecast_two.wind_speed.to_i
+          forecast_thr_wind_speed = forecast_thr.wind_speed.to_i
+          forecast_for_wind_speed = forecast_for.wind_speed.to_i
+          is_filter = true if forecast_one && forecast_one_wind_speed >= @wind_speed - 3 && forecast_one_wind_speed <= @wind_speed + 3
+          is_filter = true if forecast_two && forecast_two_wind_speed >= @wind_speed - 3 && forecast_two_wind_speed <= @wind_speed + 3
+          is_filter = true if forecast_thr && forecast_thr_wind_speed >= @wind_speed - 3 && forecast_thr_wind_speed <= @wind_speed + 3
+          is_filter = true if forecast_for && forecast_for_wind_speed >= @wind_speed - 3 && forecast_for_wind_speed <= @wind_speed + 3
           next if is_filter === false
         end
 
         if params[:baro].present? && params[:baro] != ''
           @baro = params[:baro].to_f
           is_filter = false
-          is_filter = true if forecast_one && forecast_one.pressure_num >= (@baro - 0.04).round(2) && forecast_one.pressure_num <= (@baro + 0.04).round(2)
-          is_filter = true if forecast_two && forecast_two.pressure_num >= (@baro - 0.04).round(2) && forecast_two.pressure_num <= (@baro + 0.04).round(2)
-          is_filter = true if forecast_thr && forecast_thr.pressure_num >= (@baro - 0.04).round(2) && forecast_thr.pressure_num <= (@baro + 0.04).round(2)
-          is_filter = true if forecast_for && forecast_for.pressure_num >= (@baro - 0.04).round(2) && forecast_for.pressure_num <= (@baro + 0.04).round(2)
+          forecast_one_pressure_num = forecast_one.pressure_num
+          forecast_two_pressure_num = forecast_two.pressure_num
+          forecast_thr_pressure_num = forecast_thr.pressure_num
+          forecast_for_pressure_num = forecast_for.pressure_num
+          is_filter = true if forecast_one && forecast_one_pressure_num >= (@baro - 0.04).round(2) && forecast_one_pressure_num <= (@baro + 0.04).round(2)
+          is_filter = true if forecast_two && forecast_two_pressure_num >= (@baro - 0.04).round(2) && forecast_two_pressure_num <= (@baro + 0.04).round(2)
+          is_filter = true if forecast_thr && forecast_thr_pressure_num >= (@baro - 0.04).round(2) && forecast_thr_pressure_num <= (@baro + 0.04).round(2)
+          is_filter = true if forecast_for && forecast_for_pressure_num >= (@baro - 0.04).round(2) && forecast_for_pressure_num <= (@baro + 0.04).round(2)
           next if is_filter === false
         end
 
         if params[:dp].present? && params[:dp] != ''
           @dp = params[:dp].to_f
           is_filter = false
-          is_filter = true if forecast_one && forecast_one.dew_num >= (@dp - 2).round(2) && forecast_one.dew_num <= (@dp + 2).round(2)
-          is_filter = true if forecast_two && forecast_two.dew_num >= (@dp - 2).round(2) && forecast_two.dew_num <= (@dp + 2).round(2)
-          is_filter = true if forecast_thr && forecast_thr.dew_num >= (@dp - 2).round(2) && forecast_thr.dew_num <= (@dp + 2).round(2)
-          is_filter = true if forecast_for && forecast_for.dew_num >= (@dp - 2).round(2) && forecast_for.dew_num <= (@dp + 2).round(2)
+          forecast_one_dew_num = forecast_one.dew_num
+          forecast_two_dew_num = forecast_two.dew_num
+          forecast_thr_dew_num = forecast_thr.dew_num
+          forecast_for_dew_num = forecast_for.dew_num
+          is_filter = true if forecast_one && forecast_one_dew_num >= (@dp - 2).round(2) && forecast_one_dew_num <= (@dp + 2).round(2)
+          is_filter = true if forecast_two && forecast_two_dew_num >= (@dp - 2).round(2) && forecast_two_dew_num <= (@dp + 2).round(2)
+          is_filter = true if forecast_thr && forecast_thr_dew_num >= (@dp - 2).round(2) && forecast_thr_dew_num <= (@dp + 2).round(2)
+          is_filter = true if forecast_for && forecast_for_dew_num >= (@dp - 2).round(2) && forecast_for_dew_num <= (@dp + 2).round(2)
           next if is_filter === false
         end
 
         if params[:hum].present? && params[:hum] != ''
           @hum = params[:hum].to_f
           is_filter = false
-          is_filter = true if forecast_one && forecast_one.humid_num >= (@hum - 5).round(2) && forecast_one.humid_num <= (@hum + 5).round(2)
-          is_filter = true if forecast_two && forecast_two.humid_num >= (@hum - 5).round(2) && forecast_two.humid_num <= (@hum + 5).round(2)
-          is_filter = true if forecast_thr && forecast_thr.humid_num >= (@hum - 5).round(2) && forecast_thr.humid_num <= (@hum + 5).round(2)
-          is_filter = true if forecast_for && forecast_for.humid_num >= (@hum - 5).round(2) && forecast_for.humid_num <= (@hum + 5).round(2)
+          forecast_one_humid_num = forecast_one.humid_num
+          forecast_two_humid_num = forecast_two.humid_num
+          forecast_thr_humid_num = forecast_thr.humid_num
+          forecast_for_humid_num = forecast_for.humid_num
+          is_filter = true if forecast_one && forecast_one_humid_num >= (@hum - 5).round(2) && forecast_one_humid_num <= (@hum + 5).round(2)
+          is_filter = true if forecast_two && forecast_two_humid_num >= (@hum - 5).round(2) && forecast_two_humid_num <= (@hum + 5).round(2)
+          is_filter = true if forecast_thr && forecast_thr_humid_num >= (@hum - 5).round(2) && forecast_thr_humid_num <= (@hum + 5).round(2)
+          is_filter = true if forecast_for && forecast_for_humid_num >= (@hum - 5).round(2) && forecast_for_humid_num <= (@hum + 5).round(2)
           next if is_filter === false
         end
 
