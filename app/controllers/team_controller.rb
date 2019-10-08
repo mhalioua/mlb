@@ -33,7 +33,7 @@ class TeamController < ApplicationController
         if params[:team_id] != ''
           @team_id = params[:team_id].to_i
           is_filter = false
-          is_filter = true if game.home_team_id == @team_id || @team_id == "All"
+          is_filter = true if game.home_team_id == @team_id || @team_id == 0
           next if is_filter === false
         end
 
