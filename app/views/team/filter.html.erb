@@ -13,6 +13,7 @@
 <%= @wind_speed %>
 <%= @baro %>
 <%= @dp %>
+<%= @hum %>
 <%= @game_start_index %>
 <%= @game_end_index %>
 <%= form_tag("/team/filter", method: "get") do %>
@@ -34,6 +35,9 @@
 
   <label>DP: </label>
   <input type="number" step="1" name="dp" value="<%= @dp %>" />
+
+  <label>Humidity: </label>
+  <input type="number" step="1" name="hum" value="<%= @hum %>" />
 
   <input type="text" data-toggle="daterangepicker" name="date" data-filter-type="date-range" style="width: 400px; text-align:center; margin: 20px;" class="daterange">
 

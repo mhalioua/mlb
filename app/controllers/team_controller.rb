@@ -26,6 +26,7 @@ class TeamController < ApplicationController
     @wind_speed = nil
     @baro = nil
     @dp = nil
+    @hum = nil
     @games = []
     if params[:team_id].present? && params[:team_id] != ''
       @result.each do |game|
@@ -74,10 +75,20 @@ class TeamController < ApplicationController
         if params[:dp].present? && params[:dp] != ''
           @dp = params[:dp].to_f
           is_filter = false
-          is_filter = true if forecast_one && forecast_one.dew_num >= (@dp - 3).round(2) && forecast_one.dew_num <= (@dp + 3).round(2)
-          is_filter = true if forecast_two && forecast_two.dew_num >= (@dp - 3).round(2) && forecast_two.dew_num <= (@dp + 3).round(2)
-          is_filter = true if forecast_thr && forecast_thr.dew_num >= (@dp - 3).round(2) && forecast_thr.dew_num <= (@dp + 3).round(2)
-          is_filter = true if forecast_for && forecast_for.dew_num >= (@dp - 3).round(2) && forecast_for.dew_num <= (@dp + 3).round(2)
+          is_filter = true if forecast_one && forecast_one.dew_num >= (@dp - 2).round(2) && forecast_one.dew_num <= (@dp + 2).round(2)
+          is_filter = true if forecast_two && forecast_two.dew_num >= (@dp - 2).round(2) && forecast_two.dew_num <= (@dp + 2).round(2)
+          is_filter = true if forecast_thr && forecast_thr.dew_num >= (@dp - 2).round(2) && forecast_thr.dew_num <= (@dp + 2).round(2)
+          is_filter = true if forecast_for && forecast_for.dew_num >= (@dp - 2).round(2) && forecast_for.dew_num <= (@dp + 2).round(2)
+          next if is_filter === false
+        end
+
+        if params[:hum].present? && params[:hum] != ''
+          @hum = params[:hum].to_f
+          is_filter = false
+          is_filter = true if forecast_one && forecast_one.humid_num >= (@hum - 5).round(2) && forecast_one.humid_num <= (@hum + 5).round(2)
+          is_filter = true if forecast_two && forecast_two.humid_num >= (@hum - 5).round(2) && forecast_two.humid_num <= (@hum + 5).round(2)
+          is_filter = true if forecast_thr && forecast_thr.humid_num >= (@hum - 5).round(2) && forecast_thr.humid_num <= (@hum + 5).round(2)
+          is_filter = true if forecast_for && forecast_for.humid_num >= (@hum - 5).round(2) && forecast_for.humid_num <= (@hum + 5).round(2)
           next if is_filter === false
         end
 
