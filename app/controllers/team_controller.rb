@@ -30,10 +30,10 @@ class TeamController < ApplicationController
     @games = []
     if params[:team_id].present?
       @result.each do |game|
-        if params[:team_id].present? && params[:team_id] != ''
+        if params[:team_id] != ''
           @team_id = params[:team_id].to_i
           is_filter = false
-          is_filter = true if game.home_team_id == @team_id
+          is_filter = true if game.home_team_id == @team_id || @team_id == "All"
           next if is_filter === false
         end
 
