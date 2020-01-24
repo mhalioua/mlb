@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   get "screen/new/:id/:forecast/:option(/:offset)", to: "screen#new"
   get "screen/weather/:id/:forecast/:option(/:offset)", to: "screen#weather"
   match ':controller(/:action(/:id))', :via => [:get, :post]
+  
 end
