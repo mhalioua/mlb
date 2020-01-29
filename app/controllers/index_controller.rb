@@ -28,5 +28,5 @@ class IndexController < ApplicationController
 	def stadium
 		@team = Team.find(params[:id])
 	end
-	
+	 
 end
