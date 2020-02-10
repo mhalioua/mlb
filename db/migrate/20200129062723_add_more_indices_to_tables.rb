@@ -1,5 +1,6 @@
 class AddMoreIndicesToTables < ActiveRecord::Migration[5.1]
   def change
+=begin
   	add_index :workbooks, :Home_Team
   	add_index :workbooks, :table
   	add_index :workbooks, :N
@@ -12,7 +13,7 @@ class AddMoreIndicesToTables < ActiveRecord::Migration[5.1]
 
   	add_index :prevgames, :TEMP
   	add_index :prevgames, :DP
-  	add_index :prevgames, :HUMID
+=end
   	add_index :prevgames, :BARo
   	add_index :prevgames, :Home_Team
   	add_index :prevgames, :M
