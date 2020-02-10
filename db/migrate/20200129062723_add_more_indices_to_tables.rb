@@ -14,7 +14,7 @@ class AddMoreIndicesToTables < ActiveRecord::Migration[5.1]
   	add_index :prevgames, :TEMP
   	add_index :prevgames, :DP
 =end
-  	add_index :prevgames, :BARo
+  	add_index :prevgames, :BARO
   	add_index :prevgames, :Home_Team
   	add_index :prevgames, :M
   	add_index :prevgames, :N
