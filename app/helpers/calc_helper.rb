@@ -35,11 +35,13 @@ module CalcHelper
   include GetHtml
   def wunderground_weather(id)
     url = @@urls[id-1]
-    doc = download_document(url)
+    doc = download_document_watir(url)
     puts url
 
     return unless doc
     header = doc.css("#hourly-forecast-table tr").first
+
+    puts header
     return unless header
     headers = {
         'Temp.' => 0,
