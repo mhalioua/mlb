@@ -31,11 +31,72 @@ module CalcHelper
       "https://www.wunderground.com/hourly/us/il/chicago/60616?cm_ven=localwx_hour",
       "https://www.wunderground.com/hourly/us/ny/bronx/10451?cm_ven=localwx_hour"
   ]
+
+  @@url = [
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=33.8%2C-117.88&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=29.76%2C-95.36&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=37.75%2C-122.2&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=43.65%2C-79.39&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=33.88%2C-84.47&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=43.03%2C-87.97&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=38.62%2C-90.19&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=41.95%2C-87.65&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=33.45%2C-112.07&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=34.05%2C-118.24&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=37.78%2C-122.4&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=41.5%2C-81.68&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=47.59%2C-122.33&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=25.78%2C-80.22&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=40.75%2C-73.85&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=38.87%2C-77.01&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=39.29%2C-76.62&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=32.71%2C-117.16&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=39.91%2C-75.17&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=40.45%2C-80.01&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=32.75%2C-97.08&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=27.77%2C-82.65&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=42.35%2C-71.1&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=39.1%2C-84.51&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=39.76%2C-104.99&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=39.05%2C-94.48&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=42.34%2C-83.05&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=44.97%2C-93.28&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=41.86%2C-87.62&units=e&language=en-US&format=json",
+    "https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=40.83%2C-73.92&units=e&language=en-US&format=json"
+  ]
   
   include GetHtml
   def wunderground_weather(id)
+    url = @@url[id-1]
+    result = JSON.load(open("https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=33.8%2C-117.88&units=e&language=en-US&format=json"))
+
+    re = []
+    result_length = ((result["dayOfWeek"].count) - 1).to_i
+    (0...result_length).each do |res|
+      temp = result["temperature"][res]
+      dp = result["temperatureDewPoint"][res]
+      hum = result["relativeHumidity"][res]
+      pressure = result["pressureMeanSeaLevel"][res]
+      wind_speed = result["windSpeed"][res]
+      wind_dir = result["windDirectionCardinal"][res]
+
+      data = {
+            temp: temp,
+            humidity: hum,
+            dew: dp,
+            pressure: pressure,
+            wind_dir: wind_dir,
+            wind_speed: wind_speed
+        }
+        re << data
+    end
+
+  return re
+
+
+=begin
     url = @@urls[id-1]
-    doc = download_document_watir(url)
+    doc = download_document(url)
     puts url
 
     return unless doc
@@ -103,6 +164,7 @@ module CalcHelper
     end
 
     return re
+=end
   end
 
   def weather_weather(zipcode)
