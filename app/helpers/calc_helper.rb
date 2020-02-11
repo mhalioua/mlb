@@ -71,7 +71,7 @@ module CalcHelper
     result = JSON.load(open(url))
 
     re = []
-    result_length = result["dayOfWeek"].select{|d| d == Date.today.strftime("%A")}.count
+    result_length = result["dayOfWeek"].select{|d| d == result["dayOfWeek"][0]}.count
     (0...result_length).each do |res|
       temp = result["temperature"][res]
       dp = result["temperatureDewPoint"][res]
