@@ -68,10 +68,10 @@ module CalcHelper
   include GetHtml
   def wunderground_weather(id)
     url = @@url[id-1]
-    result = JSON.load(open("https://api.weather.com/v3/wx/forecast/hourly/1day?apiKey=6532d6454b8aa370768e63d6ba5a832e&geocode=33.8%2C-117.88&units=e&language=en-US&format=json"))
+    result = JSON.load(open(url))
 
     re = []
-    result_length = ((result["dayOfWeek"].count) - 1).to_i
+    result_length = result["dayOfWeek"].select{|d| d == Date.today.strftime("%A")}.count
     (0...result_length).each do |res|
       temp = result["temperature"][res]
       dp = result["temperatureDewPoint"][res]
