@@ -2,10 +2,13 @@ module GetHtml
   def download_document_watir(url)
     doc = nil
     begin
-        Timeout::timeout(30){
+        Timeout::timeout(10){
+          puts "a"
           browser = Watir::Browser.new(:chrome, {:chromeOptions => {:args => ['--headless']}})
+          puts "b"
           browser.goto url
           sleep 10
+          puts "c"
           doc = Nokogiri::HTML.parse(browser.html)
           browser.close
         }
