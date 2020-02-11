@@ -3,7 +3,7 @@ module GetHtml
     doc = nil
     begin
         #Timeout::timeout(10){
-          puts "a"
+          #puts "a"
           browser = Watir::Browser.new(:chrome, {:chromeOptions => {:args => ['--headless']}})
           puts "b"
           browser.goto url
