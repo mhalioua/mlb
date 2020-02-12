@@ -4,8 +4,8 @@ class AddIndices < ActiveRecord::Migration[5.1]
   	#add_index :weather_firsts, :game_id
   	#add_index :newworkbooks, :game_id
   	
-  	add_index :stadiumdatums, :team_id
-  	add_index :stadiumdatums, :wind_dir
+  	#add_index :stadiumdatums, :team_id
+  	#add_index :stadiumdatums, :wind_dir
 
   	add_index :batters, :starter
   	add_index :lancers, :ip
