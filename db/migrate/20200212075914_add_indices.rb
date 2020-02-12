@@ -1,6 +1,5 @@
 class AddIndices < ActiveRecord::Migration[5.1]
   def change
-=begin
   	add_index :transactions, :team_id
   	add_index :weather_firsts, :game_id
   	add_index :newworkbooks, :game_id
@@ -36,9 +35,5 @@ class AddIndices < ActiveRecord::Migration[5.1]
   	add_index :results, :game_date
   	add_index :totals, :DATE
   	add_index :totals, :AWAY
-=end
-  	add_index :stadium_data, :team_id
-  	add_index :stadium_data, :wind_dir
-  	add_index :stadia, :stadium
   end
 end
