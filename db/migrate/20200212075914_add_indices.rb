@@ -1,17 +1,17 @@
 class AddIndices < ActiveRecord::Migration[5.1]
   def change
-  	add_index :transactions, :team_id
-  	add_index :weatherfirsts, :game_id
+  	#add_index :transactions, :team_id
+  	add_index :weather_firsts, :game_id
   	add_index :newworkbooks, :game_id
   	add_index :pitcherinformations, :game_id
-  	add_index :stadiumdatums, :team_id
+  	add_index :stadium_datums, :team_id
 
   	add_index :batters, :starter
   	add_index :lancers, :ip
   	add_index :seasons, :year
   	add_index :pitcherinformations, :away
   	add_index :games, :game_id
-  	add_index :stadiumdatums, :wind_dir
+  	add_index :stadium_datums, :wind_dir
   	add_index :newworkbooks, :Away_Team
   	add_index :newworkbooks, :hits1
   	add_index :newworkbooks, :link
