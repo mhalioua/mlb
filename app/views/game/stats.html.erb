@@ -61,4 +61,8 @@
 
 	<%= render partial: "game/new/bullpen", locals: { caption: "#{@away_team.name} Bullpen", lancers: @away_bullpen_lancers }%>
 	<%= render partial: "game/new/bullpen", locals: { caption: "#{@home_team.name} Bullpen", lancers: @home_bullpen_lancers }%>
+
+  <ul class="list-group">
+    <li class="list-group-item" style="text-align: center;"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
+  </ul>
 </div>

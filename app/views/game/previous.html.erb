@@ -47,4 +47,7 @@
   <% unless @home_starting_lancer.empty? %>
     <%= render partial: "game/new/previous_pitcher_table", locals: { pitcher: @home_starting_lancer.first, prev_pitchers: @home_starting_lancer_previous, flag: 0 } %>
   <% end %>
+  <ul class="list-group">
+    <li class="list-group-item" style="text-align: center;"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
+  </ul>
 </div>

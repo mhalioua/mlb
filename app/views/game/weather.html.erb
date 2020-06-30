@@ -72,5 +72,8 @@
 	<% unless @forecasts.empty? %>
 		<%= render partial: "game/new/updated_weather", locals: { caption: "Wunderground Weather Forecast", type: 1, weathers: @weather_previous, realWeathers: @additionalForecasts, name: @home_team.name, stadium: @home_team.stadium } %>
 	<% end %>
+	<ul class="list-group">
+  		<li class="list-group-item" style="text-align: center;"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
+	</ul>
 </div>
 

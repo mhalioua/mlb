@@ -10,6 +10,7 @@
       <% @teams.each do |team| %>
         <li class="list-group-item"><%= link_to team.name, { controller: 'team', action: 'show', id: team.id } %></li>
       <% end %>
+      <li class="list-group-item"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
     </ul>
   </div>
 </div>

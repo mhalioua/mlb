@@ -51,6 +51,18 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'bcrypt'
 
+gem 'watir'
+
+gem 'will_paginate'
+
+gem 'selenium-webdriver'
+
+gem 'imgkit'
+
+gem 'wkhtmltoimage-binary'
+
+gem 'aws-sdk'
+
 gem 'bootstrap-sass', '~> 3.3.7'
 
 gem 'jquery-rails'
