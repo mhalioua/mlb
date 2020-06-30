@@ -1,5 +1,5 @@
 class GameController < ApplicationController
-	before_action :confirm_logged_in
+	before_action :confirm_logged_in, except: ["new"]
 
 	def new
 		@game = Game.find_by_id(params[:id])

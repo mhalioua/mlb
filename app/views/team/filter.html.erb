@@ -47,24 +47,15 @@
 <ul class="list-group">
   <li class="list-group-item" style="text-align: center;"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
 </ul>
-<% if @all_stadiums_filter %>
-  <%= will_paginate @games %>
-  <% @games.each_with_index do |game, index| %>
-    <div style="border-bottom: 20px solid black;" class="class class<%= (index/10).to_i + 1 %>">
-      <img style="border-radius: 0;" src="https://s3.amazonaws.com/mlb-daemon/images/<%= game.id %>.png" />
-    </div>
+<div style="display: flex;">
+  <% (1..((@games.length + 9)/10).to_i).each do |index| %>
+    <button class="btn-primary apply apply<%= index %>"><%= "#{index * 10 - 9} - #{index * 10 < @games.length ? index * 10 : @games.length}" %></button>
   <% end %>
-<% else %>
-  <div style="display: flex;">
-    <% (1..((@games.length + 9)/10).to_i).each do |index| %>
-      <button class="btn-primary apply apply<%= index %>"><%= "#{index * 10 - 9} - #{index * 10 < @games.length ? index * 10 : @games.length}" %></button>
-    <% end %>
+</div>
+<% @games.each_with_index do |game, index| %>
+  <div style="border-bottom: 20px solid black;" class="class class<%= (index/10).to_i + 1 %>">
+    <img style="border-radius: 0;" src="https://s3.amazonaws.com/mlb-daemon/images/<%= game.id %>.png" />
   </div>
-  <% @games.each_with_index do |game, index| %>
-    <div style="border-bottom: 20px solid black;" class="class class<%= (index/10).to_i + 1 %>">
-      <img style="border-radius: 0;" src="https://s3.amazonaws.com/mlb-daemon/images/<%= game.id %>.png" />
-    </div>
-  <% end %>
 <% end %>
 <ul class="list-group">
   <li class="list-group-item" style="text-align: center;"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
