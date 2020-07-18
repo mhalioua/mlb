@@ -37,7 +37,7 @@ module Create
           name = stat.child.child.to_s
           unless name.size == 0
             fangraph_id = parse_fangraph_id(stat)
-            player = Player.search(name, nil, fangraph_id, team.id)
+            player = Player.search(name, nil, fangraph_id)
             unless player
               player = Player.create(name: name, fangraph_id: fangraph_id)
             end
@@ -52,7 +52,7 @@ module Create
           name = stat.child.child.to_s
           unless name.size == 0
             fangraph_id = parse_fangraph_id(stat)
-            player = Player.search(name, nil, fangraph_id, team.id)
+            player = Player.search(name, nil, fangraph_id)
             unless player
               player = Player.create(name: name, fangraph_id: fangraph_id)
             end
@@ -64,7 +64,7 @@ module Create
 
     def getPlayerNumber(team)
       puts "Get #{team.name} MLB Player Number"
-      url = "http://m.#{team.mlb_abbr}.mlb.com/roster"
+      url = "https://www.mlb.com/#{team.mlb_abbr}/roster"
       puts url
 
       doc = download_document(url)
@@ -72,7 +72,7 @@ module Create
       rows.each_with_index do |element, index|
         player_number = element.children[1].text.to_i
         next if player_number === 0
-        player = Player.find_by(name: element.children[5].text.squish)
+        player = Player.find_by(name: element.children[5].text.squish, team: team)
         player.update(player_number: player_number) if player
       end
     end
