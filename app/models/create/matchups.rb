@@ -98,7 +98,10 @@ module Create
             puts away_pitcher_name
             puts away_pitcher_handedness
             player = Player.search(away_pitcher_name, nil, 0)
-            player = Player.create(name: away_pitcher_name, throwhand: away_pitcher_handedness) unless player
+            unless player
+              puts "Away Pitcher Player #{away_team.name} #{away_pitcher_name} not found"
+              player = Player.create(name: away_pitcher_name, throwhand: away_pitcher_handedness)
+            end
             player.update(team: away_team)
             lancer = player.create_lancer(season)
             lancer.update_attributes(starter: true)
@@ -111,7 +114,10 @@ module Create
             home_pitcher_handedness = home_pitcher.children[1].text.squish[1]
             home_pitcher_handedness = 'B' if home_pitcher_handedness == 'S'
             player = Player.search(home_pitcher_name, nil, 0)
-            player = Player.create(name: home_pitcher_name, throwhand: home_pitcher_handedness) unless player
+            unless player
+              puts "Home Pitcher Player #{home_team.name} #{home_pitcher_name} not found"
+              player = Player.create(name: home_pitcher_name, throwhand: home_pitcher_handedness)
+            end
             player.update(team: home_team)
             lancer = player.create_lancer(season)
             lancer.update_attributes(starter: true)
