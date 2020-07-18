@@ -156,12 +156,11 @@ module Update
         url = "http://www.espn.com/mlb/playbyplay?gameId=#{game.game_id}"
         puts url
         doc = Nokogiri::HTML(open(url))
-        elements = doc.css("table.linescore__table tr")
-        next if elements.size != 3
-        elements[1].children.each_with_index do |element, index|
-          next if index % 2 == 0 || index == 1
-          game_stat = game.game_stats.find_or_create_by(row_number: index / 2)
-          game_stat.update(away_score: elements[1].children[index].text.squish, home_score: elements[2].children[index].text.squish)
+        elements = doc.css('.scrollable tbody .linescore__item:not(.linescore__teamName)')
+        next if elements.length === 0
+        elements.each_with_index do |element, index|
+          game_stat = game.game_stats.find_or_create_by(row_number: index + 1)
+          game_stat.update(away_score: element.text.squish, home_score: elements.children[index + elements.length / 2].text.squish)
         end
         element_length = doc.css("#allPlaysContainer section").size / 2
         (0..element_length).each do |index|
