@@ -109,7 +109,7 @@ module Update
           puts "#{player.name} not found"
           next
         end
-        rows = doc.css("tr.oddrow, tr.evenrow")
+        rows = doc.css("table tr")
         count = 0
         rows.each_with_index do |element, index|
           next unless element.children[1]
