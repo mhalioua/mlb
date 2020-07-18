@@ -97,7 +97,8 @@ module Create
 
             puts away_pitcher_name
             puts away_pitcher_handedness
-            player = Player.search(away_pitcher_name, nil, 0)
+            player = Player.search(away_pitcher_name, nil, 0, away_team.id)
+            player = Player.search(away_pitcher_name, nil, 0) unless player
             unless player
               puts "Away Pitcher Player #{away_team.name} #{away_pitcher_name} not found"
               player = Player.create(name: away_pitcher_name, throwhand: away_pitcher_handedness)
@@ -113,7 +114,8 @@ module Create
             home_pitcher_name = home_pitcher.children[0].children[0].text.squish
             home_pitcher_handedness = home_pitcher.children[1].text.squish[1]
             home_pitcher_handedness = 'B' if home_pitcher_handedness == 'S'
-            player = Player.search(home_pitcher_name, nil, 0)
+            player = Player.search(home_pitcher_name, nil, 0, home_team.id)
+            player = Player.search(home_pitcher_name, nil, 0) unless player
             unless player
               puts "Home Pitcher Player #{home_team.name} #{home_pitcher_name} not found"
               player = Player.create(name: home_pitcher_name, throwhand: home_pitcher_handedness)
@@ -138,8 +140,8 @@ module Create
             puts handedness
             puts position
 
-            player = Player.search(name, nil, 0)
-
+            player = Player.search(name, nil, 0, away_team.id)
+            player = Player.search(name, nil, 0) unless player
             player = Player.create(name: name, bathand: handedness) unless player
             player.update(team: away_team)
             batter = player.create_batter(season)
@@ -160,7 +162,8 @@ module Create
             puts handedness
             puts position
 
-            player = Player.search(name, nil, 0)
+            player = Player.search(name, nil, 0, home_team.id)
+            player = Player.search(name, nil, 0) unless player
 
             player = Player.create(name: name, bathand: handedness) unless player
             player.update(team: home_team)

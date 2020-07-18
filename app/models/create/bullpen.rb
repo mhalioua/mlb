@@ -28,7 +28,8 @@ module Create
             next
           end
           name = element.children[0].children[0].children[0].text
-          player = Player.search(name, nil, 0)
+          player = Player.search(name, nil, 0, team.id)
+          player = Player.search(name, nil, 0) unless player
           unless player
             puts "BullPen Player #{name} not found"
             player = Player.create(name: name)
