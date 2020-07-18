@@ -86,6 +86,8 @@ module Create
           end
           lancers = player.game_day_lancers(game_day)
           lancers.each do |lancer|
+            puts player.name
+            puts game_day.date
             lancer.update(pitches: pitches)
           end
         end
