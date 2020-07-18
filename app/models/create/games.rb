@@ -120,7 +120,7 @@ module Create
           name = parse_name(row.children[0])
           identity = parse_identity(row.children[0])
           position = row.children[0].children[1].text
-          player = Player.search(name, identity)
+          player = Player.search(name, identity, 0)
           unless player
             player = Player.create(team: team, name: name, identity: identity)
             puts "Player " + player.name + " created"
@@ -142,7 +142,7 @@ module Create
           row = pitchers.children[index].children[0]
           name = parse_name(row.children[0])
           identity = parse_identity(row.children[0])
-          player = Player.search(name, identity)
+          player = Player.search(name, identity, 0)
           unless player
             player = Player.create(team: team, name: name, identity: identity)
             puts "Player " + player.name + " created"

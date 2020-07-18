@@ -17,7 +17,7 @@ module Update
         name = element.children[0].child.text
         identity = parse_identity(element.children[0])
         ops = element.children[16].text
-        player = Player.search(name, identity)
+        player = Player.search(name, identity, 0)
         if player
           batter = player.create_batter(season)
           batter.stats.each do |stat|
@@ -204,7 +204,7 @@ module Update
           puts identity
           puts position
           puts lineup
-          player = Player.search(name, identity)
+          player = Player.search(name, identity, 0)
           unless player
             player = Player.create(team: team, name: name, identity: identity)
             puts "Player " + player.name + " created"

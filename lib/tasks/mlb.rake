@@ -11,14 +11,6 @@ namespace :mlb do
     Player.create_players
   end
 
-  task update_player: :environment do
-    Player.update_players
-  end
-
-  task update_fangraphs: :environment do
-    Player.update_fangraphs
-  end
-
   task update_batters: :environment do
     Season.where("year = 2019").map {|season| season.update_batters}
   end
@@ -174,7 +166,7 @@ namespace :mlb do
     # end
   end
 
-  task basic: [:create_season, :create_teams, :create_player, :update_player, :update_fangraphs]
+  task basic: [:create_season, :create_teams, :create_player]
 
   task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout]
 

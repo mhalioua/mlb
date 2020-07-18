@@ -594,7 +594,7 @@ module Update
         bb = row.children[5].text.to_i
         k = row.children[6].text.to_i
         pc = row.children[7].text.split('-')[0].to_i
-        player = Player.search(name, identity)
+        player = Player.search(name, identity, 0)
         unless player
           puts "Player #{name} not found"
           return

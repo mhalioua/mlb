@@ -6,10 +6,12 @@ class Player < ApplicationRecord
   has_many :pitcher_scoutings, dependent: :destroy
   has_many :batter_scoutings, dependent: :destroy
 
-  def self.search(name, identity=nil, fangraph_id=0)
+  def self.search(name, identity=nil, fangraph_id=0, team_id = 0)
     if identity && player = Player.find_by_identity(identity)
       return player
     elsif fangraph_id != 0 && player = Player.find_by_fangraph_id(fangraph_id)
+      return player
+    elsif team_id != 0 && player = Player.find_by(name: name, team_id: team_id)
       return player
     elsif player = Player.find_by(name: name)
       return player
@@ -24,16 +26,6 @@ class Player < ApplicationRecord
       player_creator.fangraphs(team)
       # player_creator.getMlbId(team)
     end
-  end
-
-  def self.update_players
-    player_creator = Create::Players.new
-    player_creator.update
-  end
-
-  def self.update_fangraphs
-    player_creator = Create::Players.new
-    player_creator.update_fangraphs
   end
 
   def create_batter(season, team=nil, game=nil)
