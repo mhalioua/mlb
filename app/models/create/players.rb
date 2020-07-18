@@ -8,7 +8,8 @@ module Create
       puts url
 
       doc = download_document(url)
-      rows = doc.css("tr tr tbody tr")
+      rows = doc.css("tbody tr")
+      puts row.length
 
       rows.each do |element|
         name = element.children[1].children[0].children[0].text
