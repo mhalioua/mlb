@@ -9,7 +9,7 @@ module Create
 
       doc = download_document(url)
       rows = doc.css("tbody tr")
-      puts row.length
+      puts rows.length
 
       rows.each do |element|
         name = element.children[1].children[0].children[0].text
