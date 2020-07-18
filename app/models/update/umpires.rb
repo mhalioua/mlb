@@ -10,11 +10,10 @@ module Update
       puts url
       return unless doc
 
-      elements = doc.css("td")
+      elements = doc.css(".covers-RefereeTable a")
       elements.each do |element|
-        next unless element.children[1]
-        link = 'https://www.covers.com' + element.children[1]['href']
-        text = element.children[1].text
+        link = 'https://www.covers.com' + element['href']
+        text = element.text
         text = text.split(',')[0].upcase
         text = text.split("'")[0]
         puts link

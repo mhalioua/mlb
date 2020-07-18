@@ -6,7 +6,7 @@ module Update
     def update
       teams = Team.all
       teams.each do |team|
-        url = "http://m.#{team.mlb_abbr}.mlb.com/roster/transactions"
+        url = "https://www.mlb.com/#{team.mlb_abbr}/roster/transactions"
         puts url
 
         doc = download_document(url)
