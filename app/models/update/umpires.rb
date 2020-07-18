@@ -5,7 +5,7 @@ module Update
 
     def update(season)
       year = season.year
-      url = "https://www.covers.com/pageLoader/pageLoader.aspx?page=/data/mlb/umpires/umpires.html"
+      url = "https://www.covers.com/sport/baseball/mlb/umpires"
       doc = download_document(url)
       puts url
       return unless doc
