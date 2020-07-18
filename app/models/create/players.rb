@@ -13,7 +13,7 @@ module Create
       rows.each do |element|
         name = element.children[1].children[0].children[0].text
         identity = parse_identity(element.children[1].children[0].children[0])
-        player_number = element.children[1].children[0].children[1]
+        player_number = element.children[1].children[0].children[1].text
         puts player_number
         bathand = element.children[3].text
         throwhand = element.children[4].text
@@ -22,9 +22,6 @@ module Create
           player = Player.create(name: name, identity: identity)
           puts "Player " + player.name + " created"
         end
-        puts bathand
-        puts throwhand
-        puts age
         player.update(team: team, bathand: bathand, throwhand: throwhand, age: age, player_number: player_number)
       end
     end
