@@ -22,12 +22,11 @@ module Update
         link = link.gsub('2020', year.to_s)
         page = download_document(link)
         next unless page
-        page = page.css("#LeftCol-wss table")
-        next if page.length === 0
-        count = page[0].css("tr:nth-child(2) td:nth-child(2)")[0].text.squish
-        so = page[1].css("tr:nth-child(1) td:nth-child(4)")[0].text.squish
-        bb = page[1].css("tr:nth-child(2) td:nth-child(4)")[0].text.squish
-        sw = page[1].css("tr:nth-child(3) td:nth-child(4)")[0].text.squish
+        page = page.css('table.covers-CoversMatchups-Table td')
+        count = page[3].text.squish
+        so = page[25].text.squish
+        bb = page[27].text.squish
+        sw = page[29].text.squish
         puts so
         puts bb
         puts sw
