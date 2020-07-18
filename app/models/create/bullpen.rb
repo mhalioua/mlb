@@ -18,8 +18,12 @@ module Create
         Lancer.bullpen.update_all(bullpen: false)
         team_index = 0
         season = game_day.season
+        team = nil
         doc.css(".no-space tr").each do |element|
           if element.children.size < 3
+            team = Team.find_by(name: element.children[0].text)
+            puts team.id
+            puts team_index
             puts element.children[0].text
             next
           end
@@ -30,6 +34,7 @@ module Create
           name = element.children[0].children[0].children[0].text
           player = Player.search(name, nil, 0)
           unless player
+            puts "BullPen Player #{name} not found"
             player = Player.create(name: name)
           end
           player.update(team_id: team_index)
@@ -41,7 +46,7 @@ module Create
           three = get_pitches(element.children[3].text)
           four = get_pitches(element.children[4].text)
           five = get_pitches(element.children[5].text)
-          update_bullpen_pitches(player, one, two, three, four, five, game_day.time)
+          update_bullpen_pitches(player, one, two, three, four, five, game_day)
         end
       end
 
@@ -67,9 +72,9 @@ module Create
         end
       end
 
-      def update_bullpen_pitches(player, one, two, three, four, five, time)
+      def update_bullpen_pitches(player, one, two, three, four, five, game_day)
         (1..5).each do |n|
-          game_day = GameDay.yesterday.previous_days(n)
+          game_day = game_day.previous_days(n)
           case n
           when 1
             pitches = one
