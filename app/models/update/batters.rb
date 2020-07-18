@@ -16,13 +16,13 @@ module Update
       rows = tables[1].css("tbody tr")
       puts rows.length
 
-      rows.each_with_index do |element, index|
-        href = names[index].child['href']
-        doc = download_document(href)
-        name = doc.css('.PlayerHeader__Name').text
-        identity = parse_identity(names[index])
-        ops = element.children[15].text
-        # player = Player.search(name, identity, 0)
+      names.each_with_index do |element, index|
+        # href = names[index].child['href']
+        # doc = download_document(href)
+        # name = doc.css('.PlayerHeader__Name').text
+        identity = parse_identity(element)
+        ops = rows[index].children[15].text
+        # player = Player.search(nil, identity, 0)
         # if player
         #   batter = player.create_batter(season)
         #   batter.stats.each do |stat|
@@ -31,7 +31,6 @@ module Update
         #     end
         #   end
         # end
-        puts name
         puts identity
         puts ops
       end
