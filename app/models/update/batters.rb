@@ -11,7 +11,7 @@ module Update
 
       doc = download_document(url)
       tables = doc.css('table')
-      names = tables[0].css('tbody tr td span')
+      names = tables[0].css('tbody tr td')
       puts names.length
       rows = tables[1].css("tbody tr")
       puts rows.length
@@ -20,7 +20,7 @@ module Update
         # href = names[index].child['href']
         # doc = download_document(href)
         # name = doc.css('.PlayerHeader__Name').text
-        identity = parse_identity(element)
+        identity = parse_identity(element.children[0])
         ops = rows[index].children[15].text
         # player = Player.search(nil, identity, 0)
         # if player
