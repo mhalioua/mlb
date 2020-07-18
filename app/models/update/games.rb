@@ -122,12 +122,12 @@ module Update
             next
           end
           ump = data.text
+          Umpire.find_or_create_by(statfox: ump, year: 2020)
           Umpire.find_or_create_by(statfox: ump, year: 2019)
           Umpire.find_or_create_by(statfox: ump, year: 2018)
           Umpire.find_or_create_by(statfox: ump, year: 2017)
           Umpire.find_or_create_by(statfox: ump, year: 2016)
           Umpire.find_or_create_by(statfox: ump, year: 2015)
-          Umpire.find_or_create_by(statfox: ump, year: 2014)
           team_name = find_team_name(team_id)
           if team = Team.find_by_name(team_name)
             game = games.find_by(home_team_id: team.id)

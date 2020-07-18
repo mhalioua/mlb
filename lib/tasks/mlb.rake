@@ -94,6 +94,9 @@ namespace :mlb do
     Season.where("year = 2020").map {|season| season.umpire}
     Season.where("year = 2019").map {|season| season.umpire}
     Season.where("year = 2018").map {|season| season.umpire}
+    Season.where("year = 2017").map {|season| season.umpire}
+    Season.where("year = 2016").map {|season| season.umpire}
+    Season.where("year = 2015").map {|season| season.umpire}
   end
 
   task test_forecast: :environment do
