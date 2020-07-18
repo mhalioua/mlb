@@ -11,7 +11,7 @@ module Update
 
       doc = download_document(url)
       tables = doc.css('table')
-      names = tables[0].css('tbody tr td a')
+      names = tables[0].css('tbody tr td')
       puts names.length
       rows = tables[1].css("tbody tr")
       puts rows.length
