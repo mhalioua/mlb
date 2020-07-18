@@ -6,27 +6,36 @@ module Update
     def update(season, team)
       year = season.year
       puts "Update #{team.name} #{year} Batters"
-      url = "http://www.espn.com/mlb/team/stats/batting/_/name/#{team.espn_abbr}/year/#{year}"
+      url = "http://www.espn.com/mlb/team/stats/_/name/#{team.espn_abbr}/season/#{year}"
       puts url
 
       doc = download_document(url)
-      rows = doc.css("tr.oddrow, tr.evenrow")
+      tables = doc.css('table')
+      names = tables[0].css('tbody tr td a')
+      puts names.length
+      rows = tables[1].css("tbody tr")
+      puts rows.length
 
       rows.each_with_index do |element, index|
-        next if element.children.size == 1
-        name = element.children[0].child.text
-        identity = parse_identity(element.children[0])
-        ops = element.children[16].text
-        player = Player.search(name, identity, 0)
-        if player
-          batter = player.create_batter(season)
-          batter.stats.each do |stat|
-            if stat.handedness.size > 0
-              stat.update_attributes(ops: ops)
-            end
-          end
-        end
+        href = names[index].child['href']
+        doc = download_document(href)
+        name = doc.css('.PlayerHeader__Name').text
+        identity = parse_identity(names[index])
+        ops = element.children[15].text
+        # player = Player.search(name, identity, 0)
+        # if player
+        #   batter = player.create_batter(season)
+        #   batter.stats.each do |stat|
+        #     if stat.handedness.size > 0
+        #       stat.update_attributes(ops: ops)
+        #     end
+        #   end
+        # end
+        puts name
+        puts identity
+        puts ops
       end
+      return
 
       (1..1).each do |rost|
         url_l = "http://www.fangraphs.com/leaders.aspx?pos=all&stats=bat&lg=all&qual=0&type=c,5,21,14,16,38,37,50,54,43,44,45&season=#{year}&month=13&season1=#{year}&ind=0&team=#{team.fangraph_id}&rost=#{rost}&age=0&filter=&players=0&page=1_50"
