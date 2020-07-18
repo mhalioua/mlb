@@ -16,19 +16,15 @@ module Create
         doc = download_document(url)
 
         Lancer.bullpen.update_all(bullpen: false)
-        team_index = 0
         season = game_day.season
         team = nil
         doc.css(".no-space tr").each do |element|
           if element.children.size < 3
             team = Team.find_by(name: element.children[0].text)
-            puts team.id
-            puts team_index
             puts element.children[0].text
             next
           end
           if element.children[0].text == "Pitcher"
-            team_index += 1
             next
           end
           name = element.children[0].children[0].children[0].text
@@ -37,7 +33,7 @@ module Create
             puts "BullPen Player #{name} not found"
             player = Player.create(name: name)
           end
-          player.update(team_id: team_index)
+          player.update(team: team)
           lancer = player.create_lancer(season)
           lancer.update(bullpen: true)
 
