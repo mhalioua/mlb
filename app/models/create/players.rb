@@ -38,11 +38,10 @@ module Create
           unless name.size == 0
             fangraph_id = parse_fangraph_id(stat)
             player = Player.search(name, nil, fangraph_id, team.id)
-            if player
-              player.update_attributes(fangraph_id: fangraph_id, team: team)
-            else
-              puts "Player " + name + " not found"
+            unless player
+              player = Player.create(name: name, fangraph_id: fangraph_id)
             end
+            player.update_attributes(fangraph_id: fangraph_id, team: team)
           end
         end
       end
@@ -53,12 +52,11 @@ module Create
           name = stat.child.child.to_s
           unless name.size == 0
             fangraph_id = parse_fangraph_id(stat)
-            player = Player.search(name, nil, fangraph_id)
-            if player
-              player.update_attributes(fangraph_id: fangraph_id)
-            else
-              puts "Player " + name + " not found"
+            player = Player.search(name, nil, fangraph_id, team.id)
+            unless player
+              player = Player.create(name: name, fangraph_id: fangraph_id)
             end
+            player.update_attributes(fangraph_id: fangraph_id, team: team)
           end
         end
       end
