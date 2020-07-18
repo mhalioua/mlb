@@ -172,7 +172,7 @@ namespace :mlb do
 
   task source: [:create_matchups, :create_bullpen, :update_games, :pitcher_box_score, :batter_box_score]
 
-  task history: [:player_number, :umpire, :update_transactions, :play_by_play, :prev_pitchers, :pitcher_informations]
+  task history: [:umpire, :update_transactions, :play_by_play, :prev_pitchers, :pitcher_informations]
 
   task weather: [:update_forecast, :update_weather]
 

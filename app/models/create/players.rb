@@ -9,11 +9,12 @@ module Create
 
       doc = download_document(url)
       rows = doc.css("tbody tr")
-      puts rows.length
 
       rows.each do |element|
         name = element.children[1].children[0].children[0].text
         identity = parse_identity(element.children[1].children[0].children[0])
+        player_number = element.children[1].children[0].children[1]
+        puts player_number
         bathand = element.children[3].text
         throwhand = element.children[4].text
         age = element.children[5].text
@@ -24,7 +25,7 @@ module Create
         puts bathand
         puts throwhand
         puts age
-        player.update(team: team, bathand: bathand, throwhand: throwhand, age: age)
+        player.update(team: team, bathand: bathand, throwhand: throwhand, age: age, player_number: player_number)
       end
     end
 
