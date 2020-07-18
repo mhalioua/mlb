@@ -43,7 +43,7 @@ module Create
           three = get_pitches(element.children[3].text)
           four = get_pitches(element.children[4].text)
           five = get_pitches(element.children[5].text)
-          update_bullpen_pitches(player, one, two, three, four, five)
+          update_bullpen_pitches(player, one, two, three, four, five, game_day)
         end
       end
 
@@ -69,9 +69,9 @@ module Create
         end
       end
 
-      def update_bullpen_pitches(player, one, two, three, four, five)
+      def update_bullpen_pitches(player, one, two, three, four, five, game_day)
         (1..5).each do |n|
-          game_day = GameDay.yesterday.previous_days(n)
+          game_day = game_day.previous_days(n)
           case n
           when 1
             pitches = one
