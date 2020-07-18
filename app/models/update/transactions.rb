@@ -19,8 +19,8 @@ module Update
           elements = transactions
         end
         elements.each do |transaction|
-          date = transaction.children[0].text
-          description = transaction.children[1].text
+          date = transaction.children[1].text
+          description = transaction.children[3].text
           Transaction.find_or_create_by(team_id: team.id, date: date, description: description)
         end
       end
