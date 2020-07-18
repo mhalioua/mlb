@@ -68,11 +68,11 @@ namespace :mlb do
   end
 
   task update_batters_scout: :environment do
-    Season.where("year = 2019").map {|season| season.update_batters_scout}
+    Season.where("year = 2020").map {|season| season.update_batters_scout}
   end
 
   task update_pitchers_scout: :environment do
-    Season.where("year = 2019").map {|season| season.update_pitchers_scout}
+    Season.where("year = 2020").map {|season| season.update_pitchers_scout}
   end
 
   task update_transactions: :environment do
@@ -91,12 +91,9 @@ namespace :mlb do
   end
 
   task umpire: :environment do
+    Season.where("year = 2020").map {|season| season.umpire}
     Season.where("year = 2019").map {|season| season.umpire}
     Season.where("year = 2018").map {|season| season.umpire}
-    Season.where("year = 2017").map {|season| season.umpire}
-    Season.where("year = 2016").map {|season| season.umpire}
-    Season.where("year = 2015").map {|season| season.umpire}
-    Season.where("year = 2014").map {|season| season.umpire}
   end
 
   task test_forecast: :environment do
