@@ -1,10 +1,4 @@
-<td rowspan="2" style="background: darkorange;">
-	<% if pitcher.player.name.nil? or pitcher.throwhand.nil? %>
-		<%= "()" %>
-	<% else %>
-		<%= pitcher.player.name + "(" + pitcher.throwhand + ")" %>
-	<% end %>
-</td>
+<td rowspan="2" style="background: darkorange;"><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
 <td rowspan="2"><%= pitcher.player.age %></td>
 <td rowspan="2"><%= pitcher_information.ip_two %></td>
 <td rowspan="2"><%= pitcher_information.ip_three %></td>
