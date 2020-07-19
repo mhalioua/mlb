@@ -561,7 +561,8 @@ module Update
       href = href.gsub('_', 'stats/_')
       puts href
       doc = download_document(href)
-      doc.css("h1").first.text
+      names = doc.css('.PlayerHeader__Name span')
+      names[0].text + ' ' + names[1].text
     end
 
     def parse_hand(element)
@@ -569,14 +570,14 @@ module Update
       href = element.children[1]['href'] if href == nil
       doc = download_document(href)
       return unless doc
-      info = doc.css('.general-info')
-      hand = ''
-      if info.children.size > 2
-        info = info.children[1].text
-        info_index = info.index('Throws: ')
-        hand = info[info_index + 8]
-      end
-      return hand
+      info = doc.css('.PlayerHeader__Bio_List li:nth-child(3) .fw-medium div')[0].text
+      # hand = ''
+      # if info.children.size > 2
+      #   info = info.children[1].text
+      #   info_index = info.index('Throws: ')
+      #   hand = info[info_index + 8]
+      # end
+      info.split('/')[1]
     end
 
     def team_pitchers(game, team, pitchers)
@@ -593,7 +594,7 @@ module Update
         er = row.children[4].text.to_i
         bb = row.children[5].text.to_i
         k = row.children[6].text.to_i
-        pc = row.children[7].text.split('-')[0].to_i
+        # pc = row.children[7].text.split('-')[0].to_i
         player = Player.search(name, identity, 0)
         unless player
           puts "Player #{name} not found"
@@ -608,7 +609,7 @@ module Update
         end
         lancer.update(ip: ip, h: h, r: r, bb: bb)
         pitcher = game.pitchers.find_or_create_by(index: index, team: team)
-        pitcher.update(name: name, hand: hand, identity: identity, ip: ip, h: h, r: r, bb: bb, er: er, k: k, pc: pc)
+        pitcher.update(name: name, hand: hand, identity: identity, ip: ip, h: h, r: r, bb: bb, er: er, k: k)
       end
     end
 
