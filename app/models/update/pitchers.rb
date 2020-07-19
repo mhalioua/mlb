@@ -577,7 +577,7 @@ module Update
       #   info_index = info.index('Throws: ')
       #   hand = info[info_index + 8]
       # end
-      info.split('/')[1]
+      info.split('/')[1][0]
     end
 
     def team_pitchers(game, team, pitchers)

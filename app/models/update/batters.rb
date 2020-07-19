@@ -248,7 +248,7 @@ module Update
           #   hand = info[info_index + 6]
           # end
           # return hand
-          info.split('/')[0]
+          info.split('/')[0][0]
         end
       end
 
