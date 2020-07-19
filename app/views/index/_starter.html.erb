@@ -24,13 +24,7 @@
 <td rowspan="2" style="background: gray;"><%= pitcher_information.game_five_blue_opp %></td>
 <td rowspan="2" style="background: hotpink;"><%= pitcher_information.game_seven_blue %></td>
 <td rowspan="2" style="background: hotpink;"><%= pitcher_information.game_seven_blue_opp %></td>
-<td rowspan="2" style="background: darkorange;">
-	<% if pitcher.player.name.nil? or pitcher.throwhand.nil? %>
-		<%= "()" %>
-	<% else %>
-		<%= pitcher.player.name + "(" + pitcher.throwhand + ")" %>
-	<% end %>
-</td>
+<td rowspan="2" style="background: darkorange;"><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
 <td rowspan="2" style="background: rgb(54,155,148)"><%= pitcher_information.sb_two %></td>
 <td rowspan="2" style="background: rgb(54,155,148)"><%= pitcher_information.ab_two %></td>
 <td rowspan="2" style="background: rgb(54,155,148)"><%= pitcher_information.sb_three %></td>

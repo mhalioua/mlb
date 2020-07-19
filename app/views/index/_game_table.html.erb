@@ -143,13 +143,7 @@
 			<td><%= third_dir %></td>
 			<td>Direction</td>
 			<% if pitcher %>
-				<td rowspan="2" style="background: darkorange;">
-					<% if pitcher.player.name.nil? or pitcher.throwhand.nil? %>
-						<%= "()" %>
-					<% else %>
-						<%= pitcher.player.name + "(" + pitcher.throwhand + ")" %>
-					<% end %>
-				</td>
+        <td rowspan="2" style="background: darkorange;"><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
 			<% else %>
 				<td rowspan="2" style="background: darkorange;">TBD</td>
 			<% end %>
@@ -178,13 +172,7 @@
 			<td><%= winds.size > 2 ? winds[4][1] : 0 %></td>
 			<td>Averages</td>
 			<% if pitcher %>
-				<td rowspan="2" style="background: darkorange;">
-				<% if pitcher.player.name.nil? or pitcher.throwhand.nil? %>
-					<%= "()" %>
-				<% else %>
-					<%= pitcher.player.name + "(" + pitcher.throwhand + ")" %>
-				<% end %>
-				</td>
+        <td rowspan="2" style="background: darkorange;"><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
 			<% else %>
 				<td rowspan="2" style="background: darkorange;">TBD</td>
 			<% end %>
