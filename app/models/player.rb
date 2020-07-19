@@ -7,14 +7,18 @@ class Player < ApplicationRecord
   has_many :batter_scoutings, dependent: :destroy
 
   def self.search(name, identity=nil, fangraph_id=0, team_id = 0)
-    if identity && player = Player.find_by_identity(identity)
-      return player
-    elsif fangraph_id != 0 && player = Player.find_by_fangraph_id(fangraph_id)
-      return player
-    elsif team_id != 0 && player = Player.find_by(name: name, team_id: team_id)
-      return player
-    elsif player = Player.find_by(name: name)
-      return player
+    if identity
+      player = Player.find_by_identity(identity)
+      return player if player
+    elsif fangraph_id != 0
+      player = Player.find_by_fangraph_id(fangraph_id)
+      return player if player
+    elsif team_id != 0
+      player = Player.find_by(name: name, team_id: team_id)
+      return player if player
+    else
+      player = Player.find_by(name: name)
+      return player if player
     end
   end
 
