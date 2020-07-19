@@ -212,7 +212,7 @@ module Update
             player = Player.create(team: team, name: name, identity: identity)
             puts "Player " + player.name + " created"
           end
-          player.update(team: team)
+          player.update(team: team, identity: identity)
           batter = player.create_batter(game.game_day.season)
           batter.update(starter: true)
           game_batter = player.create_batter(game.game_day.season, team, game)

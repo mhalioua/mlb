@@ -20,7 +20,7 @@ module Create
           player = Player.create(name: name, identity: identity)
           puts "Player " + player.name + " created"
         end
-        player.update(team: team, bathand: bathand, throwhand: throwhand, age: age)
+        player.update(team: team, bathand: bathand, throwhand: throwhand, age: age, identity: identity)
         player.update(player_number: element.children[1].children[0].children[1].text) if element.children[1].children[0].children.length > 1
       end
     end

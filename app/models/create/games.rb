@@ -125,7 +125,7 @@ module Create
             player = Player.create(team: team, name: name, identity: identity)
             puts "Player " + player.name + " created"
           end
-          player.update(team: team)
+          player.update(team: team, identity: identity)
           batter = player.create_batter(game.game_day.season)
           batter.update(starter: true)
           game_batter = player.create_batter(game.game_day.season, team, game)
@@ -147,7 +147,7 @@ module Create
             player = Player.create(team: team, name: name, identity: identity)
             puts "Player " + player.name + " created"
           end
-          player.update(team: team)
+          player.update(team: team, identity: identity)
           lancer = player.create_lancer(game.game_day.season)
           lancer.update(starter: true)
           game_lancer = player.create_lancer(game.game_day.season, team, game)
