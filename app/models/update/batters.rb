@@ -225,7 +225,8 @@ module Update
         if element.child['href']
           href = element.child['href']
           doc = download_document(href)
-          doc.css("h1").first.text
+          names = doc.css('.PlayerHeader__Name span')
+          names[0].text + ' ' + names[1].text
         end
       end
 
@@ -239,14 +240,16 @@ module Update
           href = element['href']
           doc = download_document(href)
           return unless doc
-          info = doc.css('.general-info')
-          hand = ''
-          if info.children.size > 2
-            info = info.children[1].text
-            info_index = info.index('Bats: ')
-            hand = info[info_index + 6]
-          end
-          return hand
+          info = doc.css('.PlayerHeader__Bio_List li:nth-child(3) .fw-medium div')[0].text
+          # info = doc.css('.general-info')
+          # hand = ''
+          # if info.children.size > 2
+          #   info = info.children[1].text
+          #   info_index = info.index('Bats: ')
+          #   hand = info[info_index + 6]
+          # end
+          # return hand
+          info.split('/')[0]
         end
       end
 
