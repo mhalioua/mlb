@@ -156,7 +156,7 @@ module Update
         url = "http://www.espn.com/mlb/playbyplay?gameId=#{game.game_id}"
         puts url
         doc = Nokogiri::HTML(open(url))
-        elements = doc.css('.scrollable tbody .linescore__item:not(.linescore__teamName)')
+        elements = doc.css('tbody .linescore__item:not(.linescore__teamName)')
         next if elements.length === 0
         elements.each_with_index do |element, index|
           game_stat = game.game_stats.find_or_create_by(row_number: index + 1)
