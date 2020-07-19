@@ -9,18 +9,18 @@ class Player < ApplicationRecord
   def self.search(name, identity=nil, fangraph_id=0, team_id = 0)
     if identity
       player = Player.find_by_identity(identity)
-      return player if player
+      return player unless player.nil?
     end
     if fangraph_id != 0
       player = Player.find_by_fangraph_id(fangraph_id)
-      return player if player
+      return player unless player.nil?
     end
     if team_id != 0
       player = Player.find_by(name: name, team_id: team_id)
-      return player if player
+      return player unless player.nil?
     end
     player = Player.find_by(name: name)
-    return player if player
+    return player unless player.nil?
   end
 
   def self.create_players
