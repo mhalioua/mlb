@@ -76,7 +76,7 @@
       <tr>
         <td class="name"><%= "#{lancer.player.name} (#{lancer.player.throwhand}) (#{lancer.player.player_number})" %></td>
         <% 5.times do |i| %>
-          <td><%= lancer.prev_bullpen_pitches(i+2) %></td>
+          <td><%= lancer.prev_bullpen_pitches(i+1) %></td>
         <% end %>
         <%= render partial: "game/new/pitcher_begin", locals: { stat: stats.first } %>
         <% stats.each do |stat| %>
