@@ -159,6 +159,7 @@ module Update
         elements = doc.css('tbody .linescore__item:not(.linescore__teamName)')
         next if elements.length === 0
         elements.each_with_index do |element, index|
+          break if index === elements.length / 2
           game_stat = game.game_stats.find_or_create_by(row_number: index + 1)
           game_stat.update(away_score: element.text.squish, home_score: elements.children[index + elements.length / 2].text.squish)
         end
