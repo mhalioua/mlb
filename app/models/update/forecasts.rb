@@ -27,7 +27,7 @@ module Update
         end
 
         (1..4).each do |index|
-          hour_data = forecast_data[start_index + index]
+          hour_data = forecast_data[start_index]
           hour_time = DateTime.strptime hour_data['fcst_valid_local']
           temp = hour_data['temp'].to_s + ' °F'
           dp = hour_data['dewpt'].to_s + ' °F'
