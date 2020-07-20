@@ -5,7 +5,7 @@ module Update
 
     def update(game)
       home_team = game.home_team
-      time = DateTime.parse(game.game_date)
+      time = DateTime.parse(game.game_date) + 4.hours
 
       url = @@urls[home_team.id-1]
       puts "home_team.name #{home_team.name}"
