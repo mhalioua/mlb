@@ -38,6 +38,7 @@ module Update
           wind_speed = hour_data['wspd']
           wind_dir = hour_data['wdir_cardinal']
           cloud = hour_data['clds']
+          conditions = hour_data['phrase_32char']
           if wind_dir == "W"
             wind_dir = "West"
           elsif wind_dir == "S"
