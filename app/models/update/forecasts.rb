@@ -4,92 +4,56 @@ module Update
     include GetHtml
 
     def update(game)
-      game_day = game.game_day
       home_team = game.home_team
-      time = DateTime.parse(game.game_date).strftime("%I:%M%p").to_time
+      time = DateTime.parse(game.game_date)
 
-      url = get_url(home_team, game_day)
-      doc = download_document(url)
-      puts url
+      url = @@urls[home_team.id-1]
+      puts "home_team.name #{home_team.name}"
+      puts "game.game_date #{game.game_date}"
+      puts "url #{url}"
 
-      return unless doc
-      header = doc.css("#hourly-forecast-table tr").first
-      return unless header
-      headers = {
-        'Time' => 0,
-        'Conditions' => 0,
-        'Precip' => 0,
-        'Cloud Cover' => 0,
-        'Temp.' => 0,
-        'Dew Point' => 0,
-        'Humidity' => 0,
-        'Pressure' => 0,
-        'Wind' => 0,
-        'Amount' => 0,
-        'Feels Like' => 0
-      }
+      open(url) do |f|
+        json_string = f.read
+        parsed_json = JSON.parse(json_string)
+        forecast_data = parsed_json['forecasts']
 
-      header.children.each_with_index do |header_element, index|
-        key = header_element.text.squish
-        headers[key] = index if key == 'Time'
-        headers[key] = index if key == 'Conditions'
-        headers[key] = index if key == 'Precip'
-        headers[key] = index if key == 'Cloud Cover'
-        headers[key] = index if key == 'Temp.'
-        headers[key] = index if key == 'Dew Point'
-        headers[key] = index if key == 'Humidity'
-        headers[key] = index if key == 'Pressure'
-        headers[key] = index if key == 'Wind'
-        headers[key] = index if key == 'Amount'
-        headers[key] = index if key == 'Feels Like'
-      end
-
-      hourlyweathers = doc.css("#hourly-forecast-table tbody tr")
-      start_index = hourlyweathers.size - 1
-      return if start_index < 0 || (hourlyweathers[0].children[2].text.squish.to_time > time && GameDay.today == game_day)
-      start_index = 0
-      hourlyweathers.each_with_index do |weather, index|
-        date = weather.children[2].text.squish.to_time
-        if date > time
-          break
+        start_index = 0
+        forecast_data.each_with_index do |hour_data, index|
+          hour_time = DateTime.strptime hour_data['fcst_valid_local']
+          if time < hour_time
+            start_index = index
+            break
+          end
         end
-        start_index = index
-      end
 
-      start_index = start_index - 1 if start_index != 0
-      start_index = start_index - 1 if start_index != 0
-      (-1..5).each do |index|
-        temp = hourlyweathers[start_index].children[headers['Temp.']].text.squish
-        dp = hourlyweathers[start_index].children[headers['Dew Point']].text.squish
-        hum = hourlyweathers[start_index].children[headers['Humidity']].text.squish
-        pressure = hourlyweathers[start_index].children[headers['Pressure']].text.squish
-        precip = hourlyweathers[start_index].children[headers['Amount']].text.squish
-        wind = hourlyweathers[start_index].children[headers['Wind']].text.squish
-        feel = hourlyweathers[start_index].children[headers['Feels Like']].text.squish
+        (1..4).each do |index|
+          hour_data = forecast_data[start_index + index]
+          temp = hour_data['temp']
+          dp = hour_data['dewpt']
+          hum = hour_data['rh']
+          pressure = hour_data['mslp']
+          precip = hour_data['qpf']
+          precip_percent = hour_data['pop']
+          feel = hour_data['feels_like']
+          wind_speed = hour_data['wspd']
+          wind_dir = hour_data['wdir_cardinal']
+          cloud = hour_data['clds']
+          if wind_dir == "W"
+            wind_dir = "West"
+          elsif wind_dir == "S"
+            wind_dir = "South"
+          elsif wind_dir == "N"
+            wind_dir = "North"
+          elsif wind_dir == "E"
+            wind_dir = "East"
+          end
 
-        time = hourlyweathers[start_index].children[headers['Time']].text.squish
-        conditions = hourlyweathers[start_index].children[headers['Conditions']].children[1].text.squish
-        precip_percent = hourlyweathers[start_index].children[headers['Precip']].text.squish
-        cloud = hourlyweathers[start_index].children[headers['Cloud Cover']].text.squish
+          start_index = start_index + 1 if start_index < forecast_data.size - 1
 
-
-        wind_index = wind.rindex(' ')
-        wind_dir = wind[wind_index+1..-1]
-        if wind_dir == "W"
-          wind_dir = "West"
-        elsif wind_dir == "S"
-          wind_dir = "South"
-        elsif wind_dir == "N"
-          wind_dir = "North"
-        elsif wind_dir == "E"
-          wind_dir = "East"
+          weather = game.weathers.create(station: "Forecast", hour: index)
+          weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed, precip: precip, feel: feel,
+                         time: time, conditions: conditions, precip_percent: precip_percent, cloud: cloud)
         end
-        wind_speed = wind[0..wind_index-1]
-        weather = game.weathers.create(station: "Forecast", hour: index)
-        weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed, precip: precip, feel: feel,
-                       time: time, conditions: conditions, precip_percent: precip_percent, cloud: cloud)
-
-        start_index = start_index + 1 if start_index < hourlyweathers.size - 1
       end
     end
 
@@ -348,8 +312,6 @@ module Update
 
           start_index = start_index + 1 if start_index < forecast_data.size - 1
 
-          weather = game.weathers.create(station: "Forecast", hour: index)
-          weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed, precip: precip, feel: feel)
         end
       end
     end
@@ -417,36 +379,36 @@ module Update
       end
 
       @@urls = [
-        "https://api.weather.com/v1/location/92806%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/77002%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/94621%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/geocode/43.644070/-79.391510/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/30339%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/53214%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/63102%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/60613%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/85004%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/90012%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/94107%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/44115%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/98134%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/33125%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/11368%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/20003%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/21201%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/92101%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/19148%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/15212%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/76011%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/33705%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/02215%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/45202%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/80205%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/64129%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/48201%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/55403%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/60616%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
-        "https://api.weather.com/v1/location/10451%3A4%3AUS/forecast/hourly/48hour.json?units=m&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/92806%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/77002%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/94621%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/geocode/43.644070/-79.391510/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/30339%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/53214%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/63102%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/60613%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/85004%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/90012%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/94107%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/44115%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/98134%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/33125%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/11368%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/20003%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/21201%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/92101%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/19148%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/15212%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/76011%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/33705%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/02215%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/45202%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/80205%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/64129%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/48201%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/55403%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/60616%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
+        "https://api.weather.com/v1/location/10451%3A4%3AUS/forecast/hourly/48hour.json?units=e&language=en-US&apiKey=6532d6454b8aa370768e63d6ba5a832e",
         ]
   end
 end
