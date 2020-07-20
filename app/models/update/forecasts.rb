@@ -29,16 +29,16 @@ module Update
         (1..4).each do |index|
           hour_data = forecast_data[start_index + index]
           hour_time = DateTime.strptime hour_data['fcst_valid_local']
-          temp = hour_data['temp'] + ' °F'
-          dp = hour_data['dewpt'] + ' °F'
-          hum = hour_data['rh'] + '%'
-          pressure = hour_data['mslp'] + ' in'
-          precip = hour_data['qpf'] + ' in'
-          precip_percent = hour_data['pop'] + '%'
-          feel = hour_data['feels_like'] + ' °F'
+          temp = hour_data['temp'].to_s + ' °F'
+          dp = hour_data['dewpt'].to_s + ' °F'
+          hum = hour_data['rh'].to_s + '%'
+          pressure = hour_data['mslp'].to_s + ' in'
+          precip = hour_data['qpf'].to_s + ' in'
+          precip_percent = hour_data['pop'].to_s + '%'
+          feel = hour_data['feels_like'].to_s + ' °F'
           wind_speed = hour_data['wspd']
           wind_dir = hour_data['wdir_cardinal']
-          cloud = hour_data['clds'] + '%'
+          cloud = hour_data['clds'].to_s + '%'
           conditions = hour_data['phrase_32char']
           if wind_dir == "W"
             wind_dir = "West"
