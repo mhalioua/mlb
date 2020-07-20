@@ -28,16 +28,17 @@ module Update
 
         (1..4).each do |index|
           hour_data = forecast_data[start_index + index]
-          temp = hour_data['temp']
-          dp = hour_data['dewpt']
-          hum = hour_data['rh']
-          pressure = hour_data['mslp']
-          precip = hour_data['qpf']
-          precip_percent = hour_data['pop']
-          feel = hour_data['feels_like']
+          hour_time = DateTime.strptime hour_data['fcst_valid_local']
+          temp = hour_data['temp'] + ' °F'
+          dp = hour_data['dewpt'] + ' °F'
+          hum = hour_data['rh'] + '%'
+          pressure = hour_data['mslp'] + ' in'
+          precip = hour_data['qpf'] + ' in'
+          precip_percent = hour_data['pop'] + '%'
+          feel = hour_data['feels_like'] + ' °F'
           wind_speed = hour_data['wspd']
           wind_dir = hour_data['wdir_cardinal']
-          cloud = hour_data['clds']
+          cloud = hour_data['clds'] + '%'
           conditions = hour_data['phrase_32char']
           if wind_dir == "W"
             wind_dir = "West"
@@ -53,7 +54,7 @@ module Update
 
           weather = game.weathers.create(station: "Forecast", hour: index)
           weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed, precip: precip, feel: feel,
-                         time: time, conditions: conditions, precip_percent: precip_percent, cloud: cloud)
+                         time: hour_time.strftime("%I:%M%p"), conditions: conditions, precip_percent: precip_percent, cloud: cloud)
         end
       end
     end
