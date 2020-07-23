@@ -71,7 +71,7 @@ module Create
 
       def update_bullpen_pitches(player, one, two, three, four, five, game_day)
         (1..5).each do |n|
-          game_day = game_day.previous_days(1)
+          gameDay = game_day.previous_days(n)
           case n
           when 1
             pitches = one
@@ -84,7 +84,7 @@ module Create
           when 5
             pitches = five
           end
-          lancers = player.game_day_lancers(game_day)
+          lancers = player.game_day_lancers(gameDay)
           lancers.each do |lancer|
             lancer.update(pitches: pitches)
           end
