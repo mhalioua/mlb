@@ -25,6 +25,7 @@ module Update
             break
           end
         end
+        break if start_index === 0
 
         (1..4).each do |index|
           hour_data = forecast_data[start_index]
