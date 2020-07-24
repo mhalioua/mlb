@@ -362,6 +362,7 @@ module Update
         batters = opposite.opposing_lineup
         batters = opposite.predict_opposing_lineup if batters.empty?
       end
+      batters = batters.select{ |batter| batter.player }
       season_one = Season.find_by(year: 2018)
       season_two = Season.find_by(year: 2019)
       stats_one = batters.map { |batter| batter.player.create_batter(season_one).stats(handedness(opposite.throwhand == "L")) }
