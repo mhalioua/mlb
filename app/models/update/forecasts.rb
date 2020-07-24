@@ -20,8 +20,8 @@ module Update
         start_index = 0
         forecast_data.each_with_index do |hour_data, index|
           hour_time = DateTime.strptime hour_data['fcst_valid_local']
-          start_index = index
           if time < hour_time
+            start_index = index
             break
           end
         end
