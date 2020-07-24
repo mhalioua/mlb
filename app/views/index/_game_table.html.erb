@@ -121,9 +121,9 @@
 		</tr>
 		<tr style="background: lightgray;">
 			<td rowspan="4"><%= "#{(DateTime.parse(game.game_date) - game.home_team.timezone.hours).strftime("%I:%M%p")}" %></td>
-			<td rowspan="4" style="background: lightgray;"><%= link_to game_link(game), { controller: "game", action: "new", id: game.id, forecast: 1, option: 0, offset: 5 }, target: :_blank %></td>
+			<td rowspan="4" style="background: lightgray;"><%= link_to game_link(game), { controller: "game", action: "new", id: game.id, forecast: 0, option: 0, offset: 5 }, target: :_blank %></td>
 			<td rowspan="4" style="background: lightgray;"><%= link_to "Stats", { controller: "game", action: "stats", id: game.id }, target: :_blank %></td>
-			<td rowspan="4" style="background: lightgray;"><%= link_to "Weather", { controller: "game", action: "weather", id: game.id, forecast: 1, option: 0, offset: 5 }, target: :_blank %></td>
+			<td rowspan="4" style="background: lightgray;"><%= link_to "Weather", { controller: "game", action: "weather", id: game.id, forecast: 0, option: 0, offset: 5 }, target: :_blank %></td>
 			<td rowspan="4" style="background: lightgray;"><%= link_to "Previous Games", { controller: "game", action: "previous", id: game.id }, target: :_blank %></td>
       <td rowspan="4" style="background: lightgray;"><%= link_to "Scout", { controller: "game", action: "scout", id: game.id }, target: :_blank %></td>
       <td rowspan="4" style="background: lightgray;"><%= link_to "LR", { controller: "game", action: "lr", id: game.id } %></td>
