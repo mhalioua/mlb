@@ -10,7 +10,7 @@ class UploadImagesToAws
 			#http = Net::HTTP.new(url.host, url.port)
 			#http.use_ssl = true if url.scheme == 'https'
 			#unless http.request_head(url.path).code == "200"
-				kit = IMGKit.new("https://mlb.herokuapp.com/game/new/#{game.id}/1/0/5", :quality => 50)
+				kit = IMGKit.new("https://mlb.herokuapp.com/game/new/#{game.id}/0/0/5", :quality => 50)
 				file = kit.to_file("#{Rails.root}/tmp/game#{game.id}.png")
 				obj = S3.object("images/#{game.id}.png")
 				obj.upload_file(file, acl:'public-read')

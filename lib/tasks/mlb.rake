@@ -92,6 +92,10 @@ namespace :mlb do
     Season.where("year = 2015").map {|season| season.umpire}
   end
 
+  task image_upload: :environment do
+    [GameDay.yesterday].each {|game_day| game_day.image_upload}
+  end
+
   task basic: [:create_season, :create_teams, :create_player]
 
   task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout]
