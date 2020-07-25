@@ -20,7 +20,7 @@ class TeamController < ApplicationController
     # @result = Game.where("game_date < ? AND id > 10654 AND game_date between ? and ?", Date.current, Date.strptime(@game_start_index, '%b %d, %Y').beginning_of_day, Date.strptime(@game_end_index, '%b %d, %Y').end_of_day)
     #               .or(Game.where("game_date < ? AND id < 10070 AND id >= 9058 AND game_date between ? and ?", Date.current, Date.strptime(@game_start_index, '%b %d, %Y').beginning_of_day, Date.strptime(@game_end_index, '%b %d, %Y').end_of_day)).order('game_date DESC')
     @result = Game.where("game_date < ? AND id > 14932", Date.current)
-                  .or(Game.where("id < 13150 AND id > 10516").or(Game.where("id < 10070 AND id >= 9058"))).order('game_date DESC')
+                  .or(Game.where("id < 13108 AND id > 10516").or(Game.where("id < 10070 AND id >= 9058"))).order('game_date DESC')
     @team_id = nil
     @wind_dir = nil
     @wind_speed = nil
