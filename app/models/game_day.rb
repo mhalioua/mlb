@@ -64,7 +64,6 @@ class GameDay < ApplicationRecord
   end
 
   def image_upload
-    games = self.games
     games.each do |game|
       #url = URI.parse("https://mlb-daemon.s3.amazonaws.com/images/#{game.id}.png")
       #http = Net::HTTP.new(url.host, url.port)

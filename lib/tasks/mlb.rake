@@ -93,7 +93,9 @@ namespace :mlb do
   end
 
   task image_upload: :environment do
-    [GameDay.yesterday].each {|game_day| game_day.image_upload}
+    # [GameDay.yesterday].each {|game_day| game_day.image_upload}
+    prev_game_day = GameDay.yesterday.previous_days(i)
+    prev_game_day.image_upload
   end
 
   task basic: [:create_season, :create_teams, :create_player]
