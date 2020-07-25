@@ -93,20 +93,18 @@ namespace :mlb do
   end
 
   task image_upload: :environment do
-    # [GameDay.yesterday].each {|game_day| game_day.image_upload}
-    prev_game_day = GameDay.yesterday.previous_days(1)
-    prev_game_day.image_upload
+    GameDay.yesterday.image_upload
   end
 
   task basic: [:create_season, :create_teams, :create_player]
 
-  task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout]
+  task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout, :image_upload]
 
   task source: [:create_matchups, :create_bullpen, :update_games, :pitcher_box_score, :batter_box_score]
 
   task history: [:umpire, :update_transactions, :play_by_play, :prev_pitchers, :pitcher_informations]
 
-  task weather: [:update_forecast, :update_weather, :image_upload]
+  task weather: [:update_forecast, :update_weather]
 
   task hourly: [:update_games, :pitcher_box_score, :batter_box_score, :play_by_play]
 
