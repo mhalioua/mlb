@@ -19,7 +19,7 @@ module Update
         count = 1
         forecast_data.each_with_index do |hour_data, index|
           break if count == 5
-          hour_date_time = DateTime.strptime(hour_data['expire_time_gmt'].to_s,'%s')
+          hour_date_time = DateTime.strptime(hour_data['valid_time_gmt'].to_s,'%s')
           next if hour_date_time < time
           break if index === 0
           temp = hour_data['temp']
