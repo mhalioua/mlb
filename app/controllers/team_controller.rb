@@ -19,8 +19,8 @@ class TeamController < ApplicationController
     @teams = Team.all.order('name')
     # @result = Game.where("game_date < ? AND id > 10654 AND game_date between ? and ?", Date.current, Date.strptime(@game_start_index, '%b %d, %Y').beginning_of_day, Date.strptime(@game_end_index, '%b %d, %Y').end_of_day)
     #               .or(Game.where("game_date < ? AND id < 10070 AND id >= 9058 AND game_date between ? and ?", Date.current, Date.strptime(@game_start_index, '%b %d, %Y').beginning_of_day, Date.strptime(@game_end_index, '%b %d, %Y').end_of_day)).order('game_date DESC')
-    @result = Game.where("game_date < ? AND id > 10654", Date.current)
-                  .or(Game.where("game_date < ? AND id < 10070 AND id >= 9058", Date.current)).order('game_date DESC')
+    @result = Game.where("game_date < ? AND id > 14932", Date.current)
+                  .or(Game.where("id < 13150 AND id > 10516").or(Game.where("id < 10070 AND id >= 9058"))).order('game_date DESC')
     @team_id = nil
     @wind_dir = nil
     @wind_speed = nil
@@ -37,13 +37,13 @@ class TeamController < ApplicationController
           next if is_filter === false
         end
 
-        forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(1).first
+        forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(0).first
         next unless forecast_one
-        forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC").offset(1).first
+        forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC").offset(0).first
         next unless forecast_two
-        forecast_thr = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC").offset(1).first
+        forecast_thr = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC").offset(0).first
         next unless forecast_thr
-        forecast_for = game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").offset(1).first
+        forecast_for = game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").offset(0).first
         next unless forecast_for
 
         if params[:wind_dir].present? && params[:wind_dir] != ''
