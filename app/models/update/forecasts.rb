@@ -5,7 +5,7 @@ module Update
 
     def update(game)
       home_team = game.home_team
-      time = DateTime.parse(game.game_date) + 4.hours - home_team.timezone.hours + 30.minutes
+      time = DateTime.parse(game.game_date) + 4.hours - home_team.timezone.hours - 31.minutes
 
       url = @@urls[home_team.id-1]
       puts "home_team.name #{home_team.name}"
@@ -25,9 +25,10 @@ module Update
             break
           end
         end
-        break if start_index === 0
+        break if start_index < 2
+        start_index = start_index - 2
 
-        (1..4).each do |index|
+        (-1..5).each do |index|
           hour_data = forecast_data[start_index]
           hour_time = DateTime.strptime hour_data['fcst_valid_local']
           temp = hour_data['temp'].to_s + ' °F'
