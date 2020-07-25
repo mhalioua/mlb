@@ -113,7 +113,7 @@ class TeamController < ApplicationController
         end
 
         @games.push(game)
-        # break if @games.length === 50
+        break if @games.length === 50
       end
     end
   end
