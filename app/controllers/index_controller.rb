@@ -27,6 +27,7 @@ class IndexController < ApplicationController
 
 	def stadium
 		@team = Team.find(params[:id])
+		@image_url = @team.id.to_s + ".png"
 	end
 
 end
