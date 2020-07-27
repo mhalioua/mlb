@@ -1,7 +1,7 @@
 <ul class="list-group">
   <li class="list-group-item"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
 </ul>
-<div class="image">
+<div>
   <%= image_tag(@image_url, :width => '600') %>
   <h2><%= @team.stadium + " Zipcode: " + @team.zipcode %></h2>
 </div>
