@@ -103,7 +103,7 @@
       textColor = ""
       color = "#6495ED" if weather.caption == "With wind"
       color = "gray" if weather.caption == "Minus 5" || weather.caption == "Plus 5"
-      if index < 7 && realWeathers.length === 7 && (real.hour < 1 || real.hour > 4)
+      if index < 7 && realWeathers.length === 7 && (realWeathers[index].hour < 1 || realWeathers[index].hour > 4)
         color = "gray"
         textColor = "red"
       end
