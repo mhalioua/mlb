@@ -28,6 +28,15 @@ module Update
           pressure = hour_data['pressure']
           wind_dir = hour_data['wdir_cardinal']
           wind_dir = '' if wind_dir == nil
+          if wind_dir == "W"
+            wind_dir = "West"
+          elsif wind_dir == "S"
+            wind_dir = "South"
+          elsif wind_dir == "N"
+            wind_dir = "North"
+          elsif wind_dir == "E"
+            wind_dir = "East"
+          end
           wind_speed = hour_data['wspd'].to_f
           wind_speed = 0 if wind_speed < 0
           weather = game.weathers.find_or_create_by(station: "Actual", hour: count)
