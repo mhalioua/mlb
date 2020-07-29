@@ -63,11 +63,15 @@ module Update
 
     def update_table(game)
       name = game.home_team.name
+      forecast_prev_one = game.weathers.where(station: "Forecast", hour: -1).order("updated_at DESC")
+      forecast_prev_two = game.weathers.where(station: "Forecast", hour: 0).order("updated_at DESC")
       forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC")
       forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC")
       forecast_three = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC")
       forecast_four = game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC")
+      forecast_after_one = game.weathers.where(station: "Forecast", hour: 5).order("updated_at DESC")
       return if forecast_one.length == 0
+      all_forecasts = [forecast_prev_one, forecast_prev_two, forecast_one.first, forecast_two.first, forecast_three.first, forecast_four.first, forecast_after_one]
       forecasts = [forecast_one.first, forecast_two.first, forecast_three.first, forecast_four.first]
       row_number = 0
       block_number = 0
@@ -75,7 +79,7 @@ module Update
 
       Weathersource.where(game_id: game.id, date: date, table_number: 0).destroy_all
       Weathersource.where(game_id: game.id, date: date, table_number: 1).destroy_all
-      forecasts.each do |weather|
+      all_forecasts.each do |weather|
         wind_min = weather.wind_speed.to_f - 5
         wind_max = weather.wind_speed.to_f + 5
         wind_min = 3 if wind_min < 3
