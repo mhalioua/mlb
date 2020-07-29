@@ -37,13 +37,13 @@ class TeamController < ApplicationController
           next if is_filter === false
         end
 
-        forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(0).first
+        forecast_one = game.weathers.where(station: "Actual", hour: 1).order("updated_at DESC").offset(0).first
         next unless forecast_one
-        forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC").offset(0).first
+        forecast_two = game.weathers.where(station: "Actual", hour: 2).order("updated_at DESC").offset(0).first
         next unless forecast_two
-        forecast_thr = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC").offset(0).first
+        forecast_thr = game.weathers.where(station: "Actual", hour: 3).order("updated_at DESC").offset(0).first
         next unless forecast_thr
-        forecast_for = game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").offset(0).first
+        forecast_for = game.weathers.where(station: "Actual", hour: 4).order("updated_at DESC").offset(0).first
         next unless forecast_for
 
         if params[:wind_dir].present? && params[:wind_dir] != ''
