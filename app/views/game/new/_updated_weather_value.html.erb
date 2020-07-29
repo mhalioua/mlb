@@ -6,11 +6,11 @@
       <td bgcolor="white"></td>
     <% end %>
     <td bgcolor="<%= bgcolor %>"><%= weather.caption %></td>
-    <td><%= weather.temp %></td>
-    <td><%= weather.dew %></td>
-    <td bgcolor="<%=  caption == "Minus 5" || caption == "Plus 5" ?  "#EA5" : "" %>"><%= weather.humid %></td>
-    <td><%= weather.pressure %></td>
-    <td><%= weather.wind %></td>
+    <td bgcolor="<%= real && (real.hour < 1 || real.hour > 4) ? "gray" : "" %>"><%= weather.temp %></td>
+    <td bgcolor="<%= real && (real.hour < 1 || real.hour > 4) ? "gray" : "" %>"><%= weather.dew %></td>
+    <td bgcolor="<%= real && (real.hour < 1 || real.hour > 4) ? "gray" : caption == "Minus 5" || caption == "Plus 5" ?  "#EA5" : "" %>"><%= weather.humid %></td>
+    <td bgcolor="<%= real && (real.hour < 1 || real.hour > 4) ? "gray" : "" %>"><%= weather.pressure %></td>
+    <td bgcolor="<%= real && (real.hour < 1 || real.hour > 4) ? "gray" : "" %>"><%= weather.wind %></td>
     <td class="blue"></td>
     <td><%= weather.except_total_average_one %></td>
     <td><%= weather.except_total_average_two %></td>
