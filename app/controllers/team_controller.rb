@@ -59,21 +59,21 @@ class TeamController < ApplicationController
 
       if params[:baro].present? && params[:baro] != ''
         @baro = params[:baro].to_f
-        @weather_filter = @weather_filter.where("pressure_num between ? and ?", (@baro - 0.04).round(2), (@baro + 0.04).round(2))
+        @weather_filter = @weather_filter.where("pressure between ? and ?", (@baro - 0.04).round(2), (@baro + 0.04).round(2))
       end
       puts "Baro"
       puts @weather_filter.length
 
       if params[:dp].present? && params[:dp] != ''
         @dp = params[:dp].to_f
-        @weather_filter = @weather_filter.where("dew_num between ? and ?", (@dp - 2).round(2), (@dp + 2).round(2))
+        @weather_filter = @weather_filter.where("dp between ? and ?", (@dp - 2).round(2), (@dp + 2).round(2))
       end
       puts "Dew"
       puts @weather_filter.length
 
       if params[:hum].present? && params[:hum] != ''
         @hum = params[:hum].to_f
-        @weather_filter = @weather_filter.where("humid_num between ? and ?", (@hum - 5).round(2), (@hum + 5).round(2))
+        @weather_filter = @weather_filter.where("hum between ? and ?", (@hum - 5).round(2), (@hum + 5).round(2))
       end
       puts "Hum"
       puts @weather_filter.length
