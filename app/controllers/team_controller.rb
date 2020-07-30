@@ -32,7 +32,8 @@ class TeamController < ApplicationController
                     .or(Game.where("id < 13107 AND id > 10516").or(Game.where("id < 10070 AND id >= 9058"))).order('game_date DESC')
       @team_filter = Game.all
       if params[:team_id] != '' && params[:team_id] != "0"
-        @result = @result.where(home_team_id: params[:team_id])
+        @team_id = params[:team_id].to_i
+        @result = @result.where(home_team_id: @team_id)
       end
 
       @weather_filter = Weather.where(station: "Actual")
