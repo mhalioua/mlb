@@ -52,7 +52,7 @@
 </div>
 <% @result.each_with_index do |game, index| %>
   <div style="border-bottom: 20px solid black;" class="class class<%= (index/10).to_i + 1 %>">
-    <img style="border-radius: 0;" src="https://s3.amazonaws.com/mlb-daemon/images/<%= game %>.png" />
+    <img style="border-radius: 0;" src="https://s3.amazonaws.com/mlb-daemon/images/<%= game.id %>.png" />
   </div>
 <% end %>
 <div style="display: flex;">
