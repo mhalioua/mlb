@@ -28,8 +28,8 @@ class TeamController < ApplicationController
     @hum = nil
     @games = []
     if params[:team_id].present?
-      @result = Game.where("game_date < ? AND id > 14932", Date.current)
-                    .or(Game.where("id < 13107 AND id > 10516").or(Game.where("id < 10070 AND id >= 9058"))).order('game_date DESC')
+      @result = Game.where("game_date < ? AND games.id > 14932", Date.current)
+                    .or(Game.where("games.id < 13107 AND games.id > 10516").or(Game.where("games.id < 10070 AND games.id >= 9058"))).order('game_date DESC')
       puts "All"
       puts @result.length
       @team_filter = Game.all
