@@ -26,7 +26,8 @@ class TeamController < ApplicationController
     @baro = nil
     @dp = nil
     @hum = nil
-    @games = []
+    # @games = []
+    @result = []
     if params[:team_id].present?
       @result = Game.where("game_date < ? AND games.id > 14932", Date.current)
                     .or(Game.where("games.id < 13107 AND games.id > 10516").or(Game.where("games.id < 10070 AND games.id >= 9058"))).order('game_date DESC')
