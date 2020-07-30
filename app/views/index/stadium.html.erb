@@ -3,7 +3,7 @@
 </ul>
 <div>
   <%= image_tag(@image_url, :width => '600') %>
-  <h2><%= @team.stadium + " Zipcode: " + @team.zipcode %></h2>
+  <h2><%= @team.stadium + " Zipcode: " + (@team.zipcode === 'M5V 1J1' ? '14203' : @team.zipcode) %></h2>
 </div>
 <%= render partial: "game/new/lr_table", locals: { min: 2, max: 6, wind_dirs: [], type: 'PITCHERS', team: @team } %>
 <%= render partial: "game/new/lr_table", locals: { min: 2, max: 6, wind_dirs: [], type: 'BATTERS', team: @team } %>

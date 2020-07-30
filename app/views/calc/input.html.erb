@@ -307,7 +307,7 @@
         <%= `render partial: "calc/new/prev", locals: { caption: "Weather", weathers: weathers, name: name, stadium: @home_team.stadium }` %>
         <div class="image">
             <%= image_tag(@image_url, :width => '600') %>
-            <h2><%= @home_team.stadium + " Zipcode: " + @home_team.zipcode %></h2>
+            <h2><%= @home_team.stadium + " Zipcode: " + (@home_team.zipcode === 'M5V 1J1' ? '14203' : @home_team.zipcode) %></h2>
         </div>
         <%= `render partial: "calc/new/wind", locals: { caption: "Wind", weathers: weathers, name: name }` %>
     </div>
