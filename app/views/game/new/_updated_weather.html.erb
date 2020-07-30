@@ -100,14 +100,8 @@
       bgcolor = "gray"
       bgcolor = "lightgreen" if weather.caption == "With wind"
       color = ""
-      textColor = ""
       color = "#6495ED" if weather.caption == "With wind"
       color = "gray" if weather.caption == "Minus 5" || weather.caption == "Plus 5"
-      if index < 7 && realWeathers.length === 7 && (realWeathers[index].hour < 1 || realWeathers[index].hour > 4)
-        color = "gray"
-        textColor = "red"
-      end
-
     %>
       <% if block_number != weather.block_number %>
           <% if weather.block_number == 1 || weather.block_number == 2 || weather.block_number == 3 %>
@@ -122,7 +116,11 @@
             <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
           <% end %>
       <% end %>
-      <%= render partial: "game/new/updated_weather_value", locals: { weather: weather, color: color, textColor: textColor, bgcolor: bgcolor, real: index < 7 && realWeathers.length === 7 ? realWeathers[index] : nil } %>
+    <% if index < 7 && realWeathers.length === 7 && (realWeathers[index].hour < 1 || realWeathers[index].hour > 4) %>
+      <%= render partial: "game/new/updated_weather_value_clone", locals: { weather: weather, real: realWeathers[index] } %>
+    <% else %>
+      <%= render partial: "game/new/updated_weather_value", locals: { weather: weather, color: color, bgcolor: bgcolor, real: index < 7 && realWeathers.length === 7 ? realWeathers[index] : nil } %>
+    <% end %>
     <%
       block_number = weather.block_number
       end
