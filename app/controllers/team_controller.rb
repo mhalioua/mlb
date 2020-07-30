@@ -44,7 +44,7 @@ class TeamController < ApplicationController
 
       if params[:wind_dir].present? && params[:wind_dir] != ''
         @wind_dir = params[:wind_dir]
-        @weather_filter = @weather_filter.where(wind_dir: @wind_dir.upcase)
+        @weather_filter = @weather_filter.where(wind_dir: @wind_dir)
       end
       puts "Wind_Dir"
       puts @weather_filter.length
