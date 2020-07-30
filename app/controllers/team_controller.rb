@@ -30,11 +30,15 @@ class TeamController < ApplicationController
     if params[:team_id].present?
       @result = Game.where("game_date < ? AND id > 14932", Date.current)
                     .or(Game.where("id < 13107 AND id > 10516").or(Game.where("id < 10070 AND id >= 9058"))).order('game_date DESC')
+      puts "All"
+      puts @result.length
       @team_filter = Game.all
       if params[:team_id] != '' && params[:team_id] != "0"
         @team_id = params[:team_id].to_i
         @result = @result.where(home_team_id: @team_id)
       end
+      puts "Team"
+      puts @result.length
 
       @weather_filter = Weather.where(station: "Actual")
 
@@ -42,28 +46,41 @@ class TeamController < ApplicationController
         @wind_dir = params[:wind_dir]
         @weather_filter = @weather_filter.where(wind_dir: @wind_dir.upcase)
       end
+      puts "Wind_Dir"
+      puts @weather_filter.length
 
       if params[:wind_speed].present? && params[:wind_speed] != ''
         @wind_speed = params[:wind_speed].to_i
         @weather_filter = @weather_filter.where("wind_speed between ? and ?", @wind_speed - 3, @wind_speed + 3)
       end
+      puts "Wind_Speed"
+      puts @weather_filter.length
 
       if params[:baro].present? && params[:baro] != ''
         @baro = params[:baro].to_f
         @weather_filter = @weather_filter.where("pressure_num between ? and ?", (@baro - 0.04).round(2), (@baro + 0.04).round(2))
       end
+      puts "Baro"
+      puts @weather_filter.length
 
       if params[:dp].present? && params[:dp] != ''
         @dp = params[:dp].to_f
         @weather_filter = @weather_filter.where("dew_num between ? and ?", (@dp - 2).round(2), (@dp + 2).round(2))
       end
+      puts "Dew"
+      puts @weather_filter.length
 
       if params[:hum].present? && params[:hum] != ''
         @hum = params[:hum].to_f
         @weather_filter = @weather_filter.where("humid_num between ? and ?", (@hum - 5).round(2), (@hum + 5).round(2))
       end
+      puts "Hum"
+      puts @weather_filter.length
 
       @result = @result.joins(:weathers).merge(@weather_filter).select("games.id").group("games.id")
+
+      puts "Final"
+      puts @result.length
 
       # @result.each do |game|
         # if params[:team_id] != ''
