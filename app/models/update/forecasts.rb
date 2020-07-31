@@ -32,9 +32,9 @@ module Update
           hour_data = forecast_data[start_index]
           hour_time = DateTime.strptime hour_data['fcst_valid_local']
           temp = hour_data['temp'].to_s + ' °F'
-          dp = hour_data['dewpt'].to_s + ' °F'
-          hum = hour_data['rh'].to_s + '%'
-          pressure = hour_data['mslp'].to_s + ' in'
+          dp = hour_data['dewpt']
+          hum = hour_data['rh']
+          pressure = hour_data['mslp']
           precip = hour_data['qpf'].to_s + ' in'
           precip_percent = hour_data['pop'].to_s + '%'
           feel = hour_data['feels_like'].to_s + ' °F'
