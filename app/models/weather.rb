@@ -18,6 +18,6 @@ class Weather < ApplicationRecord
   end
 
   def wind
-    wind_speed + " " + wind_dir
+    wind_speed.to_s + " " + wind_dir
   end
 end
