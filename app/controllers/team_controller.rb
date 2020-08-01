@@ -26,7 +26,7 @@ class TeamController < ApplicationController
     @baro = nil
     @dp = nil
     @hum = nil
-    # @games = []
+    @games = []
     @result = []
     if params[:team_id].present?
       @result = Game.where("game_date < ? AND games.id > 14932", Date.current)
@@ -41,47 +41,33 @@ class TeamController < ApplicationController
       puts "Team"
       puts @result.length
 
-      @weather_filter = Weather.where(station: "Actual")
+      @wind_dir = params[:wind_dir] if params[:wind_dir].present? && params[:wind_dir] != ''
+      @wind_speed = params[:wind_speed].to_i if params[:wind_speed].present? && params[:wind_speed] != ''
+      @baro = params[:baro].to_f if params[:baro].present? && params[:baro] != ''
+      @dp = params[:dp].to_f if params[:dp].present? && params[:dp] != ''
+      @hum = params[:hum].to_f if params[:hum].present? && params[:hum] != ''
 
-      if params[:wind_dir].present? && params[:wind_dir] != ''
-        @wind_dir = params[:wind_dir]
-        @weather_filter = @weather_filter.where(wind_dir: @wind_dir)
+      @result.each do |game|
+        forecast_one = game.weathers.where(station: "Actual", hour: 1).order("updated_at DESC").first
+        next unless forecast_one
+        forecast_two = game.weathers.where(station: "Actual", hour: 2).order("updated_at DESC").first
+        next unless forecast_two
+        forecast_thr = game.weathers.where(station: "Actual", hour: 3).order("updated_at DESC").first
+        next unless forecast_thr
+        forecast_for = game.weathers.where(station: "Actual", hour: 4).order("updated_at DESC").first
+        next unless forecast_for
+        forecast_one = forecast_one.as_json
+        forecast_two = forecast_two.as_json
+        forecast_thr = forecast_thr.as_json
+        forecast_for = forecast_for.as_json
+
+        next if @wind_dir && forecast_one.wind_dir != @wind_dir && forecast_two.wind_dir != @wind_dir && forecast_thr.wind_dir != @wind_dir && forecast_for.wind_dir != @wind_dir
+        next if @wind_speed && (forecast_one.wind_speed < @wind_speed - 3 || forecast_one.wind_speed > @wind_speed + 3) && (forecast_two.wind_speed < @wind_speed - 3 || forecast_two.wind_speed > @wind_speed + 3) && (forecast_thr.wind_speed < @wind_speed - 3 || forecast_thr.wind_speed > @wind_speed + 3) && (forecast_for.wind_speed < @wind_speed - 3 || forecast_for.wind_speed > @wind_speed + 3)
+        next if @baro && (forecast_one.pressure < (@baro - 0.04).round(2) || forecast_one.pressure > (@baro + 0.04).round(2)) && (forecast_two.pressure < (@baro - 0.04).round(2) || forecast_two.pressure > (@baro + 0.04).round(2)) && (forecast_thr.pressure < (@baro - 0.04).round(2) || forecast_thr.pressure > (@baro + 0.04).round(2)) && (forecast_for.pressure < (@baro - 0.04).round(2) || forecast_for.pressure > (@baro + 0.04).round(2))
+        next if @dp && (forecast_one.dp < (@dp - 2).round(2) || forecast_one.dp > (@dp + 2).round(2)) && (forecast_two.dp < (@dp - 2).round(2) || forecast_two.dp > (@dp + 2).round(2)) && (forecast_thr.dp < (@dp - 2).round(2) || forecast_thr.dp > (@dp + 2).round(2)) && (forecast_for.dp < (@dp - 2).round(2) || forecast_for.dp > (@dp + 2).round(2))
+        next if @hum && (forecast_one.hum < (@hum - 5).round(2) || forecast_one.hum > (@hum + 5).round(2)) && (forecast_two.hum < (@hum - 5).round(2) || forecast_two.hum > (@hum + 5).round(2)) && (forecast_thr.hum < (@hum - 5).round(2) || forecast_thr.hum > (@hum + 5).round(2)) && (forecast_for.hum < (@hum - 5).round(2) || forecast_for.hum > (@hum + 5).round(2))
+        @games.push(game.id)
       end
-      puts "Wind_Dir"
-      puts @weather_filter.length
-
-      if params[:wind_speed].present? && params[:wind_speed] != ''
-        @wind_speed = params[:wind_speed].to_i
-        @weather_filter = @weather_filter.where("wind_speed between ? and ?", @wind_speed - 3, @wind_speed + 3)
-      end
-      puts "Wind_Speed"
-      puts @weather_filter.length
-
-      if params[:baro].present? && params[:baro] != ''
-        @baro = params[:baro].to_f
-        @weather_filter = @weather_filter.where("pressure between ? and ?", (@baro - 0.04).round(2), (@baro + 0.04).round(2))
-      end
-      puts "Baro"
-      puts @weather_filter.length
-
-      if params[:dp].present? && params[:dp] != ''
-        @dp = params[:dp].to_f
-        @weather_filter = @weather_filter.where("dp between ? and ?", (@dp - 2).round(2), (@dp + 2).round(2))
-      end
-      puts "Dew"
-      puts @weather_filter.length
-
-      if params[:hum].present? && params[:hum] != ''
-        @hum = params[:hum].to_f
-        @weather_filter = @weather_filter.where("hum between ? and ?", (@hum - 5).round(2), (@hum + 5).round(2))
-      end
-      puts "Hum"
-      puts @weather_filter.length
-
-      @result = @result.joins(:weathers).merge(@weather_filter).select("games.id").group("games.id")
-
-      puts "Final"
-      puts @result.length
 
       # @result.each do |game|
         # if params[:team_id] != ''
