@@ -48,13 +48,13 @@ class TeamController < ApplicationController
       @hum = params[:hum].to_f if params[:hum].present? && params[:hum] != ''
 
       @result.each do |game|
-        forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").first
+        forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(1).first
         next unless forecast_one
-        forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC").first
+        forecast_two = game.weathers.where(station: "Forecast", hour: 2).order("updated_at DESC").offset(1).first
         next unless forecast_two
-        forecast_thr = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC").first
+        forecast_thr = game.weathers.where(station: "Forecast", hour: 3).order("updated_at DESC").offset(1).first
         next unless forecast_thr
-        forecast_for = game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").first
+        forecast_for = game.weathers.where(station: "Forecast", hour: 4).order("updated_at DESC").offset(1).first
         next unless forecast_for
         forecast_one = forecast_one.as_json
         forecast_two = forecast_two.as_json
