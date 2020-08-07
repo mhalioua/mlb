@@ -4,6 +4,8 @@ module Update
     include GetHtml
 
     def update(game)
+      actual_weathers = game.weathers.where(station: "Actual")
+      return if actual_weathers.length == 4
       game_day = game.game_day
       home_team = game.home_team
       time = DateTime.parse(game.game_date) + 4.hours - home_team.timezone.hours - 31.minutes
