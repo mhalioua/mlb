@@ -119,7 +119,7 @@
     <% if type != 2 && index < 7 && realWeathers.length === 7 && (realWeathers[index].hour < 1 || realWeathers[index].hour > 4) %>
       <%= render partial: "game/new/updated_weather_value_clone", locals: { weather: weather, real: realWeathers[index] } %>
     <% else %>
-      <%= render partial: "game/new/updated_weather_value", locals: { weather: weather, color: color, bgcolor: bgcolor, real: index < 7 && realWeathers.length === 7 ? realWeathers[index] : nil } %>
+      <%= render partial: "game/new/updated_weather_value", locals: { weather: weather, color: color, bgcolor: bgcolor, real: type != 2 && index < 7 && realWeathers.length === 7 ? realWeathers[index] : nil } %>
     <% end %>
     <%
       block_number = weather.block_number

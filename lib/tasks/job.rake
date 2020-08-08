@@ -18,108 +18,35 @@ namespace :job do
 
   task :test => :environment do
     include GetHtml
-    game = Game.find_by_id(13057)
-    game_day = game.game_day
-    home_team = game.home_team
-    puts home_team
-    time = DateTime.parse(game.game_date).strftime("%I:%M%p").to_time
-    puts time
-
-    url = "https://www.wunderground.com/hourly/us/wa/seattle/98134/date/year-month-day?cm_ven=localwx_hour"
-    find = "/date/year-month-day"
-    replace = "/date/#{game_day.year}-#{game_day.month}-#{game_day.day}"
-    replace = "" if game_day == GameDay.today
-    url = url.gsub(/#{find}/, replace)
+    url = "https://www.espn.com/mlb/schedule"
     doc = download_document(url)
     puts url
-
-    header = doc.css("#hourly-forecast-table tr").first
-    headers = {
-        'Time' => 0,
-        'Conditions' => 0,
-        'Precip' => 0,
-        'Cloud Cover' => 0,
-        'Temp.' => 0,
-        'Dew Point' => 0,
-        'Humidity' => 0,
-        'Pressure' => 0,
-        'Wind' => 0,
-        'Amount' => 0,
-        'Feels Like' => 0
-    }
-
-    header.children.each_with_index do |header_element, index|
-      key = header_element.text.squish
-      headers[key] = index if key == 'Time'
-      headers[key] = index if key == 'Conditions'
-      headers[key] = index if key == 'Precip'
-      headers[key] = index if key == 'Cloud Cover'
-      headers[key] = index if key == 'Temp.'
-      headers[key] = index if key == 'Dew Point'
-      headers[key] = index if key == 'Humidity'
-      headers[key] = index if key == 'Pressure'
-      headers[key] = index if key == 'Wind'
-      headers[key] = index if key == 'Amount'
-      headers[key] = index if key == 'Feels Like'
-    end
-
-    hourlyweathers = doc.css("#hourly-forecast-table tbody tr")
-    start_index = hourlyweathers.size - 1
-    puts GameDay.today == game_day
-    puts hourlyweathers[0].children[2].text.squish.to_time
-    puts time
-    return if start_index < 0 || (hourlyweathers[0].children[2].text.squish.to_time > time && GameDay.today == game_day)
-    start_index = 0
-    hourlyweathers.each_with_index do |weather, index|
-      date = weather.children[2].text.squish.to_time
-      if date > time
-        break
+    index = { away_team: 0, home_team: 1, result: 2 }
+    elements = doc.css("tr")
+    elements.each do |slice|
+      if slice.children.size < 5
+        next
       end
-      start_index = index
-    end
-
-    start_index = start_index - 1 if start_index != 0
-    start_index = start_index - 1 if start_index != 0
-    puts start_index
-    (-1..5).each do |index|
-      temp = hourlyweathers[start_index].children[headers['Temp.']].text.squish
-      dp = hourlyweathers[start_index].children[headers['Dew Point']].text.squish
-      hum = hourlyweathers[start_index].children[headers['Humidity']].text.squish
-      pressure = hourlyweathers[start_index].children[headers['Pressure']].text.squish
-      precip = hourlyweathers[start_index].children[headers['Amount']].text.squish
-      wind = hourlyweathers[start_index].children[headers['Wind']].text.squish
-      feel = hourlyweathers[start_index].children[headers['Feels Like']].text.squish
-
-      time = hourlyweathers[start_index].children[headers['Time']].text.squish
-      conditions = hourlyweathers[start_index].children[headers['Conditions']].children[1].text.squish
-      precip_percent = hourlyweathers[start_index].children[headers['Precip']].text.squish
-      cloud = hourlyweathers[start_index].children[headers['Cloud Cover']].text.squish
-
-
-      wind_index = wind.rindex(' ')
-      wind_dir = wind[wind_index+1..-1]
-      if wind_dir == "W"
-        wind_dir = "West"
-      elsif wind_dir == "S"
-        wind_dir = "South"
-      elsif wind_dir == "N"
-        wind_dir = "North"
-      elsif wind_dir == "E"
-        wind_dir = "East"
+      away_team = slice.children[index[:away_team]].text
+      if away_team == "matchup"
+        next
       end
-      wind_speed = wind[0..wind_index-1]
-      puts temp
-      puts dp
-      puts hum
-      puts pressure
-      puts wind_dir
-      puts wind_speed
-      puts time
-      # weather = game.weathers.create(station: "Forecast", hour: index)
-      # weather.update(temp: temp, dp: dp, hum: hum, pressure: pressure, wind_dir: wind_dir, wind_speed: wind_speed, precip: precip, feel: feel,
-      #                time: time, conditions: conditions, precip_percent: precip_percent, cloud: cloud)
-
-      start_index = start_index + 1 if start_index < hourlyweathers.size - 1
+      href = slice.children[index[:result]].child['href']
+      game_id = href[-9..-1]
+      puts "game_result"
+      puts slice.children[index[:result]].text
+      puts game_id
+      puts "--------------"
+      if slice.children[index[:result]].text == 'Canceled'
+        puts game_id
+        puts 'Canceled'
+        next
+      end
+      if slice.children[index[:result]].text == 'Postponed'
+        puts game_id
+        puts 'Postponed'
+        next
+      end
     end
   end
 

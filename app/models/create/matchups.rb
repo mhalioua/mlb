@@ -33,6 +33,8 @@ module Create
           end
           href = slice.children[index[:result]].child['href']
           game_id = href[-9..-1]
+          puts "game_result"
+          puts slice.children[index[:result]].text
           if slice.children[index[:result]].text == 'Canceled'
             puts game_id
             puts 'Canceled'
