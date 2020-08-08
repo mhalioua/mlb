@@ -6,8 +6,8 @@ class TeamController < ApplicationController
   def show
     id = params[:id]
     @team = Team.find_by(id: id)
-    @games = Game.where("home_team_id = ? AND game_date < ? AND games.id > 14932 AND postpone = 'f'", Date.current)
-        .or(Game.where("home_team_id = ? AND games.id < 13107 AND games.id > 10516 AND postpone = 'f'").or(Game.where("home_team_id = ? AND games.id < 10070 AND games.id >= 9058 AND postpone = 'f'"))).order('id DESC')
+    @games = Game.where("home_team_id = ? AND game_date < ? AND games.id > 14932 AND postpone = ?", Date.current, false)
+        .or(Game.where("home_team_id = ? AND games.id < 13107 AND games.id > 10516 AND postpone = ?", false).or(Game.where("home_team_id = ? AND games.id < 10070 AND games.id >= 9058 AND postpone = ?", false))).order('id DESC')
   end
 
   def filter
@@ -30,8 +30,8 @@ class TeamController < ApplicationController
     @games = []
     @result = []
     if params[:team_id].present?
-      @result = Game.where("game_date < ? AND games.id > 14932 AND postpone = 'f'", Date.current)
-                    .or(Game.where("games.id < 13107 AND games.id > 10516 AND postpone = 'f'").or(Game.where("games.id < 10070 AND games.id >= 9058 AND postpone = 'f'"))).order('game_date DESC')
+      @result = Game.where("game_date < ? AND games.id > 14932 AND postpone = ?", Date.current, false)
+                    .or(Game.where("games.id < 13107 AND games.id > 10516 AND postpone = ?", false).or(Game.where("games.id < 10070 AND games.id >= 9058 AND postpone = ?", false))).order('game_date DESC')
       puts "All"
       puts @result.length
       @team_filter = Game.all
