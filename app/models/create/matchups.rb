@@ -40,6 +40,11 @@ module Create
             puts 'Canceled'
             next
           end
+
+          postpone = false
+          if slice.children[index[:result]].text == 'Postponed'
+            postpone = true
+          end
           if slice.children[index[:home_team]].children[0].children.size == 2
             home_abbr = slice.children[index[:home_team]].children[0].children[1].children[2].text
           elsif slice.children[index[:home_team]].children[0].children.size == 1
@@ -64,7 +69,7 @@ module Create
           date = DateTime.parse(game_date) - 4.hours + home_team.timezone.hours
           game = Game.find_or_create_by(game_id: game_id)
           gameDay = GameDay.find_or_create_by(season: game_day.season, date: date)
-          game.update(game_day: gameDay, away_team: away_team, home_team: home_team, game_date: date)
+          game.update(game_day: gameDay, away_team: away_team, home_team: home_team, game_date: date, postpone: postpone)
         end
       end
 
