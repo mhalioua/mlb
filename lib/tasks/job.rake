@@ -19,8 +19,8 @@ namespace :job do
   task :test => :environment do
     include GetHtml
     today = GameDay.today
-    i = 1168
-    while i < 1500
+    i = 1427
+    while i < 1700
       game_day = today.previous_days(i)
       i += 1
       next unless game_day
