@@ -19,12 +19,13 @@ namespace :job do
   task :test => :environment do
     include GetHtml
     today = GameDay.today
-    i = 499
-    while i < 1000
+    i = 700
+    while i < 1500
       game_day = today.previous_days(i)
       i += 1
       next unless game_day
       url = "http://www.espn.com/mlb/schedule/_/date/%d%s%02d" % [game_day.year, game_day.month, game_day.day]
+      puts i
       puts url
       doc = download_document(url)
       elements = doc.css("tr")
