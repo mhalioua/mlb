@@ -22,6 +22,8 @@ namespace :job do
     i = 1
     while i < 500
       game_day = today.previous_days(i)
+      i += 1
+      next unless game_day
       url = "http://www.espn.com/mlb/schedule/_/date/%d%s%02d" % [game_day.year, game_day.month, game_day.day]
       puts url
       doc = download_document(url)
