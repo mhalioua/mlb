@@ -18,34 +18,24 @@ namespace :job do
 
   task :test => :environment do
     include GetHtml
-    url = "https://www.espn.com/mlb/schedule"
-    doc = download_document(url)
-    puts url
-    index = { away_team: 0, home_team: 1, result: 2 }
-    elements = doc.css("tr")
-    elements.each do |slice|
-      if slice.children.size < 5
-        next
-      end
-      away_team = slice.children[index[:away_team]].text
-      if away_team == "matchup"
-        next
-      end
-      href = slice.children[index[:result]].child['href']
-      game_id = href[-9..-1]
-      puts "game_result"
-      puts slice.children[index[:result]].text
-      puts game_id
-      puts "--------------"
-      if slice.children[index[:result]].text == 'Canceled'
-        puts game_id
-        puts 'Canceled'
-        next
-      end
-      if slice.children[index[:result]].text == 'Postponed'
-        puts game_id
-        puts 'Postponed'
-        next
+    today = GameDay.today
+    i = 1
+    while i < 500
+      game_day = today.previous_days(i)
+      url = "http://www.espn.com/mlb/schedule/_/date/%d%s%02d" % [game_day.year, game_day.month, game_day.day]
+      puts url
+      doc = download_document(url)
+      elements = doc.css("tr")
+      elements.each do |slice|
+        next if slice.children.size < 5
+        next if slice.children[0].text == "matchup"
+
+        href = slice.children[2].child['href']
+        game_id = href[-9..-1]
+        game = Game.find_by(game_id: game_id)
+        next unless game
+
+        game.update(postpone: true) if slice.children[2].text == 'Postponed'
       end
     end
   end
