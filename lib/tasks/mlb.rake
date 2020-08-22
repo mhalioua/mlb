@@ -60,7 +60,6 @@ namespace :mlb do
   end
 
   task update_forecast: :environment do
-    # [GameDay.today, GameDay.tomorrow].each {|game_day| game_day.update_forecast}
     GameDay.today.update_forecast
   end
 
