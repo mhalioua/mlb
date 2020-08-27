@@ -12,7 +12,6 @@ module Update
       elements = doc.css(".gameinfo-gamedaylink")
       scores = []
       elements[0...games.length].each do |element|
-        puts element
         href = element['href']
         score = element.text
         score = score.gsub('CWS', 'CHW')
@@ -21,6 +20,9 @@ module Update
       puts scores
 
       games.each do |game|
+        next if game.postpone === true
+        puts game.home_team.espn_abbr
+        puts game.away_team.espn_abbr
         selected_score = scores.find { | score | score[:score].include?(game.home_team.espn_abbr) && score[:score].include?(game.away_team.espn_abbr)}
         puts game.game_id
         puts selected_score[:href]
