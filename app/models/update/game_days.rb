@@ -27,7 +27,7 @@ module Update
         puts game.game_id
         puts selected_score[:href]
         url = selected_score[:href]
-        browser = Watir::Browser.new
+        browser = Watir::Browser.new :phantomjs
         browser.goto url
         browser.div(css: ".box.game .info.gd-primary-regular").wait_until(&:present?).divs.each do |div|
           text = div.text

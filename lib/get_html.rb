@@ -1,15 +1,4 @@
 module GetHtml
-  def get_page(url)
-    browser = Watir::Browser.new
-
-    browser.goto url
-
-    browser.div(:id, 'resultsDiv').divs.each do |div|
-      p div
-    end
-
-    browser.close
-  end
   def download_document(url)
     doc = nil
     count = 3
