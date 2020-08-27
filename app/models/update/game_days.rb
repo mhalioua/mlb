@@ -1,4 +1,6 @@
 module Update
+  require 'watir'
+
   class GameDays
 
     include GetHtml
@@ -25,15 +27,16 @@ module Update
         puts game.game_id
         puts selected_score[:href]
         url = selected_score[:href]
-        doc = download_document(url)
-        elements = doc.css(".box.game .info.gd-primary-regular")
-        elements[0].children.each do |child|
-          text = child.text
+        browser = Watir::Browser.new
+        browser.goto url
+        browser.div(css: ".box.game .info.gd-primary-regular").wait_until(&:present?).divs.each do |div|
+          text = div.text
           if text.include?('Weather')
             game.update(roof: text.split(",")[0]) if text.include?('Roof')
             break
           end
         end
+        browser.close
       end
     end
   end

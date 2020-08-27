@@ -64,3 +64,5 @@ gem 'bootstrap-sass', '~> 3.3.7'
 gem 'jquery-rails'
 
 gem 'open_uri_redirections'
+
+gem "watigiri", "~> 0.2"
