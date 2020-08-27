@@ -20,12 +20,12 @@ module Update
         scores.push({ :href => href, :score => score })
       end
 
+      browser = Watir::Browser.new :chrome, args: %w[--headless --no-sandbox --disable-dev-shm-usage]
       games.each do |game|
         next if game.postpone === true
         selected_score = scores.find { | score | score[:score].include?(game.home_team.espn_abbr) && score[:score].include?(game.away_team.espn_abbr)}
         url = selected_score[:href]
         puts url
-        browser = Watir::Browser.new :chrome
         browser.goto url
         browser.div(css: ".box.game .info.gd-primary-regular").wait_until(&:present?).divs.each do |div|
           text = div.text
@@ -34,8 +34,8 @@ module Update
             break
           end
         end
-        browser.close
       end
+      browser.close
     end
   end
 end
