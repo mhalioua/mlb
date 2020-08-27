@@ -96,6 +96,10 @@ namespace :mlb do
     GameDay.yesterday.image_upload
   end
 
+  task get_roof: :environment do
+    GameDay.yesterday.get_roof
+  end
+
   task basic: [:create_season, :create_teams, :create_player]
 
   task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout, :image_upload]
