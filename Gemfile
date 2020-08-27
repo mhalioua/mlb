@@ -66,3 +66,5 @@ gem 'jquery-rails'
 gem 'open_uri_redirections'
 
 gem "watigiri", "~> 0.2"
+
+gem 'webdrivers', '~> 3.0'
