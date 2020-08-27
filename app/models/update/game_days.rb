@@ -26,6 +26,16 @@ module Update
         selected_score = scores.find { | score | score[:score].include?(game.home_team.espn_abbr) && score[:score].include?(game.away_team.espn_abbr)}
         puts game.game_id
         puts selected_score[:href]
+        url = selected_score[:href]
+        doc = download_document(url)
+        elements = doc.css(".box.game .info.gd-primary-regular")
+        elements[0].chlidren.each do |child|
+          text = child.text
+          if text.include?('Weather')
+            game.update(roof: text.split(",")[0]) if text.include?('Roof')
+            break
+          end
+        end
       end
     end
   end
