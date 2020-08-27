@@ -10,9 +10,10 @@ module Update
       puts url
 
       elements = doc.css(".gameinfo-gamedaylink")
-      elements = elements.slice(games.length)
       scores = []
-      elements.each do |element|
+      elements[0..games.length].each do |element|
+        puts element
+        href = element['href']
         score = element.text
         score = score.gsub('CWS', 'CHW')
         scores.push({ :href => href, :score => score })
