@@ -5,7 +5,7 @@ module Update
 
     def get_roof(game_day)
       games = game_day.games
-      url = "http://www.espn.com/mlb/schedule/_/date/%d-%s-%02d" % [game_day.year, game_day.month, game_day.day]
+      url = "https://www.mlb.com/schedule/%d-%s-%02d" % [game_day.year, game_day.month, game_day.day]
       doc = download_document(url)
       puts url
 
