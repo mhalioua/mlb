@@ -9,7 +9,7 @@
       <h2 style="color: red"><%= "Totals Closer: #{@game.away_total_closer} @ #{@game.home_total_closer}" %></h2>
       <h3><%= "Gametime: #{DateTime.parse(@game.game_date).strftime("%I:%M%p")} Local Time" %></h3>
       <h3><%= "Ump: #{@game.ump}" %></h3>
-      <% if @game.roof %>
+      <% if @game.roof != '' %>
         <h3><%= "Roof: #{@game.roof}" %></h3>
       <% end %>
       <% unless @game_stats.empty? %>
