@@ -80,7 +80,7 @@ class GameDay < ApplicationRecord
   end
 
   def get_roof
-    url = "http://www.espn.com/mlb/schedule/_/date/%d-%s-%02d" % [game_day.year, game_day.month, game_day.day]
+    url = "http://www.espn.com/mlb/schedule/_/date/%d-%s-%02d" % [year, month, day]
     doc = download_document(url)
     puts url
 
