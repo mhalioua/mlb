@@ -32,7 +32,7 @@ module Update
         browser.div(css: ".box.game .info.gd-primary-regular").wait_until(&:present?).divs.each do |div|
           text = div.text
           if text.include?('Weather')
-            game.update(roof: text.split(",")[0]) if text.include?('Roof')
+            game.update(roof: text.split(",")[1]) if text.include?('Roof')
             break
           end
         end

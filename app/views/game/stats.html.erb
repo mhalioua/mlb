@@ -9,6 +9,9 @@
       <h2 style="color: red"><%= "Totals Closer: #{@game.away_total_closer} @ #{@game.home_total_closer}" %></h2>
       <h3><%= "Gametime: #{DateTime.parse(@game.game_date).strftime("%I:%M%p")} Local Time" %></h3>
       <h3><%= "Ump: #{@game.ump}" %></h3>
+      <% if game.roof %>
+        <h3><%= "Roof: #{@game.roof}" %></h3>
+      <% end %>
       <% unless @game_stats.empty? %>
         <%= render partial: "game/new/game_stats", locals: { game_stats: @game_stats, home_team: @home_team.name, away_team: @away_team.name} %>
       <% end %>
