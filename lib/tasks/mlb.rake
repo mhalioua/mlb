@@ -61,6 +61,16 @@ namespace :mlb do
 
   task update_forecast: :environment do
     GameDay.today.update_forecast
+    games = GameDay.today.games
+    finished_games = games.select {|game| game.weathers.where(station: "Actual").length > 0}
+    GameDay.tomorrow.update_forecast if games.length === finished_games.length
+  end
+
+  task test: :environment do
+    games = GameDay.today.games
+    puts games.length
+    finished_games = games.select {|game| game.weathers.where(station: "Actual").length > 0}
+    puts finished_games.length
   end
 
   task update_forecast_check: :environment do
