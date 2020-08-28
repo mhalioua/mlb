@@ -67,6 +67,11 @@ namespace :mlb do
   end
 
   task test: :environment do
+    games = GameDay.yesterday.games
+    puts games.length
+    finished_games = games.select {|game| game.weathers.where(station: "Actual").length > 0}
+    puts finished_games.length
+    puts "========================"
     games = GameDay.today.games
     puts games.length
     finished_games = games.select {|game| game.weathers.where(station: "Actual").length > 0}
