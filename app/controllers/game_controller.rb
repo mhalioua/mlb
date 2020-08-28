@@ -28,7 +28,7 @@ class GameController < ApplicationController
 			  @home_batters = @away_starting_lancer.first.predict_opposing_lineup
 			end
 		else
-			@home_batters = Batter.none
+			@home_batters = []
 		end
 
 		unless @home_starting_lancer.empty?
@@ -39,7 +39,7 @@ class GameController < ApplicationController
 			  @away_batters = @home_starting_lancer.first.predict_opposing_lineup
 			end
 		else
-			@away_batters = Batter.none
+			@away_batters = []
 		end
 
 		@away_bullpen_lancers = @game.lancers.where(team_id: @away_team.id, bullpen: true, season_id: @season.id)
@@ -172,7 +172,7 @@ class GameController < ApplicationController
 			  @home_batters = @away_starting_lancer.first.predict_opposing_lineup
 			end
 		else
-			@home_batters = Batter.none
+			@home_batters = []
 		end
 
 		unless @home_starting_lancer.empty?
@@ -183,7 +183,7 @@ class GameController < ApplicationController
 			  @away_batters = @home_starting_lancer.first.predict_opposing_lineup
 			end
 		else
-			@away_batters = Batter.none
+			@away_batters = []
 		end
 
 		@away_bullpen_lancers = @game.lancers.where(team_id: @away_team.id, bullpen: true, season_id: @season.id)
@@ -248,7 +248,7 @@ class GameController < ApplicationController
 				@home_batters = @away_starting_lancer.first.predict_opposing_lineup
 			end
 		else
-			@home_batters = Batter.none
+			@home_batters = []
 		end
 
 		unless @home_starting_lancer.empty?
@@ -259,7 +259,7 @@ class GameController < ApplicationController
 				@away_batters = @home_starting_lancer.first.predict_opposing_lineup
 			end
 		else
-			@away_batters = Batter.none
+			@away_batters = []
 		end
 
 		@umpires = Umpire.where("statfox = ? AND count is not NULL", @game.ump).order("year ASC")
