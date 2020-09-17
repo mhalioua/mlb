@@ -379,11 +379,11 @@ module GameHelper
     count = Workbook.where(search_string.join(" AND ")).count(:R)
     line_count = Workbook.where(search_string.join(" AND ")).count(:total_line)
 
-    over_count1 = query.count {|stat| stat.total_line != nil && stat.total_line.to_f > stat.t_HITS.to_f }
-    under_count1 = query.count {|stat| stat.total_line != nil && stat.total_line.to_f < stat.t_HITS.to_f }
+    over_count1 = 0
+    under_count1 = 0
 
-    over_count2 = query.count {|stat| stat.total_line != nil && stat.total_line.to_f > stat.t_HRS.to_f }
-    under_count2 = query.count {|stat| stat.total_line != nil && stat.total_line.to_f < stat.t_HRS.to_f }
+    over_count2 = query.count {|stat| stat.total_line != nil && stat.total_line.to_f > (stat.P.to_f + stat.Q.to_f) }
+    under_count2 = query.count {|stat| stat.total_line != nil && stat.total_line.to_f < (stat.P.to_f + stat.Q.to_f) }
 
     return [
       header_string,
