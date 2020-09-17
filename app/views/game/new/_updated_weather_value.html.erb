@@ -12,6 +12,13 @@
     <td><%= weather.pressure %></td>
     <td><%= weather.wind %></td>
     <td class="blue"></td>
+    <% if real && real.conditions %>
+      <td bgcolor="gray">Over/Under</td>
+      <td bgcolor="gray">Over/Under</td>
+    <% else %>
+      <td bgcolor="#87cefa"></td>
+      <td bgcolor="#87cefa"></td>
+    <% end %>
     <td><%= weather.except_total_average_one %></td>
     <td><%= weather.except_total_average_two %></td>
     <td><%= weather.except_total_hits_average %></td>
