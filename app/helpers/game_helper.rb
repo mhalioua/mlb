@@ -379,6 +379,12 @@ module GameHelper
     count = Workbook.where(search_string.join(" AND ")).count(:R)
     line_count = Workbook.where(search_string.join(" AND ")).count(:total_line)
 
+    over_count1 = query.count {|stat| stat.total_line != nil && stat.total_line.to_f > stat.t_HITS.to_f }
+    under_count1 = query.count {|stat| stat.total_line != nil && stat.total_line.to_f < stat.t_HITS.to_f }
+
+    over_count2 = query.count {|stat| stat.total_line != nil && stat.total_line.to_f > stat.t_HRS.to_f }
+    under_count2 = query.count {|stat| stat.total_line != nil && stat.total_line.to_f < stat.t_HRS.to_f }
+
     return [
       header_string,
       (query.map {|stat| stat.R.to_f }.sum / (count == 0 ? 1 : count)).round(2),
@@ -389,7 +395,11 @@ module GameHelper
       flag,
       (query.map {|stat| stat.total_line.to_f }.sum / (line_count == 0 ? 1 : line_count)).round(2),
       (query.map {|stat| stat.t_HITS.to_f }.sum / (count == 0 ? 1 : count)).round(2),
-      (query.map {|stat| stat.t_HRS.to_f }.sum / (count == 0 ? 1 : count)).round(2)
+      (query.map {|stat| stat.t_HRS.to_f }.sum / (count == 0 ? 1 : count)).round(2),
+      over_count1,
+      under_count1,
+      over_count2,
+      under_count2
     ]
   end
 
