@@ -70,6 +70,7 @@ module Create
           game_stadium = element.text.squish
           puts "============="
           puts game_stadium
+          game_stadium = 'Camden Yards' if game_stadium == 'Oriole Park at Camden Yards'
           stadium_team = Team.find_by_stadium(game_stadium)
           if stadium_team
             puts stadium_team.name
