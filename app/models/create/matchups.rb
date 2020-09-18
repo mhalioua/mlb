@@ -71,14 +71,16 @@ module Create
           puts "============="
           puts game_stadium
           stadium_team = Team.find_by_stadium(game_stadium)
-          puts stadium_team.name
-          puts home_team.name
-          puts away_team.name
-          home_team, away_team = away_team, home_team if stadium_team === away_team
-          puts "--------------"
-          puts stadium_team.name
-          puts home_team.name
-          puts away_team.name
+          if stadium_team
+            puts stadium_team.name
+            puts home_team.name
+            puts away_team.name
+            home_team, away_team = away_team, home_team if stadium_team === away_team
+            puts "--------------"
+            puts stadium_team.name
+            puts home_team.name
+            puts away_team.name
+          end
           puts "================"
           date = DateTime.parse(game_date) - 4.hours + home_team.timezone.hours
           game = Game.find_or_create_by(game_id: game_id)
