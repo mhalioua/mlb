@@ -66,6 +66,20 @@ module Create
           doc = download_document(url)
           element = doc.css(".game-date-time").first
           game_date = element.children[1]['data-date']
+          element = doc.css("figcaption .caption-wrapper").first
+          game_stadium = element.text.squish
+          puts "============="
+          puts game_stadium
+          stadium_team = Team.find_by_stadium(game_stadium)
+          puts stadium_team.name
+          puts home_team.name
+          puts away_team.name
+          home_team, away_team = away_team, home_team if stadium_team === away_team
+          puts "--------------"
+          puts stadium_team.name
+          puts home_team.name
+          puts away_team.name
+          puts "================"
           date = DateTime.parse(game_date) - 4.hours + home_team.timezone.hours
           game = Game.find_or_create_by(game_id: game_id)
           gameDay = GameDay.find_or_create_by(season: game_day.season, date: date)
