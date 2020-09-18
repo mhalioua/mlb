@@ -8,7 +8,7 @@ module Create
     end
 
     @teams = [
-      { id: 1,    name: 'Angels',           city: 'Los Angeles',      espn_abbr: 'LAA',   baseball_abbr: 'LAA',  mlb_abbr: 'angels',      stadium: 'Angels Stadium',           fangraph_id: 1,       zipcode: '92806',   timezone: -3 },
+      { id: 1,    name: 'Angels',           city: 'Los Angeles',      espn_abbr: 'LAA',   baseball_abbr: 'LAA',  mlb_abbr: 'angels',      stadium: 'Angel Stadium',           fangraph_id: 1,       zipcode: '92806',   timezone: -3 },
       { id: 2,    name: 'Astros',           city: 'Houston',          espn_abbr: 'HOU',   baseball_abbr: 'HOU',  mlb_abbr: 'astros',      stadium: 'Minute Maid Park',         fangraph_id: 21,      zipcode: '77002',   timezone: -1 },
       { id: 3,    name: 'Athletics',        city: 'Oakland',          espn_abbr: 'OAK',   baseball_abbr: 'OAK',  mlb_abbr: 'athletics',   stadium: 'Oakland Coliseum',         fangraph_id: 10,      zipcode: '94621',   timezone: -3 },
       { id: 4,    name: 'Blue Jays',        city: 'Toronto',          espn_abbr: 'TOR',   baseball_abbr: 'TOR',  mlb_abbr: 'bluejays',    stadium: 'Rogers Centre',            fangraph_id: 14,      zipcode: 'M5V 1J1', timezone: 0 },

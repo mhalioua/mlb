@@ -67,6 +67,7 @@ module Create
           element = doc.css(".game-date-time").first
           game_date = element.children[1]['data-date']
           element = doc.css("figcaption .caption-wrapper").first
+          element = doc.css(".game-location").first unless element
           game_stadium = element.text.squish
           puts "============="
           puts game_stadium
