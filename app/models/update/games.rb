@@ -130,7 +130,7 @@ module Update
           Umpire.find_or_create_by(statfox: ump, year: 2015)
           team_name = find_team_name(team_id)
           if team = Team.find_by_name(team_name)
-            game = games.find_by(home_team_id: team.id)
+            game = games.where("away_team_id = #{team.id} OR home_team_id = #{team.id}").first
             if game
               game.update(ump: ump)
               puts "#{game.game_id} #{ump}"
@@ -213,7 +213,7 @@ module Update
         game_array << nil
         return
       end
-      games = day_games.where(home_team_id: team.id)
+      games = day_games.where("away_team_id = #{team.id} OR home_team_id = #{team.id}")
       if games.size == 2
         if game_array.include?(games.first)
           game_array << games.second
