@@ -72,6 +72,10 @@ module Create
           puts "============="
           puts game_stadium
           game_stadium = 'Camden Yards' if game_stadium == 'Oriole Park at Camden Yards'
+          game_stadium = 'Rogers Centre' if game_stadium == 'Sahlen Field'
+          game_stadium = 'SunTrust Park' if game_stadium == 'Truist Park'
+          game_stadium = 'Safeco Park' if game_stadium == 'T-Mobile Park'
+          game_stadium = 'AT&T Park' if game_stadium == 'Oracle Park'
           stadium_team = Team.find_by_stadium(game_stadium)
           if stadium_team
             puts stadium_team.name
