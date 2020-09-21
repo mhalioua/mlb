@@ -77,11 +77,15 @@ module Create
           game_stadium = 'Safeco Park' if game_stadium == 'T-Mobile Park'
           game_stadium = 'AT&T Park' if game_stadium == 'Oracle Park'
           stadium_team = Team.find_by_stadium(game_stadium)
+          swap = false
           if stadium_team
             puts stadium_team.name
             puts home_team.name
             puts away_team.name
-            home_team, away_team = away_team, home_team if stadium_team === away_team
+            if stadium_team === away_team
+              home_team, away_team = away_team, home_team
+              swap = true
+            end
             puts "--------------"
             puts stadium_team.name
             puts home_team.name
@@ -91,7 +95,7 @@ module Create
           date = DateTime.parse(game_date) - 4.hours + home_team.timezone.hours
           game = Game.find_or_create_by(game_id: game_id)
           gameDay = GameDay.find_or_create_by(season: game_day.season, date: date)
-          game.update(game_day: gameDay, away_team: away_team, home_team: home_team, game_date: date, postpone: postpone)
+          game.update(game_day: gameDay, away_team: away_team, home_team: home_team, game_date: date, postpone: postpone, swap: swap)
         end
       end
 
