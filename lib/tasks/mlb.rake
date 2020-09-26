@@ -71,13 +71,18 @@ namespace :mlb do
   end
 
   task test: :environment do
+    puts "===============PST Time now============"
     time = Time.now.getlocal('-07:00')
     puts time.hour
-    if time.hour > 8
-      puts "Big then 8"
+    puts "===============Today Games============="
+    today_games = GameDay.today.games
+    today_games.each do |element|
+      puts element.id
     end
-    if time.hour < 9
-      puts "Less than 9"
+    puts "===============Tomorrow Games============="
+    today_games = GameDay.tomorrow.games
+    today_games.each do |element|
+      puts element.id
     end
   end
 
