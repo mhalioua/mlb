@@ -64,15 +64,21 @@ namespace :mlb do
     # games = GameDay.today.games.where(postpone: false)
     # finished_games = games.select {|game| game.weathers.where(station: "Actual").length > 0}
     # GameDay.tomorrow.update_forecast if games.length === finished_games.length
-    # if true
-    #   GameDay.tomorrow.update_forecast
-    # end
+    time = Time.now.getlocal('-07:00')
+    if time.hour > 20
+      GameDay.tomorrow.update_forecast
+    end
   end
 
   task test: :environment do
-    time = Time.new
-    time.zone = "PST"
+    time = Time.now.getlocal('-07:00')
     puts time.hour
+    if time.hour > 8
+      puts "Big then 8"
+    end
+    if time.hour < 9
+      puts "Less than 9"
+    end
   end
 
   task update_forecast_check: :environment do
