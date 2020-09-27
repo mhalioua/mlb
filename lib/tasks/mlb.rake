@@ -65,7 +65,7 @@ namespace :mlb do
     # finished_games = games.select {|game| game.weathers.where(station: "Actual").length > 0}
     # GameDay.tomorrow.update_forecast if games.length === finished_games.length
     time = Time.now.getlocal('-07:00')
-    if time.hour > 20
+    if time.hour > 18
       GameDay.tomorrow.update_forecast
     end
   end
