@@ -12,10 +12,7 @@
     <td><%= weather.pressure %></td>
     <td><%= weather.wind %></td>
     <td class="blue"></td>
-    <% if real && real.conditions %>
-      <td bgcolor="cyan"><%= weather.over1 %>/<%= weather.under1 %></td>
-      <td bgcolor="cyan"><%= weather.over2 %>/<%= weather.under2 %></td>
-    <% else %>
+    <% if type != 1 %>
       <td bgcolor="cyan"><%= weather.over1 %>/<%= weather.under1 %></td>
       <td bgcolor="cyan"><%= weather.over2 %>/<%= weather.under2 %></td>
     <% end %>

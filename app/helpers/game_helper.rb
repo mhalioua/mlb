@@ -793,11 +793,11 @@ module GameHelper
     result[:home_runs_avg] = (query.map {|stat| stat.total_home_runs_both_team.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
     result[:total_lines_avg] = (query.map {|stat| stat.total_line.to_f }.sum / (temp_count == 0 ? 1 : temp_count)).round(2)
 
-    result[:over1] = query.count {|stat| stat.total_line.to_f > (stat.h9.to_f + stat.h8.to_f + stat.h7.to_f + stat.h6.to_f + stat.h5.to_f + stat.h4.to_f + stat.h3.to_f + stat.h2.to_f + stat.h1.to_f + stat.h10.to_f + stat.a9.to_f + stat.a8.to_f + stat.a7.to_f + stat.a6.to_f + stat.a5.to_f + stat.a4.to_f + stat.a3.to_f + stat.a2.to_f + stat.a1.to_f) }
-    result[:under1] = query.count {|stat| stat.total_line.to_f < (stat.h9.to_f + stat.h8.to_f + stat.h7.to_f + stat.h6.to_f + stat.h5.to_f + stat.h4.to_f + stat.h3.to_f + stat.h2.to_f + stat.h1.to_f + stat.h10.to_f + stat.a9.to_f + stat.a8.to_f + stat.a7.to_f + stat.a6.to_f + stat.a5.to_f + stat.a4.to_f + stat.a3.to_f + stat.a2.to_f + stat.a1.to_f) }
+    result[:over1] = -1
+    result[:under1] = -1
 
-    result[:over2] = query.count {|stat| stat.total_line.to_f > (stat.P.to_f + stat.Q.to_f) }
-    result[:under2] = query.count {|stat| stat.total_line.to_f < (stat.P.to_f + stat.Q.to_f) }
+    result[:over2] = -1
+    result[:under2] = -1
 
     search_string_low_all = search_string_low.dup
     search_string_low_all.push('"total_line" is not null ')

@@ -11,8 +11,10 @@
       <th width="60">Pressure</th>
   	  <th width="60">Wind</th>
       <th width="10" class="blue"></th>
+      <% if type != 1 %>
       <th width="60"></th>
       <th width="60"></th>
+      <% end %>
       <th width="50">Home Team Total 1</th>
       <th width="50">Home Team Total 2</th>
       <th width="50">Total Hits not in Park Average</th>
@@ -65,8 +67,10 @@
       <td></td>
       <td colspan="5"><%= caption %></td>
       <td class="blue"></td>
+      <% if type != 1 %>
       <td class="blue">O/U</td>
       <td class="blue">O/U</td>
+      <% end %>
       <td style="background: yellow;"><%= result[:home_total_runs1_avg_dup] %></td>
       <td style="background: yellow;"><%= result[:home_total_runs2_avg_dup] %></td>
       <td colspan="5" style="background: yellow;">All Stadiums except <%= stadium %></td>
@@ -109,27 +113,27 @@
     %>
       <% if block_number != weather.block_number %>
         <% if weather.block_number == 1 || weather.block_number == 2 || weather.block_number == 3 %>
-          <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
+          <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C", type: type } %>
         <% end %>
         <% if weather.block_number == 4 || weather.block_number == 6 || weather.block_number == 8 %>
-          <%= render partial: "game/new/weather_blank", locals: { color: "#6495ED" } %>
+          <%= render partial: "game/new/weather_blank", locals: { color: "#6495ED", type: type } %>
         <% end %>
         <% if weather.block_number == 5 || weather.block_number == 7 || weather.block_number == 9 %>
-          <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
-          <%= render partial: "game/new/weather_blank", locals: { color: "#6495ED" } %>
-          <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C" } %>
+          <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C", type: type } %>
+          <%= render partial: "game/new/weather_blank", locals: { color: "#6495ED", type: type } %>
+          <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C", type: type } %>
         <% end %>
       <% end %>
       <% if type != 2 && index < 7 && realWeathers.length === 7 && (realWeathers[index].hour < 1 || realWeathers[index].hour > 4) %>
-        <%= render partial: "game/new/updated_weather_value_clone", locals: { weather: weather, real: realWeathers[index] } %>
+        <%= render partial: "game/new/updated_weather_value_clone", locals: { weather: weather, type: type, real: realWeathers[index] } %>
       <% else %>
-        <%= render partial: "game/new/updated_weather_value", locals: { weather: weather, color: color, bgcolor: bgcolor, real: type != 2 && index < 7 && realWeathers.length === 7 ? realWeathers[index] : nil } %>
+        <%= render partial: "game/new/updated_weather_value", locals: { weather: weather, color: color, type: type, bgcolor: bgcolor, real: type != 2 && index < 7 && realWeathers.length === 7 ? realWeathers[index] : nil } %>
       <% end %>
     <%
       block_number = weather.block_number
       end
     %>
-    <%= render partial: "game/new/weather_blank", locals: { color: "#EA5" } %>
+    <%= render partial: "game/new/weather_blank", locals: { color: "#EA5", type: type } %>
   </tbody>
 </table>
 <% end %>
