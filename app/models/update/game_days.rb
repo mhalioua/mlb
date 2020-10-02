@@ -19,6 +19,7 @@ module Update
         score = score.gsub('CWS', 'CHW')
         scores.push({ :href => href, :score => score })
       end
+      puts scores
 
       browser = Watir::Browser.new :chrome, args: %w[--headless --no-sandbox --disable-dev-shm-usage]
       games.each do |game|
