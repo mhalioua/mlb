@@ -63,7 +63,8 @@ module Update
     end
 
     def update_table(game)
-      name = game.stadium_team.name
+      stadium_team = game.stadium_team ? game.stadium_team : game.home_team
+      name = stadium_team.name
       forecast_prev_one = game.weathers.where(station: "Forecast", hour: -1).order("updated_at DESC")
       forecast_prev_two = game.weathers.where(station: "Forecast", hour: 0).order("updated_at DESC")
       forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC")
@@ -76,7 +77,6 @@ module Update
       forecasts = [forecast_one.first, forecast_two.first, forecast_three.first, forecast_four.first]
       row_number = 0
       block_number = 0
-      stadium_team = game.stadium_team ? game.stadium_team : game.home_team
       date = forecast_one.first.updated_at.advance(hours: stadium_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")
 
       Weathersource.where(game_id: game.id, date: date, table_number: 0).destroy_all
