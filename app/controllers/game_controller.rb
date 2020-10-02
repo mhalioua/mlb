@@ -153,6 +153,7 @@ class GameController < ApplicationController
 
 		@away_team = @game.away_team
 		@home_team = @game.home_team
+		@stadium_team = @game.stadium_team ? @game.stadium_team : @game.home_team
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
 
 		year = @game_day.year.to_s
@@ -207,6 +208,7 @@ class GameController < ApplicationController
 
 		@away_team = @game.away_team
 		@home_team = @game.home_team
+		@stadium_team = @game.stadium_team ? @game.stadium_team : @game.home_team
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
 
 		year = @game_day.year.to_s
@@ -231,6 +233,7 @@ class GameController < ApplicationController
 
 		@away_team = @game.away_team
 		@home_team = @game.home_team
+		@stadium_team = @game.stadium_team ? @game.stadium_team : @game.home_team
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
 		@image_url = @home_team.id.to_s + ".png"
 
@@ -275,6 +278,7 @@ class GameController < ApplicationController
 
 		@away_team = @game.away_team
 		@home_team = @game.home_team
+		@stadium_team = @game.stadium_team ? @game.stadium_team : @game.home_team
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
 		@image_url = @home_team.id.to_s + ".png"
 

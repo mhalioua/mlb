@@ -62,18 +62,18 @@
 
 	<div class="image">
 		<%= image_tag(@image_url, :width => '600') %>
-		<h2><%= @home_team.stadium + " Zipcode: " + (@home_team.zipcode === 'M5V 1J1' ? '14203' : @home_team.zipcode) %></h2>
+		<h2><%= @stadium_team.stadium + " Zipcode: " + (@stadium_team.zipcode === 'M5V 1J1' ? '14203' : @stadium_team.zipcode) %></h2>
 	</div>
 
 	<% unless @forecasts.empty? %>
-		<%= render partial: "game/new/updated_weather", locals: { caption: "Wunderground Weather Forecast", type: 0, weathers: @weather_forecasts, realWeathers: @additionalForecasts, name: @home_team.name, stadium: @home_team.stadium } %>
+		<%= render partial: "game/new/updated_weather", locals: { caption: "Wunderground Weather Forecast", type: 0, weathers: @weather_forecasts, realWeathers: @additionalForecasts, name: @stadium_team.name, stadium: @stadium_team.stadium } %>
 	<% end %>
 	<% unless @weathers.empty? %>
-		<%= render partial: "game/new/updated_weather", locals: { caption: "Wunderground Weather Records", type: 2, weathers: @weather_actual, realWeathers: @additionalForecasts, name: @home_team.name, stadium: @home_team.stadium } %>
+		<%= render partial: "game/new/updated_weather", locals: { caption: "Wunderground Weather Records", type: 2, weathers: @weather_actual, realWeathers: @additionalForecasts, name: @stadium_team.name, stadium: @stadium_team.stadium } %>
 	<% end %>
 
 	<% unless @forecasts.empty? %>
-		<%= render partial: "game/new/updated_weather", locals: { caption: "Wunderground Weather Forecast", type: 1, weathers: @weather_previous, realWeathers: @additionalForecasts, name: @home_team.name, stadium: @home_team.stadium } %>
+		<%= render partial: "game/new/updated_weather", locals: { caption: "Wunderground Weather Forecast", type: 1, weathers: @weather_previous, realWeathers: @additionalForecasts, name: @stadium_team.name, stadium: @stadium_team.stadium } %>
 	<% end %>
 	<ul class="list-group">
   		<li class="list-group-item" style="text-align: center;"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>
