@@ -173,13 +173,8 @@ module Update
         pitchers = doc.css('.stats-wrap')
         next if pitchers.size < 4
 
-        if game.swap === false
-          away_pitcher = pitchers[1]
-          home_pitcher = pitchers[3]
-        else
-          away_pitcher = pitchers[3]
-          home_pitcher = pitchers[1]
-        end
+        away_pitcher = pitchers[1]
+        home_pitcher = pitchers[3]
 
         team_pitchers(game, game.away_team, away_pitcher)
         team_pitchers(game, game.home_team, home_pitcher)

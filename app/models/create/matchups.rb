@@ -77,17 +77,10 @@ module Create
           game_stadium = 'Safeco Park' if game_stadium == 'T-Mobile Park'
           game_stadium = 'AT&T Park' if game_stadium == 'Oracle Park'
           stadium_team = Team.find_by_stadium(game_stadium)
-          swap = false
-          if stadium_team
-            if stadium_team === away_team
-              home_team, away_team = away_team, home_team
-              swap = true
-            end
-          end
-          date = DateTime.parse(game_date) - 4.hours + home_team.timezone.hours
+          date = DateTime.parse(game_date) - 4.hours + stadium_team.timezone.hours
           game = Game.find_or_create_by(game_id: game_id)
           gameDay = GameDay.find_or_create_by(season: game_day.season, date: date)
-          game.update(game_day: gameDay, away_team: away_team, home_team: home_team, game_date: date, postpone: postpone, swap: swap)
+          game.update(game_day: gameDay, away_team: away_team, home_team: home_team, game_date: date, postpone: postpone, stadium_team: stadium_team)
         end
       end
 
@@ -103,10 +96,6 @@ module Create
           away_team = Team.find_by_name(teams[0].text.squish)
           home_team = Team.find_by_name(teams[1].text.squish)
 
-          game_date = element.css('.lineup-card-header')[0].children[1].children[5].text.squish
-          game_date = DateTime.parse(game_date) + home_team.timezone.hours
-          game_date = game_date.strftime('%FT%T%:z')
-          game = games.where(away_team: away_team, home_team: home_team, game_date: game_date).first
           game = games.where(away_team: away_team, home_team: home_team).first unless game
           game = game_day.next_days(1).games.where(away_team: away_team, home_team: home_team).first unless game
           next unless game

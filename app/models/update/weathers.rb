@@ -7,11 +7,11 @@ module Update
       actual_weathers = game.weathers.where(station: "Actual")
       return if actual_weathers.length == 4
       game_day = game.game_day
-      home_team = game.home_team
-      time = DateTime.parse(game.game_date) + 4.hours - home_team.timezone.hours - 31.minutes
+      stadium_team = game.stadium_team ? game.stadium_team : game.home_team
+      time = DateTime.parse(game.game_date) + 4.hours - stadium_team.timezone.hours - 31.minutes
       return if time > DateTime.now
 
-      url = get_url(home_team, game_day)
+      url = get_url(stadium_team, game_day)
       puts url
 
       open(url) do |f|
@@ -49,12 +49,13 @@ module Update
     end
 
     def update_table(game)
-      name = game.home_team.name
+      name = game.stadium_team.name
       weathers = game.weathers.where(station: "Actual").order(:hour)
       row_number = 0
       block_number = 0
       return if weathers.length < 4
-      date = weathers.first.updated_at.advance(hours: game.home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")
+      stadium_team = game.stadium_team ? game.stadium_team : game.home_team
+      date = weathers.first.updated_at.advance(hours: stadium_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")
 
       Weathersource.where(game_id: game.id, table_number: 2).destroy_all
       weathers.each do |weather|
@@ -240,9 +241,9 @@ module Update
     end
 
     private
-      def get_url(home_team, game_day)
+      def get_url(stadium_team, game_day)
         next_days = game_day.next_days(1)
-        url = @@urls[home_team.id-1]
+        url = @@urls[stadium_team.id-1]
         find = "startDate=YYYYMMDD"
         replace = "startDate=#{game_day.year}#{game_day.month}#{game_day.day}"
         url = url.gsub(/#{find}/, replace)

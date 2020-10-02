@@ -61,28 +61,9 @@ namespace :mlb do
 
   task update_forecast: :environment do
     GameDay.today.update_forecast
-    # games = GameDay.today.games.where(postpone: false)
-    # finished_games = games.select {|game| game.weathers.where(station: "Actual").length > 0}
-    # GameDay.tomorrow.update_forecast if games.length === finished_games.length
     time = Time.now.getlocal('-07:00')
     if time.hour > 18
       GameDay.tomorrow.update_forecast
-    end
-  end
-
-  task test: :environment do
-    puts "===============PST Time now============"
-    time = Time.now.getlocal('-07:00')
-    puts time.hour
-    puts "===============Today Games============="
-    today_games = GameDay.today.games
-    today_games.each do |element|
-      puts element.id
-    end
-    puts "===============Tomorrow Games============="
-    today_games = GameDay.tomorrow.games
-    today_games.each do |element|
-      puts element.id
     end
   end
 

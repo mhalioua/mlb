@@ -9,6 +9,7 @@ class GameController < ApplicationController
 
 		@away_team = @game.away_team
 		@home_team = @game.home_team
+		@stadium_team = @game.stadium_team ? @game.stadium_team : @game.home_team
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
 		@image_url = @home_team.id.to_s + ".png"
 
@@ -52,7 +53,7 @@ class GameController < ApplicationController
 		@forecasts.each_with_index do |forecast_one, index|
 			next if index % 2 == 1
 			break if index == 20
-			@forecast_dropdown << [forecast_one.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p"), index]
+			@forecast_dropdown << [forecast_one.updated_at.advance(hours: @stadium_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p"), index]
 		end
 
 		@forecast_one = @game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(@forecast)
@@ -69,8 +70,8 @@ class GameController < ApplicationController
 		@weathers = @game.weathers.where(station: "Actual").order(:hour)
 		@additional = params[:option].to_i
     if @forecast_one.first
-		  @weather_forecasts = @game.weathersources.where(table_number: 0, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
-		  @weather_previous = @game.weathersources.where(table_number: 1, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
+		  @weather_forecasts = @game.weathersources.where(table_number: 0, date: @forecast_one.first.updated_at.advance(hours: @stadium_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
+		  @weather_previous = @game.weathersources.where(table_number: 1, date: @forecast_one.first.updated_at.advance(hours: @stadium_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
     end
 		@weather_actual = @game.weathersources.where(table_number: 2).order(:row_number)
 
@@ -100,6 +101,7 @@ class GameController < ApplicationController
 
 		@away_team = @game.away_team
 		@home_team = @game.home_team
+		@stadium_team = @game.stadium_team ? @game.stadium_team : @game.home_team
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
 		@image_url = @home_team.id.to_s + ".png"
 
@@ -115,7 +117,7 @@ class GameController < ApplicationController
 		@forecasts.each_with_index do |forecast_one, index|
 			next if index % 2 == 1
 			break if index == 20
-			@forecast_dropdown << [forecast_one.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p"), index]
+			@forecast_dropdown << [forecast_one.updated_at.advance(hours: @stadium_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p"), index]
 		end
 
 		@forecast_one = @game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC").offset(@forecast)
@@ -132,8 +134,8 @@ class GameController < ApplicationController
 		@weathers = @game.weathers.where(station: "Actual").order(:hour)
 		@additional = params[:option].to_i
     if @forecast_one.first
-      @weather_forecasts = @game.weathersources.where(table_number: 0, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
-      @weather_previous = @game.weathersources.where(table_number: 1, date: @forecast_one.first.updated_at.advance(hours: @home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
+      @weather_forecasts = @game.weathersources.where(table_number: 0, date: @forecast_one.first.updated_at.advance(hours: @stadium_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
+      @weather_previous = @game.weathersources.where(table_number: 1, date: @forecast_one.first.updated_at.advance(hours: @stadium_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")).order(:row_number)
     end
 		@weather_actual = @game.weathersources.where(table_number: 2).order(:row_number)
 

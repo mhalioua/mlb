@@ -4,11 +4,11 @@ module Update
     include GetHtml
 
     def update(game)
-      home_team = game.home_team
-      time = DateTime.parse(game.game_date) + 4.hours - home_team.timezone.hours - 31.minutes
+      stadium_team = game.stadium_team ? game.stadium_team : game.home_team
+      time = DateTime.parse(game.game_date) + 4.hours - stadium_team.timezone.hours - 31.minutes
 
-      url = @@urls[home_team.id-1]
-      puts "home_team.name #{home_team.name}"
+      url = @@urls[stadium_team.id-1]
+      puts "stadium_team.stadium #{stadium_team.stadium}"
       puts "game.game_date #{game.game_date}"
       puts "url #{url}"
 
@@ -62,7 +62,7 @@ module Update
     end
 
     def update_table(game)
-      name = game.home_team.name
+      name = game.stadium_team.name
       forecast_prev_one = game.weathers.where(station: "Forecast", hour: -1).order("updated_at DESC")
       forecast_prev_two = game.weathers.where(station: "Forecast", hour: 0).order("updated_at DESC")
       forecast_one = game.weathers.where(station: "Forecast", hour: 1).order("updated_at DESC")
@@ -75,7 +75,8 @@ module Update
       forecasts = [forecast_one.first, forecast_two.first, forecast_three.first, forecast_four.first]
       row_number = 0
       block_number = 0
-      date = forecast_one.first.updated_at.advance(hours: game.home_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")
+      stadium_team = game.stadium_team ? game.stadium_team : game.home_team
+      date = forecast_one.first.updated_at.advance(hours: stadium_team.timezone).in_time_zone('Eastern Time (US & Canada)').strftime("%F %I:%M%p")
 
       Weathersource.where(game_id: game.id, date: date, table_number: 0).destroy_all
       Weathersource.where(game_id: game.id, date: date, table_number: 1).destroy_all
@@ -272,55 +273,6 @@ module Update
           row_number = row_number + 1
         end
         block_number = block_number + 1
-      end
-    end
-
-    def update_check(game)
-      home_team = game.home_team
-      time = DateTime.parse(game.game_date)
-
-      url = @@urls[home_team.id-1]
-      puts "home_team.name #{home_team.name}"
-      puts "game.game_date #{game.game_date}"
-      puts "url #{url}"
-
-      open(url) do |f|
-        json_string = f.read
-        parsed_json = JSON.parse(json_string)
-        forecast_data = parsed_json['forecasts']
-
-        start_index = 0
-        forecast_data.each_with_index do |hour_data, index|
-          hour_time = DateTime.strptime hour_data['fcst_valid_local']
-          if time < hour_time
-            start_index = index
-            break
-          end
-        end
-
-        (1..4).each do |index|
-          hour_data = forecast_data[start_index + index]
-          temp = hour_data['temp']
-          dp = hour_data['dewpt']
-          hum = hour_data['rh']
-          pressure = hour_data['mslp']
-          precip = hour_data['qpf']
-          feel = hour_data['feels_like']
-          wind_speed = hour_data['wspd']
-          wind_dir = hour_data['wdir_cardinal']
-          if wind_dir == "W"
-            wind_dir = "West"
-          elsif wind_dir == "S"
-            wind_dir = "South"
-          elsif wind_dir == "N"
-            wind_dir = "North"
-          elsif wind_dir == "E"
-            wind_dir = "East"
-          end
-
-          start_index = start_index + 1 if start_index < forecast_data.size - 1
-
-        end
       end
     end
 
