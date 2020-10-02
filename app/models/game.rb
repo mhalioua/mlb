@@ -30,10 +30,6 @@ class Game < ApplicationRecord
     Update::Forecasts.new.update_table(self)
   end
 
-  def update_forecast_check
-    Update::Forecasts.new.update_check(self)
-  end
-
   def away_pitcher
     lancers.find_by(starter: true, team: away_team)
   end

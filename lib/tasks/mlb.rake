@@ -67,10 +67,6 @@ namespace :mlb do
     end
   end
 
-  task update_forecast_check: :environment do
-    GameDay.today.update_forecast_check
-  end
-
   task update_batters_scout: :environment do
     Season.where("year = 2020").map {|season| season.update_batters_scout}
   end
