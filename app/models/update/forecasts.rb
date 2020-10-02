@@ -335,7 +335,11 @@ module Update
           city3: result[:city3],
           cityCount1: result[:cityCount1],
           cityCount2: result[:cityCount2],
-          cityCount3: result[:cityCount3]
+          cityCount3: result[:cityCount3],
+          over1: result[:over1],
+          under1: result[:under1],
+          over2: result[:over2],
+          under2: result[:under2]
         )
       end
 
