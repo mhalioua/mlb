@@ -1,5 +1,5 @@
 class AddStadiumTeamToGame < ActiveRecord::Migration[5.1]
   def change
-    add_reference :games, :stadium_team, foreign_key: true
+    add_reference :games, :stadium_team, index: true
   end
 end
