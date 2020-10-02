@@ -46,6 +46,7 @@ module Update
           count = count + 1
         end
       end
+      update_table(game)
     end
 
     def update_table(game)

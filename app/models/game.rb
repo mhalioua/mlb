@@ -22,12 +22,10 @@ class Game < ApplicationRecord
 
   def update_weather
     Update::Weathers.new.update(self)
-    Update::Weathers.new.update_table(self)
   end
 
   def update_forecast
     Update::Forecasts.new.update(self)
-    Update::Forecasts.new.update_table(self)
   end
 
   def away_pitcher

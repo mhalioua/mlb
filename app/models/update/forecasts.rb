@@ -59,6 +59,7 @@ module Update
                          time: hour_time.strftime("%I:%M%p"), conditions: conditions, precip_percent: precip_percent, cloud: cloud)
         end
       end
+      update_table(game)
     end
 
     def update_table(game)
