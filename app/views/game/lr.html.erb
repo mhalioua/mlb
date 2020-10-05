@@ -48,23 +48,23 @@
       <h2><%= @stadium_team.stadium + " Zipcode: " + (@stadium_team.zipcode === 'M5V 1J1' ? '14203' : @stadium_team.zipcode) %></h2>
     </div>
 
-    <%= render partial: "game/new/lr_table", locals: { min: 2, max: 6, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
-    <%= render partial: "game/new/lr_table", locals: { min: 2, max: 6, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 2, max: 6, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @stadium_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 2, max: 6, wind_dirs: @wind_dirs, type: 'BATTERS', team: @stadium_team } %>
 
-    <%= render partial: "game/new/lr_table", locals: { min: 4, max: 9, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
-    <%= render partial: "game/new/lr_table", locals: { min: 4, max: 9, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 4, max: 9, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @stadium_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 4, max: 9, wind_dirs: @wind_dirs, type: 'BATTERS', team: @stadium_team } %>
 
-    <%= render partial: "game/new/lr_table", locals: { min: 7, max: 12, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
-    <%= render partial: "game/new/lr_table", locals: { min: 7, max: 12, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 7, max: 12, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @stadium_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 7, max: 12, wind_dirs: @wind_dirs, type: 'BATTERS', team: @stadium_team } %>
 
-    <%= render partial: "game/new/lr_table", locals: { min: 10, max: 15, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
-    <%= render partial: "game/new/lr_table", locals: { min: 10, max: 15, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 10, max: 15, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @stadium_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 10, max: 15, wind_dirs: @wind_dirs, type: 'BATTERS', team: @stadium_team } %>
 
-    <%= render partial: "game/new/lr_table", locals: { min: 13, max: 20, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
-    <%= render partial: "game/new/lr_table", locals: { min: 13, max: 20, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 13, max: 20, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @stadium_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 13, max: 20, wind_dirs: @wind_dirs, type: 'BATTERS', team: @stadium_team } %>
 
-    <%= render partial: "game/new/lr_table", locals: { min: 18, max: 0, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @home_team } %>
-    <%= render partial: "game/new/lr_table", locals: { min: 18, max: 0, wind_dirs: @wind_dirs, type: 'BATTERS', team: @home_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 18, max: 0, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @stadium_team } %>
+    <%= render partial: "game/new/lr_table", locals: { min: 18, max: 0, wind_dirs: @wind_dirs, type: 'BATTERS', team: @stadium_team } %>
 	</div>
   <ul class="list-group">
     <li class="list-group-item" style="text-align: center;"><%= link_to 'Home', { controller: 'index', action: 'home' }%></li>

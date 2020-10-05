@@ -66,7 +66,8 @@
           first_speed, first_dir = split_wind(@forecast_one.first.wind)
           second_speed, second_dir = split_wind(@forecast_two.first.wind)
           third_speed, third_dir = split_wind(@forecast_three.first.wind)
-          winds = wind_data_match(game.home_team.name, @forecast_one.first.wind, @forecast_two.first.wind, @forecast_three.first.wind)
+          stadium_team = game.stadium_team ? game.stadium_team : game.home_team
+          winds = wind_data_match(stadium_team.name, @forecast_one.first.wind, @forecast_two.first.wind, @forecast_three.first.wind)
 				else
           first_speed = ''
           first_dir = ''
