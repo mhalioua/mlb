@@ -11,7 +11,7 @@ class GameController < ApplicationController
 		@home_team = @game.home_team
 		@stadium_team = @game.stadium_team ? @game.stadium_team : @game.home_team
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
-		@image_url = @home_team.id.to_s + ".png"
+		@image_url = @stadium_team.id.to_s + ".png"
 
 		year = @game_day.year.to_s
 		month = Date::MONTHNAMES[@game_day.month.to_i]
@@ -103,7 +103,7 @@ class GameController < ApplicationController
 		@home_team = @game.home_team
 		@stadium_team = @game.stadium_team ? @game.stadium_team : @game.home_team
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
-		@image_url = @home_team.id.to_s + ".png"
+		@image_url = @stadium_team.id.to_s + ".png"
 
 		year = @game_day.year.to_s
 		month = Date::MONTHNAMES[@game_day.month.to_i]
@@ -235,7 +235,7 @@ class GameController < ApplicationController
 		@home_team = @game.home_team
 		@stadium_team = @game.stadium_team ? @game.stadium_team : @game.home_team
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
-		@image_url = @home_team.id.to_s + ".png"
+		@image_url = @stadium_team.id.to_s + ".png"
 
 		year = @game_day.year.to_s
 		month = Date::MONTHNAMES[@game_day.month.to_i]
@@ -280,7 +280,7 @@ class GameController < ApplicationController
 		@home_team = @game.home_team
 		@stadium_team = @game.stadium_team ? @game.stadium_team : @game.home_team
 		@head = @away_team.espn_abbr + " @ " + @home_team.espn_abbr
-		@image_url = @home_team.id.to_s + ".png"
+		@image_url = @stadium_team.id.to_s + ".png"
 
 		year = @game_day.year.to_s
 		month = Date::MONTHNAMES[@game_day.month.to_i]
