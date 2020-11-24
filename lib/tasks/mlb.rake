@@ -102,7 +102,7 @@ namespace :mlb do
 
   task basic: [:create_season, :create_teams, :create_player]
 
-  task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout, :get_roof]
+  task daily: [:create_player, :update_batters, :update_pitchers, :update_pitchers_scout, :update_batters_scout, :image_upload, :get_roof]
 
   task source: [:create_matchups, :create_bullpen, :update_games, :pitcher_box_score, :batter_box_score]
 
