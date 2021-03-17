@@ -5,7 +5,7 @@ module Update
 
     def update(game)
       stadium_team = game.stadium_team ? game.stadium_team : game.home_team
-      time = DateTime.parse(game.game_date) + 5.hours - stadium_team.timezone.hours - 31.minutes
+      time = DateTime.parse(game.game_date) + 4.hours - stadium_team.timezone.hours - 31.minutes
 
       url = @@urls[stadium_team.id-1]
       puts "stadium_team.stadium #{stadium_team.stadium}"

@@ -78,7 +78,7 @@ module Create
           game_stadium = 'AT&T Park' if game_stadium == 'Oracle Park'
           game_stadium = 'Rangers Ballpark' if game_stadium == 'Globe Life Field'
           stadium_team = Team.find_by_stadium(game_stadium)
-          date = DateTime.parse(game_date) - 5.hours + stadium_team.timezone.hours
+          date = DateTime.parse(game_date) - 4.hours + stadium_team.timezone.hours
           game = Game.find_or_create_by(game_id: game_id)
           gameDay = GameDay.find_or_create_by(season: game_day.season, date: date)
           game.update(game_day: gameDay, away_team: away_team, home_team: home_team, game_date: date, postpone: postpone, stadium_team: stadium_team)

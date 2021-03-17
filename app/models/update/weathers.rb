@@ -8,7 +8,7 @@ module Update
       return if actual_weathers.length == 4
       game_day = game.game_day
       stadium_team = game.stadium_team ? game.stadium_team : game.home_team
-      time = DateTime.parse(game.game_date) + 5.hours - stadium_team.timezone.hours - 31.minutes
+      time = DateTime.parse(game.game_date) + 4.hours - stadium_team.timezone.hours - 31.minutes
       return if time > DateTime.now
 
       url = get_url(stadium_team, game_day)
