@@ -122,6 +122,7 @@ module Update
             next
           end
           ump = data.text
+          Umpire.find_or_create_by(statfox: ump, year: 2021)
           Umpire.find_or_create_by(statfox: ump, year: 2020)
           Umpire.find_or_create_by(statfox: ump, year: 2019)
           Umpire.find_or_create_by(statfox: ump, year: 2018)

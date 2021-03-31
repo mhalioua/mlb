@@ -18,7 +18,7 @@ module Update
         text = text.split("'")[0]
         puts link
         puts text
-        link = link.gsub('2020', year.to_s)
+        link = link.gsub('2021', year.to_s)
         page = download_document(link)
         next unless page
         page = page.css('table.covers-CoversMatchups-Table td')
