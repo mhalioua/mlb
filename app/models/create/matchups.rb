@@ -71,12 +71,6 @@ module Create
           game_stadium = element.text.squish
           puts "============="
           puts game_stadium
-          game_stadium = 'Camden Yards' if game_stadium == 'Oriole Park at Camden Yards'
-          game_stadium = 'Rogers Centre' if game_stadium == 'Sahlen Field'
-          game_stadium = 'SunTrust Park' if game_stadium == 'Truist Park'
-          game_stadium = 'Safeco Park' if game_stadium == 'T-Mobile Park'
-          game_stadium = 'AT&T Park' if game_stadium == 'Oracle Park'
-          game_stadium = 'Rangers Ballpark' if game_stadium == 'Globe Life Field'
           stadium_team = Team.find_by_stadium(game_stadium)
           date = DateTime.parse(game_date) - 4.hours + stadium_team.timezone.hours
           game = Game.find_or_create_by(game_id: game_id)
