@@ -69,10 +69,14 @@ module Create
           game_date = element.children[1]['data-date']
           element = doc.css("figcaption .caption-wrapper").first
           element = doc.css(".game-location").first unless element
-          game_stadium = element.text.squish
-          puts "============="
-          puts game_stadium
-          stadium_team = Team.find_by_stadium(game_stadium)
+          if element
+            game_stadium = element.text.squish
+            puts "============="
+            puts game_stadium
+            stadium_team = Team.find_by_stadium(game_stadium)
+          else
+            stadium_team = home_team
+          end
           date = DateTime.parse(game_date) - 4.hours + stadium_team.timezone.hours
           game = Game.find_or_create_by(game_id: game_id)
           gameDay = GameDay.find_or_create_by(season: game_day.season, date: date)
