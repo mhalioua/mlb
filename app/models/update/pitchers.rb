@@ -501,7 +501,7 @@ module Update
           home_one = result[:home_one]
           home_one_count = result[:home_one_count]
         end
-        if opposite
+        if opposite && opposite.player
           opposite_throwhand = opposite.throwhand
           opposite_name = opposite.name
           opposite_ip = opposite.ip
