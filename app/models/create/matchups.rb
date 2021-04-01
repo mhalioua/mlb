@@ -73,7 +73,11 @@ module Create
             game_stadium = element.text.squish
             puts "============="
             puts game_stadium
-            stadium_team = Team.find_by_stadium(game_stadium)
+            if game_stadium == "Peoria Stadium"
+              stadium_team = home_team
+            else
+              stadium_team = Team.find_by_stadium(game_stadium)
+            end
           else
             stadium_team = home_team
           end
