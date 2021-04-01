@@ -56,7 +56,7 @@ namespace :mlb do
   end
 
   task update_yesterday: :environment do
-    dateTime = DateTime.new(2021, 3, 27)
+    dateTime = DateTime.new(2021, 3, 30)
     gameDay = GameDay.search(dateTime)
     gameDay.create_matchups
   end
