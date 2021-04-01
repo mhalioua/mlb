@@ -55,12 +55,6 @@ namespace :mlb do
     [GameDay.yesterday, GameDay.today].each {|game_day| game_day.update_weather}
   end
 
-  task update_yesterday: :environment do
-    dateTime = DateTime.new(2021, 3, 30)
-    gameDay = GameDay.search(dateTime)
-    gameDay.create_matchups
-  end
-
   task update_forecast: :environment do
     GameDay.today.update_forecast
     time = Time.now.getlocal('-07:00')
