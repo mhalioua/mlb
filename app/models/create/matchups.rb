@@ -31,18 +31,19 @@ module Create
           if away_team == "matchup"
             next
           end
-          href = slice.children[index[:result]].child['href']
+          game_result = slice.children[index[:result]]
+          href = game_result.child['href']
           game_id = href[-9..-1]
           puts "game_result"
-          puts slice.children[index[:result]].text
-          if slice.children[index[:result]].text == 'Canceled'
+          puts game_result.text
+          if game_result.text == 'Canceled'
             puts game_id
             puts 'Canceled'
             next
           end
 
           postpone = false
-          if slice.children[index[:result]].text == 'Postponed'
+          if game_result.text == 'Postponed'
             postpone = true
           end
           if slice.children[index[:home_team]].children[0].children.size == 2
