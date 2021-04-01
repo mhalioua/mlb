@@ -45,7 +45,7 @@
 
     <div>
       <%= image_tag(@image_url, :width => '600') %>
-      <h2><%= @stadium_team.stadium + " Zipcode: " + (@stadium_team.zipcode === 'M5V 1J1' ? '14203' : @stadium_team.zipcode) %></h2>
+      <h2><%= @stadium_team.stadium + " Zipcode: " + @stadium_team.zipcode %></h2>
     </div>
 
     <%= render partial: "game/new/lr_table", locals: { min: 2, max: 6, wind_dirs: @wind_dirs, type: 'PITCHERS', team: @stadium_team } %>
