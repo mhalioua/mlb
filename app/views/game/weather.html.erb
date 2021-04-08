@@ -62,7 +62,7 @@
 
 	<div class="image">
 		<%= image_tag(@image_url, :width => '600') %>
-		<h2><%= @stadium_team.stadium + " Zipcode: " + @stadium_team.zipcode %></h2>
+		<h2><%= @stadium_team.stadium + " Zipcode: " + (@stadium_team.zipcode === 'M5V 1J1' ? '34698' : @stadium_team.zipcode) %></h2>
 	</div>
 
 	<% unless @forecasts.empty? %>
