@@ -143,7 +143,7 @@
 			<td><%= second_dir %></td>
 			<td><%= third_dir %></td>
 			<td>Direction</td>
-			<% if pitcher %>
+			<% if pitcher && pitcher.player %>
         <td rowspan="2" style="background: darkorange;"><%= pitcher.player.name + "(" + pitcher.throwhand + ")" %></td>
 			<% else %>
 				<td rowspan="2" style="background: darkorange;">TBD</td>
