@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180625140758) do
+ActiveRecord::Schema.define(version: 20200730072733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.index ["game_id"], name: "index_batters_on_game_id"
     t.index ["player_id"], name: "index_batters_on_player_id"
     t.index ["season_id"], name: "index_batters_on_season_id"
+    t.index ["starter"], name: "index_batters_on_starter"
     t.index ["team_id"], name: "index_batters_on_team_id"
   end
 
@@ -76,6 +77,7 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["date"], name: "index_game_days_on_date"
     t.index ["season_id"], name: "index_game_days_on_season_id"
   end
 
@@ -88,6 +90,7 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.integer "home_runs"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "walked"
     t.index ["game_id"], name: "index_game_stats_on_game_id"
   end
 
@@ -175,9 +178,42 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.string "ump"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "away_money_line_closer"
+    t.string "home_money_line_closer"
+    t.string "away_total_closer"
+    t.string "home_total_closer"
+    t.boolean "postpone", default: false
+    t.string "roof", default: ""
+    t.boolean "swap", default: false
+    t.bigint "stadium_team_id"
     t.index ["away_team_id"], name: "index_games_on_away_team_id"
+    t.index ["game_date"], name: "index_games_on_game_date"
     t.index ["game_day_id"], name: "index_games_on_game_day_id"
+    t.index ["game_id"], name: "index_games_on_game_id"
     t.index ["home_team_id"], name: "index_games_on_home_team_id"
+    t.index ["id"], name: "index_games_on_id"
+    t.index ["stadium_team_id"], name: "index_games_on_stadium_team_id"
+  end
+
+  create_table "hitters", force: :cascade do |t|
+    t.bigint "team_id"
+    t.bigint "game_id"
+    t.string "name"
+    t.integer "index"
+    t.string "position"
+    t.string "hand"
+    t.integer "ab"
+    t.integer "h"
+    t.integer "r"
+    t.integer "rbi"
+    t.integer "bb"
+    t.string "avg"
+    t.integer "hr"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "k"
+    t.index ["game_id"], name: "index_hitters_on_game_id"
+    t.index ["team_id"], name: "index_hitters_on_team_id"
   end
 
   create_table "lancers", force: :cascade do |t|
@@ -196,10 +232,129 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.integer "s"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["bullpen"], name: "index_lancers_on_bullpen"
     t.index ["game_id"], name: "index_lancers_on_game_id"
+    t.index ["ip"], name: "index_lancers_on_ip"
     t.index ["player_id"], name: "index_lancers_on_player_id"
     t.index ["season_id"], name: "index_lancers_on_season_id"
+    t.index ["starter"], name: "index_lancers_on_starter"
     t.index ["team_id"], name: "index_lancers_on_team_id"
+  end
+
+  create_table "newworkbooks", force: :cascade do |t|
+    t.string "Date"
+    t.string "Time"
+    t.string "Away_Team"
+    t.string "Home_Team"
+    t.integer "Away_Money_Line"
+    t.integer "Home_Money_Line"
+    t.string "Away_Total"
+    t.string "Home_Total"
+    t.integer "TEMP"
+    t.integer "DP"
+    t.integer "HUMID"
+    t.float "BARo"
+    t.string "Direction"
+    t.float "Speed"
+    t.float "O"
+    t.float "P"
+    t.float "Q"
+    t.float "R"
+    t.integer "S"
+    t.integer "Total_Walks"
+    t.integer "Total_Walks_Hits"
+    t.integer "Total_Bases"
+    t.integer "W"
+    t.integer "h9"
+    t.integer "h8"
+    t.integer "h7"
+    t.integer "h6"
+    t.integer "h5"
+    t.integer "h4"
+    t.integer "h3"
+    t.integer "h2"
+    t.integer "h1"
+    t.string "Home_Inning_1"
+    t.integer "a9"
+    t.integer "a8"
+    t.integer "a7"
+    t.integer "a6"
+    t.integer "a5"
+    t.integer "a4"
+    t.integer "A3"
+    t.integer "A2"
+    t.integer "A1"
+    t.string "AQ"
+    t.integer "AR"
+    t.integer "stolen_bases"
+    t.string "Away_Starter_First_Name"
+    t.string "Away_Starter_Last_Name"
+    t.string "Away_Starter_Handedness"
+    t.string "Home_Starter_First_Name"
+    t.string "Home_Starter_Last_Name"
+    t.string "Home_Starter_Handedness"
+    t.float "LD_PA"
+    t.float "GB_PA"
+    t.float "FB_PA"
+    t.float "SO_PA"
+    t.float "LD_BABIP"
+    t.float "GB_BABIP"
+    t.float "FB_BABIP"
+    t.integer "hits1"
+    t.integer "hits2"
+    t.integer "hits3"
+    t.integer "hits4"
+    t.integer "hits5"
+    t.integer "hits6"
+    t.integer "hits7"
+    t.integer "hits8"
+    t.integer "hits9"
+    t.integer "home_runs1"
+    t.integer "home_runs2"
+    t.integer "home_runs3"
+    t.integer "home_runs4"
+    t.integer "home_runs5"
+    t.integer "home_runs6"
+    t.integer "home_runs7"
+    t.integer "home_runs8"
+    t.integer "home_runs9"
+    t.integer "hits_sum"
+    t.float "t_HITS"
+    t.integer "home_runs_sum"
+    t.float "t_HRS"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "ll_ab"
+    t.integer "ll_h"
+    t.integer "ll_bb"
+    t.integer "ll_hr"
+    t.integer "ll_k"
+    t.integer "lr_ab"
+    t.integer "lr_h"
+    t.integer "lr_bb"
+    t.integer "lr_hr"
+    t.integer "lr_k"
+    t.integer "rl_ab"
+    t.integer "rl_h"
+    t.integer "rl_bb"
+    t.integer "rl_hr"
+    t.integer "rl_k"
+    t.integer "rr_ab"
+    t.integer "rr_h"
+    t.integer "rr_bb"
+    t.integer "rr_hr"
+    t.integer "rr_k"
+    t.integer "game_id"
+    t.string "link"
+    t.index ["Away_Team"], name: "index_newworkbooks_on_Away_Team"
+    t.index ["Date"], name: "index_newworkbooks_on_Date"
+    t.index ["Direction"], name: "index_newworkbooks_on_Direction"
+    t.index ["Home_Team"], name: "index_newworkbooks_on_Home_Team"
+    t.index ["Speed"], name: "index_newworkbooks_on_Speed"
+    t.index ["Time"], name: "index_newworkbooks_on_Time"
+    t.index ["game_id"], name: "index_newworkbooks_on_game_id"
+    t.index ["hits1"], name: "index_newworkbooks_on_hits1"
+    t.index ["link"], name: "index_newworkbooks_on_link"
   end
 
   create_table "pitcher_scoutings", force: :cascade do |t|
@@ -245,6 +400,107 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.index ["lancer_id"], name: "index_pitcher_stats_on_lancer_id"
   end
 
+  create_table "pitcherinformations", force: :cascade do |t|
+    t.bigint "game_id"
+    t.boolean "away"
+    t.string "ip_two"
+    t.string "ip_three"
+    t.string "gb_two"
+    t.string "gb_three"
+    t.string "woba_two"
+    t.string "woba_three"
+    t.string "fip_two"
+    t.string "fip_three"
+    t.string "tld_two"
+    t.string "tld_three"
+    t.string "game_one_blue"
+    t.string "game_one_blue_opp"
+    t.string "game_two_blue"
+    t.string "game_two_blue_opp"
+    t.string "game_six_blue"
+    t.string "game_six_blue_opp"
+    t.string "game_three_blue"
+    t.string "game_three_blue_opp"
+    t.string "game_four_blue"
+    t.string "game_four_blue_opp"
+    t.string "game_five_blue"
+    t.string "game_five_blue_opp"
+    t.string "game_seven_blue"
+    t.string "game_seven_blue_opp"
+    t.string "sb_two"
+    t.string "ab_two"
+    t.string "sb_three"
+    t.string "ab_three"
+    t.string "game_wrc_qu_one"
+    t.string "game_wrc_qu_one_opp"
+    t.string "game_wrc_qu_two"
+    t.string "game_wrc_qu_two_opp"
+    t.string "game_wrc_qu_three"
+    t.string "game_wrc_qu_three_opp"
+    t.string "so_ab_two"
+    t.string "so_ab_two_opp"
+    t.string "so_ab_three"
+    t.string "so_ab_three_opp"
+    t.string "ab_bb_two"
+    t.string "ab_bb_two_opp"
+    t.string "ab_bb_three"
+    t.string "ab_bb_three_opp"
+    t.string "tld_hitter_one"
+    t.string "tld_hitter_two"
+    t.string "tld_hitter_three"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["away"], name: "index_pitcherinformations_on_away"
+    t.index ["game_id"], name: "index_pitcherinformations_on_game_id"
+  end
+
+  create_table "pitchers", force: :cascade do |t|
+    t.bigint "team_id"
+    t.bigint "game_id"
+    t.string "name"
+    t.integer "index"
+    t.string "hand"
+    t.string "identity"
+    t.float "ip"
+    t.integer "h"
+    t.integer "r"
+    t.integer "bb"
+    t.integer "er"
+    t.integer "k"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "pc"
+    t.index ["game_id"], name: "index_pitchers_on_game_id"
+    t.index ["team_id"], name: "index_pitchers_on_team_id"
+  end
+
+  create_table "playbyplays", force: :cascade do |t|
+    t.bigint "game_id"
+    t.integer "ll_ab"
+    t.integer "ll_h"
+    t.integer "ll_bb"
+    t.integer "ll_hr"
+    t.integer "ll_k"
+    t.integer "lr_ab"
+    t.integer "lr_h"
+    t.integer "lr_bb"
+    t.integer "lr_hr"
+    t.integer "lr_k"
+    t.integer "rl_ab"
+    t.integer "rl_h"
+    t.integer "rl_bb"
+    t.integer "rl_hr"
+    t.integer "rl_k"
+    t.integer "rr_ab"
+    t.integer "rr_h"
+    t.integer "rr_bb"
+    t.integer "rr_hr"
+    t.integer "rr_k"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_playbyplays_on_game_id"
+  end
+
   create_table "player_scouts", force: :cascade do |t|
     t.bigint "player_id"
     t.string "relies"
@@ -265,6 +521,7 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "mlb_id"
+    t.integer "player_number"
     t.index ["team_id"], name: "index_players_on_team_id"
   end
 
@@ -321,6 +578,111 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.float "N"
     t.string "M"
     t.integer "total_walks_both_team"
+    t.integer "a5"
+    t.integer "a6"
+    t.integer "a7"
+    t.integer "a8"
+    t.integer "a9"
+    t.integer "a10"
+    t.integer "h5"
+    t.integer "h6"
+    t.integer "h7"
+    t.integer "h8"
+    t.integer "h9"
+    t.integer "h10"
+    t.integer "total_doubles_both_team"
+    t.integer "total_triples_both_team"
+    t.integer "total_bases_both_team"
+    t.float "away_pitcher_ip"
+    t.integer "away_pitcher_h"
+    t.integer "away_pitcher_r"
+    t.integer "away_pitcher_bb"
+    t.float "away_pitcher_game_first_ip"
+    t.integer "away_pitcher_game_first_bb"
+    t.integer "away_pitcher_game_first_h"
+    t.integer "away_pitcher_game_first_r"
+    t.float "away_pitcher_game_opp_first_ip"
+    t.integer "away_pitcher_game_opp_first_bb"
+    t.integer "away_pitcher_game_opp_first_h"
+    t.integer "away_pitcher_game_opp_first_r"
+    t.float "away_pitcher_game_second_ip"
+    t.integer "away_pitcher_game_second_bb"
+    t.integer "away_pitcher_game_second_h"
+    t.integer "away_pitcher_game_second_r"
+    t.float "away_pitcher_game_opp_second_ip"
+    t.integer "away_pitcher_game_opp_second_bb"
+    t.integer "away_pitcher_game_opp_second_h"
+    t.integer "away_pitcher_game_opp_second_r"
+    t.float "home_pitcher_ip"
+    t.integer "home_pitcher_h"
+    t.integer "home_pitcher_r"
+    t.integer "home_pitcher_bb"
+    t.float "home_pitcher_game_first_ip"
+    t.integer "home_pitcher_game_first_bb"
+    t.integer "home_pitcher_game_first_h"
+    t.integer "home_pitcher_game_first_r"
+    t.float "home_pitcher_game_opp_first_ip"
+    t.integer "home_pitcher_game_opp_first_bb"
+    t.integer "home_pitcher_game_opp_first_h"
+    t.integer "home_pitcher_game_opp_first_r"
+    t.float "home_pitcher_game_second_ip"
+    t.integer "home_pitcher_game_second_bb"
+    t.integer "home_pitcher_game_second_h"
+    t.integer "home_pitcher_game_second_r"
+    t.float "home_pitcher_game_opp_second_ip"
+    t.integer "home_pitcher_game_opp_second_bb"
+    t.integer "home_pitcher_game_opp_second_h"
+    t.integer "home_pitcher_game_opp_second_r"
+    t.index ["BARO"], name: "index_prevgames_on_BARO"
+    t.index ["DP"], name: "index_prevgames_on_DP"
+    t.index ["Home_Team"], name: "index_prevgames_on_Home_Team"
+    t.index ["M"], name: "index_prevgames_on_M"
+    t.index ["N"], name: "index_prevgames_on_N"
+    t.index ["TEMP"], name: "index_prevgames_on_TEMP"
+    t.index ["total_line"], name: "index_prevgames_on_total_line"
+  end
+
+  create_table "prevpitchers", force: :cascade do |t|
+    t.bigint "game_id"
+    t.boolean "away"
+    t.integer "start_index"
+    t.string "date"
+    t.string "time"
+    t.string "opp_team_abbr"
+    t.float "ip"
+    t.integer "bb"
+    t.integer "h"
+    t.integer "r"
+    t.string "home_team_abbr"
+    t.string "temp"
+    t.string "dp"
+    t.string "wind_speed"
+    t.string "wind_dir"
+    t.string "d2"
+    t.string "pressure"
+    t.string "hum"
+    t.string "total_count_count"
+    t.string "total_avg_1_avg_1"
+    t.string "total_avg_2"
+    t.string "total_hits_avg"
+    t.string "home_runs_avg"
+    t.string "lower_one"
+    t.string "lower_one_count"
+    t.string "home_total_runs1_avg"
+    t.string "home_total_runs2_avg"
+    t.string "home_count"
+    t.string "home_one"
+    t.string "home_one_count"
+    t.string "opposite_throwhand"
+    t.string "opposite_name"
+    t.float "opposite_ip"
+    t.integer "opposite_bb"
+    t.integer "opposite_h"
+    t.integer "opposite_r"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["away"], name: "index_prevpitchers_on_away"
+    t.index ["game_id"], name: "index_prevpitchers_on_game_id"
   end
 
   create_table "results", force: :cascade do |t|
@@ -436,6 +798,21 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.integer "away_pitcher_game_opp_second_bb"
     t.integer "away_pitcher_game_opp_second_h"
     t.integer "away_pitcher_game_opp_second_r"
+    t.index ["away_pitcher_link"], name: "index_results_on_away_pitcher_link"
+    t.index ["away_score_tenth"], name: "index_results_on_away_score_tenth"
+    t.index ["away_team"], name: "index_results_on_away_team"
+    t.index ["day"], name: "index_results_on_day"
+    t.index ["first_temp"], name: "index_results_on_first_temp"
+    t.index ["game_date"], name: "index_results_on_game_date"
+    t.index ["home_pitcher_game_first_ip"], name: "index_results_on_home_pitcher_game_first_ip"
+    t.index ["home_pitcher_link"], name: "index_results_on_home_pitcher_link"
+    t.index ["home_pitcher_name"], name: "index_results_on_home_pitcher_name"
+    t.index ["home_score_first"], name: "index_results_on_home_score_first"
+    t.index ["home_score_tenth"], name: "index_results_on_home_score_tenth"
+    t.index ["home_team"], name: "index_results_on_home_team"
+    t.index ["month"], name: "index_results_on_month"
+    t.index ["total_hits_both_team"], name: "index_results_on_total_hits_both_team"
+    t.index ["year"], name: "index_results_on_year"
   end
 
   create_table "scouts", force: :cascade do |t|
@@ -462,6 +839,7 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.integer "year"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["year"], name: "index_seasons_on_year"
   end
 
   create_table "stadia", force: :cascade do |t|
@@ -469,6 +847,19 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.string "time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["stadium"], name: "index_stadia_on_stadium"
+  end
+
+  create_table "stadium_data", force: :cascade do |t|
+    t.integer "team_id"
+    t.string "wind_dir"
+    t.string "wind_speed"
+    t.string "result"
+    t.string "count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_stadium_data_on_team_id"
+    t.index ["wind_dir"], name: "index_stadium_data_on_wind_dir"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -712,6 +1103,31 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.float "BAROMETER"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["AWAY"], name: "index_totals_on_AWAY"
+    t.index ["DATE"], name: "index_totals_on_DATE"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string "date"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "team_id"
+    t.index ["team_id"], name: "index_transactions_on_team_id"
+  end
+
+  create_table "umpires", force: :cascade do |t|
+    t.string "statfox"
+    t.string "covers"
+    t.integer "year"
+    t.integer "count"
+    t.float "so"
+    t.float "bb"
+    t.float "sw"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["count"], name: "index_umpires_on_count"
+    t.index ["statfox"], name: "index_umpires_on_statfox"
   end
 
   create_table "users", force: :cascade do |t|
@@ -777,7 +1193,7 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.float "LD_BABIP"
     t.float "GB_BABIP"
     t.float "FB_BABIP"
-    t.integer "game_id"
+    t.string "game_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "hits1"
@@ -800,6 +1216,11 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.integer "home_runs9"
     t.integer "hits10"
     t.integer "home_runs10"
+    t.float "t_HITS"
+    t.integer "t_HITS_SUM"
+    t.float "t_HRS"
+    t.integer "t_HRS_SUM"
+    t.index ["game_id"], name: "index_weather_firsts_on_game_id"
   end
 
   create_table "weather_seconds", force: :cascade do |t|
@@ -873,16 +1294,22 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.string "station"
     t.integer "hour"
     t.string "temp"
-    t.string "dp"
-    t.string "hum"
-    t.string "pressure"
+    t.float "dp"
+    t.float "hum"
+    t.float "pressure"
     t.string "wind_dir"
-    t.string "wind_speed"
+    t.float "wind_speed"
     t.string "precip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "feel"
+    t.string "time"
+    t.string "conditions"
+    t.string "precip_percent"
+    t.string "cloud"
     t.index ["game_id"], name: "index_weathers_on_game_id"
+    t.index ["hour"], name: "index_weathers_on_hour"
+    t.index ["station"], name: "index_weathers_on_station"
   end
 
   create_table "weathersources", force: :cascade do |t|
@@ -932,7 +1359,24 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.float "except_total_lines_average"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "t_HITS_avg"
+    t.float "t_HRS_avg"
+    t.integer "first_count"
+    t.integer "second_count"
+    t.integer "third_count"
+    t.float "city1"
+    t.float "city2"
+    t.float "city3"
+    t.integer "cityCount1"
+    t.integer "cityCount2"
+    t.integer "cityCount3"
+    t.integer "over1"
+    t.integer "under1"
+    t.integer "over2"
+    t.integer "under2"
+    t.index ["date"], name: "index_weathersources_on_date"
     t.index ["game_id"], name: "index_weathersources_on_game_id"
+    t.index ["table_number"], name: "index_weathersources_on_table_number"
   end
 
   create_table "workbooks", force: :cascade do |t|
@@ -947,7 +1391,6 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.float "Total_Hits"
     t.float "Total_Walks"
     t.float "home_runs"
-    t.string "table"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "Date"
@@ -956,10 +1399,7 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.integer "Away_Money_Line"
     t.integer "Home_Money_Line"
     t.string "Away_Total"
-    t.string "Home_Total"
     t.float "O"
-    t.float "P"
-    t.float "Q"
     t.integer "Total_Walks_Hits"
     t.integer "Total_Bases"
     t.integer "Away_Inning_1"
@@ -996,8 +1436,46 @@ ActiveRecord::Schema.define(version: 20180625140758) do
     t.float "LD_BABIP"
     t.float "GB_BABIP"
     t.float "FB_BABIP"
-    t.float "BF"
     t.float "total_line"
+    t.integer "t_HITS_SUM"
+    t.float "t_HRS"
+    t.integer "t_HRS_SUM"
+    t.integer "hits1"
+    t.integer "hits2"
+    t.integer "hits3"
+    t.integer "hits4"
+    t.integer "hits5"
+    t.integer "hits6"
+    t.integer "hits7"
+    t.integer "hits8"
+    t.integer "hits9"
+    t.integer "home_runs1"
+    t.integer "home_runs2"
+    t.integer "home_runs3"
+    t.integer "home_runs4"
+    t.integer "home_runs5"
+    t.integer "home_runs6"
+    t.integer "home_runs7"
+    t.integer "home_runs8"
+    t.integer "home_runs9"
+    t.string "game_id"
+    t.string "Home_Total"
+    t.string "table"
+    t.float "P"
+    t.float "Q"
+    t.float "BF"
+    t.float "t_HITS"
+    t.index ["BARo"], name: "index_workbooks_on_BARo"
+    t.index ["DP"], name: "index_workbooks_on_DP"
+    t.index ["HUMID"], name: "index_workbooks_on_HUMID"
+    t.index ["Home_Team"], name: "index_workbooks_on_Home_Team"
+    t.index ["M"], name: "index_workbooks_on_M"
+    t.index ["N"], name: "index_workbooks_on_N"
+    t.index ["TEMP"], name: "index_workbooks_on_TEMP"
+    t.index ["hits1"], name: "index_workbooks_on_hits1"
+    t.index ["t_HRS"], name: "index_workbooks_on_t_HRS"
+    t.index ["table"], name: "index_workbooks_on_table"
+    t.index ["total_line"], name: "index_workbooks_on_total_line"
   end
 
 end

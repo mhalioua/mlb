@@ -70,8 +70,12 @@ class GameDay < ApplicationRecord
       # http.use_ssl = true if url.scheme == 'https'
       # unless http.request_head(url.path).code == "200"
       kit = IMGKit.new("https://mlb.herokuapp.com/game/new/#{game.id}/0/0/5", quality: 50)
+<<<<<<< HEAD
       file_name = "#{Rails.root}/tmp/game#{game.id}.png"
       file = kit.to_file(file_name)
+=======
+      file = kit.to_file("#{Rails.root}/tmp/game#{game.id}.png")
+>>>>>>> bb73c62... wip
       obj = S3.object("images/#{game.id}.png")
       obj.upload_file(file, acl: 'public-read')
       File.delete(file)

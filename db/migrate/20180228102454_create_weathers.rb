@@ -6,11 +6,11 @@ class CreateWeathers < ActiveRecord::Migration[5.1]
       t.string :station
       t.integer :hour
       t.string :temp
-      t.string :dp
-      t.string :hum
-      t.string :pressure
+      t.float :dp
+      t.float :hum
+      t.float :pressure
       t.string :wind_dir
-      t.string :wind_speed
+      t.float :wind_speed
       t.string :precip
 
       t.timestamps
