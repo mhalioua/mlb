@@ -4,7 +4,7 @@ class GameDay < ApplicationRecord
 
   def self.search(date)
     season = Season.find_by_year(date.year)
-    return GameDay.find_or_create_by(season: season, date: date)
+    GameDay.find_or_create_by(season: season, date: date)
   end
 
   def year
@@ -12,7 +12,7 @@ class GameDay < ApplicationRecord
   end
 
   def month
-    date.strftime("%m")
+    date.strftime('%m')
   end
 
   def day
@@ -65,17 +65,17 @@ class GameDay < ApplicationRecord
 
   def image_upload
     games.each do |game|
-      #url = URI.parse("https://mlb-daemon.s3.amazonaws.com/images/#{game.id}.png")
-      #http = Net::HTTP.new(url.host, url.port)
-      #http.use_ssl = true if url.scheme == 'https'
-      #unless http.request_head(url.path).code == "200"
-      kit = IMGKit.new("https://mlb.herokuapp.com/game/new/#{game.id}/0/0/5", :quality => 50)
+      # url = URI.parse("https://mlb-daemon.s3.amazonaws.com/images/#{game.id}.png")
+      # http = Net::HTTP.new(url.host, url.port)
+      # http.use_ssl = true if url.scheme == 'https'
+      # unless http.request_head(url.path).code == "200"
+      kit = IMGKit.new("https://mlb.herokuapp.com/game/new/#{game.id}/0/0/5", quality: 50)
       file = kit.to_file("#{Rails.root}/tmp/game#{game.id}.png")
-      obj = S3.object("images/#{game.id}.png")
-      obj.upload_file(file, acl:'public-read')
+      obj = S3.object('images/test.png')
+      obj.upload_file(file, acl: 'public-read')
       File.delete(file)
       puts "game #{game.id}"
-      #end
+      # end
     end
   end
 
