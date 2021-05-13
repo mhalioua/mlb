@@ -72,7 +72,9 @@ class GameDay < ApplicationRecord
       dir = Rails.root.join('tmp')
       Dir.mkdir(dir) unless Dir.exist?(dir)
       kit = IMGKit.new("https://mlb.herokuapp.com/game/new/#{game.id}/0/0/5", quality: 50)
-      file = kit.to_file("#{Rails.root}/tmp/game#{game.id}.png")
+      file_name = "#{Rails.root}/tmp/game#{game.id}.png"
+      File.open(file_name, 'w') {}
+      file = kit.to_file(file_name)
       obj = S3.object("images/#{game.id}.png")
       obj.upload_file(file, acl: 'public-read')
       File.delete(file)
