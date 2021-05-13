@@ -69,15 +69,11 @@ class GameDay < ApplicationRecord
       # http = Net::HTTP.new(url.host, url.port)
       # http.use_ssl = true if url.scheme == 'https'
       # unless http.request_head(url.path).code == "200"
-      dir = Rails.root.join('tmp')
-      Dir.mkdir(dir) unless Dir.exist?(dir)
       kit = IMGKit.new("https://mlb.herokuapp.com/game/new/#{game.id}/0/0/5", quality: 50)
       file_name = "#{Rails.root}/tmp/game#{game.id}.png"
-      image = kit.to_img(:png)
-      File.open(file_name, 'w') {}
       file = kit.to_file(file_name)
       obj = S3.object("images/#{game.id}.png")
-      obj.upload_file(image, acl: 'public-read')
+      obj.upload_file(file, acl: 'public-read')
       File.delete(file)
       puts "game #{game.id}"
       # end
