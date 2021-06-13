@@ -22,6 +22,7 @@ module Create
         doc = download_document(url)
         puts url
         index = { away_team: 0, home_team: 1, result: 2 }
+        return unless doc
         elements = doc.css("tr")
         elements.each do |slice|
           if slice.children.size < 5
