@@ -66,6 +66,7 @@ module Create
 
           url = "http://www.espn.com/mlb/game?gameId=#{game_id}"
           doc = download_document(url)
+          return unless doc
           element = doc.css(".game-date-time").first
           game_date = element.children[1]['data-date']
           element = doc.css("figcaption .caption-wrapper").first
