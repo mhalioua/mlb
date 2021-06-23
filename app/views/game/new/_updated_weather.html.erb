@@ -124,7 +124,7 @@
           <%= render partial: "game/new/weather_blank", locals: { color: "#DC143C", type: type } %>
         <% end %>
       <% end %>
-      <% if type != 2 && index < 7 && realWeathers.length === 7 && (realWeathers[index].hour < 1 || realWeathers[index].hour > 4) %>
+      <% if type != 2 && index < 7 && realWeathers.length === 7 && realWeathers[index] && (realWeathers[index].hour < 1 || realWeathers[index].hour > 4) %>
         <%= render partial: "game/new/updated_weather_value_clone", locals: { weather: weather, type: type, real: realWeathers[index] } %>
       <% else %>
         <%= render partial: "game/new/updated_weather_value", locals: { weather: weather, color: color, type: type, bgcolor: bgcolor, real: type != 2 && index < 7 && realWeathers.length === 7 ? realWeathers[index] : nil } %>
